@@ -1,3 +1,5 @@
+
+
 daylength = function (lat, doy) 
 {
     if (class(doy) == "Date" | class(doy) == "character") {
