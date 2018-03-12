@@ -1,0 +1,5 @@
+exportPattern("^[[:alpha:]]+")
+
+importFrom("graphics", "abline", "lines", "par", "plot")
+importFrom("stats", "aggregate", "nls", "quantile", "runif", "var")
+importFrom("utils", "write.table")

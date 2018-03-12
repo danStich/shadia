@@ -1,0 +1,13 @@
+Package: pnrShad
+Type: Package
+Title: Source files and data for Penobscot River American shad model
+Version: 0.1.0
+Author: Dan Stich
+Maintainer: Dan Stich <daniel.stich@oneonta.edu>
+Description: This package includes source code and data
+    files for parallel execution of the Penobscot River 
+    American shad dam passage performance standards model.
+License: What license is it under?
+Encoding: UTF-8
+LazyData: true
+LinkingTo: Rcpp
