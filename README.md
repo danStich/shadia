@@ -4,16 +4,18 @@ Package containing functions and data for American shad population modeling
 
 ## Directories
 
-* data
+`data/`
 
-Contains built-in data sets for the package
+* Contains built-in data sets for the package
 
-* man
-help files- under construction
+`man/`
 
-* R
-R functions in scripts
+* help files- under construction
 
-* src
+`R/`
 
-C++ source files written with `Rcpp`
+* R functions in scripts
+
+`src/`
+
+* C++ source files written with `Rcpp`
