@@ -3,8 +3,9 @@
 # optimizations Dec 2017
 
 
-# Create a function out of the model
-penobscotRiverModel <- function(){
+# Create a function out of the model,
+# with optional arguments for nruns and nyears
+penobscotRiverModel <- function(nruns=1, nyears=50){
 
 # DSS: commented out because funs should be loaded
 # automatically with other files in `R/` with 
