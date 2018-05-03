@@ -1,9 +1,9 @@
 # Define R functions ------------------
 
 # createPUMatrix()
-# generalize creation of the PU_n data structure for different PUs,
-# fish sexes
-# return PUS for the PU n
+# generalize creation of the PU_n data 
+# structure for different PUs, fish sexes.
+# Return PUS for the PU n
 # inputs: isFemale (0/1); pu n (1..4); isEgg (default FALSE)
 # dynamically determine spawnProb (sp_n for PU n); fishCount (x_n for PU n)
 # JMS Dec 2017

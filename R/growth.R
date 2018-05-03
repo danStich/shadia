@@ -1,3 +1,6 @@
+# growth()
+# growth curve function from the `fishmethods` package
+
 growth <-
 
 function (intype = 1, unit = 1, size = NULL, age = NULL, calctype = 1,

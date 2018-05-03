@@ -1,4 +1,6 @@
-
+# daylength()
+# Function for calculating daylength (photoperiod)
+# from the `geosphere` package
 
 daylength = function (lat, doy) 
 {
