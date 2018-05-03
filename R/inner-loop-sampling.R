@@ -62,10 +62,10 @@ y[1, 2] = 0
 y[nrow(y), 2] = 0
 y = na.spline(y)
 y[y[, 2] < 0, 2] = 0
-predTemps = data.frame(y)
+predTemps <<- data.frame(y)
 
 # Calculate ATU for each day of simulated temperature data
-newTU = cumsum(predTemps[, 2])
+newTU <<- cumsum(predTemps[, 2])
 #toc() #("simulate daily temp2: pred merge, ddply, cumsum")
 
 # DRAW CDF for PROBABILITY OF ARRIVAL BASED ON COMMERCIAL HARVEST ---------
@@ -211,9 +211,9 @@ c_initial <<- c_initial
 c_end <<- c_end 
 
 # Define the day of the year as an ordinal date
-day = c(seq(min(c_initial), (max(c_end))))
+day <<- c(seq(min(c_initial), (max(c_end))))
 # Calculate photoperiod based on latitude and day
-photo = daylength(44.39, day)
+photo <<- daylength(44.39, day)
 #toc()
 
 # SIMULATE FISH CHARACTERISTICS FOR EACH FISH IN EACH YEAR ----------------
@@ -290,8 +290,8 @@ c_male_m <<- c_male * (c_maleLWalpha + c_maleLWbeta * c_male_lf)
 # Calculate mass of females
 c_female_m <<- c_female * (c_femaleLWalpha + c_femaleLWbeta * c_female_lf)
 # Collect fork length and mass into one column each
-c_forkLength = c_male_lf + c_female_lf
-c_mass = c_male_m + c_female_m
+c_forkLength <<- c_male_lf + c_female_lf
+c_mass <<- c_male_m + c_female_m
 # Convert fork length to mm from cm for movement calcs below
 c_forkLength <<- c_forkLength * 10
 
@@ -738,3 +738,4 @@ sp_4 <<- sp_4
 #save.image(paste(baseDirectory, innerLoopSamplingRData, sep='/'))
 
 }
+

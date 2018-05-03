@@ -6,61 +6,61 @@
 
 outerLoopSampling <- function(){
 # Maximum age for fish in this population
-  if (!exists("maxAge")) setUpData()
+  if (!exists("shad$maxAge")) setUpData()
 
 # Draw passage rates for all dams in this system from a set of pre-defined
 # values
-up <<- mapply(sample, pDraws, 1)
+shad$up <- mapply(sample, shad$pDraws, 1)
 
 # Define the variable 'timely' to determine over what period the time will be
 # expressed as a rate. A value of '1' results in a 24-hr passage rate
-timely <<- sample(timing, 1, replace = TRUE)
+shad$timely <- sample(shad$timing, 1, replace = TRUE)
 
 # Define fall back
-fB <<- 1.00
+shad$fB <- 1.00
 
 # ---
 
 # Downstream passage efficiencies
 # Define downstream passage efficiencies
-d <<- mapply(sample, pDraws, 1)
+shad$d <- mapply(sample, shad$dDraws, 1)
 
 # Define indirect mortality in freshwater resulting from dam passage
-indirect <<- 1#sample(c(0.90, 0.95, 0.99, 1.00), 1, replace = TRUE)
+shad$indirect <- 1#sample(c(0.90, 0.95, 0.99, 1.00), 1, replace = TRUE)
 
 # Define latent mortality in estuary from dam passage.
-latent <<- 1#sample(c(0.90, 0.95, 0.99, 1.00), 1, replace = TRUE)
+shad$latent <- 1#sample(c(0.90, 0.95, 0.99, 1.00), 1, replace = TRUE)
 
 # Survival reduction due to delay in project head ponds
-delay <<- 1#rbeta(1, 4e3, 10)
+shad$delay <- 1#rbeta(1, 4e3, 10)
 
-ildProduct <<- indirect * latent * delay
+shad$ildProduct <- shad$indirect * shad$latent * shad$delay
 
 # ---
 
-jReduction <<- 1#sample(c(.50,.60,.70,.80,.90,1.00), 1, replace =TRUE)
+shad$jReduction <- 1#sample(c(.50,.60,.70,.80,.90,1.00), 1, replace =TRUE)
 
 # ---
 
 # Draw timing of Weldon passage implementation
-weldon <<- 0#c(0, 10, 20)
+shad$weldon <- 0#c(0, 10, 20)
 #     if(up[1] != 0.75){scenario = sample(weldon[2:3], 1, replace = TRUE)
 #       } else {
-scenario <<- sample(weldon, 1, replace = TRUE)
+shad$scenario <- sample(shad$weldon, 1, replace = TRUE)
 # }
 
 # ---
 
 # Draw probability of using the Stillwater Branch. NOTE: NEED TO MAKE THIS
 # CONDITIONAL ON FLOW.
-pStillwaterUp <<- rbeta(1, 15, 120) # During upstream passage
-pStillwaterD <<- rbeta(1, 15, 120)  # During downstream passage
+shad$pStillwaterUp <- rbeta(1, 15, 120) # During upstream passage
+shad$pStillwaterD <- rbeta(1, 15, 120)  # During downstream passage
 
 # ---
 
 # Draw probability of using the Piscataquis for upstream migration. NOTE: NEED
 # TO MAKE THIS CONDITIONAL ON FLOW.
-pPiscUp <<- rbeta(1, 25, 75) # During upstream passage
+shad$pPiscUp <- rbeta(1, 25, 75) # During upstream passage
 
 # ---
 
@@ -71,12 +71,12 @@ pPiscUp <<- rbeta(1, 25, 75) # During upstream passage
 # Survival rates for various life-history stages
 # Define ocean survival for each age (1-M from Hoenig 1983 in ASMFC 2007
 # stock assessment). ALTERNATIVE: Could use age-variant M
-downstreamS <<- 1#rep(rbeta(1, 1e4, 10))     # Survival per km
-oceanSurvival <<- rep(rbeta(1, 12, 8), maxAge) # Ocean survival rate
-pinHarvest <<- 0#sample(c(0, .05, .10), 1, replace=TRUE)
-inRiverF <<- pinHarvest                        # Recreational MORTALITY RATE
-commercialF <<- rep(0, maxAge)                 # Commercial MORTALITY RATE
-bycatchF <<- rep(0, maxAge)                    # Bycatch MORTALITY RATE
+shad$downstreamS <- 1#rep(rbeta(1, 1e4, 10))     # Survival per km
+shad$oceanSurvival <- rep(rbeta(1, 12, 8), shad$maxAge) # Ocean survival rate
+shad$pinHarvest <- 0#sample(c(0, .05, .10), 1, replace=TRUE)
+shad$inRiverF <- shad$pinHarvest                        # Recreational MORTALITY RATE
+shad$commercialF <- rep(0, shad$maxAge)                 # Commercial MORTALITY RATE
+shad$bycatchF <- rep(0, shad$maxAge)                    # Bycatch MORTALITY RATE
 
 # ---
 
@@ -88,7 +88,7 @@ bycatchF <<- rep(0, maxAge)                    # Bycatch MORTALITY RATE
 # Output is re-scaled
 
 # Original number of Age 1 individuals in the population
-Age1 <<- rpois(1, 1e4)#/scalar
+shad$Age1 <- rpois(1, 1e4)#/scalar
 
 # To save only outer loop sampling variables: uncomment
 # filename can be adjusted in setParameters.R

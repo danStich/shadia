@@ -14,11 +14,11 @@ if (useTictoc) {
 
 # Unlist and stack proportion of repeat spawners in each age for writing
 pRepeats = do.call("rbind", lapply(pRepeats, unlist))
-colnames(pRepeats) = paste('pRepeat_', colnames(pRepeats), sep = '')
+#colnames(pRepeats) = paste('pRepeat_', colnames(pRepeats), sep = '')
 
 # Unlist and stack age-structured spawning population into a useable output
 spawners = do.call("rbind", lapply(spawners, unlist))
-colnames(spawners) = paste(colnames(spawners), 'N', sep = '_')
+#colnames(spawners) = paste(colnames(spawners), 'N', sep = '_')
 
 # Rescale population size based on reduction factor at start of script
 populationSize = populationSize

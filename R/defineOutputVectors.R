@@ -1,7 +1,7 @@
 # defineOutputVectors.R
 
 # INPUT/OUTPUT VECTOR PRE-ALLOCATION --------------------------------------
-defineOutputVectors <- function(){
+defineOutputVectors <- function()list(years=years, scen=scen){
 # This file is called by PenobscotRiverModel.R
 
 # Simulation settings for outer loop
@@ -14,7 +14,7 @@ defineOutputVectors <- function(){
 
 if (useTictoc | useProgress) {
   print(paste('nRuns = ',nRuns))
-  print(paste('nYears = ', nYears))
+  print(paste('nYears = ',nYears))
 }
 
 # Define empty vectors to hold results for outer loop
@@ -37,7 +37,7 @@ GuilfUp <<- vector(mode = 'numeric', length = nYears * nRuns)
 MattUp <<- vector(mode = 'numeric', length = nYears * nRuns)
 
 # Downstream passage efficiencies
-OrD <<- vector(mode = 'numeric', length = nYears * nRuns)
+vOrD <<- vector(mode = 'numeric', length = nYears * nRuns)
 StD <<- vector(mode = 'numeric', length = nYears * nRuns)
 GilmD <<- vector(mode = 'numeric', length = nYears * nRuns)
 MdD <<- vector(mode = 'numeric', length = nYears * nRuns)
@@ -118,7 +118,7 @@ S.juvenile <<- vector(mode = 'numeric', length = nYears * nRuns)
 
 # Environmental
 # Stochasticity
-t.stoch <<- vector(mode = 'numeric', length = nYears * nRuns)
+#t.stoch <<- vector(mode = 'numeric', length = nYears * nRuns)
 # Regression relating temperatures in PNR and CTR
 t.RegrInt <<- vector(mode = 'numeric', length = nYears * nRuns)
 t.RegrSlp <<- vector(mode = 'numeric', length = nYears * nRuns)
