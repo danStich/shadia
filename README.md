@@ -10,7 +10,7 @@ Package containing functions and data for American shad population modeling
 
 `man/`
 
-* help files- under construction
+* help files and documentation: under construction
 
 `R/`
 

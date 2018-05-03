@@ -7,7 +7,7 @@ Maintainer: Dan Stich <daniel.stich@oneonta.edu>
 Description: This package includes source code and data
     files for parallel execution of the Penobscot River 
     American shad dam passage performance standards model.
-License: What license is it under?
+License: GNU >= 3.0
 Encoding: UTF-8
 LazyData: true
 LinkingTo: Rcpp, plyr

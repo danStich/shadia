@@ -1,56 +1,48 @@
 # Define R functions ------------------
 
-# Source some basic R functions
-# source('datasets/growth.R')                       # von Bert function
-# source('datasets/daylength.R')                    # Calculate photoperiod
-
-# Source the Rcpp functions
-# source('/datasets/pnrCppFuns.cpp')
-
-# Function definitions
-
 # createPUMatrix()
-# generalize creation of the PU_n data structure for different PUs, fish sexes
+# generalize creation of the PU_n data structure for different PUs,
+# fish sexes
 # return PUS for the PU n
 # inputs: isFemale (0/1); pu n (1..4); isEgg (default FALSE)
 # dynamically determine spawnProb (sp_n for PU n); fishCount (x_n for PU n)
 # JMS Dec 2017
-createPUMatrix <- function(isFemale, pu, isEgg=FALSE){
-
-  # dynamically identify the x_n dataframe, for PU n
-  fishCount <- get(paste0('x_',pu))
-
-  # dynamically identify the sp_n dataframe, for PU n
-  spawnProb <- get(paste0('sp_',pu))
-
-  if (!isEgg) {
-    # for males and females
-    d_pu  <- ddply(spawnProb[spawnProb$female == isFemale, ],
-                   .(fishAges, pus),
-                   summarise,
-                   gender = sum(surv))
-  } else {
-    # for eggs
-    d_pu <- ddply(spawnProb,
-                  .(fishAges, pus),
-                  summarise,
-                  gender = sum(fecundity * surv))
+  createPUMatrix <- function(isFemale, pu, isEgg=FALSE){
+  
+    # dynamically identify the x_n dataframe, for PU n
+    fishCount <- get(paste0('x_',pu))
+  
+    # dynamically identify the sp_n dataframe, for PU n
+    spawnProb <- get(paste0('sp_',pu))
+  
+    if (!isEgg) {
+      # for males and females
+      d_pu  <- ddply(spawnProb[spawnProb$female == isFemale, ],
+                     .(fishAges, pus),
+                     summarise,
+                     gender = sum(surv))
+    } else {
+      # for eggs
+      d_pu <- ddply(spawnProb,
+                    .(fishAges, pus),
+                    summarise,
+                    gender = sum(fecundity * surv))
+    }
+  
+    if (nrow(d_pu) == 0) {
+      d_pu <- matrix(NA, 1, 3,
+                     dimnames = list(c(NULL),
+                                     c('fishAges', 'pus', 'gender')))
+    }
+  
+    PUS = merge(fishCount,
+                d_pu,
+                by = c('fishAges', 'pus'),
+                all.x = T)
+    PUS$pus = as.character(PUS$pus)
+  
+    return(PUS)
   }
-
-  if (nrow(d_pu) == 0) {
-    d_pu <- matrix(NA, 1, 3,
-                   dimnames = list(c(NULL),
-                                   c('fishAges', 'pus', 'gender')))
-  }
-
-  PUS = merge(fishCount,
-              d_pu,
-              by = c('fishAges', 'pus'),
-              all.x = T)
-  PUS$pus = as.character(PUS$pus)
-
-  return(PUS)
-}
 
 # additionalEggsProcessing()
 # additional processing performed for all egg calculations
