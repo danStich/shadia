@@ -28,9 +28,34 @@ penobscotRiverModel <- function(nRuns=1,
                                   guilford = 1,
                                   weldon = 1
                                 ),
-                                watershed = FALSE
+                                watershed = TRUE
                                 ){
 
+nRuns=1
+nYears=1
+timing=1
+upstream=list(
+  milford = 1,
+  howland = 1,
+  westEnfield = 1,
+  brownsMill = 1,
+  moosehead = 1,
+  guilford = 1,
+  weldon = 1
+)
+downstream=list(
+  stillwater = 1,
+  orono = 1,
+  milford = 1,
+  howland = 1,
+  westEnfield = 1,
+  brownsMill = 1,
+  moosehead = 1,
+  guilford = 1,
+  weldon = 1
+)
+watershed = TRUE
+  
 # Define simulation arguments
 # in global environment so they
 # can be used by other funs
@@ -302,11 +327,11 @@ for (k in 1:nRuns) {
   }
 
   # Collect age classes in a vector
-  pop <- mget(ls(pat = "^Age"))
+  pop <<- mget(ls(pat = "^Age"))
 
   # Define probability of recruitment to spawn- based on proportion of spawners
   # in each age class (Bailey and Zydlewski 2013)
-  spawnRecruit <<- c(0,0, 0, 0.01, .33, .84, .97, .99, 1.00)
+  spawnRecruit <<- c(0, 0, 0, 0.01, .33, .84, .97, .99, 1.00)
 
   # Initial probalities of repeat spawning- will be derived in annual loop
   pRepeat <<- c(0, 0, 0, 0.004, 0.094286, 0.375714, 0.722286, 1.00, 1.00)
@@ -355,7 +380,7 @@ for (k in 1:nRuns) {
     
     scalar <<- scalar
 
-    pop <<- unlist(pop) / scalar
+    pop <- unlist(pop) / scalar
     spawningPool <<- spawningPool / scalar
     recruitmentPool <<- recruitmentPool / scalar
 
@@ -653,25 +678,25 @@ for (k in 1:nRuns) {
     # Calculate numbers in the recruitment pool for next year, this number includes
     # the
     # Apply marine survival rate to fish waiting in the ocean
-    nextRecruits = c(recruitsOut,
-                     recruitmentPool[1:(length(recruitmentPool) - 1)]) *
+    nextRecruits <<- c(recruitsOut,
+                       recruitmentPool[1:(length(recruitmentPool) - 1)]) *
       oceanSurvival * (1 - commercialF[i]) * (1 - bycatchF[i])
     # Assign names for each age class
     names(nextRecruits) = names (recruitmentPool)
 
     # Calculate proportion of repeat spawners in each age class
-    pRepeat = repeats / (nextRecruits + repeats)
+    pRepeat <- repeats / (nextRecruits + repeats)
 
     # Combine repeat spawners with new recruits
     spawningPool <<- nextRecruits * spawnRecruit + repeats
-    recruitmentPool <- nextRecruits - nextRecruits * spawnRecruit
+    recruitmentPool <<- nextRecruits - nextRecruits * spawnRecruit
 
     # Record new population size for the start of the inner loop
-    pop = sum(spawningPool + recruitmentPool)
+    pop <- sum(spawningPool + recruitmentPool)
 
-    pop = pop * scalar
+    pop <<- pop * scalar
     spawningPool <<- spawningPool * scalar
-    recruitmentPool = recruitmentPool * scalar
+    recruitmentPool <<- recruitmentPool * scalar
     # if (useTictoc) toc()
 
     # STORE OUTPUT IN PRE-ALLOCATED CONTAINERS --------------------------------

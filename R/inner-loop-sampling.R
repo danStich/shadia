@@ -393,24 +393,24 @@ k_pus <<- k_pus
 # Pre-spawning mortality. Right now, these are drawn independently. Conditional
 # draws may be more appropriate b/c pre-spawn mortality is probably affected by
 # similar factors but may differ in magnitude between males and females.
-pre_spawn_survival_males = rbeta(1, 1e4, 50)
-pre_spawn_survival_females = rbeta(1, 1e4, 50)
+pre_spawn_survival_males <<- rbeta(1, 1e4, 50)
+pre_spawn_survival_females <<- rbeta(1, 1e4, 50)
 
 # Post-spawning mortality. Right now, these are drawn independently. Conditional
 # draws may be more appropriate b/c post-spawn mortality is probably affected by
 # similar factors but may differ in magnitude between males and females.
-post_spawn_survival_males = rbeta(1, 200, 50)
-post_spawn_survival_females = rbeta(1, 200, 50)
+post_spawn_survival_males <<- rbeta(1, 200, 50)
+post_spawn_survival_females <<- rbeta(1, 200, 50)
 
 # Ocean survival for each year after the first year for each age class
 # Can be made into age-specific survival. Right now everyone has the same
 # annual survival rate in the ocean.
-oceanSurvival = rep(rbeta(1, 12, 8), maxAge)
+oceanSurvival <<- rep(rbeta(1, 12, 8), maxAge)
 
 # Juvenile mortality rate
 # This really needs some data pretty bad. Right now it is just a draw from a
 # uniform probability distribution that calls it 1 in 100000 to 1 in 1000
-juvenile_survival = runif(1, 0.0005, 0.00083)
+juvenile_survival <<- runif(1, 0.0005, 0.00083)
 #toc()
 
 # FISH PASSAGE RATES AT DAMS ----------------------------------------------
@@ -727,7 +727,7 @@ sp_4 <<- sp_4
 #    S.prespawnF, S.prespawnM, StD, StillwaterD, StillwaterDj, StillwaterHabitat, StillwaterPop, 
 #    StillwaterUp, StUp, substrRight, t, t0F, t0M, tempD, tempData, test,  
 #    timely, tortuosity, traits, t.RegrInt, t.RegrSlp, t.stoch, tz, up, upEffs, upstreamPathC, 
-#    useProgress, useTictoc, weldon, WeldonPop, WEnfD, WEnfUp, WestEnfieldD, WestEnfieldDj, 
+#    useProgress, useTictoc, weldon, Weldonpost_spawn, WEnfD, WEnfUp, WestEnfieldD, WestEnfieldDj, 
 #    WestEnfieldUp, writeData, writeSenData, writeSimData, x, yday, year, years, z)
 #save.image(paste(baseDirectory, innerLoopSamplingRData, sep='/'))
 

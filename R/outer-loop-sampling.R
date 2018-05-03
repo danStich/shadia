@@ -71,7 +71,7 @@ pPiscUp <<- rbeta(1, 25, 75) # During upstream passage
 # Survival rates for various life-history stages
 # Define ocean survival for each age (1-M from Hoenig 1983 in ASMFC 2007
 # stock assessment). ALTERNATIVE: Could use age-variant M
-downstreamS   <<- 1#rep(rbeta(1, 1e4, 10))     # Survival per km
+downstreamS <<- 1#rep(rbeta(1, 1e4, 10))     # Survival per km
 oceanSurvival <<- rep(rbeta(1, 12, 8), maxAge) # Ocean survival rate
 pinHarvest <<- 0#sample(c(0, .05, .10), 1, replace=TRUE)
 inRiverF <<- pinHarvest                        # Recreational MORTALITY RATE
