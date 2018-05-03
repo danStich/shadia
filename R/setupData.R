@@ -1,9 +1,9 @@
 # setupData.R
 
-# DSS: commented out because funs should be loaded
-# automatically with other files in `R/` with 
-# package implementation.
+setUpData <- function(){
+
 # if (!exists('yday')) source('defineFunctions.R')
+# defineFunctions() # should load automatically
 
 # Maximum age for fish in this population
 maxAge = 9
@@ -129,3 +129,5 @@ Bmod = glm(Bcdf ~ val,
 # Collect model coefficients to use in drawing entry date for each fish
 res.R =  summary(Rmod)$coefficients
 res.B =  summary(Bmod)$coefficients
+
+}

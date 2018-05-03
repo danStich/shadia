@@ -2,6 +2,10 @@
 # PenobscotRiverModel.R
 # optimizations Dec 2017
 
+
+# Create a function out of the model
+penobscotRiverModel <- function(){
+
 # DSS: commented out because funs should be loaded
 # automatically with other files in `R/` with 
 # package implementation.
@@ -16,15 +20,18 @@
 # automatically with other files in `R/` with 
 # package implementation.
 # source('setParameters.R')
-# source('defineFunctions.R')
+# source('defineFunctions.R') 
+# All functions in defineFunctions.R should
+# be loaded with package load
+
+setParameters()
 
 # ---------
 
-# JMS: load datasets
+# Define output vectors for simulation and hydrosystem configuration
 if (useTictoc) tic("Running data load...")
-#source('setupData.R')
-source('defineOutputVectors.R')
-source('defineHydroSystem.R')
+defineOutputVectors()
+defineHydrosystem()
 if (useTictoc) toc()
 
 # ---------
@@ -656,27 +663,34 @@ for (k in 1:nRuns) {
 
     # Population below Milford, fillling pre-allocated vector
     LowerPop[(n + nYears * (k - 1))] = (
-      sum(males[[1]][[2]]) + sum(males[[1]][[2]]) +
-        sum(males[[2]][[1]]) + sum(males[[2]][[2]]) +
+      sum(males[[1]][[2]]) +
+        sum(males[[1]][[2]]) +
+        sum(males[[2]][[1]]) +
+        sum(males[[2]][[2]]) +
         sum(males[[3]][[1]]) +
         sum(males[[4]][[1]]) +
-        sum(females[[1]][[2]]) + sum(females[[1]][[2]]) +
-        sum(females[[2]][[1]]) + sum(females[[2]][[2]]) +
+        sum(females[[1]][[2]]) +
+        sum(females[[1]][[2]]) +
+        sum(females[[2]][[1]]) +
+        sum(females[[2]][[2]]) +
         sum(females[[3]][[1]]) +
         sum(females[[4]][[1]])
     ) * scalar
 
     # Population between Orono and Stillwater dams, fillling pre-allocated vector
-    OronoPop[(n + nYears * (k - 1))] = (sum(males[[3]][[2]]) +
-                                          sum(males[[4]][[2]]) +
-                                          sum(females[[3]][[2]]) +
-                                          sum(females[[4]][[2]])) * scalar
+    OronoPop[(n + nYears * (k - 1))] = (
+      sum(males[[3]][[2]]) +
+        sum(males[[4]][[2]]) +
+        sum(females[[3]][[2]]) +
+        sum(females[[4]][[2]])
+      ) * scalar
 
     # Population between Stillwater Dam and Gilman Falls, fillling pre-allocated
-    StillwaterPop[(n + nYears * (k - 1))] = (sum(males[[3]][[3]]) +
-                                               sum(males[[4]][[3]]) +
-                                               sum(females[[3]][[3]]) +
-                                               sum(females[[4]][[3]])) * scalar
+    StillwaterPop[(n + nYears * (k - 1))] = (
+      sum(males[[3]][[3]]) +
+        sum(males[[4]][[3]]) +
+        sum(females[[3]][[3]]) +
+        sum(females[[4]][[3]])) * scalar
 
     # Population between Milford and West Enfield, fillling pre-allocated vector
     MilfordPop[(n + nYears * (k - 1))] = (
@@ -841,7 +855,11 @@ for (k in 1:nRuns) {
 
 # JMS: Data writes generalized and moved to functions. See defineFunctions.R
 # Prepare objects for write
-source('writeData.R')
+#writeData()
+# DSS: commented out because parallel
+#      implementation returns a list
+#      that can be dumped into rda files
+
 
 # TIMING RESULTS FOR SIMULATION BENCHMARKING ------------------------------
 # This section uses the timing prompts from earlier in the script to calculate
@@ -857,3 +875,5 @@ print(' ')
 #print.proc_time(timeDelay)
 print('simTime')
 print.proc_time(simTime)
+
+}

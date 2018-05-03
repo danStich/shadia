@@ -1,5 +1,7 @@
 # setParameters.R
 
+setParameters <- function(){
+
 # control progress indicators and timing
 useTictoc = FALSE
 useProgress = FALSE
@@ -42,12 +44,14 @@ outerLoopSamplingSource <- 'outer-loop-sampling.R'
 # set the output directory and output filenames
 baseDirectory = getwd()
 
-directory = paste(baseDirectory,'outfiles',sep='/')
+directory = paste(baseDirectory, 'outfiles', sep='/')
 filename = paste(directory, "pnrProfile", sep = "/")
 
 # verify directory exists
 if (dir.exists(directory)) {
-  print(paste('writing to: ',directory))
+  print(paste('writing to: ', directory))
 } else {
   stop("exiting; output directory not found...")
+}
+
 }

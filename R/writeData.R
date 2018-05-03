@@ -5,6 +5,8 @@
 # will run only in parallel?
 
 # DATA WRITE --------------------------------------------------------------
+writeData <- function(){
+  
 # Post-simulation data manipulation
 if (useTictoc) {
   tic("data write")
@@ -123,4 +125,6 @@ sens = data.frame(
 
 if (useTictoc) {
   toc() #("data write")
+}
+
 }

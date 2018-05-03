@@ -1,13 +1,12 @@
 # outer-loop-sampling.R
 #
+
 # Attempt to perform all draws needed for outer loop,
 # then save them for re-use and reproducible runs.
 
+doOuterLoopSampling <- function(){
 # Maximum age for fish in this population
-#if (!exists("maxAge")) source('setupData.R')
-# DSS: commented out because funs should be loaded
-# automatically with other files in `R/` with 
-# package implementation.
+  if (!exists("maxAge")) setUpData()
 
 # Draw passage rates for all dams in this system from a set of pre-defined
 # values
@@ -104,3 +103,5 @@ Age1 = rpois(1, 1e4)#/scalar
 #    roes, r.w, substrRight, t, tempD, tempData, test, tz, writeData, writeSenData, 
 #    writeSimData, yday, year)
 #save.image(paste(baseDirectory, outerLoopSamplingRData, sep='/'))
+
+}

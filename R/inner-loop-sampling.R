@@ -1,3 +1,4 @@
+
 # inner-loop-sampling.R
 #
 # Attempt to perform all draws needed for inner loop,
@@ -8,6 +9,8 @@
 # are included in the source code
 #Rcpp::sourceCpp('datasets/pnrCppFuns.cpp')        # C++ functions used in model
 
+doInnerLoopSampling <- function(){
+  
 # SIMULATE DAILY TEMPERATURE IN PNR EACH DAY ------------------------------
 # Use historical temperature data to predict temperature on each day from a
 # multivariate normal distribution
@@ -713,3 +716,5 @@ sp_4$surv = rbinom(nrow(sp_4), 1, sp_4$preSpawn * (1 - sp_4$F))
 #    useProgress, useTictoc, weldon, WeldonPop, WEnfD, WEnfUp, WestEnfieldD, WestEnfieldDj, 
 #    WestEnfieldUp, writeData, writeSenData, writeSimData, x, yday, year, years, z)
 #save.image(paste(baseDirectory, innerLoopSamplingRData, sep='/'))
+
+}

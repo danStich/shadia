@@ -1,3 +1,5 @@
+defineHydrosystem <- function(){
+
 # defineHydroSystem.R
 
 # HYDRO SYSTEM CHARACTERISTICS --------------------------------------------
@@ -37,3 +39,5 @@ damRkms[[1]] = c(40, 52, 60, 99, 165, 166, 179)     # Dam rkms for group 1
 damRkms[[2]] = c(40, 52, 60, 100, 150)              # Dam rkms for group 2
 damRkms[[3]] = c(40, 52, 56, 62, 99, 165, 166, 179) # Dam rkms for group 3
 damRkms[[4]] = c(40, 52, 56, 62, 100, 150)          # Dam rkms for group 4
+
+}
