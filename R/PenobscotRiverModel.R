@@ -30,7 +30,7 @@ penobscotRiverModel <- function(nRuns=1,
                                 ),
                                 watershed = TRUE
                                 ){
-
+### Parameters for testing
 nRuns=1
 nYears=1
 timing=1
@@ -409,13 +409,13 @@ for (k in 1:nRuns) {
     x_1 <<- expand.grid(puNames[[1]], seq(1, maxAge, 1))
     names(x_1) = c('pus', 'fishAges')
     # Main-to-mainstem spawners
-    x_2 = expand.grid(puNames[[2]], seq(1, maxAge, 1))
+    x_2 <<- expand.grid(puNames[[2]], seq(1, maxAge, 1))
     names(x_2) = c('pus', 'fishAges')
     # Stillwater-to-piscataquis spawners
-    x_3 = expand.grid(puNames[[3]], seq(1, maxAge, 1))
+    x_3 <<- expand.grid(puNames[[3]], seq(1, maxAge, 1))
     names(x_3) = c('pus', 'fishAges')
     # Stillwater-to-mainstem spawners
-    x_4 = expand.grid(puNames[[4]], seq(1, maxAge, 1))
+    x_4 <<- expand.grid(puNames[[4]], seq(1, maxAge, 1))
     names(x_4) = c('pus', 'fishAges')
     # if (useTictoc) toc() # counts in each PU
 
@@ -670,8 +670,10 @@ for (k in 1:nRuns) {
                                                                       bycatchF[i])
       )
     }
+    outMigrants <<- outMigrants
+    
     # Now graduate each cohort to the next age
-    repeats = append(0, unlist(mget(ls(pat = '^repeatSpawners_')))[2:(maxAge)])
+    repeats <<- append(0, unlist(mget(ls(pat = '^repeatSpawners_')))[2:(maxAge)])
     # Assign names for each age class
     names(repeats) = names(femalesOut)
 
@@ -685,7 +687,7 @@ for (k in 1:nRuns) {
     names(nextRecruits) = names (recruitmentPool)
 
     # Calculate proportion of repeat spawners in each age class
-    pRepeat <- repeats / (nextRecruits + repeats)
+    pRepeat <<- repeats / (nextRecruits + repeats)
 
     # Combine repeat spawners with new recruits
     spawningPool <<- nextRecruits * spawnRecruit + repeats
@@ -944,7 +946,6 @@ for (k in 1:nRuns) {
 # DSS: commented out because parallel
 #      implementation returns a list
 #      that can be dumped into rda files
-
 
 # TIMING RESULTS FOR SIMULATION BENCHMARKING ------------------------------
 # This section uses the timing prompts from earlier in the script to calculate
