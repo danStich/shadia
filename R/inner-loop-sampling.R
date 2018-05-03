@@ -9,7 +9,7 @@
 # are included in the source code
 #Rcpp::sourceCpp('datasets/pnrCppFuns.cpp')        # C++ functions used in model
 
-doInnerLoopSampling <- function(){
+innerLoopSampling <- function(){
   
 # SIMULATE DAILY TEMPERATURE IN PNR EACH DAY ------------------------------
 # Use historical temperature data to predict temperature on each day from a
@@ -71,12 +71,15 @@ newTU = cumsum(predTemps[, 2])
 # DRAW CDF for PROBABILITY OF ARRIVAL BASED ON COMMERCIAL HARVEST ---------
 #if (useTictoc) tic("DRAW CDF for PROBABILITY OF ARRIVAL")
 #newDay = seq(0, 365, 1)
-stoch = runif(1,-1.96, 1.96)
 
-r.prob = invlogit(res.R[1, 1] + (res.R[2, 1] + stoch * res.R[2, 2]) *
-                    predTemps[, 2])
-b.prob = invlogit(res.B[1, 1] + (res.B[2, 1] + stoch * res.B[2, 2]) *
-                    predTemps[, 2])
+# Randomly sample sex-specific regression
+# coefficients for time of arrival from
+# built-in data sets.
+res.R <<- data.frame(sample(arr.R,  1))
+res.B <<- data.frame(sample(arr.B,  1))
+
+r.prob <<- invlogit(res.R[1, 1] + res.R[2, 1] * predTemps[, 2])
+b.prob <<- invlogit(res.B[1, 1] + res.B[2, 1] * predTemps[, 2])
 
 #toc()
 # ---
@@ -84,7 +87,7 @@ b.prob = invlogit(res.B[1, 1] + (res.B[2, 1] + stoch * res.B[2, 2]) *
 # CREATE AGE AND SEX STRUCTURE, DRAW ARRIVAL AND SPAWN DATES --------------
 # Draw sex ratio for the current year
 #if (useTictoc) tic("fish ages1")
-sex_Ratio = rbeta(1, 100, 100)
+sex_Ratio <<- rbeta(1, 100, 100)
 
 # Create an object containing the age of each fish based on the number of fish
 # in each age class
@@ -110,7 +113,7 @@ c_sex = sort(c_sex)                   # Then fish sex
 # probability of being in the river on a given day, we will use the first date
 # that maximizes probability of success in a random binomial draw for each
 # individual to assign their entry date.
-# Make containers to hold entry date
+# Make containers to hold entry date.
 b.entryDate = matrix(0, nrow = length(fishAges[c_sex == 0]), ncol = length(b.prob))
 r.entryDate = matrix(0, nrow = length(fishAges[c_sex == 1]), ncol = length(r.prob))
 #toc()
@@ -128,7 +131,8 @@ entryCols <- ncol(b.entry) # same for r.entry col count
 entryRows <- nrow(b.entry) + nrow(r.entry)
 
 # define size and characteristics of the data frame
-entry <- data.frame(matrix(ncol = entryCols, nrow = entryRows),
+entry <- data.frame(matrix(ncol = entryCols,
+                           nrow = entryRows),
                     row.names = NULL,
                     check.names=FALSE,
                     fix.empty.names = TRUE,
@@ -384,6 +388,7 @@ k_pus = lapply(k_pus, function(x) {
   x[is.na(x)] = 1
   x
 })
+k_pus <<- k_pus
 
 # Pre-spawning mortality. Right now, these are drawn independently. Conditional
 # draws may be more appropriate b/c pre-spawn mortality is probably affected by
@@ -586,57 +591,61 @@ timeDelay <- proc.time() - ptmDelay
 
 # Combine all data for main-to-piscataquis spawners
 # Combine all three matrices
-spawnData_1 = cbind(traits_1, moves_1[, ncol(moves_1)], delay_1)
+spawnData_1 <<- cbind(traits_1, moves_1[, ncol(moves_1)], delay_1)
 # Change the name for the final rkm column
 colnames(spawnData_1)[ncol(spawnData_1) - 6] = 'finalRkm'
 # Make it into a dataframe for easy manipulation
-sp_1 = data.frame(spawnData_1)
+sp_1 <- data.frame(spawnData_1)
 
 # Combine all data for main-to-mainstem spawners
 # Combine all three matrices
-spawnData_2 = cbind(traits_2, moves_2[, ncol(moves_2)], delay_2)
+spawnData_2 <<- cbind(traits_2, moves_2[, ncol(moves_2)], delay_2)
 # Change the name for the final rkm column
 colnames(spawnData_2)[ncol(spawnData_2) - 4] = 'finalRkm'
 # Make it into a dataframe for easy manipulation
-sp_2 = data.frame(spawnData_2)
+sp_2 <- data.frame(spawnData_2)
 
 # Combine all data for stillwater-to-piscataquis spawners
 # Combine all three matrices
-spawnData_3 = cbind(traits_3, moves_3[, ncol(moves_3)], delay_3)
+spawnData_3 <- cbind(traits_3, moves_3[, ncol(moves_3)], delay_3)
 # Change the name for the final rkm column
 colnames(spawnData_3)[ncol(spawnData_3) - 7] = 'finalRkm'
 # Make it into a dataframe for easy manipulation
-sp_3 = data.frame(spawnData_3)
+sp_3 <- data.frame(spawnData_3)
 
 # Combine all data for stillwater-to-piscataquis spawners
 # Combine all three matrices
-spawnData_4 = cbind(traits_4, moves_4[, ncol(moves_4)], delay_4)
+spawnData_4 <- cbind(traits_4, moves_4[, ncol(moves_4)], delay_4)
 # Change the name for the final rkm column
 colnames(spawnData_4)[ncol(spawnData_4) - 5] = 'finalRkm'
 # Make it into a dataframe for easy manipulation
-sp_4 = data.frame(spawnData_4)
+sp_4 <- data.frame(spawnData_4)
 
 # Assign each fish to a production unit before they spawn. Do this for
 # Piscataquis River spawners and Mainstem spawners
 # First, assign rkms to delineate each of the production units
-puRkm = vector(mode = 'list', length = length(nPU))
-puRkm[[1]] = c(damRkms[[1]] + 1, (maxrkm[1] + 1))
-puRkm[[2]] = c(damRkms[[2]] + 1, (maxrkm[2] + 1))
-puRkm[[3]] = c(damRkms[[3]] + 1, (maxrkm[3] + 1))
-puRkm[[4]] = c(damRkms[[4]] + 1, (maxrkm[4] + 1))
+puRkm <<- list(
+c(damRkms[[1]] + 1, (maxrkm[1] + 1)),
+c(damRkms[[2]] + 1, (maxrkm[2] + 1)),
+c(damRkms[[3]] + 1, (maxrkm[3] + 1)),
+c(damRkms[[4]] + 1, (maxrkm[4] + 1))
+)
+
 # Create an empty list to hold the pu names for each route
 rm(list = ls()[grep(ls(), pat = '^mPU_')]) # Remove old counts
-puNames = vector(mode = 'list', length = length(nPU))
+puNames_temp <- vector(mode = 'list', length = length(nPU))
 # Dynamically assign pu names based on river kilometers that delineate them
 for (t in 1:length(puRkm)) {
   for (i in 1:(length(puRkm[[t]]) - 1)) {
     assign(paste('PU_', t, '_', i, sep = ''), puRkm[i])
   }
   # Collect the names into a list
-  puNames[[t]] = names(mget(ls(pat = paste(
+  puNames_temp[[t]] = names(mget(ls(pat = paste(
     '^PU_', t, sep = ''
   ))))
 }
+puNames <<- puNames_temp
+
 # Determine which PU each fish ends up in based on its rkm and assign it.
 # Uses pre-compiled function 'fishPU' from source files loaded up front.
 # Main-to-piscataquis spawners
@@ -678,6 +687,11 @@ sp_2$surv = rbinom(nrow(sp_2), 1, sp_2$preSpawn * (1 - sp_2$F))
 sp_3$surv = rbinom(nrow(sp_3), 1, sp_3$preSpawn * (1 - sp_3$F))
 sp_4$surv = rbinom(nrow(sp_4), 1, sp_4$preSpawn * (1 - sp_4$F))
 #toc()
+
+sp_1 <<- sp_1
+sp_2 <<- sp_2
+sp_3 <<- sp_3
+sp_4 <<- sp_4
 
 # To save only inner loop sampling variables: uncomment
 # filename can be adjusted in setParameters.R

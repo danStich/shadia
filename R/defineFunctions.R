@@ -11,6 +11,7 @@
   
     # dynamically identify the x_n dataframe, for PU n
     fishCount <- get(paste0('x_',pu))
+    names(fishCount) <- c('pus', 'fishAges')
   
     # dynamically identify the sp_n dataframe, for PU n
     spawnProb <- get(paste0('sp_',pu))
@@ -88,25 +89,21 @@ additionalEggsProcessing <- function(fec) {
 # JMS Dec 2017
 processPopulation <- function(isFemale, isEgg = FALSE) {
   # uses generalized function for creating PU matrix of males, females, or eggs
-  PUS_1 <-  createPUMatrix(isFemale, 1, isEgg)
-  PUS_2 <-  createPUMatrix(isFemale, 2, isEgg)
-  PUS_3 <-  createPUMatrix(isFemale, 3, isEgg)
-  PUS_4 <-  createPUMatrix(isFemale, 4, isEgg)
+  PUS_1 <<-  createPUMatrix(isFemale, 1, isEgg)
+  PUS_2 <<-  createPUMatrix(isFemale, 2, isEgg)
+  PUS_3 <<-  createPUMatrix(isFemale, 3, isEgg)
+  PUS_4 <<-  createPUMatrix(isFemale, 4, isEgg)
 
   # Collect age-structured male, female, or egg population in each PU
   # Pre-allocate a list to hold the info
-  population = vector(mode = 'list', length = nRoutes)
-  population[[1]] = vector(mode = 'list', length = (nPU[[1]])) # main-to-pisc
-  population[[2]] = vector(mode = 'list', length = (nPU[[2]])) # main-to-main
-  population[[3]] = vector(mode = 'list', length = (nPU[[3]])) # still-to-pisc
-  population[[4]] = vector(mode = 'list', length = (nPU[[4]])) # still-to-main
-
-  # Assign the fish or eggs
-  population[[1]] <- assignFishToRoutes(1, PUS_1)
-  population[[2]] <- assignFishToRoutes(2, PUS_2)
-  population[[3]] <- assignFishToRoutes(3, PUS_3)
-  population[[4]] <- assignFishToRoutes(4, PUS_4)
-
+  population <<- list(
+    # Assign the fish or eggs
+    assignFishToRoutes(1, PUS_1),
+    assignFishToRoutes(2, PUS_2),
+    assignFishToRoutes(3, PUS_3),
+    assignFishToRoutes(4, PUS_4)
+  )
+  
   # Remove NA values and replace with zeroes b/c that's what they are
   population = rapply(
     population,
@@ -233,13 +230,13 @@ writeData <- function(filename) {
 
 # CI()
 # Get confidence intervals
-CI = function(x) {
+CI <- function(x) {
   quantile(x, probs = c(0.025, 0.975))
 }
 
 # tz()
 # Functions from lubridate
-tz = function (x) {
+tz <- function (x) {
   if (is.null(attr(x, "tzone")) && !is.POSIXt(x))
     return("UTC")
   tzs <- attr(as.POSIXlt(x), "tzone")
@@ -247,12 +244,12 @@ tz = function (x) {
 }
 
 # yday()
-yday = function (x) {
+yday <- function (x) {
   as.POSIXlt(x, tz = tz(x))$yday + 1
 }
 
 # year()
-year = function (x) {
+year <- function (x) {
   as.POSIXlt(x, tz = tz(x))$year + 1900
 }
 
@@ -264,6 +261,6 @@ substrRight <- function(x, n) {
 
 # invlogit()
 # Make function for back-transformation from logit scale
-invlogit = function(x) {
+invlogit <- function(x) {
   exp(x) / (1 + exp(x))
 }

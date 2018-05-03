@@ -5,7 +5,61 @@
 
 # Create a function out of the model,
 # with optional arguments for nruns and nyears
-penobscotRiverModel <- function(nruns=1, nyears=50){
+penobscotRiverModel <- function(nRuns=1,
+                                nYears=1,
+                                timing=1,
+                                upstream=list(
+                                  milford = 1,
+                                  howland = 1,
+                                  westEnfield = 1,
+                                  brownsMill = 1,
+                                  moosehead = 1,
+                                  guilford = 1,
+                                  weldon = 1
+                                ),
+                                downstream=list(
+                                  stillwater = 1,
+                                  orono = 1,
+                                  milford = 1,
+                                  howland = 1,
+                                  westEnfield = 1,
+                                  brownsMill = 1,
+                                  moosehead = 1,
+                                  guilford = 1,
+                                  weldon = 1
+                                ),
+                                watershed = FALSE
+                                ){
+
+# Define simulation arguments
+# in global environment so they
+# can be used by other funs
+nRuns <<- nRuns
+nYears <<- nYears
+timing <<- timing
+
+pDraws <<- upstream
+dDraws <<- downstream
+
+# For watershed applications of
+# the model, all values need to
+# match
+pDraws <<- rapply(pDraws,
+       function(x) ifelse(watershed==TRUE, upstream[[1]], x),
+       how = "replace")
+
+dDraws <<- rapply(dDraws,
+       function(x) ifelse(watershed==TRUE, upstream[[1]], x),
+       how = "replace")
+
+if(watershed){
+cat('WARNING: when watershed is set to TRUE,
+  upstream passage rate(s) for Milford Dam will 
+  be used for all upstream passage efficiencies,
+  and downstream passage rates for Stillwater Dam
+  will be used for all downstream passage
+  efficiencies.')
+}
 
 # DSS: commented out because funs should be loaded
 # automatically with other files in `R/` with 
@@ -17,22 +71,24 @@ penobscotRiverModel <- function(nruns=1, nyears=50){
 #setwd("C:/Users/STICHDS/Desktop/projects/shadmodel/penobscotProject/penobscot")
 
 
-# DSS: commented out because funs should be loaded
-# automatically with other files in `R/` with 
-# package implementation.
-# source('setParameters.R')
+# DSS: The function now relies on assignment of
+#      objects within setparameters() to global
+#      variables
+setParameters()
+  
+  
 # source('defineFunctions.R') 
 # All functions in defineFunctions.R should
 # be loaded with package load
 
-setParameters()
-
 # ---------
 
-# Define output vectors for simulation and hydrosystem configuration
+# Define output vectors for simulation and
+# hydrosystem configuration, and load data sets
 if (useTictoc) tic("Running data load...")
 defineOutputVectors()
 defineHydrosystem()
+setUpData()
 if (useTictoc) toc()
 
 # ---------
@@ -66,7 +122,7 @@ for (k in 1:nRuns) {
   # otherwise, load previously saved variables
   if (doOuterSampling) {
     #if (useTictoc) tic("Running outer loop sampling...")
-    source(outerLoopSamplingSource)
+    outerLoopSampling()#source(outerLoopSamplingSource)
     #if (useTictoc) toc()
   } else {
     #if (useTictoc) tic("LOADING outer loop sampling...")
@@ -81,54 +137,54 @@ for (k in 1:nRuns) {
   # JMS: draws are moved to outer-loop-sampling.R
 
   # Define passage rates
-  Open = 1.00
-  Confluence = 1.00 * fB
-  OronoUp = 1 * fB          # Orono upstream passage
-  StillwaterUp = 1        # Stillwater upstream passage
-  GilmanUp = 1            # Gilman Falls upstream passage
-  MilfordUp = up[1] * fB       # Milford upstream passage
-  HowlandUp = up[2] * fB       # Howland upstream passage
-  WestEnfieldUp = up[3] * fB   # West Enfield upstream passage
-  BrownsMillUp = up[4] * fB    # Browns Mill upstream passage
-  MooseheadUp = up[5] * fB     # Moosehead (Dover) passage
-  GuilfordUp = up[6] * fB      # Guilford Passage
-  MattaceunkUp = up[7] * fB    # Mattaceunk (Weldon) passage
+  Open <<- 1.00
+  Confluence <<- 1.00 * fB
+  OronoUp <<- 1 * fB          # Orono upstream passage
+  StillwaterUp <<- 1        # Stillwater upstream passage
+  GilmanUp <<- 1            # Gilman Falls upstream passage
+  MilfordUp <<- up[1] * fB       # Milford upstream passage
+  HowlandUp <<- up[2] * fB       # Howland upstream passage
+  WestEnfieldUp <<- up[3] * fB   # West Enfield upstream passage
+  BrownsMillUp <<- up[4] * fB    # Browns Mill upstream passage
+  MooseheadUp <<- up[5] * fB     # Moosehead (Dover) passage
+  GuilfordUp <<- up[6] * fB      # Guilford Passage
+  MattaceunkUp <<- up[7] * fB    # Mattaceunk (Weldon) passage
 
   # Downstream passage efficiencies
   # JMS: sampling moved to outer-loop-sampling.R
 
   # Define downstream passage efficiencies at each of the dams
-  OpenD = 1.00 * delay                          # Perfect passage open reaches
-  GilmanD = 1.00 * delay                        # Gilman passage
-  StillwaterD = d[1] * indirect * latent * delay    # Stillwater passage
-  OronoD = d[2] * indirect * latent * delay         # Orono passage
-  MilfordD = d[3] * indirect * latent * delay       # Milford passage
-  HowlandD = d[4] * indirect * latent * delay       # Howland passage
-  WestEnfieldD = d[5] * indirect * latent * delay   # West Enfield passage
-  BrownsMillD = d[6] * indirect * latent * delay    # Browns Mill passage
-  MooseheadD = d[7] * indirect * latent * delay     # Moosehead (Dover) passage
-  GuilfordD = d[8] * indirect * latent * delay      # Guilford Passage
-  MattaceunkD = d[9] * indirect * latent * delay    # Mattaceunk (Weldon) passage
+  OpenD <<- 1.00 * delay                          # Perfect passage open reaches
+  GilmanD <<- 1.00 * delay                        # Gilman passage
+  StillwaterD <<- d[1] * indirect * latent * delay    # Stillwater passage
+  OronoD <<- d[2] * indirect * latent * delay         # Orono passage
+  MilfordD <<- d[3] * indirect * latent * delay       # Milford passage
+  HowlandD <<- d[4] * indirect * latent * delay       # Howland passage
+  WestEnfieldD <<- d[5] * indirect * latent * delay   # West Enfield passage
+  BrownsMillD <<- d[6] * indirect * latent * delay    # Browns Mill passage
+  MooseheadD <<- d[7] * indirect * latent * delay     # Moosehead (Dover) passage
+  GuilfordD <<- d[8] * indirect * latent * delay      # Guilford Passage
+  MattaceunkD <<- d[9] * indirect * latent * delay    # Mattaceunk (Weldon) passage
 
   # Make downstream survival probabilities for juveniles
   # JMS: Juvenile reduction factor draws are moved to outer-loop-sampling.R
-  GilmanDj = 1.00                            # Gilman passage
-  StillwaterDj = StillwaterD * jReduction    # Stillwater passage
-  OronoDj = OronoD * jReduction              # Orono passage
-  MilfordDj = MilfordD * jReduction          # Milford passage
-  HowlandDj = HowlandD * jReduction          # Howland passage
-  WestEnfieldDj = WestEnfieldD * jReduction  # West Enfield passage
-  BrownsMillDj = BrownsMillD * jReduction    # Browns Mill passage
-  MooseheadDj = MooseheadD * jReduction      # Moosehead (Dover) passage
-  GuilfordDj = GuilfordD * jReduction        # Guilford Passage
-  MattaceunkDj = MattaceunkD * jReduction    # Mattaceunk (Weldon) passage
+  GilmanDj <<- 1.00                            # Gilman passage
+  StillwaterDj <<- StillwaterD * jReduction    # Stillwater passage
+  OronoDj <<- OronoD * jReduction              # Orono passage
+  MilfordDj <<- MilfordD * jReduction          # Milford passage
+  HowlandDj <<- HowlandD * jReduction          # Howland passage
+  WestEnfieldDj <<- WestEnfieldD * jReduction  # West Enfield passage
+  BrownsMillDj <<- BrownsMillD * jReduction    # Browns Mill passage
+  MooseheadDj <<- MooseheadD * jReduction      # Moosehead (Dover) passage
+  GuilfordDj <<- GuilfordD * jReduction        # Guilford Passage
+  MattaceunkDj <<- MattaceunkD * jReduction    # Mattaceunk (Weldon) passage
 
   # JMS: Draw timing of Weldon passage implementation moved to outer-loop-sampling.R
 
   # HABITAT DEFINITION ------------------------------------------------------
   # How much habitat is in each of the newly created production units?
   # This will be used to draw carrying capacity later on.
-  habitat = vector(mode = 'list', length = nRoutes)
+  habitat <- vector(mode = 'list', length = nRoutes)
 
   # NEED TO RE-COMMENT ALL OF THIS!
   OronoHabitat = 1000
@@ -165,21 +221,22 @@ for (k in 1:nRuns) {
                    (333196 + 205744),
                    (204336 + 25773)
   )
-
+  habitat <<- habitat
   # UPSTREAM PASSAGE EFFICIENCIES AND MIGRATION ROUTE ----------------------------
   # NOTE: This section is special for the PNR because of multiple routes with
   # unequal numbers of dams and unequal reach lengths
 
   # Assign efficiencies to the upstream passage groups (pisc or main)
-  upEffs = vector(mode = 'list', length = nRoutes)
-  upEffs[[1]] = vector(mode = 'numeric', length = length(damRkms[[1]]))
-  upEffs[[2]] = vector(mode = 'numeric', length = length(damRkms[[2]]))
-  upEffs[[3]] = vector(mode = 'numeric', length = length(damRkms[[3]]))
-  upEffs[[4]] = vector(mode = 'numeric', length = length(damRkms[[4]]))
-
+  upEffs <<- list(
+  vector(mode = 'numeric', length = length(damRkms[[1]])),
+  vector(mode = 'numeric', length = length(damRkms[[2]])),
+  vector(mode = 'numeric', length = length(damRkms[[3]])),
+  vector(mode = 'numeric', length = length(damRkms[[4]]))
+  )
+  
   # Route 1- Mainstem to piscataquis
   upEffs[[1]][1] = Open
-  upEffs[[1]][2] = Confluence
+  upEffs[[1]][2] =  Confluence
   upEffs[[1]][3] = MilfordUp
   upEffs[[1]][4] = HowlandUp
   upEffs[[1]][5] = BrownsMillUp
@@ -201,7 +258,7 @@ for (k in 1:nRuns) {
   upEffs[[3]][7] = MooseheadUp
   upEffs[[3]][8] = GuilfordUp
   # Route 1- Stillwater to main-stem
-  upEffs[[4]][1] = Open
+  upEffs[[4]][1] =  Open
   upEffs[[4]][2] = OronoUp
   upEffs[[4]][3] = StillwaterUp
   upEffs[[4]][4] = GilmanUp
@@ -209,13 +266,13 @@ for (k in 1:nRuns) {
   upEffs[[4]][6] = MattaceunkUp
 
   # JMS: Draw probability of using the Stillwater Branch moved to outer-loop-sampling.R
-  pMainUp = 1 - pStillwaterUp
-  pMainD = 1 - pStillwaterD
+  pMainUp <<- 1 - pStillwaterUp
+  pMainD <<- 1 - pStillwaterD
 
   # # Draw probability of using the Piscataquis for upstream migration. NOTE: NEED
   # # TO MAKE THIS CONDITIONAL ON FLOW.
   # JMS: Draw of pPiscUp moved to outer-loop-sampling.R
-  pMainstemUp = 1 - pPiscUp  # Probability of using mainstem in upper river
+  pMainstemUp <<- 1 - pPiscUp  # Probability of using mainstem in upper river
 
   # # STARTING POPULATION STRUCTURE FOR EACH SIMULATION -----------------------
   # JMS: maxAge moved to setupData.R
@@ -223,12 +280,12 @@ for (k in 1:nRuns) {
 
   # Calculate in-river fishing mortalities for each PU in each of the four
   # possible migration routes
-  inriv = vector(mode = 'list', length = 4)
-  inriv[[1]] = c(rep(inRiverF, 3), rep(0, 4))
-  inriv[[2]] = c(rep(inRiverF, 4), 0)
-  inriv[[3]] = c(rep(inRiverF, 4), rep(0, 4))
-  inriv[[4]] = c(rep(inRiverF, 5), 0)
-
+  inriv <<- list(
+  c(rep(inRiverF, 3), rep(0, 4)),
+  c(rep(inRiverF, 4), 0),
+  c(rep(inRiverF, 4), rep(0, 4)),
+  c(rep(inRiverF, 5), 0)
+  )
   # Assign the starting population based on a seed of age-1 fish and application
   # of an ocean survival curve
   # The population size is scaled to make the models run faster. Output is re-
@@ -245,18 +302,18 @@ for (k in 1:nRuns) {
   }
 
   # Collect age classes in a vector
-  pop = mget(ls(pat = "^Age"))
+  pop <- mget(ls(pat = "^Age"))
 
   # Define probability of recruitment to spawn- based on proportion of spawners
   # in each age class (Bailey and Zydlewski 2013)
-  spawnRecruit = c(0, 0, 0, 0.01, .33, .84, .97, .99, 1.00)
+  spawnRecruit <<- c(0,0, 0, 0.01, .33, .84, .97, .99, 1.00)
 
   # Initial probalities of repeat spawning- will be derived in annual loop
-  pRepeat = c(0, 0, 0, 0.004, 0.094286, 0.375714, 0.722286, 1.00, 1.00)
+  pRepeat <<- c(0, 0, 0, 0.004, 0.094286, 0.375714, 0.722286, 1.00, 1.00)
 
   # Define spawning population and recruitment pool
-  spawningPool = unlist(pop) * spawnRecruit
-  recruitmentPool = unlist(pop) - unlist(pop) * spawnRecruit
+  spawningPool <- unlist(pop) * spawnRecruit
+  recruitmentPool <- unlist(pop) - unlist(pop) * spawnRecruit
 
   # SIMULATION SETTINGS FOR INNER LOOP --------------------------------------
   # Run sim for nYears
@@ -281,24 +338,26 @@ for (k in 1:nRuns) {
 
     # Reset the scalar based on population size
     if (sum(spawningPool) < 1e3) {
-      scalar = 10
+      scalar <- 10
     }
     if (sum(spawningPool) >= 1e3) {
-      scalar = 100
+      scalar <- 100
     }
     if (sum(spawningPool) >= 1e4) {
-      scalar = 1000
+      scalar <- 1000
     }
     if (sum(spawningPool) >= 1e5) {
-      scalar = 10000
+      scalar <- 10000
     }
     if (sum(spawningPool) >= 1e6) {
-      scalar = 100000
+      scalar <- 100000
     }
+    
+    scalar <<- scalar
 
-    pop = unlist(pop) / scalar
-    spawningPool = spawningPool / scalar
-    recruitmentPool = recruitmentPool / scalar
+    pop <<- unlist(pop) / scalar
+    spawningPool <<- spawningPool / scalar
+    recruitmentPool <<- recruitmentPool / scalar
 
     # if you need to load/reuse inner loop sampling, uncomment/use this stop, then call
     # the inner loop sampling code.
@@ -308,7 +367,7 @@ for (k in 1:nRuns) {
     # otherwise load the variables we saved...
     if (doInnerSampling) {
       #if (useTictoc) tic("Running inner loop sampling...")
-      source(innerLoopSamplingSource)
+      innerLoopSampling()
       #if (useTictoc) toc()
     } else {
       #if (useTictoc) tic("LOADING inner loop sampling...")
@@ -322,7 +381,7 @@ for (k in 1:nRuns) {
     #if (useTictoc) tic("calculate counts in each PU")
 
     # Main-to-piscataquis spawners
-    x_1 = expand.grid(puNames[[1]], seq(1, maxAge, 1))
+    x_1 <<- expand.grid(puNames[[1]], seq(1, maxAge, 1))
     names(x_1) = c('pus', 'fishAges')
     # Main-to-mainstem spawners
     x_2 = expand.grid(puNames[[2]], seq(1, maxAge, 1))
@@ -604,14 +663,14 @@ for (k in 1:nRuns) {
     pRepeat = repeats / (nextRecruits + repeats)
 
     # Combine repeat spawners with new recruits
-    spawningPool = nextRecruits * spawnRecruit + repeats
-    recruitmentPool = nextRecruits - nextRecruits * spawnRecruit
+    spawningPool <<- nextRecruits * spawnRecruit + repeats
+    recruitmentPool <- nextRecruits - nextRecruits * spawnRecruit
 
     # Record new population size for the start of the inner loop
     pop = sum(spawningPool + recruitmentPool)
 
     pop = pop * scalar
-    spawningPool = spawningPool * scalar
+    spawningPool <<- spawningPool * scalar
     recruitmentPool = recruitmentPool * scalar
     # if (useTictoc) toc()
 
@@ -787,7 +846,7 @@ for (k in 1:nRuns) {
 
     # Environmental
     # Stochasticity
-    t.stoch[(n + nYears * (k - 1))] = stoch
+    #t.stoch[(n + nYears * (k - 1))] = stoch
     # Regression relating temperatures in PNR and CTR
     t.RegrInt[(n + nYears * (k - 1))] = calMod[1, 1]
     t.RegrSlp[(n + nYears * (k - 1))] = calMod[2, 1]

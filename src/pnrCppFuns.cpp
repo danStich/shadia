@@ -4,7 +4,6 @@ using namespace Rcpp;
 // This file contains all of the Cpp functions needed for the PNR shad model
 // in an effort to reduce command-line entry for cluster submission
 
-
 // Delay header file
 //[[Rcpp::export]]
 List rleC(NumericVector x){
