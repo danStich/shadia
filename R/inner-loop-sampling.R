@@ -1,15 +1,19 @@
-
 # inner-loop-sampling.R
 #
 # Attempt to perform all draws needed for inner loop,
 # then save them for re-use and reproducible runs.
 
-# DSS: commented out for package 
-# implementation because the functions
-# are included in the source code
+innerLoopSampling <- function(){
+
 #Rcpp::sourceCpp('datasets/pnrCppFuns.cpp')        # C++ functions used in model
 
-innerLoopSampling <- function(){
+# Habitat stochasticity -----
+# Add stochasticity to habitat per PU
+  habStoch <- runif(1, 0.95, 1.05)  
+# Add stochastic noise to habitat variable
+# to assess sensitivity and account for 
+# fluctuations
+  habitat <- addStochList(habitat, habStoch)  
   
 # SIMULATE DAILY TEMPERATURE IN PNR EACH DAY ------------------------------
 # Use historical temperature data to predict temperature on each day from a
@@ -62,24 +66,25 @@ y[1, 2] = 0
 y[nrow(y), 2] = 0
 y = na.spline(y)
 y[y[, 2] < 0, 2] = 0
-predTemps <<- data.frame(y)
+predTemps = data.frame(y)
 
 # Calculate ATU for each day of simulated temperature data
-newTU <<- cumsum(predTemps[, 2])
+newTU = cumsum(predTemps[, 2])
 #toc() #("simulate daily temp2: pred merge, ddply, cumsum")
 
 # DRAW CDF for PROBABILITY OF ARRIVAL BASED ON COMMERCIAL HARVEST ---------
 #if (useTictoc) tic("DRAW CDF for PROBABILITY OF ARRIVAL")
 #newDay = seq(0, 365, 1)
+stoch = runif(1,-1.96, 1.96)
+# Can come back and delete stoch from usage because...->
 
-# Randomly sample sex-specific regression
-# coefficients for time of arrival from
-# built-in data sets.
-res.R <<- data.frame(sample(arr.R,  1))
-res.B <<- data.frame(sample(arr.B,  1))
-
-r.prob <<- invlogit(res.R[1, 1] + res.R[2, 1] * predTemps[, 2])
-b.prob <<- invlogit(res.B[1, 1] + res.B[2, 1] * predTemps[, 2])
+# Re-written to use regression params instead of data. These are now
+# in built-in data sets for arrival regressions so that we are not
+# violating data confidentiality agreements for package deployment.
+res.R = data.frame(arr.R[[sample(1:length(arr.R), 1)]])
+res.B = data.frame(arr.B[[sample(1:length(arr.B), 1)]])
+r.prob = invlogit(res.R[1, 1] + res.R[2, 1] * predTemps[, 2])
+b.prob = invlogit(res.B[1, 1] + res.B[2, 1] * predTemps[, 2])
 
 #toc()
 # ---
@@ -87,7 +92,7 @@ b.prob <<- invlogit(res.B[1, 1] + res.B[2, 1] * predTemps[, 2])
 # CREATE AGE AND SEX STRUCTURE, DRAW ARRIVAL AND SPAWN DATES --------------
 # Draw sex ratio for the current year
 #if (useTictoc) tic("fish ages1")
-sex_Ratio <<- rbeta(1, 100, 100)
+sex_Ratio = rbeta(1, 100, 100)
 
 # Create an object containing the age of each fish based on the number of fish
 # in each age class
@@ -95,14 +100,14 @@ fishAges = c()
 for (i in 1:length(spawningPool)) {
   fishAges = append(fishAges, rep(names(spawningPool)[i], spawningPool[i]))
 }
-c_fishAges <<- as.numeric(substr(fishAges, start = 4, stop = 4))
+c_fishAges = as.numeric(substr(fishAges, start = 4, stop = 4))
 
 # Assign fish gender using sex ratio drawn above, females are 1
-c_sex <<- rbinom(length(fishAges), 1, sex_Ratio)
+c_sex = rbinom(length(fishAges), 1, sex_Ratio)
 
 # Need to sort by sex to get sex-specific arrival date efficiently
-c_fishAges <<- c_fishAges[order(c_sex)] # First fish ages
-c_sex <<- sort(c_sex)                   # Then fish sex
+c_fishAges = c_fishAges[order(c_sex)] # First fish ages
+c_sex = sort(c_sex)                   # Then fish sex
 
 # Get entry date for each individual.  We used cumulative frequency distribution
 # to predict average entry date for a given fish conditional on temperature.
@@ -113,7 +118,7 @@ c_sex <<- sort(c_sex)                   # Then fish sex
 # probability of being in the river on a given day, we will use the first date
 # that maximizes probability of success in a random binomial draw for each
 # individual to assign their entry date.
-# Make containers to hold entry date.
+# Make containers to hold entry date
 b.entryDate = matrix(0, nrow = length(fishAges[c_sex == 0]), ncol = length(b.prob))
 r.entryDate = matrix(0, nrow = length(fishAges[c_sex == 1]), ncol = length(r.prob))
 #toc()
@@ -131,8 +136,7 @@ entryCols <- ncol(b.entry) # same for r.entry col count
 entryRows <- nrow(b.entry) + nrow(r.entry)
 
 # define size and characteristics of the data frame
-entry <- data.frame(matrix(ncol = entryCols,
-                           nrow = entryRows),
+entry <- data.frame(matrix(ncol = entryCols, nrow = entryRows),
                     row.names = NULL,
                     check.names=FALSE,
                     fix.empty.names = TRUE,
@@ -154,7 +158,7 @@ for (i in 1:entryRowsNew) {
   c_entryDate[i] = which(entry[i,] == max(entry[i,], na.rm = TRUE))[1]
 }
 rm(entryRowsNew, entryCols, entryRows)
-c_entryDate <<- c_entryDate
+
 #toc() # combine into one matrix
 
 # Assign upstream and downstream migration routes probabilistically conditional
@@ -179,7 +183,7 @@ upstream_path[3,][upstream_path[3,] > 0] = 3
 upstream_path[4,][upstream_path[4,] > 0] = 4
 
 # A '1' is Piscataquis, and a '2' is mainstem
-upstream_path <<- upstreamPathC(upstream_path)
+upstream_path = upstreamPathC(upstream_path)
 
 # Draw terminal spawning ATU from a truncated normal distribution based on
 # mean and standard deviaion of mean and standard deviation of ATU at which
@@ -190,8 +194,8 @@ upstream_path <<- upstreamPathC(upstream_path)
 # Draw initial and terminal spawning dates based on temperatures at Turner's
 # Falls.
 # Randomly draw ATU for initation (1) and termination (2) of spawning for each
-c_spawnATU1 <<- rnorm(length(c_entryDate), 150, 15)
-c_spawnATU2 <<- rnorm(length(c_entryDate), 500, 15)
+c_spawnATU1 = rnorm(length(c_entryDate), 150, 15)
+c_spawnATU2 = rnorm(length(c_entryDate), 500, 15)
 # Determine on which day the threshold ATU for each individual is reached
 # Pre-allocate vectors
 c_initial = vector(mode = 'numeric', length = length(c_entryDate))
@@ -207,13 +211,11 @@ for (i in 1:length(c_entryDate)) {
     which(cumsum(predTemps[c_entryDate[i]:nrow(predTemps), 2]) >=
             c_spawnATU2[i])[1]
 }
-c_initial <<- c_initial
-c_end <<- c_end 
 
 # Define the day of the year as an ordinal date
-day <<- c(seq(min(c_initial), (max(c_end))))
+day = c(seq(min(c_initial), (max(c_end))))
 # Calculate photoperiod based on latitude and day
-photo <<- daylength(44.39, day)
+photo = daylength(44.39, day)
 #toc()
 
 # SIMULATE FISH CHARACTERISTICS FOR EACH FISH IN EACH YEAR ----------------
@@ -236,11 +238,11 @@ r.mod = growth(
 )
 # Get the parameters
 r.pars = data.frame(summary(r.mod$vout)$parameters)
-r.mat <<- r.pars[, 1]
+r.mat = r.pars[, 1]
 # Rename them for ease of use
-c_linF <<- r.mat[1] # L-infinity females
-c_kF <<- r.mat[2]   # Brody growth coeff females
-c_t0F <<- r.mat[3]  # Intercept of VBGM females
+c_linF = r.mat[1] # L-infinity females
+c_kF = r.mat[2]   # Brody growth coeff females
+c_t0F = r.mat[3]  # Intercept of VBGM females
 
 # Males
 # Randomly sample some number of rows from the data
@@ -257,65 +259,64 @@ b.mod = growth(
 )
 # Get the parameters
 b.pars = data.frame(summary(b.mod$vout)$parameters)
-b.mat <<- b.pars[, 1]
+b.mat = b.pars[, 1]
 # Rename them for ease of use
-c_linM <<- b.mat[1] # L-infinity males
-c_kM <<- b.mat[2]   # Brody growth coeff males
-c_t0M <<- b.mat[3]  # Intercept of VBGM males
+c_linM = b.mat[1] # L-infinity males
+c_kM = b.mat[2]   # Brody growth coeff males
+c_t0M = b.mat[3]  # Intercept of VBGM males
 
 # Create length-weight regressions for males and females from the CTDEEP data
 # Roes
 roelw = roe.lw[sample(nrow(roe.lw), 200, replace = TRUE),]
 r.lw = lm(r.w ~ r.l, data = roelw)
 r.res = data.frame(summary(r.lw)$coefficients[, 1])
-c_femaleLWalpha <<- r.res[1, 1]  # Alpha in male l-w relationship
-c_femaleLWbeta <<- r.res[2, 1]   # Beta in male l-w relationship
+c_femaleLWalpha = r.res[1, 1]  # Alpha in male l-w relationship
+c_femaleLWbeta = r.res[2, 1]   # Beta in male l-w relationship
 # Bucks
 bucklw = buck.lw[sample(nrow(buck.lw), 200, replace = TRUE),]
 b.lw = lm(b.w ~ b.l, data = bucklw)
 b.res = data.frame(summary(b.lw)$coefficients[, 1])
-c_maleLWalpha <<- b.res[1, 1] # Alpha in male l-w relationship
-c_maleLWbeta <<- b.res[2, 1]   # Beta in male l-w relationship
+c_maleLWalpha = b.res[1, 1] # Alpha in male l-w relationship
+c_maleLWbeta = b.res[2, 1]   # Beta in male l-w relationship
 
 # Calculate length, mass, and movement rates, and fecundity
 # Get columns representing logical for male and female
-c_female <<- c_sex
-c_male <<- as.numeric(factor(c_sex, levels = c(1, 0))) - 1
+c_female = c_sex
+c_male = as.numeric(factor(c_sex, levels = c(1, 0))) - 1
 # Calculate length of males
-c_male_lf <<- c_male * c_linM * (1 - exp(-c_kM * (c_fishAges - c_t0M)))
+c_male_lf = c_male * c_linM * (1 - exp(-c_kM * (c_fishAges - c_t0M)))
 # Calculate length of females
-c_female_lf <<- c_female * c_linF * (1 - exp(-c_kF * (c_fishAges - c_t0F)))
+c_female_lf = c_female * c_linF * (1 - exp(-c_kF * (c_fishAges - c_t0F)))
 # Calculate mass of males
-c_male_m <<- c_male * (c_maleLWalpha + c_maleLWbeta * c_male_lf)
+c_male_m = c_male * (c_maleLWalpha + c_maleLWbeta * c_male_lf)
 # Calculate mass of females
-c_female_m <<- c_female * (c_femaleLWalpha + c_femaleLWbeta * c_female_lf)
+c_female_m = c_female * (c_femaleLWalpha + c_femaleLWbeta * c_female_lf)
 # Collect fork length and mass into one column each
-c_forkLength <<- c_male_lf + c_female_lf
-c_mass <<- c_male_m + c_female_m
+c_forkLength = c_male_lf + c_female_lf
+c_mass = c_male_m + c_female_m
 # Convert fork length to mm from cm for movement calcs below
-c_forkLength <<- c_forkLength * 10
+c_forkLength = c_forkLength * 10
 
 # Calculate movement rates based on Castro-Santos and Letcher (2010)
 # Optimizing ground speed in body lengths per second (BLS)
-sOptim <<- runif(length(c_mass), .7, 1.7)
+sOptim = runif(length(c_mass), .7, 1.7)
 # Get max daily movement, converting from BLS to km per day
-dMax<<- (sOptim * c_forkLength * 86400) / 1e6
+dMax = (sOptim * c_forkLength * 86400) / 1e6
 # Movement tortuosity drawn from uniform distribution.  This corresponds to
 # the range used in Castro-Santos and Letcher (2010) but it's just applied
 # as a multiplier
-tort <<- runif(length(c_mass), 0.2, 1)
+tort = runif(length(c_mass), 0.2, 1)
 # Now scale by tortuosity and divide by two to restrict movement to day time
-dailyMove <<- dMax * tort * mean(photo / 24)
+dailyMove = dMax * tort * mean(photo / 24)
 
 # Calculate fecundity
 # Calculate residence time for each fish based on entry date and exit date
 c_RT = c_end - c_initial
 c_RT[c_RT < 1] = 1
-c_RT <<- c_RT
 # Get spawning interval for each fish
-c_SI <<- rnorm(length(c_fishAges), 2.493, 0.274)
+c_SI = rnorm(length(c_fishAges), 2.493, 0.274)
 # Get probability of repeat spawning
-c_repeat <<- rbinom(length(c_fishAges), 1, pRepeat[c_fishAges])
+c_repeat = rbinom(length(c_fishAges), 1, pRepeat[c_fishAges])
 # Get random draws for fecundity based on whether or not fish are repeat
 # spawners.
 c_BF = vector(mode = 'numeric', length = length(c_repeat))
@@ -323,19 +324,17 @@ c_BF[c_repeat == 0] = sample(rnegbin(10000, 20000, 10),
                              length(c_repeat[c_repeat == 0]), replace = TRUE)
 c_BF[c_repeat == 1] = sample(rnegbin(10000, 30000, 10),
                              length(c_repeat[c_repeat == 1]), replace = TRUE)
-c_BF <<- c_BF
-
 # Calculate realized annual fecundity
 #c_RAF = vector(mode = 'numeric', length=length(c_RT))
 #for(i in 1:length(c_RT)){
 #if((c_RT[i]/c_SI[i]) < 10 ) {
-c_RAF <<- c_BF * (c_RT / c_SI)
+c_RAF = c_BF * (c_RT / c_SI)
 #} else {
 #c_RAF[i] = c_BF[i] * 10
 #}
 #}
 # Multiply by sex variable to set male fecundity to zero
-c_fecundity <<- c_female * c_RAF
+c_fecundity = c_female * c_RAF
 
 # Collect life-history parameters into a single matrix for c++ loop
 # NOTE: the source code for the loop was re-written to preclude the need for
@@ -393,29 +392,28 @@ k_pus = lapply(k_pus, function(x) {
   x[is.na(x)] = 1
   x
 })
-k_pus <<- k_pus
 
 # Pre-spawning mortality. Right now, these are drawn independently. Conditional
 # draws may be more appropriate b/c pre-spawn mortality is probably affected by
 # similar factors but may differ in magnitude between males and females.
-pre_spawn_survival_males <<- rbeta(1, 1e4, 50)
-pre_spawn_survival_females <<- rbeta(1, 1e4, 50)
+pre_spawn_survival_males = rbeta(1, 1e4, 50)
+pre_spawn_survival_females = rbeta(1, 1e4, 50)
 
 # Post-spawning mortality. Right now, these are drawn independently. Conditional
 # draws may be more appropriate b/c post-spawn mortality is probably affected by
 # similar factors but may differ in magnitude between males and females.
-post_spawn_survival_males <<- rbeta(1, 200, 50)
-post_spawn_survival_females <<- rbeta(1, 200, 50)
+post_spawn_survival_males = rbeta(1, 200, 50)
+post_spawn_survival_females = rbeta(1, 200, 50)
 
 # Ocean survival for each year after the first year for each age class
 # Can be made into age-specific survival. Right now everyone has the same
 # annual survival rate in the ocean.
-oceanSurvival <<- rep(rbeta(1, 12, 8), maxAge)
+oceanSurvival = rep(rbeta(1, 12, 8), maxAge)
 
 # Juvenile mortality rate
 # This really needs some data pretty bad. Right now it is just a draw from a
 # uniform probability distribution that calls it 1 in 100000 to 1 in 1000
-juvenile_survival <<- runif(1, 0.0005, 0.00083)
+juvenile_survival = runif(1, 0.0005, 0.00083)
 #toc()
 
 # FISH PASSAGE RATES AT DAMS ----------------------------------------------
@@ -438,7 +436,6 @@ eFFs[[2]][damRkms[[2]]] = up_effs[[2]] # Dam-specific efficiencies group 2
 eFFs[[3]][damRkms[[3]]] = up_effs[[3]] # Dam-specific efficiencies group 3
 eFFs[[4]][damRkms[[4]]] = up_effs[[4]] # Dam-specific efficiencies group 4
 #toc()
-eFFs <<- eFFs
 
 # UPSTREAM MIGRATION FOR EACH FISH IN EACH YEAR ---------------------------
 # Make the adult fish move upstream through space and time. The functions used
@@ -469,7 +466,7 @@ ppPenalty[[4]] =  motivationPenaltyC(eFFs[[4]], newTU_2, ppPenalty[[4]])
 #toc() # C++ function, motivationPenaltyC
 
 # Track the mean motivational penalty for the spawning season
-mot <<- mean((1 - (newTU - min(newTU)) /
+mot = mean((1 - (newTU - min(newTU)) /
               (max(newTU) - min(newTU)))[min(c_entryDate):max(c_end)])
 
 # Pre-allocate vectors and matrices for agent-based migration model, this can
@@ -564,9 +561,7 @@ colnames(delay_1) = c('dConfluence',
                       'dMoosehead',
                       'dGuilford')
 # Main-to-Piscataquis spawners
-colnames(delay_2) = c('dConfluence',
-                      'dMilford',
-                      'dWestEnfield',
+colnames(delay_2) = c('dConfluence', 'dMilford', 'dWestEnfield',
                       'dWeldon')
 # Main-to-Piscataquis spawners
 colnames(delay_3) = c(
@@ -597,61 +592,57 @@ timeDelay <- proc.time() - ptmDelay
 
 # Combine all data for main-to-piscataquis spawners
 # Combine all three matrices
-spawnData_1 <<- cbind(traits_1, moves_1[, ncol(moves_1)], delay_1)
+spawnData_1 = cbind(traits_1, moves_1[, ncol(moves_1)], delay_1)
 # Change the name for the final rkm column
 colnames(spawnData_1)[ncol(spawnData_1) - 6] = 'finalRkm'
 # Make it into a dataframe for easy manipulation
-sp_1 <- data.frame(spawnData_1)
+sp_1 = data.frame(spawnData_1)
 
 # Combine all data for main-to-mainstem spawners
 # Combine all three matrices
-spawnData_2 <<- cbind(traits_2, moves_2[, ncol(moves_2)], delay_2)
+spawnData_2 = cbind(traits_2, moves_2[, ncol(moves_2)], delay_2)
 # Change the name for the final rkm column
 colnames(spawnData_2)[ncol(spawnData_2) - 4] = 'finalRkm'
 # Make it into a dataframe for easy manipulation
-sp_2 <- data.frame(spawnData_2)
+sp_2 = data.frame(spawnData_2)
 
 # Combine all data for stillwater-to-piscataquis spawners
 # Combine all three matrices
-spawnData_3 <- cbind(traits_3, moves_3[, ncol(moves_3)], delay_3)
+spawnData_3 = cbind(traits_3, moves_3[, ncol(moves_3)], delay_3)
 # Change the name for the final rkm column
 colnames(spawnData_3)[ncol(spawnData_3) - 7] = 'finalRkm'
 # Make it into a dataframe for easy manipulation
-sp_3 <- data.frame(spawnData_3)
+sp_3 = data.frame(spawnData_3)
 
 # Combine all data for stillwater-to-piscataquis spawners
 # Combine all three matrices
-spawnData_4 <- cbind(traits_4, moves_4[, ncol(moves_4)], delay_4)
+spawnData_4 = cbind(traits_4, moves_4[, ncol(moves_4)], delay_4)
 # Change the name for the final rkm column
 colnames(spawnData_4)[ncol(spawnData_4) - 5] = 'finalRkm'
 # Make it into a dataframe for easy manipulation
-sp_4 <- data.frame(spawnData_4)
+sp_4 = data.frame(spawnData_4)
 
 # Assign each fish to a production unit before they spawn. Do this for
 # Piscataquis River spawners and Mainstem spawners
 # First, assign rkms to delineate each of the production units
-puRkm <<- list(
-c(damRkms[[1]] + 1, (maxrkm[1] + 1)),
-c(damRkms[[2]] + 1, (maxrkm[2] + 1)),
-c(damRkms[[3]] + 1, (maxrkm[3] + 1)),
-c(damRkms[[4]] + 1, (maxrkm[4] + 1))
-)
-
+puRkm = vector(mode = 'list', length = length(nPU))
+puRkm[[1]] = c(damRkms[[1]] + 1, (maxrkm[1] + 1))
+puRkm[[2]] = c(damRkms[[2]] + 1, (maxrkm[2] + 1))
+puRkm[[3]] = c(damRkms[[3]] + 1, (maxrkm[3] + 1))
+puRkm[[4]] = c(damRkms[[4]] + 1, (maxrkm[4] + 1))
 # Create an empty list to hold the pu names for each route
 rm(list = ls()[grep(ls(), pat = '^mPU_')]) # Remove old counts
-puNames_temp <- vector(mode = 'list', length = length(nPU))
+puNames = vector(mode = 'list', length = length(nPU))
 # Dynamically assign pu names based on river kilometers that delineate them
 for (t in 1:length(puRkm)) {
   for (i in 1:(length(puRkm[[t]]) - 1)) {
     assign(paste('PU_', t, '_', i, sep = ''), puRkm[i])
   }
   # Collect the names into a list
-  puNames_temp[[t]] = names(mget(ls(pat = paste(
+  puNames[[t]] = names(mget(ls(pat = paste(
     '^PU_', t, sep = ''
   ))))
 }
-puNames <<- puNames_temp
-
 # Determine which PU each fish ends up in based on its rkm and assign it.
 # Uses pre-compiled function 'fishPU' from source files loaded up front.
 # Main-to-piscataquis spawners
@@ -694,10 +685,124 @@ sp_3$surv = rbinom(nrow(sp_3), 1, sp_3$preSpawn * (1 - sp_3$F))
 sp_4$surv = rbinom(nrow(sp_4), 1, sp_4$preSpawn * (1 - sp_4$F))
 #toc()
 
-sp_1 <<- sp_1
-sp_2 <<- sp_2
-sp_3 <<- sp_3
-sp_4 <<- sp_4
+return(list(
+b.entry = b.entry,
+b.entryDate = b.entryDate,
+b.lw = b.lw,
+b.mat = b.mat,
+b.mod = b.mod,
+b.pars = b.pars,
+b.prob = b.prob,
+b.res = b.res,
+batch = batch,
+bucklw = bucklw,
+c_BF = c_BF,
+c_end = c_end,
+c_entryDate = c_entryDate,
+c_fecundity = c_fecundity,
+c_female = c_female,
+c_female_lf = c_female_lf,
+c_female_m = c_female_m,
+c_femaleLWalpha = c_femaleLWalpha,
+c_femaleLWbeta = c_femaleLWbeta,
+c_fishAges = c_fishAges,
+c_forkLength = c_forkLength,
+c_initial = c_initial,
+c_kF = c_kF,
+c_kM = c_kM,
+c_linF = c_linF,
+c_linM = c_linM,
+c_male = c_male,
+c_male_lf = c_male_lf,
+c_male_m = c_male_m,
+c_maleLWalpha = c_maleLWalpha,
+c_maleLWbeta = c_maleLWbeta,
+c_mass = c_mass,
+c_RAF = c_RAF,
+c_repeat = c_repeat,
+c_RT = c_RT,
+c_sex = c_sex,
+c_SI = c_SI,
+c_spawnATU1 = c_spawnATU1,
+c_spawnATU2 = c_spawnATU2,
+c_t0F = c_t0F,
+c_t0M = c_t0M,
+dailyMove = dailyMove,
+day = day,
+delay_1 = delay_1,
+delay_2 = delay_2,
+delay_3 = delay_3,
+delay_4 = delay_4,
+dMax = dMax,
+eFFs = eFFs,
+entry = entry,
+fishAges = fishAges,
+id = id,
+juvenile_survival = juvenile_survival,
+k_pus = k_pus,
+maxR = maxR,
+mot = mot,
+moves_1 = moves_1,
+moves_2 = moves_2,
+moves_3 = moves_3,
+moves_4 = moves_4,
+newTU = newTU,
+newTU_2 = newTU_2,
+oceanSurvival = oceanSurvival,
+photo = photo,
+post_spawn_survival_females = post_spawn_survival_females,
+post_spawn_survival_males = post_spawn_survival_males,
+ppPenalty = ppPenalty,
+pre_spawn_survival_females = pre_spawn_survival_females,
+pre_spawn_survival_males = pre_spawn_survival_males,
+pred = pred,
+predTemps = predTemps,
+ptmABM = ptmABM,
+ptmDelay = ptmDelay,
+puNames = puNames,
+puRkm = puRkm,
+res.B = res.B,
+res.R = res.R,
+r.entry = r.entry,
+r.entryDate = r.entryDate,
+r.lw = r.lw,
+r.mat = r.mat,
+r.mod = r.mod,
+r.pars = r.pars,
+r.prob = r.prob,
+r.res = r.res,
+rkm1 = rkm1,
+rkm2 = rkm2,
+roelw = roelw,
+routes = routes,
+samp = samp,
+sex_Ratio = sex_Ratio,
+sOptim = sOptim,
+sp_1 = sp_1,
+sp_2 = sp_2,
+sp_3 = sp_3,
+sp_4 = sp_4,
+spawnData_1 = spawnData_1,
+spawnData_2 = spawnData_2,
+spawnData_3 = spawnData_3,
+spawnData_4 = spawnData_4,
+stoch = stoch,
+timeABM = timeABM,
+timeDelay = timeDelay,
+tort = tort,
+traits = traits,
+traits_1 = traits_1,
+traits_2 = traits_2,
+traits_3 = traits_3,
+traits_4 = traits_4,
+up_effs = up_effs,
+upstream_path = upstream_path,
+y = y,
+Year = Year,
+habStoch = habStoch
+))
+
+}
 
 # To save only inner loop sampling variables: uncomment
 # filename can be adjusted in setParameters.R
@@ -733,9 +838,6 @@ sp_4 <<- sp_4
 #    S.prespawnF, S.prespawnM, StD, StillwaterD, StillwaterDj, StillwaterHabitat, StillwaterPop, 
 #    StillwaterUp, StUp, substrRight, t, t0F, t0M, tempD, tempData, test,  
 #    timely, tortuosity, traits, t.RegrInt, t.RegrSlp, t.stoch, tz, up, upEffs, upstreamPathC, 
-#    useProgress, useTictoc, weldon, Weldonpost_spawn, WEnfD, WEnfUp, WestEnfieldD, WestEnfieldDj, 
+#    useProgress, useTictoc, weldon, WeldonPop, WEnfD, WEnfUp, WestEnfieldD, WestEnfieldDj, 
 #    WestEnfieldUp, writeData, writeSenData, writeSimData, x, yday, year, years, z)
 #save.image(paste(baseDirectory, innerLoopSamplingRData, sep='/'))
-
-}
-

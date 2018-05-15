@@ -1,0 +1,64 @@
+#annualUpstream()
+ 
+# Create annual passage efficiencies and 
+# that rely on user-defined list pass to call for 
+# PenobscotRiverModel(), as well as migration routes
+
+annualUpstream <- function(){
+  
+  # Assign efficiencies to the upstream passage groups (pisc or main)
+  upEffs = vector(mode = 'list', length = nRoutes)
+  upEffs[[1]] = vector(mode = 'numeric', length = length(damRkms[[1]]))
+  upEffs[[2]] = vector(mode = 'numeric', length = length(damRkms[[2]]))
+  upEffs[[3]] = vector(mode = 'numeric', length = length(damRkms[[3]]))
+  upEffs[[4]] = vector(mode = 'numeric', length = length(damRkms[[4]]))
+
+  # Route 1- Mainstem to piscataquis
+  upEffs[[1]][1] = Open
+  upEffs[[1]][2] = Confluence
+  upEffs[[1]][3] = MilfordUp
+  upEffs[[1]][4] = HowlandUp
+  upEffs[[1]][5] = BrownsMillUp
+  upEffs[[1]][6] = MooseheadUp
+  upEffs[[1]][7] = GuilfordUp
+  # Route 2- Main-stem to main-stem
+  upEffs[[2]][1] = Open
+  upEffs[[2]][2] = Confluence
+  upEffs[[2]][3] = MilfordUp
+  upEffs[[2]][4] = WestEnfieldUp
+  upEffs[[2]][5] = MattaceunkUp
+  # Route 1- Stillwater to piscataquis
+  upEffs[[3]][1] = Open
+  upEffs[[3]][2] = OronoUp
+  upEffs[[3]][3] = StillwaterUp
+  upEffs[[3]][4] = GilmanUp
+  upEffs[[3]][5] = HowlandUp
+  upEffs[[3]][6] = BrownsMillUp
+  upEffs[[3]][7] = MooseheadUp
+  upEffs[[3]][8] = GuilfordUp
+  # Route 1- Stillwater to main-stem
+  upEffs[[4]][1] = Open
+  upEffs[[4]][2] = OronoUp
+  upEffs[[4]][3] = StillwaterUp
+  upEffs[[4]][4] = GilmanUp
+  upEffs[[4]][5] = WestEnfieldUp
+  upEffs[[4]][6] = MattaceunkUp
+
+  # JMS: Draw probability of using the Stillwater Branch moved to outer-loop-sampling.R
+  pMainUp = 1 - pStillwaterUp
+  pMainD = 1 - pStillwaterD
+
+  # # Draw probability of using the Piscataquis for upstream migration. NOTE: NEED
+  # # TO MAKE THIS CONDITIONAL ON FLOW.
+  # JMS: Draw of pPiscUp moved to outer-loop-sampling.R
+  pMainstemUp = 1 - pPiscUp  # Probability of using mainstem in upper river
+
+return(list(
+  upEffs = upEffs,
+  pMainUp = pMainUp,
+  pMainD = pMainD,
+  pMainstemUp = pMainstemUp
+))  
+  
+}  
+  

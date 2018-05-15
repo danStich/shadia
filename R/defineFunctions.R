@@ -1,55 +1,59 @@
 # Define R functions ------------------
 
+# Source some basic R functions
+#source('datasets/growth.R')                       # von Bert function
+#source('datasets/daylength.R')                    # Calculate photoperiod
+
+# Function definitions
+
 # createPUMatrix()
-# generalize creation of the PU_n data 
-# structure for different PUs, fish sexes.
-# Return PUS for the PU n
+# generalize creation of the PU_n data structure for different PUs, fish sexes
+# return PUS for the PU n
 # inputs: isFemale (0/1); pu n (1..4); isEgg (default FALSE)
-# dynamically determine spawnProb (sp_n for PU n); fishCount (x_n for PU n)
-# JMS Dec 2017
-  createPUMatrix <- function(isFemale, pu, isEgg=FALSE){
+# dynamically determine spawnProb (sp_n for PU n); fishCount (x_n for PU n) 
+# JMS Dec 2017    
+createPUMatrix <- function(isFemale, pu, isEgg=FALSE){ 
   
-    # dynamically identify the x_n dataframe, for PU n
-    fishCount <- get(paste0('x_',pu))
-    names(fishCount) <- c('pus', 'fishAges')
+  # dynamically identify the x_n dataframe, for PU n
+  fishCount <- get(paste0('x_',pu))
   
-    # dynamically identify the sp_n dataframe, for PU n
-    spawnProb <- get(paste0('sp_',pu))
+  # dynamically identify the sp_n dataframe, for PU n
+  spawnProb <- get(paste0('sp_',pu))
   
-    if (!isEgg) {
-      # for males and females
-      d_pu  <- ddply(spawnProb[spawnProb$female == isFemale, ],
-                     .(fishAges, pus),
-                     summarise,
-                     gender = sum(surv))
-    } else {
-      # for eggs
-      d_pu <- ddply(spawnProb,
-                    .(fishAges, pus),
-                    summarise,
-                    gender = sum(fecundity * surv))
-    }
-  
-    if (nrow(d_pu) == 0) {
-      d_pu <- matrix(NA, 1, 3,
-                     dimnames = list(c(NULL),
-                                     c('fishAges', 'pus', 'gender')))
-    }
-  
-    PUS = merge(fishCount,
-                d_pu,
-                by = c('fishAges', 'pus'),
-                all.x = T)
-    PUS$pus = as.character(PUS$pus)
-  
-    return(PUS)
+  if (!isEgg) {
+    # for males and females
+    d_pu  <- ddply(spawnProb[spawnProb$female == isFemale, ],
+                   .(fishAges, pus),
+                   summarise,
+                   gender = sum(surv)) 
+  } else {
+    # for eggs
+    d_pu <- ddply(spawnProb,
+                  .(fishAges, pus),
+                  summarise,
+                  gender = sum(fecundity * surv)) 
   }
+  
+  if (nrow(d_pu) == 0) {
+    d_pu <- matrix(NA, 1, 3,
+                   dimnames = list(c(NULL), 
+                                   c('fishAges', 'pus', 'gender')))
+  }
+  
+  PUS = merge(fishCount,
+              d_pu,
+              by = c('fishAges', 'pus'),
+              all.x = T)
+  PUS$pus = as.character(PUS$pus)
+  
+  return(PUS)
+}                    
 
 # additionalEggsProcessing()
 # additional processing performed for all egg calculations
 # pulled into function, JMS Dec 2017
 additionalEggsProcessing <- function(fec) {
-
+  
   # Calculate total number of eggs in each PU
   fec2 = vector(mode = 'list', length = length(fec))
   for (i in 1:length(fec)) {
@@ -68,7 +72,7 @@ additionalEggsProcessing <- function(fec) {
   fec2[[2]][c(1:3)] = 0
   fec2[[3]][c(1:2, 4:8)] = 0
   fec2[[4]][1:6] = 0
-
+  
   # Apply carrying capacity limitation to each production unit based
   # on habitat availability
   fec_Max = vector(mode = 'list', length = length(fec))
@@ -83,26 +87,30 @@ additionalEggsProcessing <- function(fec) {
   }
   return(fec_Max)
   #toc()
-}
+}  
 
 # processPopulation()
 # JMS Dec 2017
 processPopulation <- function(isFemale, isEgg = FALSE) {
   # uses generalized function for creating PU matrix of males, females, or eggs
-  PUS_1 <<-  createPUMatrix(isFemale, 1, isEgg)
-  PUS_2 <<-  createPUMatrix(isFemale, 2, isEgg)
-  PUS_3 <<-  createPUMatrix(isFemale, 3, isEgg)
-  PUS_4 <<-  createPUMatrix(isFemale, 4, isEgg)
-
+  PUS_1 <-  createPUMatrix(isFemale, 1, isEgg)
+  PUS_2 <-  createPUMatrix(isFemale, 2, isEgg)
+  PUS_3 <-  createPUMatrix(isFemale, 3, isEgg)
+  PUS_4 <-  createPUMatrix(isFemale, 4, isEgg)
+  
   # Collect age-structured male, female, or egg population in each PU
   # Pre-allocate a list to hold the info
-  population <<- list(
-    # Assign the fish or eggs
-    assignFishToRoutes(1, PUS_1),
-    assignFishToRoutes(2, PUS_2),
-    assignFishToRoutes(3, PUS_3),
-    assignFishToRoutes(4, PUS_4)
-  )
+  population = vector(mode = 'list', length = nRoutes)
+  population[[1]] = vector(mode = 'list', length = (nPU[[1]])) # main-to-pisc
+  population[[2]] = vector(mode = 'list', length = (nPU[[2]])) # main-to-main
+  population[[3]] = vector(mode = 'list', length = (nPU[[3]])) # still-to-pisc
+  population[[4]] = vector(mode = 'list', length = (nPU[[4]])) # still-to-main
+  
+  # Assign the fish or eggs
+  population[[1]] <- assignFishToRoutes(1, PUS_1)
+  population[[2]] <- assignFishToRoutes(2, PUS_2)
+  population[[3]] <- assignFishToRoutes(3, PUS_3)
+  population[[4]] <- assignFishToRoutes(4, PUS_4)
   
   # Remove NA values and replace with zeroes b/c that's what they are
   population = rapply(
@@ -117,32 +125,32 @@ processPopulation <- function(isFemale, isEgg = FALSE) {
     fec_Max <- additionalEggsProcessing(population)
     return(fec_Max)
   }
-}
+}    
 
 # assignFishToRoutes()
 # Generically generate individual x_PUS_n, for fish gender and
 #   PU number. JMS Dec 2017
 assignFishToRoutes <- function(puNum, PUS) {
-
+  
   # number of km segments in the PU
   iLen <- length(puNames[[puNum]])
-
-  fishPU = vector(mode = 'list', length = (iLen))
-
+  
+  fishPU = vector(mode = 'list', length = (iLen)) 
+  
   # Now collect the number of fish in the current PU in each route from the PUS
   # dataframe and add them to the correct elements of the empty list
-
+  
   for (i in 1:iLen) { # number of km segments in the PU
     for (t in 1:maxAge) { # fish ages in years
-
+      
       conditionA <- PUS$pus == unique(puNames[[puNum]])[i]
-      conditionB <- PUS$fishAges == unique(PUS$fishAges)[t]
-
+      conditionB <- PUS$fishAges == unique(PUS$fishAges)[t]          
+      
       fishPU[[i]][t] = PUS$gender[conditionA & conditionB]
     }
   }
-  return(fishPU)
-}
+  return(fishPU)      
+}   
 
 
 # writeSimData()
@@ -230,13 +238,13 @@ writeData <- function(filename) {
 
 # CI()
 # Get confidence intervals
-CI <- function(x) {
+CI = function(x) {
   quantile(x, probs = c(0.025, 0.975))
 }
 
 # tz()
 # Functions from lubridate
-tz <- function (x) {
+tz = function (x) {
   if (is.null(attr(x, "tzone")) && !is.POSIXt(x))
     return("UTC")
   tzs <- attr(as.POSIXlt(x), "tzone")
@@ -244,12 +252,12 @@ tz <- function (x) {
 }
 
 # yday()
-yday <- function (x) {
+yday = function (x) {
   as.POSIXlt(x, tz = tz(x))$yday + 1
 }
 
 # year()
-year <- function (x) {
+year = function (x) {
   as.POSIXlt(x, tz = tz(x))$year + 1900
 }
 
@@ -261,6 +269,13 @@ substrRight <- function(x, n) {
 
 # invlogit()
 # Make function for back-transformation from logit scale
-invlogit <- function(x) {
+invlogit = function(x) {
   exp(x) / (1 + exp(x))
+}
+
+# addStochList()
+# Add stochastic noise to a list variable
+addStochList <- function(x, stoch){
+  mapply("*", x, stoch)
+  return(x)
 }

@@ -1,4 +1,4 @@
-# data('cpue')
+# cpue <- read.csv(file.choose())
 # cpue$Date <- as.POSIXct(as.character(cpue$Date), format = "%m/%d/%Y")
 # # Make year a character vector
 # cpue$year <- as.character(cpue$year)
@@ -48,15 +48,15 @@
 # arr.B <- vector(mode = 'list', length=1000)
 # for(i in 1:1000){
 # 
-# boots <- test[sample(1:nrow(test), nrow(test)-2), ]
+# boots <- test[sample(1:nrow(test), nrow(test)-30), ]
 # 
 # # Run the regression model to estimate probability of catch on a given day
 # Rmod <- glm(Rcdf ~ val,
-#            data = test,
+#            data = boots,
 #            na.action = na.exclude,
 #            family = 'quasibinomial')
 # Bmod <- glm(Bcdf ~ val,
-#            data = test,
+#            data = boots,
 #            na.action = na.exclude,
 #            family = 'quasibinomial')
 # # Collect model coefficients to use in drawing entry date for each fish
@@ -64,5 +64,5 @@
 # arr.B[[i]] <- summary(Bmod)$coefficients
 # }
 # 
-# save(arr.R, file='data/arr.R.rda')
-# save(arr.B, file='data/arr.B.rda')
+# save(arr.R, file='../data/arr.R.rda')
+# save(arr.B, file='../data/arr.B.rda')

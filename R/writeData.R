@@ -1,12 +1,8 @@
 # writeData.R
 
-# Can probably get rid of this file once
-# the package is compiled because it
-# will run only in parallel?
+writeData <- function(){
 
 # DATA WRITE --------------------------------------------------------------
-writeData <- function(){
-  
 # Post-simulation data manipulation
 if (useTictoc) {
   tic("data write")
@@ -14,11 +10,11 @@ if (useTictoc) {
 
 # Unlist and stack proportion of repeat spawners in each age for writing
 pRepeats = do.call("rbind", lapply(pRepeats, unlist))
-#colnames(pRepeats) = paste('pRepeat_', colnames(pRepeats), sep = '')
+colnames(pRepeats) = paste('pRepeat_', colnames(pRepeats), sep = '')
 
 # Unlist and stack age-structured spawning population into a useable output
 spawners = do.call("rbind", lapply(spawners, unlist))
-#colnames(spawners) = paste(colnames(spawners), 'N', sep = '_')
+colnames(spawners) = paste(colnames(spawners), 'N', sep = '_')
 
 # Rescale population size based on reduction factor at start of script
 populationSize = populationSize
@@ -117,7 +113,8 @@ sens = data.frame(
   tortuosity,
   motivation,
   daily.move,
-  ptime
+  ptime,
+  habStoch
 )
 
 # Write the inputs and outputs to a text file that can be read into R
@@ -126,5 +123,13 @@ sens = data.frame(
 if (useTictoc) {
   toc() #("data write")
 }
+
+return(list(		
+populationSize = populationSize,
+pRepeats = pRepeats,
+res	= res,
+sens = sens,
+spawners = spawners
+))		
 
 }

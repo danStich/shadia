@@ -6,7 +6,7 @@ setUpData <- function(){
 # defineFunctions() # should load automatically
 
 # Maximum age for fish in this population
-shad$maxAge <- 9
+maxAge <- 9
 
 # FISH AGE & GROWTH DATA FROM CTDEEP --------------------------------------
 # Read in the data
@@ -16,11 +16,11 @@ fish$fl[fish$fl < 10] = fish$fl[fish$fl < 10] * 10 # Transcription errors
 names(fish) = c('sex', 'age', 'fl', 'year', 'backCalculated', 'mass')
 
 # Make a dataframe of age and growth data just for females
-shad$roes <- fish[fish$sex == 'R',]
+roes <- fish[fish$sex == 'R',]
 
 # Make an dataframe of age and growth data just for males
-shad$bucks <- fish[fish$sex == 'B',]
-shad$bucks$fl[shad$bucks$fl < 10] = shad$bucks$fl[shad$bucks$fl < 10] * 10 # More transcription errors
+bucks <- fish[fish$sex == 'B',]
+bucks$fl[bucks$fl < 10] = bucks$fl[bucks$fl < 10] * 10 # More transcription errors
 
 # Correct errors in fish mass & make a separate df for l-w regression due to
 # missing fish masses
@@ -30,16 +30,16 @@ fishw$mass[fishw$mass < 500] <- fishw$mass[fishw$mass < 500] * 10
 
 # Log transform and data cleaning for l-w regressions
 # Bucks
-shad$b.l <- log(fishw$fl[fishw$sex == 'B'])
-shad$b.w <- log(fishw$mass[fishw$sex == 'B'])
-shad$buck.lw <- na.omit(data.frame(shad$b.l, shad$b.w))
-shad$buck.lw <- shad$buck.lw[is.finite(shad$buck.lw[, 2]),]
+b.l <- log(fishw$fl[fishw$sex == 'B'])
+b.w <- log(fishw$mass[fishw$sex == 'B'])
+buck.lw <- na.omit(data.frame(b.l, b.w))
+buck.lw <- buck.lw[is.finite(buck.lw[, 2]),]
 
 # Roes
-shad$r.l <- log(fishw$fl[fishw$sex == 'R'])
-shad$r.w <- log(fishw$mass[fishw$sex == 'R'])
-shad$roe.lw <- na.omit(data.frame(shad$r.l, shad$r.w))
-shad$roe.lw <- shad$roe.lw[is.finite(shad$roe.lw[, 2]),]
+r.l <- log(fishw$fl[fishw$sex == 'R'])
+r.w <- log(fishw$mass[fishw$sex == 'R'])
+roe.lw <- na.omit(data.frame(r.l, r.w))
+roe.lw <- roe.lw[is.finite(roe.lw[, 2]),]
 
 # TEMPERATURE DATA FOR PENOBSCOT RIVER ------------------------------------
 # Load the pnr temperature data
@@ -49,17 +49,17 @@ shad$roe.lw <- shad$roe.lw[is.finite(shad$roe.lw[, 2]),]
 
 # JMS: limit size of the object first,
 # then do operations on it
-shad$tempData2 <- tempData[tempData$year > 2007 & tempData$year < 2014 ,]
+tempData2 <- tempData[tempData$year > 2007 & tempData$year < 2014 ,]
 
 # Summarize the temperature by day across years
-shad$mu <- ddply(shad$tempData2,
+mu <- ddply(tempData2,
            .(day, year),
            summarize,
            val = mean(val, na.rm = TRUE))
 
 # Change the orders of the column to match original data
-shad$mu <- shad$mu[, c(3, 2, 1)]
-shad$mu <- na.omit(shad$mu)
+mu <- mu[, c(3, 2, 1)]
+mu <- na.omit(mu)
 
 # Read in temperature data for Hartford CT
 # This is now done automatically with package 
@@ -67,22 +67,45 @@ shad$mu <- na.omit(shad$mu)
 ### NEED TO RENAME THESE ###
 #data('tempD')
 # Summarize the temperature by day across years
-shad$hmu <- ddply(tempD,
+hmu <- ddply(tempD,
             .(day, year),
             summarize,
             val = mean(val, na.rm = TRUE))
 # Change the orders of the columns to match original data
-shad$hmu <- shad$hmu[, c(3, 2, 1)]
-shad$hmu <- na.omit(shad$hmu)
+hmu <- hmu[, c(3, 2, 1)]
+hmu <- na.omit(hmu)
 
 # Make a regression relating temperature in the PNR to temperature in the CTR
-shad$pnr <- shad$mu[paste(shad$mu$year, shad$mu$day) %in%
-                      paste(shad$hmu$year, shad$hmu$day),]
-shad$ctr <- shad$hmu[paste(shad$hmu$year, shad$hmu$day) %in% 
-                       paste(shad$mu$year, shad$mu$day),]
+pnr <- mu[paste(mu$year, mu$day) %in%
+                      paste(hmu$year, hmu$day),]
+ctr <- hmu[paste(hmu$year, hmu$day) %in% 
+                       paste(mu$year, mu$day),]
 # Predict temperature
-shad$calMod <- summary(lm(shad$pnr$val ~ shad$ctr$val))$coefficients
-shad$hmu$val <- shad$calMod[1, 1] + shad$calMod[2, 1] * shad$hmu$val
+calMod <- summary(lm(pnr$val ~ ctr$val))$coefficients
+hmu$val <- calMod[1, 1] + calMod[2, 1] * hmu$val
+
+return(list(
+maxAge = maxAge,
+fish = fish,
+roes = roes,
+bucks = bucks,
+b.l = b.l,
+b.w = b.w,
+buck.lw = buck.lw,
+buck.lw = buck.lw,
+r.l = r.l,
+r.w = r.w,
+roe.lw = roe.lw,
+roe.lw = roe.lw,
+tempData2 = tempData2,
+mu = mu,
+pnr = pnr,
+ctr = ctr,
+calMod = calMod,
+hmu = hmu
+))
+
+}
 
 # RELATE ARRIVAL DATE TO TEMPERATURE WITH GLM BASED ON HARVEST ------------
 # Read in the cpue data and do manipulation
@@ -99,7 +122,7 @@ shad$hmu$val <- shad$calMod[1, 1] + shad$calMod[2, 1] * shad$hmu$val
 # cpue$Bcpue <- cpue$Bcount / cpue$nFishers
 # 
 # # Calculate total catch by date
-# ldat <<- vector(mode = 'list', length = length(unique(cpue$year)))
+# ldat <- vector(mode = 'list', length = length(unique(cpue$year)))
 # for (i in 1:length(unique(cpue$year))) {
 #   dat = cpue[cpue$year == unique(cpue$year)[i],]
 #   for (t in 1:nrow(dat)) {
@@ -122,25 +145,24 @@ shad$hmu$val <- shad$calMod[1, 1] + shad$calMod[2, 1] * shad$hmu$val
 # # Add a column for year to the catch data
 # cpue$year <- year(cpue$Date)
 # # Now add temperature to cpue data
-# test <<- merge(cpue, mu, by = c('year', 'day'), all.x = TRUE)
+# test <- merge(cpue, mu, by = c('year', 'day'), all.x = TRUE)
 # # Create new sequence of days for predictions
-# newDay <<- seq(0, 30, 1)
+# newDay <- seq(0, 30, 1)
 # 
 # # Model probability of catch each day
 # # moved to defineFunctions.R
 # # JMS
 # 
 # # Run the regression model to estimate probability of catch on a given day
-# Rmod <<- glm(Rcdf ~ val,
+# Rmod <- glm(Rcdf ~ val,
 #            data = test,
 #            na.action = na.exclude,
 #            family = 'quasibinomial')
-# Bmod <<- glm(Bcdf ~ val,
+# Bmod <- glm(Bcdf ~ val,
 #            data = test,
 #            na.action = na.exclude,
 #            family = 'quasibinomial')
 # # Collect model coefficients to use in drawing entry date for each fish
-# res.R <<- summary(Rmod)$coefficients
-# res.B <<- summary(Bmod)$coefficients
+# res.R <- summary(Rmod)$coefficients
+# res.B <- summary(Bmod)$coefficients
 
-}
