@@ -7,11 +7,11 @@ useTictoc <- FALSE
 useProgress <- FALSE
 
 # Package install and load
-library(plyr)
-library(MASS)
-library(Rcpp)
-library(zoo)
-library(methods)
+# library(plyr)
+# library(MASS)
+# library(Rcpp)
+# library(zoo)
+# library(methods)
 
 # For profiling and benchmarking
 if (useTictoc) {

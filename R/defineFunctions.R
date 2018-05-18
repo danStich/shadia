@@ -1,9 +1,5 @@
 # Define R functions ------------------
 
-# Source some basic R functions
-#source('datasets/growth.R')                       # von Bert function
-#source('datasets/daylength.R')                    # Calculate photoperiod
-
 # Function definitions
 
 # createPUMatrix()
@@ -155,86 +151,86 @@ assignFishToRoutes <- function(puNum, PUS) {
 
 # writeSimData()
 # JMS
-writeSimData <- function(filename) {
-  # Write the inputs and outputs to a text file that can be read into R
-  if (!file.exists(paste(
-    filename,
-    'Sims',
-    format(Sys.time(), '%m%d%Y%H%M%S'),
-    '.txt',
-    sep = ''
-  ))) {
-    write.table(
-      res,
-      paste(
-        filename,
-        'Sims',
-        format(Sys.time(), '%m%d%Y%H%M%S'),
-        '.txt',
-        sep = ''
-      ),
-      sep = ',',
-      row.names = FALSE,
-      quote = FALSE,
-      append = FALSE
-    )
-  } else {
-    Sys.sleep(runif(1, 1, 3))
-    write.table(
-      res,
-      #paste('dat/pnrSims', format(Sys.time(), '%m%d%Y%H%M%S'),
-      paste(filename, 'Sims', format(Sys.time(), '%m%d%Y%H%M%S'),
-            sep = ''),
-      sep = ',',
-      row.names = FALSE,
-      quote = FALSE
-    )
-  }
-}
-
-# writeSenData()
-# JMS
-writeSenData <- function(filename) {
-  # Write the sensitivity analysis to a file
-  if (!file.exists(paste(
-    filename,
-    'Sen',
-    format(Sys.time(), '%m%d%Y%H%M%S'),
-    '.txt',
-    sep = ''
-  ))) {
-    write.table(
-      sens,
-      paste(
-        filename,
-        'Sen',
-        format(Sys.time(), '%m%d%Y%H%M%S'),
-        '.txt',
-        sep = ''
-      ),
-      sep = ',',
-      row.names = FALSE,
-      quote = FALSE,
-      append = FALSE
-    )
-  } else {
-    Sys.sleep(runif(1, 1, 3))
-    write.table(
-      sens,
-      paste(filename, 'Sen', format(Sys.time(), '%m%d%Y%H%M%S'),
-            sep = ''),
-      sep = ',',
-      row.names = FALSE,
-      quote = FALSE
-    )
-  }
-}
+# writeSimData <- function(filename) {
+#   # Write the inputs and outputs to a text file that can be read into R
+#   if (!file.exists(paste(
+#     filename,
+#     'Sims',
+#     format(Sys.time(), '%m%d%Y%H%M%S'),
+#     '.txt',
+#     sep = ''
+#   ))) {
+#     write.table(
+#       res,
+#       paste(
+#         filename,
+#         'Sims',
+#         format(Sys.time(), '%m%d%Y%H%M%S'),
+#         '.txt',
+#         sep = ''
+#       ),
+#       sep = ',',
+#       row.names = FALSE,
+#       quote = FALSE,
+#       append = FALSE
+#     )
+#   } else {
+#     Sys.sleep(runif(1, 1, 3))
+#     write.table(
+#       res,
+#       #paste('dat/pnrSims', format(Sys.time(), '%m%d%Y%H%M%S'),
+#       paste(filename, 'Sims', format(Sys.time(), '%m%d%Y%H%M%S'),
+#             sep = ''),
+#       sep = ',',
+#       row.names = FALSE,
+#       quote = FALSE
+#     )
+#   }
+# }
+# 
+# # writeSenData()
+# # JMS
+# writeSenData <- function(filename) {
+#   # Write the sensitivity analysis to a file
+#   if (!file.exists(paste(
+#     filename,
+#     'Sen',
+#     format(Sys.time(), '%m%d%Y%H%M%S'),
+#     '.txt',
+#     sep = ''
+#   ))) {
+#     write.table(
+#       sens,
+#       paste(
+#         filename,
+#         'Sen',
+#         format(Sys.time(), '%m%d%Y%H%M%S'),
+#         '.txt',
+#         sep = ''
+#       ),
+#       sep = ',',
+#       row.names = FALSE,
+#       quote = FALSE,
+#       append = FALSE
+#     )
+#   } else {
+#     Sys.sleep(runif(1, 1, 3))
+#     write.table(
+#       sens,
+#       paste(filename, 'Sen', format(Sys.time(), '%m%d%Y%H%M%S'),
+#             sep = ''),
+#       sep = ',',
+#       row.names = FALSE,
+#       quote = FALSE
+#     )
+#   }
+# }
 
 # writeData()
-writeData <- function(filename) {
-  writeSimData(filename)
-  writeSenData(filename)
-}
+# writeData <- function(filename) {
+#   writeSimData(filename)
+#   writeSenData(filename)
+# }
 
 # CI()
 # Get confidence intervals
@@ -242,24 +238,24 @@ CI = function(x) {
   quantile(x, probs = c(0.025, 0.975))
 }
 
-# tz()
-# Functions from lubridate
-tz = function (x) {
-  if (is.null(attr(x, "tzone")) && !is.POSIXt(x))
-    return("UTC")
-  tzs <- attr(as.POSIXlt(x), "tzone")
-  tzs[1]
-}
-
-# yday()
-yday = function (x) {
-  as.POSIXlt(x, tz = tz(x))$yday + 1
-}
-
-# year()
-year = function (x) {
-  as.POSIXlt(x, tz = tz(x))$year + 1900
-}
+# # tz()
+# # Functions from lubridate
+# tz = function (x) {
+#   if (is.null(attr(x, "tzone")) && !is.POSIXt(x))
+#     return("UTC")
+#   tzs <- attr(as.POSIXlt(x), "tzone")
+#   tzs[1]
+# }
+# 
+# # yday()
+# yday = function (x) {
+#   as.POSIXlt(x, tz = tz(x))$yday + 1
+# }
+# 
+# # year()
+# year = function (x) {
+#   as.POSIXlt(x, tz = tz(x))$year + 1900
+# }
 
 # substrRight()
 # Collect chars from the right side of a text string

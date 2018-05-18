@@ -125,11 +125,11 @@ if (useTictoc) {
 }
 
 return(list(		
-populationSize = populationSize,
-pRepeats = pRepeats,
+# populationSize = populationSize,
+# pRepeats = pRepeats,
 res	= res,
-sens = sens,
-spawners = spawners
+sens = sens
+# spawners = spawners
 ))		
 
 }

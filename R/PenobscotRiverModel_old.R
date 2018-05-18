@@ -5,7 +5,7 @@ penobscotRiverModel <- function(nRuns=1,
                                 nYears=50,
                                 timing=1,
                                 upstream=list(
-                                  milford = c(0,5),
+                                  milford = 1,
                                   howland = 1,
                                   westEnfield = 1,
                                   brownsMill = 1,
@@ -24,6 +24,13 @@ penobscotRiverModel <- function(nRuns=1,
                                   guilford = 1,
                                   weldon = 1
                                 ),
+                                pinHarvest = 0,
+                                inRiverF = 0,
+                                commercialF = 0,
+                                bycatchF = 0,
+                                indirect = 1,
+                                latent = 1,
+                                jReduction = 1,
                                 watershed = TRUE
                                 ){
   
@@ -31,6 +38,14 @@ penobscotRiverModel <- function(nRuns=1,
   nRuns <<- nRuns
   nYears <<- nYears
   timing <<- timing
+  
+  pinHarvest <<- pinHarvest
+  inRiverF <<- inRiverF
+  commercialF <<- commercialF
+  bycatchF <<- bycatchF
+  indirect <<- indirect
+  latent <<- latent
+  jReduction <<- jReduction
   
   pDraws <- upstream
   dDraws <- downstream
@@ -222,7 +237,7 @@ penobscotRiverModel <- function(nRuns=1,
 
 # JMS: Data writes generalized and moved to functions. See defineFunctions.R
 # Prepare objects for write
-#writeData()
+  list2env(writeData(), envir = .GlobalEnv)
 
 # TIMING RESULTS FOR SIMULATION BENCHMARKING ------------------------------
 # This section uses the timing prompts from earlier in the script to calculate

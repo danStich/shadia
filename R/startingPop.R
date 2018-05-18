@@ -17,11 +17,12 @@ startingPop <- function(){
 # Original number of individuals (calculated from ocean survival) per age
 for (i in 2:maxAge) {
 assign(paste('Age', i, sep = ''),
-       Age1 * (cumprod(oceanSurvival[2:i - 1]))[i - 1])
+       Age1 * (cumprod(oceanSurvival[2:i - 1]))[i - 1],
+       envir = .GlobalEnv)
 }
   
 # Collect age classes in a vector
-pop = mget(ls(pat = "^Age"))
+pop = mget(ls(pat = "^Age", envir = .GlobalEnv), envir = .GlobalEnv)
 
 # Define probability of recruitment to spawn- based on proportion of spawners
 # in each age class (Bailey and Zydlewski 2013)
@@ -35,7 +36,7 @@ spawningPool = unlist(pop) * spawnRecruit
 recruitmentPool = unlist(pop) - unlist(pop) * spawnRecruit
 
 return(list(
-pop = pop,
+pop = unlist(pop),
 spawnRecruit = spawnRecruit,
 pRepeat = pRepeat,
 spawningPool = spawningPool,

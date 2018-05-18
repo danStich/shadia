@@ -28,10 +28,10 @@ d = as.vector(mapply(sample, dDraws, 1))
 #d = rep(1, 9) # Uncomment for perfect passage
 
 # Define indirect mortality in freshwater resulting from dam passage
-indirect = 1#sample(c(0.90, 0.95, 0.99, 1.00), 1, replace = TRUE)
+#indirect = 1#sample(c(0.90, 0.95, 0.99, 1.00), 1, replace = TRUE)
 
 # Define latent mortality in estuary from dam passage.
-latent = 1#sample(c(0.90, 0.95, 0.99, 1.00), 1, replace = TRUE)
+#latent = 1#sample(c(0.90, 0.95, 0.99, 1.00), 1, replace = TRUE)
 
 # Survival reduction due to delay in project head ponds
 delay = 1#rbeta(1, 4e3, 10)
@@ -40,7 +40,7 @@ ildProduct <- indirect * latent * delay
 
 # ---
 
-jReduction = 1#sample(c(.50,.60,.70,.80,.90,1.00), 1, replace =TRUE)
+#jReduction = 1#sample(c(.50,.60,.70,.80,.90,1.00), 1, replace =TRUE)
 
 # ---
 
@@ -75,10 +75,10 @@ pPiscUp = rbeta(1, 25, 75) # During upstream passage
 # stock assessment). ALTERNATIVE: Could use age-variant M
 downstreamS   = 1#rep(rbeta(1, 1e4, 10))     # Survival per km
 oceanSurvival = rep(rbeta(1, 12, 8), maxAge) # Ocean survival rate
-pinHarvest = 0#sample(c(0, .05, .10), 1, replace=TRUE)
-inRiverF = pinHarvest                        # Recreational MORTALITY RATE
-commercialF = rep(0, maxAge)                 # Commercial MORTALITY RATE
-bycatchF = rep(0, maxAge)                    # Bycatch MORTALITY RATE
+pinHarvest = pinHarvest#sample(c(0, .05, .10), 1, replace=TRUE)
+inRiverF = inRiverF                        # Recreational MORTALITY RATE
+commercialF = rep(commercialF, maxAge)                # Commercial MORTALITY RATE
+bycatchF = rep(bycatchF, maxAge)                    # Bycatch MORTALITY RATE
 
 # ---
 

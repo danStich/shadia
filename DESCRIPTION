@@ -1,7 +1,7 @@
 Package: pnrShad
-Type: Package
-Title: Source files and data for Penobscot River American shad model
+Title: Penobscot River American shad model
 Version: 0.1.0
+Date: 2018-05-18
 Author: Dan Stich
 Maintainer: Dan Stich <daniel.stich@oneonta.edu>
 Description: This package includes source code and data
@@ -10,4 +10,13 @@ Description: This package includes source code and data
 License: GNU >= 3.0
 Encoding: UTF-8
 LazyData: true
-LinkingTo: Rcpp, plyr
+LinkingTo: Rcpp, plyr, zoo, MASS, methods
+Depends:
+  Rcpp,
+  plyr,
+  zoo,
+  MASS,
+  methods,
+  fishmethods,
+  geosphere,
+  lubridate
