@@ -1,8 +1,93 @@
 # penobscotRiverModel()
 # optimizations Dec 2017
+#' Penobscot River Model
+#' 
 #' Runs American shad dam passage performance
 #' standard model for Penobscot River, Maine,
 #' USA
+#' 
+#' @return Returns a dataframe of user-defined
+#' inputs and model outputs for each use that 
+#' contains `nRuns` x `nYears` number of rows. 
+#' 
+#' If run in parallel, returns a list
+#' of dataframes.
+#' 
+#' @param nRuns The number of times that the
+#' model will be run.
+#' 
+#' @param nYears The number of years for which
+#' each run will last. The default is 50 years
+#' to match hydropower license duration in the
+#' Penobscot River.
+#' 
+#' @param timing The amount of time required for
+#' upstream passage by individual fish (in days), 
+#' where the default (1) indicates a 24-h dam
+#' passage performance standard.
+#' 
+#' @param upstream A named list of upstream dam
+#' passage efficiencies at each dam in the 
+#' Penobscot River. Stillwater and Orono dams are
+#' not included in the list of values because all
+#' fish reaching Orono Dam are trucked upstream.
+#' 
+#' Users may specify a single value of upstream
+#' passage at each dam, or a vector of upstream
+#' passage efficiencies at each dam. Note that
+#' passage efficiences passed as vectors are 
+#' randomly sampled during each model run 
+#' (not each year). Therefore, multiple model runs
+#' are necessary if more than one passage efficiency
+#' is supplied for any dam.
+#' 
+#' @param downstream A named list of downstream
+#' dam passage efficiencies at each dam in the 
+#' Penobscot River (including Orono and Stillwater
+#' dams). 
+#' 
+#' Users may specify a single value of downstream
+#' passage at each dam, or a vector of downstream
+#' passage efficiencies at each dam. Note that
+#' passage efficiences passed as vectors are 
+#' randomly sampled during each model run 
+#' (not each year). Therefore, multiple model runs
+#' are necessary if more than one passage efficiency
+#' is supplied for any dam.
+#' 
+#' @param pinHarvest In-river, sustenance harvest
+#' by Penobscot Indian Nation (PIN) upstream of Weldon 
+#' Dam. Parameterized as an annual rate [0, 1].
+#' 
+#' @param inRiverF Annual, recreational harvest of 
+#' American shad downstream of Weldon Dam. 
+#' Parameterized as an annual rate [0, 1].
+#'
+#' @param commercialF Commercial fishery mortality
+#' for American shad in marine environment incurred 
+#' through targeted fisheries. Parameterized as an 
+#' annual rate [0, 1].
+#'
+#' @param bycatchF Marine bycatch mortality of
+#' American shad in non-target fisheries. 
+#' Parameterized as an annual rate [0, 1].
+#' 
+#' @param indirect Indirect mortality incurred during
+#' freshwater migration as a result of dam-related
+#' impacts (e.g., injury, predation, etc.).
+#' 
+#' @param latent Latent mortality incurred during estuary
+#' passage as a result of dam-related impacts (e.g., injury,
+#' delay, etc.).
+#' 
+#' @param watershed A logical indicating whether or not
+#' to use the same dam passage efficiencies at all dams
+#' for upstream and downstream. If watershed = TRUE, then
+#' the first element in lists `upstream` and `downstream`
+#' are recycled for all subsequent dams.
+#'  
+#'
+#' @export
 penobscotRiverModel <- function(nRuns=1,
                                 nYears=50,
                                 timing=1,
@@ -32,7 +117,6 @@ penobscotRiverModel <- function(nRuns=1,
                                 bycatchF = 0,
                                 indirect = 1,
                                 latent = 1,
-                                jReduction = 1,
                                 watershed = TRUE
                                 ){
   
@@ -47,7 +131,7 @@ penobscotRiverModel <- function(nRuns=1,
   bycatchF <<- bycatchF
   indirect <<- indirect
   latent <<- latent
-  jReduction <<- jReduction
+  jReduction <<- 1
   
   pDraws <- upstream
   dDraws <- downstream
@@ -60,7 +144,7 @@ penobscotRiverModel <- function(nRuns=1,
          how = "replace")
   
   dDraws <<- rapply(dDraws,
-         function(x) ifelse(watershed==TRUE, upstream[[1]], x),
+         function(x) ifelse(watershed==TRUE, downstream[[1]], x),
          how = "replace")
   
   # if(watershed){
@@ -239,20 +323,21 @@ penobscotRiverModel <- function(nRuns=1,
 
 # JMS: Data writes generalized and moved to functions. See defineFunctions.R
 # Prepare objects for write
-  list2env(writeData(), envir = .GlobalEnv)
-
+  #list2env(writeData(), envir = .GlobalEnv)
+  writeData()
+  
 # TIMING RESULTS FOR SIMULATION BENCHMARKING ------------------------------
 # This section uses the timing prompts from earlier in the script to calculate
 # the total run time for the simulation.
-if (useTictoc) toc() #"total"
-
-simTime <- proc.time() - ptmSim
-print(' ')
-#print('timeABM')
-#print.proc_time(timeABM)
-#print('timeDelay')
-#print.proc_time(timeDelay)
-print('simTime')
-print.proc_time(simTime)
+# if (useTictoc) toc() #"total"
+# 
+# simTime <- proc.time() - ptmSim
+# print(' ')
+# #print('timeABM')
+# #print.proc_time(timeABM)
+# #print('timeDelay')
+# #print.proc_time(timeDelay)
+# print('simTime')
+# print.proc_time(simTime)
 
 }

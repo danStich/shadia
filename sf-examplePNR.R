@@ -7,7 +7,7 @@
   library(snowfall)
   library(rlecuyer)
   library(plyr)
-  library(pnrShad)
+  library(shadia)
 
 # 1. Initialization of snowfall.
 # ------------------------------------------------------------------------
@@ -51,20 +51,20 @@ wrapper <- function(idx) {
   workerId <- paste(Sys.info()[['nodename']], Sys.getpid(), sep='-');
 
 # Run the model
-  penobscotRiverModel(nYears = 50)
+  res1 <- penobscotRiverModel(nYears = 10)
   
 # Define the output lists
     retlist <- list(
       worker=workerId,  # Worker id for now
-      res=res,          # Results df
-      sen=sens);        # Sensitivity df
+      res=res1$res,          # Results df
+      sen=res1$sens);        # Sensitivity df
     
     return(retlist);
 }
 
 # 4. Export needed data to workers; load required packages on workers.
 # ------------------------------------------------------------------------
-sfLibrary(pnrShad);
+sfLibrary(shadia);
 
 # 5. Start network random number generator (as "sample" uses random numbers).
 # ------------------------------------------------------------------------

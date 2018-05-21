@@ -1,3 +1,4 @@
+# Creation of carrying capacity in production units (PU)
 defineHabitat <- function(){
 
 habitat = vector(mode = 'list', length = nRoutes)
