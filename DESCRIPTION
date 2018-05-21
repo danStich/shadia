@@ -1,22 +1,22 @@
-Package: pnrShad
-Title: Penobscot River American shad model
+Package: shadia
+Title: American shad dam passage performance model
 Version: 0.1.0
 Date: 2018-05-18
 Author: Dan Stich
 Maintainer: Dan Stich <daniel.stich@oneonta.edu>
 Description: This package includes source code and data
-    files for parallel execution of the Penobscot River 
-    American shad dam passage performance standards model.
+    files for parallel execution of the American shad
+    dam passage performance standards model. Currently,
+    the only model implemented is for the Penobscot River,
+    Maine, USA.
 License: GNU >= 3.0
 Encoding: UTF-8
 LazyData: true
-LinkingTo: Rcpp, plyr, zoo, MASS, methods
-Depends:
-  Rcpp,
-  plyr,
-  zoo,
-  MASS,
-  methods,
-  fishmethods,
-  geosphere,
+Imports: 
+  plyr, 
+  zoo, 
+  MASS, 
+  methods, 
+  fishmethods, 
+  geosphere, 
   lubridate

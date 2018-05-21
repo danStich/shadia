@@ -1,6 +1,8 @@
 # penobscotRiverModel()
 # optimizations Dec 2017
-
+#' Runs American shad dam passage performance
+#' standard model for Penobscot River, Maine,
+#' USA
 penobscotRiverModel <- function(nRuns=1,
                                 nYears=50,
                                 timing=1,

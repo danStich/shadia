@@ -3,5 +3,7 @@ exportPattern("^[[:alpha:]]+")
 importFrom("graphics", "abline", "lines", "par", "plot")
 importFrom("stats", "aggregate", "nls", "quantile", "runif", "var")
 importFrom("utils", "write.table")
+importFrom("geoshpere", "daylength")
+importFrom("lubridate", "year", "yday")
 
 useDynLib(pnrShad)
