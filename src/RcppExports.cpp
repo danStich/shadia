@@ -7,7 +7,7 @@ using namespace Rcpp;
 
 // rleC
 List rleC(NumericVector x);
-RcppExport SEXP _pnrShad_rleC(SEXP xSEXP) {
+RcppExport SEXP _shadia_rleC(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -18,7 +18,7 @@ END_RCPP
 }
 // delayC
 Rcpp::NumericMatrix delayC(NumericMatrix x, NumericVector damRkms);
-RcppExport SEXP _pnrShad_delayC(SEXP xSEXP, SEXP damRkmsSEXP) {
+RcppExport SEXP _shadia_delayC(SEXP xSEXP, SEXP damRkmsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -30,7 +30,7 @@ END_RCPP
 }
 // entryC
 NumericMatrix entryC(NumericVector entry_prob, NumericMatrix entryDate, int x);
-RcppExport SEXP _pnrShad_entryC(SEXP entry_probSEXP, SEXP entryDateSEXP, SEXP xSEXP) {
+RcppExport SEXP _shadia_entryC(SEXP entry_probSEXP, SEXP entryDateSEXP, SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -43,7 +43,7 @@ END_RCPP
 }
 // motivationPenaltyC
 NumericMatrix motivationPenaltyC(NumericVector eFFs, NumericVector newTU, NumericMatrix ppPenalty);
-RcppExport SEXP _pnrShad_motivationPenaltyC(SEXP eFFsSEXP, SEXP newTUSEXP, SEXP ppPenaltySEXP) {
+RcppExport SEXP _shadia_motivationPenaltyC(SEXP eFFsSEXP, SEXP newTUSEXP, SEXP ppPenaltySEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -56,7 +56,7 @@ END_RCPP
 }
 // moveC
 NumericVector moveC(NumericVector day, NumericVector entryDate, IntegerVector dailyMove, NumericVector maxR, NumericMatrix eFFs, NumericVector rkm1, NumericMatrix rkm2, NumericVector spawnDate);
-RcppExport SEXP _pnrShad_moveC(SEXP daySEXP, SEXP entryDateSEXP, SEXP dailyMoveSEXP, SEXP maxRSEXP, SEXP eFFsSEXP, SEXP rkm1SEXP, SEXP rkm2SEXP, SEXP spawnDateSEXP) {
+RcppExport SEXP _shadia_moveC(SEXP daySEXP, SEXP entryDateSEXP, SEXP dailyMoveSEXP, SEXP maxRSEXP, SEXP eFFsSEXP, SEXP rkm1SEXP, SEXP rkm2SEXP, SEXP spawnDateSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -74,7 +74,7 @@ END_RCPP
 }
 // maxrkmC
 NumericVector maxrkmC(CharacterVector fishAges, NumericVector maxrkm, NumericVector upstream_path, NumericVector routes);
-RcppExport SEXP _pnrShad_maxrkmC(SEXP fishAgesSEXP, SEXP maxrkmSEXP, SEXP upstream_pathSEXP, SEXP routesSEXP) {
+RcppExport SEXP _shadia_maxrkmC(SEXP fishAgesSEXP, SEXP maxrkmSEXP, SEXP upstream_pathSEXP, SEXP routesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -88,7 +88,7 @@ END_RCPP
 }
 // fishPU
 CharacterVector fishPU(NumericVector puRkm, NumericVector finalRKM, CharacterVector puNames);
-RcppExport SEXP _pnrShad_fishPU(SEXP puRkmSEXP, SEXP finalRKMSEXP, SEXP puNamesSEXP) {
+RcppExport SEXP _shadia_fishPU(SEXP puRkmSEXP, SEXP finalRKMSEXP, SEXP puNamesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -101,7 +101,7 @@ END_RCPP
 }
 // spawnDateC
 NumericVector spawnDateC(NumericMatrix predTemps, NumericVector spawnTemp, NumericVector entryDate);
-RcppExport SEXP _pnrShad_spawnDateC(SEXP predTempsSEXP, SEXP spawnTempSEXP, SEXP entryDateSEXP) {
+RcppExport SEXP _shadia_spawnDateC(SEXP predTempsSEXP, SEXP spawnTempSEXP, SEXP entryDateSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -114,7 +114,7 @@ END_RCPP
 }
 // upstreamPathC
 NumericVector upstreamPathC(NumericMatrix x);
-RcppExport SEXP _pnrShad_upstreamPathC(SEXP xSEXP) {
+RcppExport SEXP _shadia_upstreamPathC(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -125,19 +125,19 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_pnrShad_rleC", (DL_FUNC) &_pnrShad_rleC, 1},
-    {"_pnrShad_delayC", (DL_FUNC) &_pnrShad_delayC, 2},
-    {"_pnrShad_entryC", (DL_FUNC) &_pnrShad_entryC, 3},
-    {"_pnrShad_motivationPenaltyC", (DL_FUNC) &_pnrShad_motivationPenaltyC, 3},
-    {"_pnrShad_moveC", (DL_FUNC) &_pnrShad_moveC, 8},
-    {"_pnrShad_maxrkmC", (DL_FUNC) &_pnrShad_maxrkmC, 4},
-    {"_pnrShad_fishPU", (DL_FUNC) &_pnrShad_fishPU, 3},
-    {"_pnrShad_spawnDateC", (DL_FUNC) &_pnrShad_spawnDateC, 3},
-    {"_pnrShad_upstreamPathC", (DL_FUNC) &_pnrShad_upstreamPathC, 1},
+    {"_shadia_rleC", (DL_FUNC) &_shadia_rleC, 1},
+    {"_shadia_delayC", (DL_FUNC) &_shadia_delayC, 2},
+    {"_shadia_entryC", (DL_FUNC) &_shadia_entryC, 3},
+    {"_shadia_motivationPenaltyC", (DL_FUNC) &_shadia_motivationPenaltyC, 3},
+    {"_shadia_moveC", (DL_FUNC) &_shadia_moveC, 8},
+    {"_shadia_maxrkmC", (DL_FUNC) &_shadia_maxrkmC, 4},
+    {"_shadia_fishPU", (DL_FUNC) &_shadia_fishPU, 3},
+    {"_shadia_spawnDateC", (DL_FUNC) &_shadia_spawnDateC, 3},
+    {"_shadia_upstreamPathC", (DL_FUNC) &_shadia_upstreamPathC, 1},
     {NULL, NULL, 0}
 };
 
-RcppExport void R_init_pnrShad(DllInfo *dll) {
+RcppExport void R_init_shadia(DllInfo *dll) {
     R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
     R_useDynamicSymbols(dll, FALSE);
 }

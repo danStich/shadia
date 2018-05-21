@@ -2,38 +2,38 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 rleC <- function(x) {
-    .Call('_pnrShad_rleC', PACKAGE = 'pnrShad', x)
+    .Call('_shadia_rleC', PACKAGE = 'shadia', x)
 }
 
 delayC <- function(x, damRkms) {
-    .Call('_pnrShad_delayC', PACKAGE = 'pnrShad', x, damRkms)
+    .Call('_shadia_delayC', PACKAGE = 'shadia', x, damRkms)
 }
 
 entryC <- function(entry_prob, entryDate, x) {
-    .Call('_pnrShad_entryC', PACKAGE = 'pnrShad', entry_prob, entryDate, x)
+    .Call('_shadia_entryC', PACKAGE = 'shadia', entry_prob, entryDate, x)
 }
 
 motivationPenaltyC <- function(eFFs, newTU, ppPenalty) {
-    .Call('_pnrShad_motivationPenaltyC', PACKAGE = 'pnrShad', eFFs, newTU, ppPenalty)
+    .Call('_shadia_motivationPenaltyC', PACKAGE = 'shadia', eFFs, newTU, ppPenalty)
 }
 
 moveC <- function(day, entryDate, dailyMove, maxR, eFFs, rkm1, rkm2, spawnDate) {
-    .Call('_pnrShad_moveC', PACKAGE = 'pnrShad', day, entryDate, dailyMove, maxR, eFFs, rkm1, rkm2, spawnDate)
+    .Call('_shadia_moveC', PACKAGE = 'shadia', day, entryDate, dailyMove, maxR, eFFs, rkm1, rkm2, spawnDate)
 }
 
 maxrkmC <- function(fishAges, maxrkm, upstream_path, routes) {
-    .Call('_pnrShad_maxrkmC', PACKAGE = 'pnrShad', fishAges, maxrkm, upstream_path, routes)
+    .Call('_shadia_maxrkmC', PACKAGE = 'shadia', fishAges, maxrkm, upstream_path, routes)
 }
 
 fishPU <- function(puRkm, finalRKM, puNames) {
-    .Call('_pnrShad_fishPU', PACKAGE = 'pnrShad', puRkm, finalRKM, puNames)
+    .Call('_shadia_fishPU', PACKAGE = 'shadia', puRkm, finalRKM, puNames)
 }
 
 spawnDateC <- function(predTemps, spawnTemp, entryDate) {
-    .Call('_pnrShad_spawnDateC', PACKAGE = 'pnrShad', predTemps, spawnTemp, entryDate)
+    .Call('_shadia_spawnDateC', PACKAGE = 'shadia', predTemps, spawnTemp, entryDate)
 }
 
 upstreamPathC <- function(x) {
-    .Call('_pnrShad_upstreamPathC', PACKAGE = 'pnrShad', x)
+    .Call('_shadia_upstreamPathC', PACKAGE = 'shadia', x)
 }
 

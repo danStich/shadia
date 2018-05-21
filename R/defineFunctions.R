@@ -148,7 +148,6 @@ assignFishToRoutes <- function(puNum, PUS) {
   return(fishPU)      
 }   
 
-
 # writeSimData()
 # JMS
 # writeSimData <- function(filename) {
