@@ -238,24 +238,6 @@ CI = function(x) {
   quantile(x, probs = c(0.025, 0.975))
 }
 
-# # tz()
-# # Functions from lubridate
-# tz = function (x) {
-#   if (is.null(attr(x, "tzone")) && !is.POSIXt(x))
-#     return("UTC")
-#   tzs <- attr(as.POSIXlt(x), "tzone")
-#   tzs[1]
-# }
-# 
-# # yday()
-# yday = function (x) {
-#   as.POSIXlt(x, tz = tz(x))$yday + 1
-# }
-# 
-# # year()
-# year = function (x) {
-#   as.POSIXlt(x, tz = tz(x))$year + 1900
-# }
 
 # substrRight()
 # Collect chars from the right side of a text string
