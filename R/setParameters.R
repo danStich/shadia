@@ -1,5 +1,16 @@
-# setParameters.R
-
+#' @title Set test parameters and environment variables
+#' 
+#' @description Internal function for setting testing parameters
+#' and environment variables. 
+#' 
+#' Not intended to be called directly, but visible 
+#' for transparency.
+#' 
+#' @return A list of generic parameters for code benchmarking
+#' and progress monitoring.
+#' 
+#' @export
+#' 
 setParameters <- function(){
 
 # control progress indicators and timing

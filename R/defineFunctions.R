@@ -2,11 +2,18 @@
 
 # Function definitions
 
-# createPUMatrix()
-# generalize creation of the PU_n data structure for different PUs, fish sexes
-# return PUS for the PU n
-# inputs: isFemale (0/1); pu n (1..4); isEgg (default FALSE)
-# dynamically determine spawnProb (sp_n for PU n); fishCount (x_n for PU n) 
+#' @title Create production unit matrix
+#' 
+#' @description Internal function to generalize creation of 
+#' the PU_n data structure for different PUs and fish sexes.
+#' Not intended to be called directly, but visible 
+#' for model transparency.
+#' 
+#' @return Matrix of fish numbers by ages in each PU following
+#' execution of the upstream migration model in source code.
+#' 
+#' @export
+#' 
 # JMS Dec 2017    
 createPUMatrix <- function(isFemale, pu, isEgg=FALSE){ 
   
@@ -45,9 +52,22 @@ createPUMatrix <- function(isFemale, pu, isEgg=FALSE){
   return(PUS)
 }                    
 
-# additionalEggsProcessing()
-# additional processing performed for all egg calculations
-# pulled into function, JMS Dec 2017
+
+#' @title Processing for egg calculations
+#' 
+#' @description Internal function used to sum number of eggs in each 
+#' production unit from each of the four migration
+#' routes, and apply carrying capacity based on k_pus. In addition
+#' to cohort processing routines (hence the name). Not
+#' intended to be called directly. Visible for the sake of
+#' model transparency.
+#' 
+#' @return List of number of eggs spawned in each production unit
+#' by simulated females, or the carrying capacity: whichever
+#' is smaller.
+#' 
+#' @export
+#' 
 additionalEggsProcessing <- function(fec) {
   
   # Calculate total number of eggs in each PU
@@ -85,47 +105,70 @@ additionalEggsProcessing <- function(fec) {
   #toc()
 }  
 
-# processPopulation()
+#' @title Process population
+#' 
+#' @description A function that uses \code{\link{createPUMatrix}},
+#' \code{\link{assignFishToRoutes}}, and 
+#' \code{\link{additionalEggsProcessing}} to return the 
+#' number of fish in each cohort in each PU prior to 
+#' application of annual mortality rates and downstream
+#' migration. Not intended to be called directly.
+#'  Visible for the sake of model transparency.
+#'  
 # JMS Dec 2017
 processPopulation <- function(isFemale, isEgg = FALSE) {
-  # uses generalized function for creating PU matrix of males, females, or eggs
+  environment(createPUMatrix) <- .shadia
+  environment(assignFishToRoutes) <- .shadia
+  environment(additionalEggsProcessing) <- .shadia
+  
+  # uses generalized function for creating PU matrix
+  # of males, females, or eggs
   PUS_1 <-  createPUMatrix(isFemale, 1, isEgg)
   PUS_2 <-  createPUMatrix(isFemale, 2, isEgg)
   PUS_3 <-  createPUMatrix(isFemale, 3, isEgg)
   PUS_4 <-  createPUMatrix(isFemale, 4, isEgg)
   
-  # Collect age-structured male, female, or egg population in each PU
-  # Pre-allocate a list to hold the info
-  population = vector(mode = 'list', length = nRoutes)
-  population[[1]] = vector(mode = 'list', length = (nPU[[1]])) # main-to-pisc
-  population[[2]] = vector(mode = 'list', length = (nPU[[2]])) # main-to-main
-  population[[3]] = vector(mode = 'list', length = (nPU[[3]])) # still-to-pisc
-  population[[4]] = vector(mode = 'list', length = (nPU[[4]])) # still-to-main
+  # Collect age-structured male, female, or egg population
+  # in each PU.
   
-  # Assign the fish or eggs
-  population[[1]] <- assignFishToRoutes(1, PUS_1)
-  population[[2]] <- assignFishToRoutes(2, PUS_2)
-  population[[3]] <- assignFishToRoutes(3, PUS_3)
-  population[[4]] <- assignFishToRoutes(4, PUS_4)
-  
-  # Remove NA values and replace with zeroes b/c that's what they are
-  population = rapply(
-    population,
-    f = function(x)
-      ifelse(is.na(x), 0, x),
-    how = 'replace'
-  )
-  if (!isEgg) {
-    return(population)
-  } else{
-    fec_Max <- additionalEggsProcessing(population)
-    return(fec_Max)
-  }
+    # Pre-allocate a list to hold the info
+    population = vector(mode = 'list', length = nRoutes)
+    population[[1]] = vector(mode = 'list', length = (nPU[[1]])) # main-to-pisc
+    population[[2]] = vector(mode = 'list', length = (nPU[[2]])) # main-to-main
+    population[[3]] = vector(mode = 'list', length = (nPU[[3]])) # still-to-pisc
+    population[[4]] = vector(mode = 'list', length = (nPU[[4]])) # still-to-main
+    
+    # Assign the fish or eggs to routes
+    population[[1]] <- assignFishToRoutes(1, PUS_1)
+    population[[2]] <- assignFishToRoutes(2, PUS_2)
+    population[[3]] <- assignFishToRoutes(3, PUS_3)
+    population[[4]] <- assignFishToRoutes(4, PUS_4)
+    
+    # Remove NA values and replace with zeroes because
+    # that's what they are.
+    population = rapply(
+      population,
+      f = function(x)
+        ifelse(is.na(x), 0, x),
+      how = 'replace'
+    )
+    if (!isEgg) {
+      return(population)
+    } else{
+      fec_Max <- additionalEggsProcessing(population)
+      return(fec_Max)
+    }
 }    
 
-# assignFishToRoutes()
-# Generically generate individual x_PUS_n, for fish gender and
-#   PU number. JMS Dec 2017
+#' @title Assign fish to routes
+#' 
+#' @description Generically generate individual x_PUS_n,
+#' for fish gender and PU number. Not intended to be called
+#' directly. Visible for the sake of model transparency.
+#' 
+#' @export
+#' 
+# JMS Dec 2017
 assignFishToRoutes <- function(puNum, PUS) {
   
   # number of km segments in the PU
@@ -148,110 +191,74 @@ assignFishToRoutes <- function(puNum, PUS) {
   return(fishPU)      
 }   
 
-# writeSimData()
-# JMS
-# writeSimData <- function(filename) {
-#   # Write the inputs and outputs to a text file that can be read into R
-#   if (!file.exists(paste(
-#     filename,
-#     'Sims',
-#     format(Sys.time(), '%m%d%Y%H%M%S'),
-#     '.txt',
-#     sep = ''
-#   ))) {
-#     write.table(
-#       res,
-#       paste(
-#         filename,
-#         'Sims',
-#         format(Sys.time(), '%m%d%Y%H%M%S'),
-#         '.txt',
-#         sep = ''
-#       ),
-#       sep = ',',
-#       row.names = FALSE,
-#       quote = FALSE,
-#       append = FALSE
-#     )
-#   } else {
-#     Sys.sleep(runif(1, 1, 3))
-#     write.table(
-#       res,
-#       #paste('dat/pnrSims', format(Sys.time(), '%m%d%Y%H%M%S'),
-#       paste(filename, 'Sims', format(Sys.time(), '%m%d%Y%H%M%S'),
-#             sep = ''),
-#       sep = ',',
-#       row.names = FALSE,
-#       quote = FALSE
-#     )
-#   }
-# }
-# 
-# # writeSenData()
-# # JMS
-# writeSenData <- function(filename) {
-#   # Write the sensitivity analysis to a file
-#   if (!file.exists(paste(
-#     filename,
-#     'Sen',
-#     format(Sys.time(), '%m%d%Y%H%M%S'),
-#     '.txt',
-#     sep = ''
-#   ))) {
-#     write.table(
-#       sens,
-#       paste(
-#         filename,
-#         'Sen',
-#         format(Sys.time(), '%m%d%Y%H%M%S'),
-#         '.txt',
-#         sep = ''
-#       ),
-#       sep = ',',
-#       row.names = FALSE,
-#       quote = FALSE,
-#       append = FALSE
-#     )
-#   } else {
-#     Sys.sleep(runif(1, 1, 3))
-#     write.table(
-#       sens,
-#       paste(filename, 'Sen', format(Sys.time(), '%m%d%Y%H%M%S'),
-#             sep = ''),
-#       sep = ',',
-#       row.names = FALSE,
-#       quote = FALSE
-#     )
-#   }
-# }
-
-# writeData()
-# writeData <- function(filename) {
-#   writeSimData(filename)
-#   writeSenData(filename)
-# }
-
-# CI()
-# Get confidence intervals
-CI = function(x) {
+#' @title Calculate 95 percent confidence intervals
+#' 
+#' @description A helper function to calculate 95% confidence
+#' intervals on an object.
+#' 
+#' @param x A numeric vector.
+#' 
+#' @return Returns the 2.5th and 97.5th quantiles of
+#' an object.
+#' 
+#' @export
+#' 
+CI <- function(x) {
   quantile(x, probs = c(0.025, 0.975))
 }
 
 
-# substrRight()
-# Collect chars from the right side of a text string
+#' @title Substring right
+#' 
+#' @description Collect characters from the right side of a text string.
+#' 
+#' @param x A character string or vector of
+#' character strings.
+#' 
+#' @param n The number of characters from the right
+#' to collect.
+#' 
+#' @return A character string of n elements from
+#' the right of \code{x}.
+#' 
+#' @export
+#' 
 substrRight <- function(x, n) {
   substr(x, nchar(x) - n + 1, nchar(x))
 }
 
-# invlogit()
-# Make function for back-transformation from logit scale
+#' @title Inverse logit
+#' 
+#' @description A function for back-transformation 
+#' of variables from the logit scale.
+#' 
+#' @param x A numeric vector.
+#' 
+#' @return A numeric vector on the probability scale [0, 1].
+#' 
+#' @export
+#' 
 invlogit = function(x) {
   exp(x) / (1 + exp(x))
 }
 
-# addStochList()
-# Add stochastic noise to a list variable
+#' @title Add stochasticity to a list
+#'
+#' @description Add stochastic noise to a list variable.
+#' 
+#' @param x A list of numeric vectors.
+#' 
+#' @param stoch A numeric vector of length 1.
+#' 
+#' @return The element-wise product of x and stoch.
+#' 
+#' @details This function was created to multiply multiple
+#' elements of a list by a stochastic variable that was
+#' drawn from a random number generator. But, more generally
+#' it is just list multiplication with a different name.
+#' 
+#' @export
+#' 
 addStochList <- function(x, stoch){
   mapply("*", x, stoch)
   return(x)

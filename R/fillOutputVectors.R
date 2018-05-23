@@ -1,5 +1,15 @@
-#fillOutputVectors()
-
+#' @title Fill output vectors on loop completion
+#' 
+#' @description Internal function used to assign
+#' variables to positions corresponding to simulation
+#' run and year in output containers allocated in
+#' \code{\link{defineOutputVectors}}.
+#' 
+#' Not intended to be called directly, but visible
+#' for the sake of model transparency.
+#' 
+#' @export
+#' 
 fillOutputVectors <- function(){
   
   # Store output in pre-allocated vectors -----
@@ -148,7 +158,7 @@ fillOutputVectors <- function(){
   spawners[[(n + nYears * (k - 1))]] = spawningPool
 
   # Reset the scalar based on population size
-  list2env(setScalar(), envir = .GlobalEnv)
+  list2env(setScalar(), envir = .shadia)
 
   # Scalar variable for computational gains
   scalarVar[[(n + nYears * (k - 1))]] = scalar

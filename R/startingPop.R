@@ -1,15 +1,25 @@
-# startingPop()
-
-# Function for creating a starting
-# population of fish for simulation
-
+#' @title Create starting population
+#' 
+#' @description Internal function for creating a starting
+#' population of fish for each iteration. 
+#' 
+#' Not intended to be called directly, but visible 
+#' for the sake of model transparency.
+#' 
+#' @return A list containing the initial population size,
+#' spawner-recruitment and repeat-spawning probabilities,
+#' and spawning/recruitment pools.
+#' 
+#' @export
+#' 
 startingPop <- function(){
   
-# Assign the starting population based on a seed of age-1 fish and application
-# of an ocean survival curve
-# The population size is scaled to make the models run faster. Output is re-
-# scaled
-#scalar = 100 # Done below dynamically now
+# Assign the starting population based on
+# a seed of age-1 fish and application
+# of an ocean survival curve. The population
+# size is scaled to make the models run faster.
+# Output is re-scaled
+
 
 # Original number of Age 1 individuals in the population
 # JMS: moved to outer-loop-sampling.R
@@ -18,11 +28,11 @@ startingPop <- function(){
 for (i in 2:maxAge) {
 assign(paste('Age', i, sep = ''),
        Age1 * (cumprod(oceanSurvival[2:i - 1]))[i - 1],
-       envir = .GlobalEnv)
+       envir = .shadia)
 }
   
 # Collect age classes in a vector
-pop = mget(ls(pat = "^Age", envir = .GlobalEnv), envir = .GlobalEnv)
+pop = mget(ls(pat = "^Age", envir = .shadia), envir = .shadia)
 
 # Define probability of recruitment to spawn- based on proportion of spawners
 # in each age class (Bailey and Zydlewski 2013)

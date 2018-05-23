@@ -1,8 +1,25 @@
-#annualUpstream()
- 
-# Create annual passage efficiencies and 
-# that rely on user-defined list pass to call for 
-# PenobscotRiverModel(), as well as migration routes
+#' Annual upstream migration parameters
+#' 
+#' A helper function used to define upstream passage efficiencies 
+#' and routes based on stochastic variables and user-defined
+#' inputs to \code{\link{penobscotRiverModel}}, as well as
+#' the probability of using the mainstem Penobscot River
+#' during downstream migration. Not intended to
+#' be called directly, but visible for model transparency.
+#' 
+#' @param NULL
+#' 
+#' @return A named list of objects used for the annual 
+#' upstream migration model, including 1) upstream dam 
+#' passage efficiencies for each of the four possible 
+#' migration routes (list), 2) probability of using the 
+#' mainstem Penobscot River around Marsh Islad (vector),
+#' 3) the probability of using the mainstem Penobscot 
+#' River during downstream migration, and
+#' 4) probability of using the mainstem Penobscot River
+#' at the confluence with the Piscataquis River.
+#' 
+#' @export
 
 annualUpstream <- function(){
   

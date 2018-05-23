@@ -1,32 +1,41 @@
-# setupData.R
-
+#' @title Set up data for simulations
+#' 
+#' @description Internal functions for manipulations to 
+#' empirical data used as inputs, and for fitting of
+#' empirical relationships (e.g. discharge regressions).
+#' 
+#' Not intended to be called directly, but visible 
+#' for transparency.
+#' 
+#' @return A list of generic parameters for code benchmarking
+#' and progress monitoring.
+#' 
+#' @details Have retained data manipulation to retain 
+#' integrity of raw data files in built-in data sets and
+#' provide transparency in methods.
+#' 
+#' @export
+#' 
 setUpData <- function(){
-
-# if (!exists('yday')) source('defineFunctions.R')
-# defineFunctions() # should load automatically
 
 # Maximum age for fish in this population
 maxAge <- 9
 
-# FISH AGE & GROWTH DATA FROM CTDEEP --------------------------------------
-# Read in the data
-#read.csv('datasets/ctr_fish.csv')
-fish$fl[fish$fl < 10] = fish$fl[fish$fl < 10] * 10 # Transcription errors
-fish$fl[fish$fl < 10] = fish$fl[fish$fl < 10] * 10 # Transcription errors
+# Fish age and growth data from Connecticut River -----
+# Using built-in data set `fish`
 names(fish) = c('sex', 'age', 'fl', 'year', 'backCalculated', 'mass')
+fish <- fish[fish$fl > 10, ]
 
 # Make a dataframe of age and growth data just for females
 roes <- fish[fish$sex == 'R',]
 
 # Make an dataframe of age and growth data just for males
 bucks <- fish[fish$sex == 'B',]
-bucks$fl[bucks$fl < 10] = bucks$fl[bucks$fl < 10] * 10 # More transcription errors
 
 # Correct errors in fish mass & make a separate df for l-w regression due to
 # missing fish masses
 fish$mass <- as.numeric(fish$mass)
 fishw <- fish[!is.na(fish$mass) & fish$mass != 0,]
-fishw$mass[fishw$mass < 500] <- fishw$mass[fishw$mass < 500] * 10
 
 # Log transform and data cleaning for l-w regressions
 # Bucks
@@ -41,14 +50,9 @@ r.w <- log(fishw$mass[fishw$sex == 'R'])
 roe.lw <- na.omit(data.frame(r.l, r.w))
 roe.lw <- roe.lw[is.finite(roe.lw[, 2]),]
 
-# TEMPERATURE DATA FOR PENOBSCOT RIVER ------------------------------------
-# Load the pnr temperature data
-
-# Should be done automatically
-#load("datasets/tempData.rda")
-
-# JMS: limit size of the object first,
-# then do operations on it
+# Temperature data for Penobscot River -----
+# Load the pnr temperature data from
+# years 2008-2013 in the built-in dataset
 tempData2 <- tempData[tempData$year > 2007 & tempData$year < 2014 ,]
 
 # Summarize the temperature by day across years
@@ -61,11 +65,10 @@ mu <- ddply(tempData2,
 mu <- mu[, c(3, 2, 1)]
 mu <- na.omit(mu)
 
-# Read in temperature data for Hartford CT
+# Read in temperature data for Hartford CT (tempD)
 # This is now done automatically with package 
 # data sets. 
-### NEED TO RENAME THESE ###
-#data('tempD')
+### NEED TO RENAME THESE TEMPERATURE FILES !!!! ###
 # Summarize the temperature by day across years
 hmu <- ddply(tempD,
             .(day, year),
@@ -107,7 +110,16 @@ hmu = hmu
 
 }
 
-# RELATE ARRIVAL DATE TO TEMPERATURE WITH GLM BASED ON HARVEST ------------
+# Relate temperature to arrival in river using glm -----
+
+#####
+# This relationship was bootstrapped and regression coeffs
+# added as built-in data sets arr.B and arr.R, but the 
+# analysis is retained in comments below for transparency in
+# methods
+#####
+
+
 # Read in the cpue data and do manipulation
 #cpue = read.csv("datasets/cpue.csv")
 # Fix the date column format
@@ -146,12 +158,6 @@ hmu = hmu
 # cpue$year <- year(cpue$Date)
 # # Now add temperature to cpue data
 # test <- merge(cpue, mu, by = c('year', 'day'), all.x = TRUE)
-# # Create new sequence of days for predictions
-# newDay <- seq(0, 30, 1)
-# 
-# # Model probability of catch each day
-# # moved to defineFunctions.R
-# # JMS
 # 
 # # Run the regression model to estimate probability of catch on a given day
 # Rmod <- glm(Rcdf ~ val,
@@ -166,3 +172,7 @@ hmu = hmu
 # res.R <- summary(Rmod)$coefficients
 # res.B <- summary(Bmod)$coefficients
 
+# # Model probability of catch each day
+# # moved to defineFunctions.R
+# # JMS
+# 

@@ -89,7 +89,7 @@ are recycled for all subsequent dams.}
 \value{
 Returns a dataframe of user-defined
 inputs and model outputs for each use that 
-contains `nRuns` x `nYears` number of rows. 
+contains \code{nRuns} x \code{nYears} number of rows. 
 
 If run in parallel, returns a list
 of dataframes.

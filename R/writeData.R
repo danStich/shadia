@@ -1,10 +1,23 @@
-# writeData.R
-
+#' @title Write simulation results
+#' 
+#' @description Internal function used to collect and
+#' return all model inputs and relevant model
+#' outputs (e.g., population size) from all k iterations 
+#' of n years to the temporary environment 
+#' in \code{\link{penobscotRiverModel}}()
+#' 
+#' Not intended to be called directly, but visible 
+#' nonetheless.
+#' 
+#' @return A list of results.
+#' 
+#' @export
+#' 
 writeData <- function(){
 
 # DATA WRITE --------------------------------------------------------------
 # Post-simulation data manipulation
-if (useTictoc) {
+if (.shadia$useTictoc) {
   tic("data write")
 }
 
@@ -22,9 +35,10 @@ populationSize = populationSize
 # Collect inputs and outputs into a single object for file write
 res = data.frame(
   years,
-  OrUp,
-  StUp,
-  GilmUp,
+  ptime,
+  #OrUp,
+  #StUp,
+  #GilmUp,
   MdUp,
   HdUp,
   WEnfUp,
@@ -34,7 +48,7 @@ res = data.frame(
   MattUp,
   OrD,
   StD,
-  GilmD,
+  #GilmD,
   MdD,
   HdD,
   WEnfD,
@@ -42,94 +56,91 @@ res = data.frame(
   MooseD,
   GuilfD,
   MattD,
+  F.inRiver,
+  F.commercial,
+  F.bycatch,
   indirectM,
-  fallback,
+  #fallback,
   latentM,
-  juvReduction,
+  #juvReduction,
   populationSize,
-  spawners,
+  #spawners,
   pRepeats,
   LowerPop,
-  OronoPop,
-  StillwaterPop,
+  #OronoPop,
+  #StillwaterPop,
   MilfordPop,
   EnfieldPop,
   WeldonPop,
   HowlandPop,
   MoosePop,
   BrownsPop,
-  GuilfordPop,
-  scalarVar,
-  scen
+  GuilfordPop#,
+
 )
 
 # Collect variables for sensitivity analysis and save them out
-sens = data.frame(
-  pStillUP,
-  pStillD,
-  pPiscUP,
-  S.downstream,
-  S.marine,
-  F.inRiver,
-  F.commercial,
-  F.bycatch,
-  popStart,
-  p.female,
-  S.prespawnM,
-  S.postspawnM,
-  S.prespawnF,
-  S.postspawnF,
-  S.juvenile,
-  t.stoch,
-  t.RegrInt,
-  t.RegrSlp,
-  b.ArrRegrInt,
-  b.ArrRegrSlp,
-  r.ArrRegrInt,
-  r.ArrRegrSlp,
-  b.Arr,
-  r.Arr,
-  ATUspawn1,
-  ATUspawn2,
-  Dspawn1,
-  Dspawn2,
-  linF,
-  kF,
-  t0F,
-  linM,
-  kM,
-  t0M,
-  lwF.alpha,
-  lwF.beta,
-  lwM.alpha,
-  lwM.beta,
-  b.length,
-  r.length,
-  spawnInt,
-  batchSize,
-  resTime,
-  s.Optim,
-  d.Max,
-  tortuosity,
-  motivation,
-  daily.move,
-  ptime,
-  habStoch
-)
+# sens = data.frame(
+#   pStillUP,
+#   pStillD,
+#   pPiscUP,
+#   S.downstream,
+#   S.marine,
+#   popStart,
+#   p.female,
+#   S.prespawnM,
+#   S.postspawnM,
+#   S.prespawnF,
+#   S.postspawnF,
+#   S.juvenile,
+#   t.stoch,
+#   t.RegrInt,
+#   t.RegrSlp,
+#   b.ArrRegrInt,
+#   b.ArrRegrSlp,
+#   r.ArrRegrInt,
+#   r.ArrRegrSlp,
+#   b.Arr,
+#   r.Arr,
+#   ATUspawn1,
+#   ATUspawn2,
+#   Dspawn1,
+#   Dspawn2,
+#   linF,
+#   kF,
+#   t0F,
+#   linM,
+#   kM,
+#   t0M,
+#   lwF.alpha,
+#   lwF.beta,
+#   lwM.alpha,
+#   lwM.beta,
+#   b.length,
+#   r.length,
+#   spawnInt,
+#   batchSize,
+#   resTime,
+#   s.Optim,
+#   d.Max,
+#   tortuosity,
+#   motivation,
+#   daily.move,
+#   habStoch,
+#   scalarVar,
+#   scen
+# )
 
 # Write the inputs and outputs to a text file that can be read into R
 #writeData(filename)
 
-if (useTictoc) {
+if (.shadia$useTictoc) {
   toc() #("data write")
 }
 
-return(list(		
-# populationSize = populationSize,
-# pRepeats = pRepeats,
-res	= res,
-sens = sens
-# spawners = spawners
-))		
+return(#list(		
+res	= res#,
+#sens = sens
+)#)		
 
 }

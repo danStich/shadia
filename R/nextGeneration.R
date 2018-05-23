@@ -1,5 +1,16 @@
-#nextGeneration
-
+#' @title Project population to the next year
+#' 
+#' @description Internal function to perform 
+#' cohort-based projections of the population
+#' into the next year of the simulation based
+#' on marine survival, commercial fishery harvest,
+#' and fishery bycatch (all annual rates).
+#' 
+#' Not intended to be called directly, but 
+#' visible for the sake of transparency.
+#' 
+#' @export
+#' 
 # Apply Ocean survival rate
 nextGeneration <- function(){
 
@@ -45,7 +56,6 @@ nextGeneration <- function(){
   pop = pop * scalar
   spawningPool = spawningPool * scalar
   recruitmentPool = recruitmentPool * scalar
-  
   
   return(list(
     repeats = repeats,

@@ -1,5 +1,15 @@
-#setScalar()
-
+#' @title Set population scalar
+#' 
+#' @description Internal function for setting the
+#' value of the population scalar that is used to
+#' dynamically adjust population size to avoid 
+#' computational overflow.
+#' 
+#' Not intended to be called directly, but visible 
+#' for transparency.
+#' 
+#' @export
+#' 
 # Function to set population scalar
 setScalar <- function(){
     if (sum(spawningPool) < 1e3) {

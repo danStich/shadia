@@ -1,11 +1,15 @@
-# inner-loop-sampling.R
-#
-# Attempt to perform all draws needed for inner loop,
-# then save them for re-use and reproducible runs.
-
+#' @title Stochastic sampling of annual variables
+#' 
+#' @description Internal function used to perform all
+#' annually based stochastic sampling for the 
+#' individual-based upstream migration model.
+#' 
+#' Not intended to be called directly, but visible
+#' for the sake of model transparency.
+#' 
+#' @export 
+#' 
 innerLoopSampling <- function(){
-
-#Rcpp::sourceCpp('datasets/pnrCppFuns.cpp')        # C++ functions used in model
 
 # Habitat stochasticity -----
 # Add stochasticity to habitat per PU

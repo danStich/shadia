@@ -1,9 +1,28 @@
-# Creation of carrying capacity in production units (PU)
+#' @title Production potential definition
+#'
+#' @description Internal function used to
+#' assign initial values of production potential
+#' for American shad in production units of the 
+#' Penobscot River, Maine, USA. 
+#' 
+#' Not intended to be called directly, but visible 
+#' for model transparency.
+#' 
+#' @return A list of habitat production potential
+#' for production units in the Penobscot River, Maine, USA.
+#' 
+#' @references Maine Department of Marine Resources (MDMR). 2009. 
+#' Operational plan for the restoration of diadromous fishes 
+#' to the Penobscot River. Final Report, MDMR, 
+#' Maine Department of Inland Fish and Wildlife, 
+#' Augusta, ME. \url{http://maine.gov/dmr/searunfish/reports/Penobscot_Operational_Plan_final_2009.pdf}. 
+#' 
+#' @export
+#' 
 defineHabitat <- function(){
 
 habitat = vector(mode = 'list', length = nRoutes)
 
-# NEED TO RE-COMMENT ALL OF THIS!
   OronoHabitat = 1000
   StillwaterHabitat = 10000
   habitat[[1]] = c(

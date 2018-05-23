@@ -1,3 +1,15 @@
+#' @title Define in-river population matrices
+#' 
+#' @description Internal function used to create combinations
+#' of production units and fish ages in each of the four
+#' migration routes. Generalized to apply to eggs by females
+#' at each age, too. Later filled in \code{\link{createPUMatrix}}
+#' 
+#' Not intended to be called directly, but visible
+#' for the sake of model transparency.
+#' 
+#' @export 
+#' 
 populationMatrices <- function(){
 
   # Main-to-piscataquis spawners

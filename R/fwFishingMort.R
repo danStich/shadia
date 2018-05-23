@@ -1,8 +1,14 @@
-#fwFishingMort()
+#' @title Assign freshwater fishing mortality
 
-# Assign fw fishing mortality for each PU
-# in each migration route
-
+#' @description Internal function used to assign 
+#' freshwater fishing mortality for each PU
+#' in each migration route as an annual rate.
+#' 
+#' Not intended to be called directly, but visible
+#' for the sake of model transparency.
+#' 
+#' @export
+#' 
 fwFishingMort <- function(){
 
   inriv = vector(mode = 'list', length = 4)

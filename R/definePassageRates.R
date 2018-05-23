@@ -1,13 +1,25 @@
-#definePassageRates()
+#' @title Assign upstream and downstream passage efficiencies
+#' 
+#' @description Internal function passing user-defined
+#' arguments from call to \code{\link{penobscotRiverModel}}
+#' to named objects used to define passage rates at 
+#' dam rkms in the individual-based migration model.
+#' 
+#' Not intended to be called directly, but visible for
+#' the sake of model transparency.
+#' 
+#' @return A list of upstream and downstream dam passage
+#' efficiencies at each dam in the hydro system. 
+#' 
 
 definePassageRates <- function(){
 
-  # Define passage rates
+  # Upstream passage rates
   Open = 1.00
   Confluence = 1.00 * fB
-  OronoUp = 1 * fB          # Orono upstream passage
-  StillwaterUp = 1        # Stillwater upstream passage
-  GilmanUp = 1            # Gilman Falls upstream passage
+  OronoUp = 1 * fB             # Orono upstream passage
+  StillwaterUp = 1             # Stillwater upstream passage
+  GilmanUp = 1                 # Gilman Falls upstream passage
   MilfordUp = up[1] * fB       # Milford upstream passage
   HowlandUp = up[2] * fB       # Howland upstream passage
   WestEnfieldUp = up[3] * fB   # West Enfield upstream passage
@@ -17,11 +29,9 @@ definePassageRates <- function(){
   MattaceunkUp = up[7] * fB    # Mattaceunk (Weldon) passage
 
   # Downstream passage efficiencies
-  # JMS: sampling moved to outer-loop-sampling.R
-
   # Define downstream passage efficiencies at each of the dams
-  OpenD = 1.00 * delay                          # Perfect passage open reaches
-  GilmanD = 1.00 * delay                        # Gilman passage
+  OpenD = 1.00 * delay                              # Perfect passage open reaches
+  GilmanD = 1.00 * delay                            # Gilman passage
   StillwaterD = d[1] * indirect * latent * delay    # Stillwater passage
   OronoD = d[2] * indirect * latent * delay         # Orono passage
   MilfordD = d[3] * indirect * latent * delay       # Milford passage
@@ -33,7 +43,10 @@ definePassageRates <- function(){
   MattaceunkD = d[9] * indirect * latent * delay    # Mattaceunk (Weldon) passage
 
   # Make downstream survival probabilities for juveniles
-  # JMS: Juvenile reduction factor draws are moved to outer-loop-sampling.R
+  # Unused. Moved to separate calculations in the 
+  # Connecticut River Model. All runs in the Penobscot
+  # River to date have used equal performance standards.
+  # Will update this model to use the same approach.
   GilmanDj = 1.00                            # Gilman passage
   StillwaterDj = StillwaterD * jReduction    # Stillwater passage
   OronoDj = OronoD * jReduction              # Orono passage
@@ -45,41 +58,43 @@ definePassageRates <- function(){
   GuilfordDj = GuilfordD * jReduction        # Guilford Passage
   MattaceunkDj = MattaceunkD * jReduction    # Mattaceunk (Weldon) passage
 
-return(list(
-BrownsMillD = BrownsMillD,
-BrownsMillDj = BrownsMillDj,
-BrownsMillUp = BrownsMillUp,
-Confluence = Confluence,
-GilmanD = GilmanD,
-GilmanDj = GilmanDj,
-GilmanUp = GilmanUp,
-GuilfordD = GuilfordD,
-GuilfordDj = GuilfordDj,
-GuilfordUp = GuilfordUp,
-HowlandD = HowlandD,
-HowlandDj = HowlandDj,
-HowlandUp = HowlandUp,
-MattaceunkD = MattaceunkD,
-MattaceunkDj = MattaceunkDj,
-MattaceunkUp = MattaceunkUp,
-MilfordD = MilfordD,
-MilfordDj = MilfordDj,
-MilfordUp = MilfordUp,
-MooseheadD = MooseheadD,
-MooseheadDj = MooseheadDj,
-MooseheadUp = MooseheadUp,
-Open = Open,
-OpenD = OpenD,
-OronoD = OronoD,
-OronoDj = OronoDj,
-OronoUp = OronoUp,
-StillwaterD = StillwaterD,
-StillwaterDj = StillwaterDj,
-StillwaterUp = StillwaterUp,
-WestEnfieldD = WestEnfieldD,
-WestEnfieldDj = WestEnfieldDj,
-WestEnfieldUp = WestEnfieldUp
-
-))
+  return(
+    list(
+      BrownsMillD = BrownsMillD,
+      BrownsMillDj = BrownsMillDj,
+      BrownsMillUp = BrownsMillUp,
+      Confluence = Confluence,
+      GilmanD = GilmanD,
+      GilmanDj = GilmanDj,
+      GilmanUp = GilmanUp,
+      GuilfordD = GuilfordD,
+      GuilfordDj = GuilfordDj,
+      GuilfordUp = GuilfordUp,
+      HowlandD = HowlandD,
+      HowlandDj = HowlandDj,
+      HowlandUp = HowlandUp,
+      MattaceunkD = MattaceunkD,
+      MattaceunkDj = MattaceunkDj,
+      MattaceunkUp = MattaceunkUp,
+      MilfordD = MilfordD,
+      MilfordDj = MilfordDj,
+      MilfordUp = MilfordUp,
+      MooseheadD = MooseheadD,
+      MooseheadDj = MooseheadDj,
+      MooseheadUp = MooseheadUp,
+      Open = Open,
+      OpenD = OpenD,
+      OronoD = OronoD,
+      OronoDj = OronoDj,
+      OronoUp = OronoUp,
+      StillwaterD = StillwaterD,
+      StillwaterDj = StillwaterDj,
+      StillwaterUp = StillwaterUp,
+      WestEnfieldD = WestEnfieldD,
+      WestEnfieldDj = WestEnfieldDj,
+      WestEnfieldUp = WestEnfieldUp
+  
+    )
+  )
   
 }  

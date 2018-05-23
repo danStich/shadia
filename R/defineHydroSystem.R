@@ -1,12 +1,26 @@
-# defineHydroSystem.R
-
+#' @title Definition of hydro system
+#' 
+#' @description Internal function used to define the
+#' configuration of the hydrosystem and catchment. Not
+#' intended to be called directly, but visible for the
+#' sake of model transparency.
+#' 
+#' @return A list of values related to the hydro system, 
+#' including 1) the number of migration routes, 2) number of 
+#' dams, 3) number of production units delineated by dams,
+#' 4) the upstream extent to habitat in river kilometers (rkm), 
+#' and 5) the locations of dams in rkm.
+#'
+#' @export
+#'
 defineHydroSystem <- function(){
   
 # Hydrosystem characterstics -----------------------------------
-# For the Penobscot, there are two potential migration routes, so this needs
-# to be accommodated. FOR ALL OF THE HABITAT VARIABLES AND THE PASSAGE ROUTE
-# VARIABLES, GROUP 1 CORRESPONDS TO THE PISCATAQUIS ROUTE AND GROUP 2 TO THE
-# UPPER MAINSTEM PENOBSCOT GROUP
+# For the Penobscot, there are two potential
+# migration routes, so this needs to be accommodated.
+# FOR ALL OF THE HABITAT VARIABLES AND THE PASSAGE ROUTE
+# VARIABLES, GROUP 1 CORRESPONDS TO THE PISCATAQUIS ROUTE 
+# AND GROUP 2 TO THE UPPER MAINSTEM PENOBSCOT ROUTE.
 nRoutes = 4
 
 # Need separate habitat values for each migration route

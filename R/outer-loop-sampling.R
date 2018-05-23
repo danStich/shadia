@@ -1,5 +1,15 @@
-# outer-loop-sampling.R
-
+#' @title Stochastic sampling of simulation-specific variables
+#' 
+#' @description Internal function used to perform all
+#' iteration-based stochastic sampling, including
+#' management decisions (passage efficiencies,
+#' timing, etc.).
+#' 
+#' Not intended to be called directly, but visible
+#' for the sake of model transparency.
+#' 
+#' @export 
+#' 
 outerLoopSampling <- function(){
 
 # Attempt to perform all draws needed for outer loop,
@@ -40,7 +50,7 @@ ildProduct <- indirect * latent * delay
 
 # ---
 
-#jReduction = 1#sample(c(.50,.60,.70,.80,.90,1.00), 1, replace =TRUE)
+jReduction = 1#sample(c(.50,.60,.70,.80,.90,1.00), 1, replace =TRUE)
 
 # ---
 
@@ -72,23 +82,21 @@ pPiscUp = rbeta(1, 25, 75) # During upstream passage
 
 # Survival rates for various life-history stages
 # Define ocean survival for each age (1-M from Hoenig 1983 in ASMFC 2007
-# stock assessment). ALTERNATIVE: Could use age-variant M
-downstreamS   = 1#rep(rbeta(1, 1e4, 10))     # Survival per km
+# stock assessment). ALTERNATIVE: Could use age-variant M.
+downstreamS = 1                              # Survival per km (natural)
 oceanSurvival = rep(rbeta(1, 12, 8), maxAge) # Ocean survival rate
-pinHarvest = pinHarvest#sample(c(0, .05, .10), 1, replace=TRUE)
-inRiverF = inRiverF                        # Recreational MORTALITY RATE
-commercialF = rep(commercialF, maxAge)                # Commercial MORTALITY RATE
-bycatchF = rep(bycatchF, maxAge)                    # Bycatch MORTALITY RATE
+pinHarvest = pinHarvest                      # Sustenance harvest by PIN
+inRiverF = pinHarvest                        # Recreational MORTALITY RATE
+commercialF = rep(commercialF, maxAge)       # Commercial MORTALITY RATE
+bycatchF = rep(bycatchF, maxAge)             # Bycatch MORTALITY RATE
 
-# ---
-
-# Assign the starting population based on a seed of age-1 fish and application
-# of an ocean survival curve
-# The population size is scaled to make the models run faster. Output is re-
-# scaled
+# Assign the starting population based on a seed of
+# age-1 fish and application of an ocean survival curve
+# The population size is scaled to make the models
+# run faster. Output is re-scaled
 
 # Original number of Age 1 individuals in the population
-Age1 = rpois(1, 1e4)#/scalar
+Age1 = rpois(1, 1e4)
 
 return(list(
 up = up,
@@ -115,13 +123,3 @@ Age1 = Age1
 ))
 
 }
-
-# To save only outer loop sampling variables: uncomment
-# filename can be adjusted in setParameters.R
-# JMS
-# rm(additionalEggsProcessing, assignFishToRoutes, b.l, Bmod, buck.lw, bucks, b.w, calMod, 
-#    CI, cpue, createPUMatrix, ctr, dat, daylength, fish, fishw, growth, hmu, i, invlogit, 
-#    ldat, mu, newDay, outer.lim, pnr, processPopulation, res.B, res.R, r.l, Rmod, roe.lw, 
-#    roes, r.w, substrRight, t, tempD, tempData, test, tz, writeData, writeSenData, 
-#    writeSimData, yday, year)
-#save.image(paste(baseDirectory, outerLoopSamplingRData, sep='/'))
