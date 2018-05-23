@@ -1,4 +1,4 @@
-# pnrShad
+# shadia
 
 Package containing functions and data for American shad population modeling
 
@@ -10,7 +10,7 @@ Package containing functions and data for American shad population modeling
 
 `man/`
 
-* help files and documentation: under construction
+* help files and documentation
 
 `R/`
 
