@@ -1,12 +1,7 @@
 # R snowfall example
-#
-# Multiple cores on a workstation
-  #setwd("C:/Users/STICHDS/Desktop/projects/shadmodel/penobscotProject/penobscot")
 
 # Load R packages
   library(snowfall)
-  library(rlecuyer)
-  library(plyr)
   library(shadia)
 
 # 1. Initialization of snowfall.
@@ -51,13 +46,12 @@ wrapper <- function(idx) {
   workerId <- paste(Sys.info()[['nodename']], Sys.getpid(), sep='-');
 
 # Run the model
-  res1 <- penobscotRiverModel(nYears = 10)
+  res1 <- penobscotRiverModel(nYears = 50)
   
 # Define the output lists
     retlist <- list(
       worker=workerId,  # Worker id for now
-      res=res1$res,          # Results df
-      sen=res1$sens);        # Sensitivity df
+      res=res1);       
     
     return(retlist);
 }
@@ -93,7 +87,7 @@ save(result, file = "snowfall-result.rda");
 
 # pull out coef vector from the list, and summarize its descriptive statistics, mean, etc.:
 res <- lapply(result, function(x) x[[c('res')]]);
-res2 <- do.call(rbind, res);
+resdf <- do.call(rbind, res);
 
 # pull from the list, and show, the unique nodes we used in the computation:
 workers <- lapply(result, function(x) x[[c('worker')]]);

@@ -4,13 +4,6 @@
 #' standard model for Penobscot River, Maine,
 #' USA
 #' 
-#' @return Returns a dataframe of user-defined
-#' inputs and model outputs for each use that 
-#' contains \code{nRuns} x \code{nYears} number of rows. 
-#' 
-#' If run in parallel, returns a list
-#' of dataframes.
-#' 
 #' @param nRuns The number of times that the
 #' model will be run.
 #' 
@@ -84,6 +77,29 @@
 #' the first element in lists `upstream` and `downstream`
 #' are recycled for all subsequent dams.
 #'  
+#' @return Returns a dataframe of user-defined
+#' inputs and available model outputs for each use that 
+#' contains \code{nRuns} x \code{nYears} number of rows. 
+#' 
+#' If run in parallel, returns a list
+#' of dataframes.
+#' 
+#' The folowing named columns are returned:
+#' 
+#' \code{year} Year of simulation
+#' 
+#' \code{time} Passage timing input by user
+#' 
+#' \code{milford_up...guilford_up} User-specified upstream passage efficiencies
+#'  
+#' \code{stillwater_down...weldon_down}  User-specified downstream passage efficiencies
+#'  
+#' \code{pRepeat_Age1...Age9} Age-specific probability of repeat spawning  
+#'  
+#' \code{populationSize} Total number of adult spawners returning to the river
+#' 
+#' \code{N_pu1A2A...N_pu4B} Production unit-specific population size after in-river fishery mortality
+#'   
 #' @importFrom graphics abline lines par plot
 #' @importFrom stats aggregate nls quantile runif var
 #' @importFrom utils write.table
@@ -96,6 +112,55 @@
 #' @import Rcpp
 #' @useDynLib shadia
 #'
+#'
+#' @examples
+#' 
+#' Watershed implementation with passage efficiency
+#' increments of 0.10 and all combinations of upstream
+#' and downstream rates with 24-h standard:
+#' 
+#' penobscotRiverModel(nRuns = 10,
+#'  upstream = list(milford = seq(0, 1, 0.10),
+#'                  howland = 1,
+#'                  westEnfield = 1,
+#'                  brownsMill = 1,
+#'                  moosehead = 1,
+#'                  guilford = 1,
+#'                  weldon = 1),
+#'  downstream = list(stillwater = seq(0, 1, 0.10),
+#'                    orono = 1,
+#'                    milford = 1,
+#'                    howland = 1,
+#'                    westEnfield = 1,
+#'                    brownsMill = 1,
+#'                    moosehead = 1,
+#'                    guilford = 1,
+#'                    weldon = 1))
+#'
+#'
+#' Variable upstream and downstream passage at 
+#' each dam in increments of 0.10, with timing of 1 d:
+#' 
+#'  penobscotRiverModel(nRuns = 10,
+#'   upstream = list(milford = seq(0, 1, 0.10),
+#'                   howland = seq(0, 1, 0.10),
+#'                   westEnfield = seq(0, 1, 0.10),
+#'                   brownsMill = seq(0, 1, 0.10),
+#'                   moosehead = seq(0, 1, 0.10),
+#'                   guilford = seq(0, 1, 0.10),
+#'                   weldon = seq(0, 1, 0.10)
+#'                   ),
+#'   downstream = list(stillwater = seq(0, 1, 0.10),
+#'                     orono = seq(0, 1, 0.10),
+#'                     milford = seq(0, 1, 0.10),
+#'                     howland = seq(0, 1, 0.10),
+#'                     westEnfield = seq(0, 1, 0.10),
+#'                     brownsMill = seq(0, 1, 0.10),
+#'                     moosehead = seq(0, 1, 0.10),
+#'                     guilford = seq(0, 1, 0.10),
+#'                     weldon = seq(0, 1, 0.10)
+#'                     )
+#'  ) 
 #'
 #' @export
 penobscotRiverModel <- function(
@@ -130,6 +195,11 @@ penobscotRiverModel <- function(
   latent = 1,
   watershed = TRUE
   ){
+  
+# Error message for passage efficiencies
+  if( (length(upstream)!=7 ) |  (length(downstream)!=9 ) ){ 
+    stop('`upstream` must have 7 elements and `dowsntream` must have 9.')
+  }  
   
 # Create package workspace if it does not yet exist  
   if(!exists(".shadia", mode="environment"))

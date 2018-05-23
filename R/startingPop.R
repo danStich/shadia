@@ -32,18 +32,18 @@ assign(paste('Age', i, sep = ''),
 }
   
 # Collect age classes in a vector
-pop = mget(ls(pat = "^Age", envir = .shadia), envir = .shadia)
+pop <- mget(ls(pat = "^Age", envir = .shadia), envir = .shadia)
 
 # Define probability of recruitment to spawn- based on proportion of spawners
 # in each age class (Bailey and Zydlewski 2013)
-spawnRecruit = c(0, 0, 0, 0.01, .33, .84, .97, .99, 1.00)
+spawnRecruit <- c(0, 0, 0, 0.01, .33, .84, .97, .99, 1.00)
 
 # Initial probalities of repeat spawning- will be derived in annual loop
-pRepeat = c(0, 0, 0, 0.004, 0.094286, 0.375714, 0.722286, 1.00, 1.00)
+pRepeat <- c(0, 0, 0, 0.004, 0.094286, 0.375714, 0.722286, 1.00, 1.00)
 
 # Define spawning population and recruitment pool
-spawningPool = unlist(pop) * spawnRecruit
-recruitmentPool = unlist(pop) - unlist(pop) * spawnRecruit
+spawningPool <- unlist(pop) * spawnRecruit
+recruitmentPool <- unlist(pop) - unlist(pop) * spawnRecruit
 
 return(list(
 pop = unlist(pop),

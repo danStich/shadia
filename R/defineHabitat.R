@@ -21,11 +21,11 @@
 #' 
 defineHabitat <- function(){
 
-habitat = vector(mode = 'list', length = nRoutes)
+habitat <- vector(mode = 'list', length = nRoutes)
 
-  OronoHabitat = 1000
-  StillwaterHabitat = 10000
-  habitat[[1]] = c(
+  OronoHabitat <- 1000
+  StillwaterHabitat <- 10000
+  habitat[[1]] <- c(
     (22344 + 34868),
     (14339 + 34868),
     (400560 + 26285 + 12746),
@@ -34,13 +34,13 @@ habitat = vector(mode = 'list', length = nRoutes)
     22591,
     14922
   )
-  habitat[[2]] = c((22344 + 34868),
+  habitat[[2]] <- c((22344 + 34868),
                    (14339 + 34868),
                    (400560 + 26285 + 12746),
                    (333196 + 205744),
                    (204336 + 25773)
   )
-  habitat[[3]] = c(
+  habitat[[3]] <- c(
     (22344 + 34868),
     (OronoHabitat),
     (StillwaterHabitat),
@@ -50,7 +50,7 @@ habitat = vector(mode = 'list', length = nRoutes)
     22591,
     14922
   )
-  habitat[[4]] = c((22344 + 34868),
+  habitat[[4]] <- c((22344 + 34868),
                    (OronoHabitat),
                    (StillwaterHabitat),
                    (400560 + 26285 + 12746),

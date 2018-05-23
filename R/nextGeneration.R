@@ -30,32 +30,32 @@ nextGeneration <- function(){
   }
   
   # Now graduate each cohort to the next age
-  repeats = append(0, unlist(mget(ls(pat = '^repeatSpawners_')))[2:(maxAge)])
+  repeats <- append(0, unlist(mget(ls(pat = '^repeatSpawners_')))[2:(maxAge)])
   # Assign names for each age class
-  names(repeats) = names(femalesOut)
+  names(repeats) <- names(femalesOut)
 
   # Calculate numbers in the recruitment pool for next year, this number includes
   # the
   # Apply marine survival rate to fish waiting in the ocean
-  nextRecruits = c(recruitsOut,
+  nextRecruits <- c(recruitsOut,
                    recruitmentPool[1:(length(recruitmentPool) - 1)]) *
                    oceanSurvival * (1 - commercialF[i]) * (1 - bycatchF[i])
   # Assign names for each age class
-  names(nextRecruits) = names (recruitmentPool)
+  names(nextRecruits) <- names (recruitmentPool)
 
   # Calculate proportion of repeat spawners in each age class
-  pRepeat = repeats / (nextRecruits + repeats)
+  pRepeat <- repeats / (nextRecruits + repeats)
 
   # Combine repeat spawners with new recruits
-  spawningPool = nextRecruits * spawnRecruit + repeats
-  recruitmentPool = nextRecruits - nextRecruits * spawnRecruit
+  spawningPool <- nextRecruits * spawnRecruit + repeats
+  recruitmentPool <- nextRecruits - nextRecruits * spawnRecruit
 
   # Record new population size for the start of the inner loop
-  pop = sum(spawningPool + recruitmentPool)
+  pop <- sum(spawningPool + recruitmentPool)
 
-  pop = pop * scalar
-  spawningPool = spawningPool * scalar
-  recruitmentPool = recruitmentPool * scalar
+  pop <- pop * scalar
+  spawningPool <- spawningPool * scalar
+  recruitmentPool <- recruitmentPool * scalar
   
   return(list(
     repeats = repeats,

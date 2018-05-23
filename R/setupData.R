@@ -23,7 +23,7 @@ maxAge <- 9
 
 # Fish age and growth data from Connecticut River -----
 # Using built-in data set `fish`
-names(fish) = c('sex', 'age', 'fl', 'year', 'backCalculated', 'mass')
+names(fish) <- c('sex', 'age', 'fl', 'year', 'backCalculated', 'mass')
 fish <- fish[fish$fl > 10, ]
 
 # Make a dataframe of age and growth data just for females
@@ -65,7 +65,7 @@ mu <- ddply(tempData2,
 mu <- mu[, c(3, 2, 1)]
 mu <- na.omit(mu)
 
-# Read in temperature data for Hartford CT (tempD)
+# Read in temperature data for NH (tempD)
 # This is now done automatically with package 
 # data sets. 
 ### NEED TO RENAME THESE TEMPERATURE FILES !!!! ###

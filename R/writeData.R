@@ -22,18 +22,18 @@ if (.shadia$useTictoc) {
 }
 
 # Unlist and stack proportion of repeat spawners in each age for writing
-pRepeats = do.call("rbind", lapply(pRepeats, unlist))
-colnames(pRepeats) = paste('pRepeat_', colnames(pRepeats), sep = '')
+pRepeats <- do.call("rbind", lapply(pRepeats, unlist))
+colnames(pRepeats) <- paste('pRepeat_', colnames(pRepeats), sep = '')
 
 # Unlist and stack age-structured spawning population into a useable output
-spawners = do.call("rbind", lapply(spawners, unlist))
-colnames(spawners) = paste(colnames(spawners), 'N', sep = '_')
+spawners <- do.call("rbind", lapply(spawners, unlist))
+colnames(spawners) <- paste(colnames(spawners), 'N', sep = '_')
 
 # Rescale population size based on reduction factor at start of script
-populationSize = populationSize
+populationSize <- populationSize
 
 # Collect inputs and outputs into a single object for file write
-res = data.frame(
+res <- data.frame(
   years,
   ptime,
   #OrUp,
@@ -60,24 +60,71 @@ res = data.frame(
   F.commercial,
   F.bycatch,
   indirectM,
-  #fallback,
   latentM,
-  #juvReduction,
-  populationSize,
-  #spawners,
   pRepeats,
-  LowerPop,
+  ceiling(populationSize),
+  ceiling(LowerPop),
   #OronoPop,
   #StillwaterPop,
-  MilfordPop,
-  EnfieldPop,
-  WeldonPop,
-  HowlandPop,
-  MoosePop,
-  BrownsPop,
-  GuilfordPop#,
-
+  ceiling(MilfordPop),
+  ceiling(EnfieldPop),
+  ceiling(WeldonPop),
+  ceiling(HowlandPop),
+  ceiling(MoosePop),
+  ceiling(BrownsPop),
+  ceiling(GuilfordPop)#,
 )
+
+names(res)<-c(
+  "year",
+  "time",
+  #"orono_up",
+  #"stillwater_up",
+  #"gilman_up",
+  "milford_up",
+  "howland_up",
+  "westenfield_up",
+  "brownsmill_up",
+  "moosehead_up",
+  "guilford_up",
+  "weldon_up",
+  "orono_down",
+  "stillwater_down",
+  #"gilman_down",
+  "milford_down",
+  "howland_down",
+  "westenfield_down",
+  "brownsmill_down",
+  "moosehead_down",
+  "guilford_down",
+  "weldon_down",
+  "inriverF",
+  "commercialF",
+  "bycatchF",
+  "indirect",
+  "latent",
+  "pRepeat_Age1",
+  "pRepeat_Age2",
+  "pRepeat_Age3",
+  "pRepeat_Age4",
+  "pRepeat_Age5",
+  "pRepeat_Age6",
+  "pRepeat_Age7",
+  "pRepeat_Age8",
+  "pRepeat_Age9",
+  "populationSize",
+  "N_pu1A2A",
+  #"N_pu1C",
+  #"N_pu2C",
+  "N_pu3A",
+  "N_pu4A",
+  "N_pu5A",
+  "N_pu1B",
+  "N_pu2B",
+  "N_pu3B",
+  "N_pu4B"
+)
+
 
 # Collect variables for sensitivity analysis and save them out
 # sens = data.frame(
