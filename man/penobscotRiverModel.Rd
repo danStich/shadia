@@ -95,20 +95,21 @@ If run in parallel, returns a list
 of dataframes.
 
 The folowing named columns are returned:
+\itemize{
+    \item \code{year} Year of simulation
 
-\code{year} Year of simulation
+    \item \code{time} Passage timing input by user
 
-\code{time} Passage timing input by user
-
-\code{milford_up...guilford_up} User-specified upstream passage efficiencies
+    \item \code{milford_up...guilford_up} User-specified upstream passage efficiencies
  
-\code{stillwater_down...weldon_down}  User-specified downstream passage efficiencies
+    \item \code{stillwater_down...weldon_down}  User-specified downstream passage efficiencies
  
-\code{pRepeat_Age1...Age9} Age-specific probability of repeat spawning  
+    \item \code{pRepeat_Age1...Age9} Age-specific probability of repeat spawning  
  
-\code{populationSize} Total number of adult spawners returning to the river
+    \item \code{populationSize} Total number of adult spawners returning to the river
 
-\code{N_pu1A2A...N_pu4B} Production unit-specific population size after in-river fishery mortality
+    \item \code{N_pu1A2A...N_pu4B} Production unit-specific population size after in-river fishery mortality
+}
 }
 \description{
 Runs American shad dam passage performance
@@ -117,9 +118,7 @@ USA
 }
 \examples{
 
-Watershed implementation with passage efficiency
-increments of 0.10 and all combinations of upstream
-and downstream rates with 24-h standard:
+Watershed implementation with passage efficiency increments of 0.10 and all combinations of upstream and downstream rates with 24-h standard:
 
 penobscotRiverModel(nRuns = 10,
  upstream = list(milford = seq(0, 1, 0.10),
@@ -161,8 +160,7 @@ each dam in increments of 0.10, with timing of 1 d:
                     moosehead = seq(0, 1, 0.10),
                     guilford = seq(0, 1, 0.10),
                     weldon = seq(0, 1, 0.10)
-                    ),
-  watershed = FALSE
+                    )
  ) 
 
 }

@@ -7,9 +7,9 @@
 #' 
 #' @format A list of 1000 matrices with named dimensions of:
 #' \describe{
-#'   \item{\code{dim1} Intercept, slope}
+#'   \item{\code{dim1}}{Intercept, slope}
 #'   
-#'   \item{\code{dim2} Estimate, Std Error, t statistic, and p-value}
+#'   \item{\code{dim2}}{Estimate, Std Error, t statistic, and p-value}
 #' }
 #' 
 #' @source Connecticut Department of Energy and Environmental Conservation (2015)
@@ -25,9 +25,9 @@
 #' 
 #' @format A list of 1000 matrices with named dimensions
 #' \describe{
-#'   \item{dim1}{Intercept, slope}
+#'   \item{\code{dim1}}{Intercept, slope}
 #'   
-#'   \item{dim2}{Estimate, Std Error, t statistic, and p-value}
+#'   \item{\code{dim2}}{Estimate, Std Error, t statistic, and p-value}
 #' }
 #' 
 #' @source Connecticut Department of Energy and Environmental Conservation (2015)
@@ -41,17 +41,17 @@
 #' 
 #' @format A list of 1000 matrices with named dimensions
 #' \describe{
-#'   \item{\code{Sex} Fish sex}
+#'   \item{\code{Sex}}{Fish sex}
 #'   
-#'   \item{\code{Age} Assigned age}
+#'   \item{\code{Age}}{Assigned age}
 #'   
-#'   \item{\code{Length} Total length, in cm}
+#'   \item{\code{Length}}{Total length, in cm}
 #'   
-#'   \item{\code{yearCollected} Year during which fish was collected}
+#'   \item{\code{yearCollected}}{Year during which fish was collected}
 #'   
-#'   \item{\code{backCalculated} Logical indicating whether or not Length observation was back-calculated}
+#'   \item{\code{backCalculated}}{Logical indicating whether or not Length observation was back-calculated}
 #'   
-#'   \item{\code{Mass} Mass of fish, in g}
+#'   \item{\code{Mass}}{Mass of fish, in g}
 #' }
 #' 
 #' @source Connecticut Department of Energy and Environmental Conservation (2015)
@@ -64,19 +64,19 @@
 #' 
 #' @format A data frame with 2919 obs. of 7 variables
 #' \describe{
-#'   \item{\code{staid} USGS Station ID}
+#'   \item{\code{staid}}{USGS Station ID}
 #'   
-#'   \item{\code{val} Temperature in degrees celcius}
+#'   \item{\code{val}}{Temperature in degrees celcius}
 #'   
-#'   \item{\code{dates} Date of measurement}
+#'   \item{\code{dates}}{Date of measurement}
 #'   
-#'   \item{\code{qualcode} Qualification code}
+#'   \item{\code{qualcode}}{Qualification code}
 #'   
-#'   \item{\code{year} Year of temperature observation}
+#'   \item{\code{year}}{Year of temperature observation}
 #'   
-#'   \item{\code{day} Ordinal date}
+#'   \item{\code{day}}{Ordinal date}
 #'   
-#'   \item{\code{ph} Photoperiod, in hours}
+#'   \item{\code{ph}}{Photoperiod, in hours}
 #' }
 #' 
 #' @source U.S. Geological Survey
@@ -90,17 +90,17 @@
 #' 
 #' @format A data frame with 13265 obs. of 6 variables
 #' \describe{
-#'   \item{\code{staid} USGS Station ID}
+#'   \item{\code{staid}}{USGS Station ID}
 #'   
-#'   \item{\code{val} Temperature in degrees celcius}
+#'   \item{\code{val}}{Temperature in degrees celcius}
 #'   
-#'   \item{\code{dates} Date of temperature observation}
+#'   \item{\code{dates}}{Date of temperature observation}
 #'   
-#'   \item{\code{qualcode} Qualification code}
+#'   \item{\code{qualcode}}{Qualification code}
 #'   
-#'   \item{\code{year} Year of temperature observation}
+#'   \item{\code{year}}{Year of temperature observation}
 #'   
-#'   \item{\code{day} Ordinal date}
+#'   \item{\code{day}}{Ordinal date}
 #' }
 #' 
 #' @source U.S. Geological Survey

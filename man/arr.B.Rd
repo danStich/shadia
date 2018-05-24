@@ -7,9 +7,9 @@
 \title{Arrival regression parameters for bucks}
 \format{A list of 1000 matrices with named dimensions of:
 \describe{
-  \item{\code{dim1} Intercept, slope}
+  \item{\code{dim1}}{Intercept, slope}
   
-  \item{\code{dim2} Estimate, Std Error, t statistic, and p-value}
+  \item{\code{dim2}}{Estimate, Std Error, t statistic, and p-value}
 }}
 \source{
 Connecticut Department of Energy and Environmental Conservation (2015)

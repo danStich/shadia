@@ -7,17 +7,17 @@
 Eddington, ME, USA}
 \format{A data frame with 13265 obs. of 6 variables
 \describe{
-  \item{\code{staid} USGS Station ID}
+  \item{\code{staid}}{USGS Station ID}
   
-  \item{\code{val} Temperature in degrees celcius}
+  \item{\code{val}}{Temperature in degrees celcius}
   
-  \item{\code{dates} Date of temperature observation}
+  \item{\code{dates}}{Date of temperature observation}
   
-  \item{\code{qualcode} Qualification code}
+  \item{\code{qualcode}}{Qualification code}
   
-  \item{\code{year} Year of temperature observation}
+  \item{\code{year}}{Year of temperature observation}
   
-  \item{\code{day} Ordinal date}
+  \item{\code{day}}{Ordinal date}
 }}
 \source{
 U.S. Geological Survey

@@ -6,17 +6,17 @@
 \title{Growth data for Connecticut River American shad}
 \format{A list of 1000 matrices with named dimensions
 \describe{
-  \item{\code{Sex} Fish sex}
+  \item{\code{Sex}}{Fish sex}
   
-  \item{\code{Age} Assigned age}
+  \item{\code{Age}}{Assigned age}
   
-  \item{\code{Length} Total length, in cm}
+  \item{\code{Length}}{Total length, in cm}
   
-  \item{\code{yearCollected} Year during which fish was collected}
+  \item{\code{yearCollected}}{Year during which fish was collected}
   
-  \item{\code{backCalculated} Logical indicating whether or not Length observation was back-calculated}
+  \item{\code{backCalculated}}{Logical indicating whether or not Length observation was back-calculated}
   
-  \item{\code{Mass} Mass of fish, in g}
+  \item{\code{Mass}}{Mass of fish, in g}
 }}
 \source{
 Connecticut Department of Energy and Environmental Conservation (2015)
