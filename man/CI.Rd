@@ -17,3 +17,8 @@ an object.
 A helper function to calculate 95% confidence
 intervals on an object.
 }
+\examples{
+
+CI(rnorm(n=1e3, 0, 1))
+
+}

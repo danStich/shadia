@@ -201,6 +201,10 @@ assignFishToRoutes <- function(puNum, PUS) {
 #' @return Returns the 2.5th and 97.5th quantiles of
 #' an object.
 #' 
+#' @examples 
+#' 
+#' CI(rnorm(n=1e3, 0, 1))
+#' 
 #' @export
 #' 
 CI <- function(x) {
@@ -221,6 +225,10 @@ CI <- function(x) {
 #' @return A character string of n elements from
 #' the right of \code{x}.
 #' 
+#' @examples 
+#' 
+#' substrRight("shadia", n)
+#' 
 #' @export
 #' 
 substrRight <- function(x, n) {
@@ -235,6 +243,11 @@ substrRight <- function(x, n) {
 #' @param x A numeric vector.
 #' 
 #' @return A numeric vector on the probability scale [0, 1].
+#' 
+#' @examples 
+#' 
+#' x <- rnorm(1e3, 0, 1)
+#' invlogit(x)
 #' 
 #' @export
 #' 
@@ -256,6 +269,15 @@ invlogit <- function(x) {
 #' elements of a list by a stochastic variable that was
 #' drawn from a random number generator. But, more generally
 #' it is just list multiplication with a different name.
+#' 
+#' @examples 
+#' 
+#' x <- list(
+#'   first = runif(10, 1, 10)
+#'   second = runif(10, 10, 20)
+#' )
+#' 
+#' addStochList(x, runif(1, 0, 1))
 #' 
 #' @export
 #' 

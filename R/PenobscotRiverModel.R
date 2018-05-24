@@ -101,66 +101,17 @@
 #'     \item \code{N_pu1A2A...N_pu4B} Production unit-specific population size after in-river fishery mortality
 #' }
 #' 
-#' @importFrom graphics abline lines par plot
-#' @importFrom stats aggregate nls quantile runif var
-#' @importFrom utils write.table
-#' @importFrom geosphere daylength
-#' @importFrom lubridate year yday
-#' @importFrom plyr ddply . summarize summarise
-#' @importFrom MASS mvrnorm rnegbin
-#' @importFrom zoo na.spline
-#' @importFrom fishmethods growth
-#' @import Rcpp
-#' @useDynLib shadia
-#'
-#'
-#' @examples
+#' @example /inst/examples/watershed_pnr.R
 #' 
-#' Watershed implementation with passage efficiency increments of 0.10 and all combinations of upstream and downstream rates with 24-h standard:
+#'
+#' @example /inst/examples/variable_pnr.R
 #' 
-#' penobscotRiverModel(nRuns = 10,
-#'  upstream = list(milford = seq(0, 1, 0.10),
-#'                  howland = 1,
-#'                  westEnfield = 1,
-#'                  brownsMill = 1,
-#'                  moosehead = 1,
-#'                  guilford = 1,
-#'                  weldon = 1),
-#'  downstream = list(stillwater = seq(0, 1, 0.10),
-#'                    orono = 1,
-#'                    milford = 1,
-#'                    howland = 1,
-#'                    westEnfield = 1,
-#'                    brownsMill = 1,
-#'                    moosehead = 1,
-#'                    guilford = 1,
-#'                    weldon = 1))
-#'
-#'
-#' Variable upstream and downstream passage at 
-#' each dam in increments of 0.10, with timing of 1 d:
 #' 
-#'  penobscotRiverModel(nRuns = 10,
-#'   upstream = list(milford = seq(0, 1, 0.10),
-#'                   howland = seq(0, 1, 0.10),
-#'                   westEnfield = seq(0, 1, 0.10),
-#'                   brownsMill = seq(0, 1, 0.10),
-#'                   moosehead = seq(0, 1, 0.10),
-#'                   guilford = seq(0, 1, 0.10),
-#'                   weldon = seq(0, 1, 0.10)
-#'                   ),
-#'   downstream = list(stillwater = seq(0, 1, 0.10),
-#'                     orono = seq(0, 1, 0.10),
-#'                     milford = seq(0, 1, 0.10),
-#'                     howland = seq(0, 1, 0.10),
-#'                     westEnfield = seq(0, 1, 0.10),
-#'                     brownsMill = seq(0, 1, 0.10),
-#'                     moosehead = seq(0, 1, 0.10),
-#'                     guilford = seq(0, 1, 0.10),
-#'                     weldon = seq(0, 1, 0.10)
-#'                     )
-#'  ) 
-#'
+#' @example /inst/examples/fixed_pnr.R
+#' 
+#' 
+#' @example /inst/examples/sf-examplePNR.R
+#' 
 #' @export
 penobscotRiverModel <- function(
   nRuns = 1,

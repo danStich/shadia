@@ -20,3 +20,8 @@ the right of \code{x}.
 \description{
 Collect characters from the right side of a text string.
 }
+\examples{
+
+substrRight("shadia", n)
+
+}

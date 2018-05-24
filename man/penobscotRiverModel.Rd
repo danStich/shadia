@@ -117,9 +117,12 @@ standard model for Penobscot River, Maine,
 USA
 }
 \examples{
+# Watershed implementation with passage efficiency 
+# increments of 0.10 and all combinations of upstream 
+# and downstream rates with 24-h standard:
+# -----------------------------------------------------------------------
 
-Watershed implementation with passage efficiency increments of 0.10 and all combinations of upstream and downstream rates with 24-h standard:
-
+\dontrun{
 penobscotRiverModel(nRuns = 10,
  upstream = list(milford = seq(0, 1, 0.10),
                  howland = 1,
@@ -137,11 +140,12 @@ penobscotRiverModel(nRuns = 10,
                    moosehead = 1,
                    guilford = 1,
                    weldon = 1))
+}
+# Variable upstream and downstream passage at 
+# each dam in increments of 0.10, with timing of 1 d:
+# -----------------------------------------------------------------------
 
-
-Variable upstream and downstream passage at 
-each dam in increments of 0.10, with timing of 1 d:
-
+\dontrun{
  penobscotRiverModel(nRuns = 10,
   upstream = list(milford = seq(0, 1, 0.10),
                   howland = seq(0, 1, 0.10),
@@ -162,5 +166,133 @@ each dam in increments of 0.10, with timing of 1 d:
                     weldon = seq(0, 1, 0.10)
                     )
  ) 
+}
+# Fixed upstream and downstream passage at 
+# each dam in increments of 0.10, with timing of 1 d:
+# -----------------------------------------------------------------------
 
+\dontrun{
+ penobscotRiverModel(nRuns = 10,
+  upstream = list(milford = 0.85,
+                  howland = 0.90,
+                  westEnfield = 0.95,
+                  brownsMill = 0.70,
+                  moosehead = 0.70,
+                  guilford = 0.50,
+                  weldon = 0.80
+                  ),
+  downstream = list(stillwater = 0.95,
+                    orono = 0.95,
+                    milford = 0.90,
+                    howland = 0.90,
+                    westEnfield = 0.90,
+                    brownsMill = 1.00,
+                    moosehead = 1.00,
+                    guilford = 1.00,
+                    weldon = 0.90
+                    )
+ ) 
+}
+# Parallel execution on a local cluster
+# -------------------------------------------------------------------------
+\dontrun{
+  
+# R snowfall example
+
+# Load R packages
+  library(snowfall)
+  library(shadia)
+
+# 1. Initialization of snowfall.
+# -----  
+# Initialize parallel mode using sockets and
+# command-line args
+sfInit(parallel=TRUE, cpus=3, type="SOCK")
+
+# Display information about nodes and processes
+# used by this job. This is entirely optional,
+# to demonstrate snowfall methods sfClusterCall()
+# and sfCpus().
+
+# Describe the nodes and cpus:
+cat(paste0('CPU count: ', sfCpus()), fill=TRUE)
+
+# Count off each process with anonymous function
+cat('CPU ids: ', unlist(sfClusterCall(function() Sys.getpid())), fill=TRUE)
+
+# 2. Load data. 
+# -----
+data('fish')
+data('arr.B')
+data('arr.R')
+data('tempD')
+data('tempData')
+
+# 3. Define wrapper function, which can be called in parallel.
+#
+#   Runs PenobscotRiverModel.R on each worker
+#
+#   Here, workerId just contains the identity of the cpu that perfomed
+#   the work. We do this only to prove we have used all the specified cpus!
+#   Ideally, we will minimize the data sent to (and returned from) the workers.
+#
+#   Note that constructing and returning a list enables the function to
+#   return more than one output.
+# -----
+wrapper <- function(idx) {
+
+# Get cpu ids  
+  workerId <- paste(Sys.info()[['nodename']],
+                    Sys.getpid(),
+                    sep='-'
+                    )
+
+# Run the model
+  res1 <- penobscotRiverModel(nYears = 50)
+  
+# Define the output lists
+    retlist <- list(
+      worker=workerId,  # Worker id for now
+      res=res1)       
+    
+    return(retlist)
+}
+
+# 4. Export needed data to workers 
+#    load required packages on workers.
+# -----
+sfLibrary(shadia)
+
+# 5. Start network random number generator 
+#    (as "sample" uses random numbers).
+# -----
+sfClusterSetupRNG()
+
+# 6. Distribute calculation to workers
+# -----
+niterations <- 10
+start <- Sys.time()
+
+# The magic is in snowfall's sfLapply() function,
+# which sends wrapper() out to the
+# workers:
+result <- sfLapply(1:niterations, wrapper) 
+
+Sys.time()-start
+
+# 7. Stop snowfall
+# -----
+sfStop()
+
+# 8. Examine the results returned from the cluster:
+# -----
+
+# 'result' is a list of lists. Save this:
+save(result, file = "snowfall-result.rda")
+
+# pull out coef vector from the list, and summarize
+# its descriptive statistics, mean, etc.:
+res <- lapply(result, function(x) x[[c('res')]])
+resdf <- do.call(rbind, res)
+}
 }

@@ -20,6 +20,5 @@ Imports:
   fishmethods, 
   geosphere, 
   lubridate
-LinkingTo:
-  Rcpp
+LinkingTo:  Rcpp
 RoxygenNote: 6.0.1
