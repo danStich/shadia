@@ -8,6 +8,5 @@ src/*.o
 src/*.so
 src/*.dll
 shadia.Rproj
-sf-examplePNR.R
-snowfall-result.rda
+.sf-examplePNR.R
 Rplots.pdf
