@@ -4,9 +4,10 @@
 .Rhistory
 .RData
 .Ruserdata
+.sf-examplePNR.R
 src/*.o
 src/*.so
 src/*.dll
 shadia.Rproj
-.sf-examplePNR.R
+snowfall-result.rda
 Rplots.pdf
