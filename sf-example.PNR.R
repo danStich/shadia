@@ -1,5 +1,6 @@
 # Load R packages
   library(snowfall)
+  library(rlecuyer)
   library(shadia)
 
 # 1. Initialization of snowfall.
