@@ -14,11 +14,11 @@ A named list of objects used for the annual
 upstream migration model, including 1) upstream dam 
 passage efficiencies for each of the four possible 
 migration routes (list), 2) probability of using the 
-mainstem Penobscot River around Marsh Islad (vector),
+mainstem Penobscot River around Marsh Island (vector),
 3) the probability of using the mainstem Penobscot 
-River during downstream migration, and
+River during downstream migration (vector), and
 4) probability of using the mainstem Penobscot River
-at the confluence with the Piscataquis River.
+at the confluence with the Piscataquis River (vector).
 }
 \description{
 A helper function used to define upstream passage efficiencies 

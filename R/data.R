@@ -3,12 +3,13 @@
 #' @description Bootstrapped regression parameters for
 #' a quasibinomial logistic regression used to predict
 #' arrival timing of male American shad in the Connecticut
-#' River, CT, USA by accumulated thermal units (ATU)
+#' River, CT, USA by accumulated thermal units (ATU).
 #' 
-#' @format A list of 1000 matrices with named dimensions
+#' @format A list of 1000 matrices with named dimensions of:
 #' \describe{
-#'   \item{dim1}{Intercept, slope}
-#'   \item{dim2}{Estimate, Std Error, t statistic, and p-value}
+#'   \item{\code{dim1} Intercept, slope}
+#'   
+#'   \item{\code{dim2} Estimate, Std Error, t statistic, and p-value}
 #' }
 #' 
 #' @source Connecticut Department of Energy and Environmental Conservation (2015)
@@ -20,11 +21,12 @@
 #' @description Bootstrapped regression parameters for
 #' a quasibinomial logistic regression used to predict
 #' arrival timing of female American shad in the Connecticut
-#' River, CT, USA by accumulated thermal units (ATU)
+#' River, CT, USA by accumulated thermal units (ATU).
 #' 
 #' @format A list of 1000 matrices with named dimensions
 #' \describe{
 #'   \item{dim1}{Intercept, slope}
+#'   
 #'   \item{dim2}{Estimate, Std Error, t statistic, and p-value}
 #' }
 #' 
@@ -39,12 +41,17 @@
 #' 
 #' @format A list of 1000 matrices with named dimensions
 #' \describe{
-#'   \item{Sex}{Fish sex}
-#'   \item{Age}{Assigned age}
-#'   \item{Length}{Total length, in cm}
-#'   \item{yearCollected}{Year during which fish was collected}
-#'   \item{backCalculated}{Logical indicating whether or not Length observation was back-calculated}
-#'   \item{Mass}{Mass of fish, in g}
+#'   \item{\code{Sex} Fish sex}
+#'   
+#'   \item{\code{Age} Assigned age}
+#'   
+#'   \item{\code{Length} Total length, in cm}
+#'   
+#'   \item{\code{yearCollected} Year during which fish was collected}
+#'   
+#'   \item{\code{backCalculated} Logical indicating whether or not Length observation was back-calculated}
+#'   
+#'   \item{\code{Mass} Mass of fish, in g}
 #' }
 #' 
 #' @source Connecticut Department of Energy and Environmental Conservation (2015)
@@ -57,13 +64,19 @@
 #' 
 #' @format A data frame with 2919 obs. of 7 variables
 #' \describe{
-#'   \item{staid}{USGS Station ID}
-#'   \item{val}{Temperature in degrees celcius}
-#'   \item{dates}{Temperature, in degrees celcius}
-#'   \item{qualcode}{Qualification code}
-#'   \item{year}{date and time of temperature observation}
-#'   \item{day}{Temperature, in degrees celcius}
-#'   \item{ph}{Photoperiod, in hours}
+#'   \item{\code{staid} USGS Station ID}
+#'   
+#'   \item{\code{val} Temperature in degrees celcius}
+#'   
+#'   \item{\code{dates} Date of measurement}
+#'   
+#'   \item{\code{qualcode} Qualification code}
+#'   
+#'   \item{\code{year} Year of temperature observation}
+#'   
+#'   \item{\code{day} Ordinal date}
+#'   
+#'   \item{\code{ph} Photoperiod, in hours}
 #' }
 #' 
 #' @source U.S. Geological Survey
@@ -77,12 +90,17 @@
 #' 
 #' @format A data frame with 13265 obs. of 6 variables
 #' \describe{
-#'   \item{staid}{USGS Station ID}
-#'   \item{val}{Temperature in degrees celcius}
-#'   \item{dates}{Temperature, in degrees celcius}
-#'   \item{qualcode}{Qualification code}
-#'   \item{year}{date and time of temperature observation}
-#'   \item{day}{Temperature, in degrees celcius}
+#'   \item{\code{staid} USGS Station ID}
+#'   
+#'   \item{\code{val} Temperature in degrees celcius}
+#'   
+#'   \item{\code{dates} Date of temperature observation}
+#'   
+#'   \item{\code{qualcode} Qualification code}
+#'   
+#'   \item{\code{year} Year of temperature observation}
+#'   
+#'   \item{\code{day} Ordinal date}
 #' }
 #' 
 #' @source U.S. Geological Survey

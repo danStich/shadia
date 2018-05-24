@@ -159,7 +159,8 @@
 #'                     moosehead = seq(0, 1, 0.10),
 #'                     guilford = seq(0, 1, 0.10),
 #'                     weldon = seq(0, 1, 0.10)
-#'                     )
+#'                     ),
+#'   watershed = FALSE
 #'  ) 
 #'
 #' @export
