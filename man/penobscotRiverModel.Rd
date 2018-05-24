@@ -201,6 +201,7 @@ penobscotRiverModel(nRuns = 10,
 
 # Load R packages
   library(snowfall)
+  library(rlecuyer)
   library(shadia)
 
 # 1. Initialization of snowfall.
@@ -248,8 +249,30 @@ wrapper <- function(idx) {
                     )
 
 # Run the model
-  res1 <- penobscotRiverModel(nYears = 50)
-  
+# Run the model
+res1 <- penobscotRiverModel(nYears = 50,
+                            upstream = list(
+                              milford = seq(0, 1, 0.10),
+                              howland = seq(0, 1, 0.10),
+                              westEnfield = seq(0, 1, 0.10),
+                              brownsMill = seq(0, 1, 0.10),
+                              moosehead = seq(0, 1, 0.10),
+                              guilford = seq(0, 1, 0.10),
+                              weldon = seq(0, 1, 0.10)
+                            ),
+                            downstream = list(
+                              stillwater = seq(0, 1, 0.10),
+                              orono = seq(0, 1, 0.10),
+                              milford = seq(0, 1, 0.10),
+                              howland = seq(0, 1, 0.10),
+                              westEnfield = seq(0, 1, 0.10),
+                              brownsMill = seq(0, 1, 0.10),
+                              moosehead = seq(0, 1, 0.10),
+                              guilford = seq(0, 1, 0.10),
+                              weldon = seq(0, 1, 0.10)
+                            )
+        )
+
 # Define the output lists
     retlist <- list(
       worker=workerId,  # Worker id for now
@@ -270,7 +293,7 @@ sfClusterSetupRNG()
 
 # 6. Distribute calculation to workers
 # -----
-niterations <- 10
+niterations <- 2
 start <- Sys.time()
 
 # The magic is in snowfall's sfLapply() function,
