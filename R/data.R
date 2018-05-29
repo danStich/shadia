@@ -105,3 +105,39 @@
 #' 
 #' @source U.S. Geological Survey
 "tempData"
+
+#' @title von Bertalanffy growth parameters for roes
+#' 
+#' @description Bootstrapped regression parameters for
+#' von Bertalanffy growth parameters for models fit to
+#' female American shad in the Connecticut
+#' River, CT, USA.
+#' 
+#' @format A list of 10000 matrices with named dimensions
+#' \describe{
+#'   \item{\code{dim1}}{Sinf, K, t0}
+#'   
+#'   \item{\code{dim2}}{Estimate, Std Error, t statistic, and p-value}
+#' }
+#' 
+#' @source Connecticut Department of Energy and Environmental Conservation (2015)
+#' 
+"r.parms"
+
+#' @title von Bertalanffy growth parameters for bucks
+#' 
+#' @description Bootstrapped regression parameters for
+#' von Bertalanffy growth parameters for models fit to
+#' male American shad in the Connecticut
+#' River, CT, USA.
+#' 
+#' @format A list of 10000 matrices with named dimensions
+#' \describe{
+#'   \item{\code{dim1}}{Sinf, K, t0}
+#'   
+#'   \item{\code{dim2}}{Estimate, Std Error, t statistic, and p-value}
+#' }
+#' 
+#' @source Connecticut Department of Energy and Environmental Conservation (2015)
+#' 
+"b.parms"

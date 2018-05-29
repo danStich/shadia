@@ -230,19 +230,19 @@ photo <- daylength(44.39, day)
 #if (useTictoc) tic("simulate fish characteristics")
 # Roes
 # Randomly sample some number of rows from the data
-samp <- roes[sample(nrow(roes), 1000),]
-# Fit the model and save the parameters
-r.mod <- growth(
-  size = samp$fl[samp$sex == 'R'],
-  age = samp$age[samp$sex == 'R'],
-  Sinf = max(samp$fl),
-  K = .5,
-  t0 = -3,
-  error = 1,
-  graph = FALSE
-)
+# samp <- roes[sample(nrow(roes), 1000),]
+# # Fit the model and save the parameters
+# r.mod <- growth(
+#   size = samp$fl[samp$sex == 'R'],
+#   age = samp$age[samp$sex == 'R'],
+#   Sinf = max(samp$fl),
+#   K = .5,
+#   t0 = -3,
+#   error = 1,
+#   graph = FALSE
+# )
 # Get the parameters
-r.pars <- data.frame(summary(r.mod$vout)$parameters)
+r.pars <- r.parms[[sample(1:length(r.parms), 1)]]
 r.mat <- r.pars[, 1]
 # Rename them for ease of use
 c_linF <- r.mat[1] # L-infinity females
@@ -251,19 +251,20 @@ c_t0F <- r.mat[3]  # Intercept of VBGM females
 
 # Males
 # Randomly sample some number of rows from the data
-samp <- bucks[sample(nrow(bucks), 1000),]
-# Fit the model and save the parameters
-b.mod <- growth(
-  size = samp$fl[samp$sex == 'B'],
-  age = samp$age[samp$sex == 'B'],
-  Sinf = max(samp$fl),
-  K = .5,
-  t0 = -3,
-  error = 1,
-  graph = FALSE
-)
+# Moved this into a separate file to store params
+# samp <- bucks[sample(nrow(bucks), 1000),]
+# # Fit the model and save the parameters
+# b.mod <- growth(
+#   size = samp$fl[samp$sex == 'B'],
+#   age = samp$age[samp$sex == 'B'],
+#   Sinf = max(samp$fl),
+#   K = .5,
+#   t0 = -3,
+#   error = 1,
+#   graph = FALSE
+# )
 # Get the parameters
-b.pars <- data.frame(summary(b.mod$vout)$parameters)
+b.pars <- b.parms[[sample(1:length(b.parms), 1)]]
 b.mat <- b.pars[, 1]
 # Rename them for ease of use
 c_linM <- b.mat[1] # L-infinity males
