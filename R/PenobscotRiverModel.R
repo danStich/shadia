@@ -162,13 +162,23 @@ penobscotRiverModel <- function(
   # For watershed applications of
   # the model, all values need to
   # match
-  pDraws <- rapply(pDraws,
-         function(x) ifelse(watershed==TRUE, upstream[[1]], x),
-         how = "replace")
+  pDraws <- lapply(pDraws, 
+                    function(x){
+                      if(watershed){
+                        x <- pDraws[[1]]}
+                      else
+                        {x <- x}
+                      }
+                    )
   
-  dDraws <- rapply(dDraws,
-         function(x) ifelse(watershed==TRUE, downstream[[1]], x),
-         how = "replace")
+  dDraws <- lapply(dDraws, 
+                    function(x){
+                      if(watershed){
+                        x <- dDraws[[1]]}
+                      else
+                        {x <- x}
+                      }
+                    )
   
   if(watershed){
   cat('WARNING: when watershed is set to TRUE,
