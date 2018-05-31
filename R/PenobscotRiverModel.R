@@ -101,13 +101,13 @@
 #'     \item \code{N_pu1A2A...N_pu4B} Production unit-specific population size after in-river fishery mortality
 #' }
 #' 
-#' @example /inst/examples/watershed_pnr.R
+# #' @example /inst/examples/watershed_pnr.R
 #' 
 #'
-#' @example /inst/examples/variable_pnr.R
+# #' @example /inst/examples/variable_pnr.R
 #' 
 #' 
-#' @example /inst/examples/fixed_pnr.R
+# #' @example /inst/examples/fixed_pnr.R
 #' 
 #' 
 #' @example /inst/examples/sf-examplePNR.R

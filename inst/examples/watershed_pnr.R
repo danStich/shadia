@@ -4,7 +4,7 @@
 # -----------------------------------------------------------------------
 
 \dontrun{
-penobscotRiverModel(nRuns = 10,
+penobscotRiverModel(nRuns = 1,
  upstream = list(milford = seq(0, 1, 0.10),
                  howland = 1,
                  westEnfield = 1,
