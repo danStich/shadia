@@ -116,84 +116,29 @@ Runs American shad dam passage performance
 standard model for Penobscot River, Maine,
 USA
 }
+\section{Warning about serial execution and memory limits}{
+
+Current implementation is based on work
+in review, and is thus subject to modification 
+without notice. 
+
+Currently, internal functions rely on \code{list2env} to return
+lists to a temporary environment created in the 
+\code{penobscotRiverModel} function. Consequently, lists 
+that are exported must be limited in size. Therefore, 
+users currently need to limit the number of runs per 
+call (\code{nRuns} argument) to less than 10 or R will 
+hit memory limits quickly. In reality, serial 
+execution is prohibitively slow unless implemented 
+using manual parallel processing (i.e., bash scripting).
+
+In order to achieve a desired number of runs for a given
+set of inputs, the recommended approach is to use 
+parallel execution as demonstrated using snowfall in the
+example at the bottom of this page.
+}
+
 \examples{
-# Watershed implementation with passage efficiency 
-# increments of 0.10 and all combinations of upstream 
-# and downstream rates with 24-h standard:
-# -----------------------------------------------------------------------
-
-\dontrun{
-penobscotRiverModel(nRuns = 10,
- upstream = list(milford = seq(0, 1, 0.10),
-                 howland = 1,
-                 westEnfield = 1,
-                 brownsMill = 1,
-                 moosehead = 1,
-                 guilford = 1,
-                 weldon = 1),
- downstream = list(stillwater = seq(0, 1, 0.10),
-                   orono = 1,
-                   milford = 1,
-                   howland = 1,
-                   westEnfield = 1,
-                   brownsMill = 1,
-                   moosehead = 1,
-                   guilford = 1,
-                   weldon = 1))
-}
-# Variable upstream and downstream passage at 
-# each dam in increments of 0.10, with timing of 1 d:
-# -----------------------------------------------------------------------
-
-\dontrun{
- penobscotRiverModel(nRuns = 10000,
-  upstream = list(milford = seq(0, 1, 0.05),
-                  howland = seq(0, 1, 0.05),
-                  westEnfield = seq(0, 1, 0.05),
-                  brownsMill = seq(0, 1, 0.05),
-                  moosehead = seq(0, 1, 0.05),
-                  guilford = seq(0, 1, 0.05),
-                  weldon = seq(0, 1, 0.05)
-                  ),
-  downstream = list(stillwater = seq(0, 1, 0.05),
-                    orono = seq(0, 1, 0.05),
-                    milford = seq(0, 1, 0.05),
-                    howland = seq(0, 1, 0.05),
-                    westEnfield = seq(0, 1, 0.05),
-                    brownsMill = seq(0, 1, 0.05),
-                    moosehead = seq(0, 1, 0.05),
-                    guilford = seq(0, 1, 0.05),
-                    weldon = seq(0, 1, 0.05)
-                    ),
-  watershed = FALSE
- ) 
-}
-# Fixed upstream and downstream passage at 
-# each dam in increments of 0.10, with timing of 1 d:
-# -----------------------------------------------------------------------
-
-\dontrun{
- penobscotRiverModel(nRuns = 10,
-  upstream = list(milford = 0.85,
-                  howland = 0.90,
-                  westEnfield = 0.95,
-                  brownsMill = 0.70,
-                  moosehead = 0.70,
-                  guilford = 0.50,
-                  weldon = 0.80
-                  ),
-  downstream = list(stillwater = 0.95,
-                    orono = 0.95,
-                    milford = 0.90,
-                    howland = 0.90,
-                    westEnfield = 0.90,
-                    brownsMill = 1.00,
-                    moosehead = 1.00,
-                    guilford = 1.00,
-                    weldon = 0.90
-                    )
- ) 
-}
 # Parallel execution on a local cluster
 # -------------------------------------------------------------------------
 \dontrun{

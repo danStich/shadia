@@ -109,6 +109,25 @@
 #' 
 # #' @example /inst/examples/fixed_pnr.R
 #' 
+#' @section Warning about serial execution and memory limits:
+#' Current implementation is based on work
+#' in review, and is thus subject to modification 
+#' without notice. 
+#' 
+#' Currently, internal functions rely on \code{list2env} to return
+#' lists to a temporary environment created in the 
+#' \code{penobscotRiverModel} function. Consequently, lists 
+#' that are exported must be limited in size. Therefore, 
+#' users currently need to limit the number of runs per 
+#' call (\code{nRuns} argument) to less than 10 or R will 
+#' hit memory limits quickly. In reality, serial 
+#' execution is prohibitively slow unless implemented 
+#' using manual parallel processing (i.e., bash scripting).
+#' 
+#' In order to achieve a desired number of runs for a given
+#' set of inputs, the recommended approach is to use 
+#' parallel execution as demonstrated using snowfall in the
+#' example at the bottom of this page.
 #' 
 #' @example /inst/examples/sf-examplePNR.R
 #' 

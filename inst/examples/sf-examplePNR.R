@@ -82,7 +82,6 @@ res1 <- penobscotRiverModel(nYears = 50,
     retlist <- list(
       worker=workerId,  # Worker id for now
       res=res1)       
-    
     return(retlist)
 }
 
@@ -98,7 +97,7 @@ sfClusterSetupRNG()
 
 # 6. Distribute calculation to workers
 # -----
-niterations <- 2
+niterations <- 5
 start <- Sys.time()
 
 # The magic is in snowfall's sfLapply() function,
