@@ -14,14 +14,14 @@ To install `shadia`, you will need to have `devtools` installed ahead of time in
  
 ## Use
 
-The purpose of this package is to distribute code used to run the American shad dam passage performance standard model for the Penobscot River, Maine, USA. The main package function, `penobscotRiverModel()` can be run without any arguments to estimate population abundance in various reaches of the Penobscot River under a 'no dam' passage scenario. Alternatively, the user can pass one or more values for fish passage at a given dam which can then be applied throughout the watershed, or separately at each dam. Outputs include population abundance of spawners in the watershed, within specific production units of the Penobscot River, and the proportion of repeat spawners in each age class.
+The purpose of this package is to distribute code used to run the American shad dam passage performance standard model. Currently, the model is only implemented for the Penobscot River, Maine, USA, but we are developing or modifying code for the Connecticut, Merrimack, and Susquehanna rivers. The main package function, `penobscotRiverModel()` can be run without any arguments to estimate population abundance in various reaches of the Penobscot River under a 'no dam' passage scenario. Alternatively, the user can pass one or more values for fish passage at a given dam which can then be applied throughout the watershed, or separately at each dam. Outputs include population abundance of spawners in the watershed, within specific production units of the Penobscot River, and the proportion of repeat spawners in each age class.
 
 The model takes several (10-20) seconds to run once on most standard workstations.
 
 </br>
  
 ## Warning 
-Management decisions should not be based on a single model run. The model relies on stochastic inputs for parameterization, as detailed in Stich et al. (*In review*). As such, any two model runs might result in substantially different predictions, even under the same passage scenario. We recommend at least 100 model runs per scenario to provide a minimal characterization of stochasticity, and a cursory understanding of variability in the response(s) of interest. In these cases, we strongly recommend running the model using the `snowfall` package as demonstrated in the help file for `penobscotRiverModel`, which can be accessed by typing `?penobscotRiverModel` in the console and pressing `< Enter >`.
+Management decisions should not be based on a single model run. The model relies on stochastic inputs for parameterization, as detailed in Stich et al. (*Accepted*). As such, any two model runs might result in substantially different predictions, even under the same passage scenario. We recommend at least 100 model runs per scenario to provide a minimal characterization of stochasticity, and a cursory understanding of variability in the response(s) of interest. In these cases, we strongly recommend running the model using the `snowfall` package as demonstrated in the help file for `penobscotRiverModel`, which can be accessed by typing `?penobscotRiverModel` in the console and pressing `< Enter >`.
 
 ## Directories
 
