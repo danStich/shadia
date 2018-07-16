@@ -3,7 +3,7 @@
 # -----------------------------------------------------------------------
 
 \dontrun{
- penobscotRiverModel(nRuns = 10000,
+ penobscotRiverModel(
   upstream = list(milford = seq(0, 1, 0.05),
                   howland = seq(0, 1, 0.05),
                   westEnfield = seq(0, 1, 0.05),
