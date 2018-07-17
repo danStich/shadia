@@ -105,7 +105,7 @@ fishAges <- c()
 for (i in 1:length(spawningPool)) {
   fishAges <- append(fishAges, rep(names(spawningPool)[i], spawningPool[i]))
 }
-c_fishAges <- as.numeric(substr(fishAges, start = 4, stop = 4))
+c_fishAges <- as.numeric(substr(fishAges, start = 4, stop = nchar(fishAges)))
 
 # Assign fish gender using sex ratio drawn above, females are 1
 c_sex <- rbinom(length(fishAges), 1, sex_Ratio)
