@@ -174,6 +174,9 @@ penobscotRiverModel <- function(
   if(!exists(".shadia", mode="environment"))
     .shadia <- new.env()  
   
+# Assign River
+  river <- 'penobscot'
+  
 # Passage variable assignment -----
   pDraws <- upstream
   dDraws <- downstream

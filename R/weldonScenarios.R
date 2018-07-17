@@ -1,4 +1,4 @@
-#' @title Weldon Dam relicensing scenarios
+#' @title Weldon Dam relicensing scenarios in Penobscot River
 #' 
 #' @description Special, internal function to replace Weldon passage
 #' depending on when passage is implemented. This is a relic from
