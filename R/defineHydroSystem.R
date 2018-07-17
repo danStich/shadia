@@ -62,6 +62,7 @@ damRkms=damRkms
 }
   
 if(river=='merrimack'){
+nRoutes <- 1
 nDams <- 4
 
 # Define number of production units- dams plus two in this system

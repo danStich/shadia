@@ -320,6 +320,9 @@ if(river=='penobscot'){
   upstream_path <- upstreamPathC(upstream_path)
 }
 
+if(river=='merrimack'){
+  upstream_path <- rep(1, length(c_fishAges))
+}
 
 # Collect life-history parameters into a single matrix for c++ loop
 # NOTE: the source code for the loop was re-written to preclude the need for
@@ -362,6 +365,17 @@ names(traits_4)[ncol(traits_4)] <- 'upstream_path'
 #toc()
 }
 
+if(river=='merrimack'){
+# Re-organize the data so they match the output of the ABM below
+# Create a df for traits of Piscataquis River spawners
+traits_1 <- data.frame(traits[upstream_path == 1, , drop = FALSE],
+                      upstream_path[upstream_path == 1])
+# Change the name of the last column in each of the dfs so they match
+names(traits_1)[ncol(traits_1)] <- 'upstream_path'
+#toc()
+}
+
+
 # DEFINE VARIABLES FOR SPAWNING DYNAMICS ----------------------------------
 # Carrying capacity for juvs based on potential production of adult shad in each
 # production unit based on values from the 2009 multi-species management plan
@@ -370,7 +384,6 @@ names(traits_4)[ncol(traits_4)] <- 'upstream_path'
 #if (useTictoc) tic("spawn dynamics variables")
 k_pus <- vector(mode = 'list', length = length(habitat))
 batch <- quantile(rnegbin(1e2, 2.5e4, 10), 0.5)[1]
-
 
 # Carrying capacity for first migration route (only route in some 
 # cases)
@@ -423,23 +436,22 @@ up_effs <- mapply('-', up_effs, 1)
 # Finally, assign passage efficiencies for each reach in the river
 eFFs <- vector(mode = 'list', length = length(up_effs))
 
-
-# **********************
-# ### WORKING HERE #####
-# **********************
-
-
-
-# Fill with Open passage efficiency to begin
+# Fill with Open passage efficiency
+# to begin and replace efficiencies where there are dams.
+# The first one works for all rivers because they all have
+# at least one passage route
 eFFs[[1]] <- c(rep(Open, maxrkm[1])) # Create perfect passage for group 1
-eFFs[[2]] <- c(rep(Open, maxrkm[2])) # Create perfect passage for group 2
-eFFs[[3]] <- c(rep(Open, maxrkm[1])) # Create perfect passage for group 3
-eFFs[[4]] <- c(rep(Open, maxrkm[2])) # Create perfect passage for group 4
-# And replace efficiencies where there are dams
 eFFs[[1]][damRkms[[1]]] <- up_effs[[1]] # Dam-specific efficiencies group 1
-eFFs[[2]][damRkms[[2]]] <- up_effs[[2]] # Dam-specific efficiencies group 2
-eFFs[[3]][damRkms[[3]]] <- up_effs[[3]] # Dam-specific efficiencies group 3
-eFFs[[4]][damRkms[[4]]] <- up_effs[[4]] # Dam-specific efficiencies group 4
+
+# Fill in eFFs for remaining passage routes in Penobscot River
+if(river=='penobscot'){
+  eFFs[[2]] <- c(rep(Open, maxrkm[2])) # Create perfect passage for group 2
+  eFFs[[3]] <- c(rep(Open, maxrkm[1])) # Create perfect passage for group 3
+  eFFs[[4]] <- c(rep(Open, maxrkm[2])) # Create perfect passage for group 4
+  eFFs[[2]][damRkms[[2]]] <- up_effs[[2]] # Dam-specific efficiencies group 2
+  eFFs[[3]][damRkms[[3]]] <- up_effs[[3]] # Dam-specific efficiencies group 3
+  eFFs[[4]][damRkms[[4]]] <- up_effs[[4]] # Dam-specific efficiencies group 4
+}
 #toc()
 
 # UPSTREAM MIGRATION FOR EACH FISH IN EACH YEAR ---------------------------
@@ -449,38 +461,55 @@ eFFs[[4]][damRkms[[4]]] <- up_effs[[4]] # Dam-specific efficiencies group 4
 # Add in a motivation penalty based on photoperiod. Fish are assumed to most
 # motivated at the peak of the run. Makes a passage efficiency for each
 # rkm on each day
-# Make an empty matrix to hold the results
+# Make a list of empty matrices to hold the results
 ppPenalty <- vector(mode = 'list', length = length(eFFs))
+# Fill in the first element of the list for all rivers
 ppPenalty[[1]] <-  matrix(0 , length(photo), maxrkm)
+
+# Fill in remaining elements for Penobscot River
+if(river=='penobscot'){
 ppPenalty[[2]] <-  matrix(0 , length(photo), maxrkm)
 ppPenalty[[3]] <-  matrix(0 , length(photo), maxrkm)
 ppPenalty[[4]] <-  matrix(0 , length(photo), maxrkm)
+}
 
 # Multiply passage efficiency by the penalty for each day
-
 #if (useTictoc) {
 #  tic("C++ function, motivationPenaltyC")
 #}
-
 newTU_2 <- newTU[min(c_entryDate):max(c_end)]
+# Fill in the first element of the list for all rivers
 ppPenalty[[1]] <-  motivationPenaltyC(eFFs[[1]], newTU_2, ppPenalty[[1]])
+# Fill in remaining elements for Penobscot River
+if(river=='penobscot'){
 ppPenalty[[2]] <-  motivationPenaltyC(eFFs[[2]], newTU_2, ppPenalty[[2]])
 ppPenalty[[3]] <-  motivationPenaltyC(eFFs[[3]], newTU_2, ppPenalty[[3]])
 ppPenalty[[4]] <-  motivationPenaltyC(eFFs[[4]], newTU_2, ppPenalty[[4]])
-
+}
 #toc() # C++ function, motivationPenaltyC
 
 # Track the mean motivational penalty for the spawning season
 mot <- mean((1 - (newTU - min(newTU)) /
               (max(newTU) - min(newTU)))[min(c_entryDate):max(c_end)])
 
-# Pre-allocate vectors and matrices for agent-based migration model, this can
+# Pre-allocate vectors and matrices for agent-based migration model
+# These need to be RIVER SPECIFIC. For the Penobscot River, this can
 # be done in bulk for both Piscataquis River spawners and Mainstem spawners
 # because we use vectorization to select the appropriate elements later on.
-rkm1 <- rep(41, length(c_fishAges))
-rkm2 <- matrix(0, ncol = length(day), nrow = length(c_fishAges))
+# For Penobscot River:
+  if(river=='penobscot'){
+    rkm1 <- rep(41, length(c_fishAges))
+  }
+  # For Merrimack River:
+  if(river=='merrimack'){
+    rkm1 <- rep(35, length(c_fishAges))
+  }
+  
+  rkm2 <- matrix(0, ncol = length(day), nrow = length(c_fishAges))
 
-# Get max rkm for each fish
+# Get max rkm for each fish. Rivers with one passage route skip
+# the C++ function because all fish have same max RKM.
+  
 # Create a vector of potential routes
 routes <- seq(1, nRoutes, 1)
 # Run the markmC C++ function to get max rkm for each fish given route
@@ -490,6 +519,7 @@ routes <- seq(1, nRoutes, 1)
 maxR <- maxrkmC(c_fishAges, maxrkm, upstream_path, routes)
 #toc()
 
+  
 # Run the upstream migration model and get results
 # Run the agent-based model for upstream migration
 # Get start time for running ABM function in C++
@@ -498,7 +528,7 @@ ptmABM <- proc.time() # Uncomment to time it
 #if (useTictoc) {
 #  tic("C++ ABM function, moveC")
 #}
-
+if(river=='penobscot'){
 # Run the ABM for main-to-piscataquis spawners
 moves_1 <- moveC(day,
                 c_entryDate[upstream_path == 1],
@@ -535,6 +565,19 @@ moves_4 <- moveC(day,
                 rkm1[upstream_path == 4],
                 rkm2[upstream_path == 4, , drop = FALSE],
                 c_initial[upstream_path == 4])
+}
+
+if(river=='merrimack'){
+moves_1 <- moveC(day,
+                c_entryDate[upstream_path == 1],
+                dailyMove[upstream_path == 1],
+                maxR[upstream_path == 1],
+                ppPenalty[[1]],
+                rkm1[upstream_path == 1],
+                rkm2[upstream_path == 1, , drop = FALSE],
+                c_initial[upstream_path == 1])  
+}
+
 # Calculate total run time for ABM
 timeABM <- proc.time() - ptmABM # Uncomment to time it
 
@@ -548,46 +591,65 @@ timeABM <- proc.time() - ptmABM # Uncomment to time it
 #}
 
 ptmDelay  <- proc.time() # Uncomment to time it
-# Calculate delay at each dam for each main-to-Piscataquis spawners
+
+# Calculate delay at each dam for each fish in the first 
+# migration route. For PNR, these are main-to-Piscataquis spawners
 delay_1 <- delayC(moves_1, damRkms[[1]][2:nPU[1]])
+
+if(river=='penobscot'){
 # Calculate delay at each dam for each main-to-Mainstem spawners
 delay_2 <- delayC(moves_2, damRkms[[2]][2:nPU[2]])
 # Calculate delay at each dam for each still-to-Piscataquis spawners
 delay_3 <- delayC(moves_3, damRkms[[3]][2:nPU[3]])
 # Calculate delay at each dam for each still-to-Mainstem spawners
 delay_4 <- delayC(moves_4, damRkms[[4]][2:nPU[4]])
+}
 
 # Assign names to the newly created matrices that hold delay at each dam
-# Main-to-Piscataquis spawners
-colnames(delay_1) <- c('dConfluence',
-                      'dMilford',
-                      'dHowland',
-                      'dBrownsMill',
-                      'dMoosehead',
-                      'dGuilford')
-# Main-to-Piscataquis spawners
-colnames(delay_2) <- c('dConfluence', 'dMilford', 'dWestEnfield',
-                      'dWeldon')
-# Main-to-Piscataquis spawners
-colnames(delay_3) <- c(
-  'dOrono',
-  'dStillwater',
-  'Gilman',
-  'dHowland',
-  'dBrownsMill',
-  'dMoosehead',
-  'dGuilford'
-)
-# Main-to-Piscataquis spawners
-colnames(delay_4) <- c('Orono',
-                      'Stillwater',
-                      'Gilman',
-                      'dWestEnfield',
-                      'dWeldon')
+if(river=='merrimack'){
+  colnames(delay_1) <- c('dEssex', 'dPawtucket', 'dAmoskeag', 'dHookset')
+}
+
+if(river=='penobscot'){
+  # Main-to-Piscataquis spawners
+  colnames(delay_1) <- c('dConfluence',
+                        'dMilford',
+                        'dHowland',
+                        'dBrownsMill',
+                        'dMoosehead',
+                        'dGuilford')
+  # Main-to-Piscataquis spawners
+  colnames(delay_2) <- c('dConfluence', 'dMilford', 'dWestEnfield',
+                        'dWeldon')
+  # Main-to-Piscataquis spawners
+  colnames(delay_3) <- c(
+    'dOrono',
+    'dStillwater',
+    'Gilman',
+    'dHowland',
+    'dBrownsMill',
+    'dMoosehead',
+    'dGuilford'
+  )
+  # Main-to-Piscataquis spawners
+  colnames(delay_4) <- c('Orono',
+                        'Stillwater',
+                        'Gilman',
+                        'dWestEnfield',
+                        'dWeldon')
+}
 
 # Calculate run time for delay function in C++
 timeDelay <- proc.time() - ptmDelay
 #toc() # C++ delay function, delayC
+
+####
+###########
+#####
+# LEFT OFF HERE ###############
+#####
+##########
+####
 
 # SPAWNING DYNAMICS FOR EACH YEAR WITH ANNUAL VARIABILITY -----------------
 # Combine the data for each fish stored in traits with the final rkm of that
