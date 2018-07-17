@@ -19,9 +19,7 @@ innerLoopSampling <- function(){
 # fluctuations
   habitat <- addStochList(habitat, habStoch)  
   
-# SIMULATE DAILY TEMPERATURE IN PNR EACH DAY ------------------------------
-# Use historical temperature data to predict temperature on each day from a
-# multivariate normal distribution
+# Simulate daily temperatures ------------------------------
 # Use historical temperature data to predict temperature on each day from a
 # multivariate normal distribution
 # Make an empty matrix to hold daily temperature predictions within each year
@@ -166,29 +164,6 @@ rm(entryRowsNew, entryCols, entryRows)
 
 #toc() # combine into one matrix
 
-# Assign upstream and downstream migration routes probabilistically conditional
-# on flow or production potential (upstream) and flow (downstream). NOTE: NEED
-# TO ADD IN THE FLOW DATA AND CONDITIONAL RELATIONSHIPS FOR THESE PROBABILITY
-# DISTRIBUTIONS
-# Draw upstream migration path based on flow or else proportional production
-# using a random draw from a multinomial distribution with two outcomes
-#if (useTictoc) tic("upstream migration routes")
-upstream_path <- rmultinom(
-  n = length(c_fishAges),
-  size = 1,
-  prob = c(
-    pMainUp * pPiscUp,
-    pMainUp * pMainstemUp,
-    pStillwaterUp * pPiscUp,
-    pStillwaterUp * pMainstemUp
-  )
-)
-upstream_path[2,][upstream_path[2,] > 0] <- 2
-upstream_path[3,][upstream_path[3,] > 0] <- 3
-upstream_path[4,][upstream_path[4,] > 0] <- 4
-
-# A '1' is Piscataquis, and a '2' is mainstem
-upstream_path <- upstreamPathC(upstream_path)
 
 # Draw terminal spawning ATU from a truncated normal distribution based on
 # mean and standard deviaion of mean and standard deviation of ATU at which
@@ -229,18 +204,6 @@ photo <- daylength(44.39, day)
 # length for roes and bucks
 #if (useTictoc) tic("simulate fish characteristics")
 # Roes
-# Randomly sample some number of rows from the data
-# samp <- roes[sample(nrow(roes), 1000),]
-# # Fit the model and save the parameters
-# r.mod <- growth(
-#   size = samp$fl[samp$sex == 'R'],
-#   age = samp$age[samp$sex == 'R'],
-#   Sinf = max(samp$fl),
-#   K = .5,
-#   t0 = -3,
-#   error = 1,
-#   graph = FALSE
-# )
 # Get the parameters
 r.pars <- r.parms[[sample(1:length(r.parms), 1)]]
 r.mat <- r.pars[, 1]
@@ -250,19 +213,6 @@ c_kF <- r.mat[2]   # Brody growth coeff females
 c_t0F <- r.mat[3]  # Intercept of VBGM females
 
 # Males
-# Randomly sample some number of rows from the data
-# Moved this into a separate file to store params
-# samp <- bucks[sample(nrow(bucks), 1000),]
-# # Fit the model and save the parameters
-# b.mod <- growth(
-#   size = samp$fl[samp$sex == 'B'],
-#   age = samp$age[samp$sex == 'B'],
-#   Sinf = max(samp$fl),
-#   K = .5,
-#   t0 = -3,
-#   error = 1,
-#   graph = FALSE
-# )
 # Get the parameters
 b.pars <- b.parms[[sample(1:length(b.parms), 1)]]
 b.mat <- b.pars[, 1]
@@ -342,6 +292,35 @@ c_RAF <- c_BF * (c_RT / c_SI)
 # Multiply by sex variable to set male fecundity to zero
 c_fecundity <- c_female * c_RAF
 
+
+# Upstream and downstream migration routes for Penobscot River
+if(river=='penobscot'){
+  # Assign upstream and downstream migration routes probabilistically conditional
+  # on flow or production potential (upstream) and flow (downstream). NOTE: NEED
+  # TO ADD IN THE FLOW DATA AND CONDITIONAL RELATIONSHIPS FOR THESE PROBABILITY
+  # DISTRIBUTIONS
+  # Draw upstream migration path based on flow or else proportional production
+  # using a random draw from a multinomial distribution with two outcomes
+  #if (useTictoc) tic("upstream migration routes")
+  upstream_path <- rmultinom(
+    n = length(c_fishAges),
+    size = 1,
+    prob = c(
+      pMainUp * pPiscUp,
+      pMainUp * pMainstemUp,
+      pStillwaterUp * pPiscUp,
+      pStillwaterUp * pMainstemUp
+    )
+  )
+  upstream_path[2,][upstream_path[2,] > 0] <- 2
+  upstream_path[3,][upstream_path[3,] > 0] <- 3
+  upstream_path[4,][upstream_path[4,] > 0] <- 4
+  
+  # A '1' is Piscataquis, and a '2' is mainstem
+  upstream_path <- upstreamPathC(upstream_path)
+}
+
+
 # Collect life-history parameters into a single matrix for c++ loop
 # NOTE: the source code for the loop was re-written to preclude the need for
 # these matrices. Instead, they are related to the ABM input and output post-
@@ -360,6 +339,7 @@ colnames(traits) <- gsub(pattern = "c_",
                         replacement = "",
                         colnames(traits))
 
+if(river=='penobscot'){
 # Re-organize the data so they match the output of the ABM below
 # Create a df for traits of Piscataquis River spawners
 traits_1 <- data.frame(traits[upstream_path == 1, , drop = FALSE],
@@ -380,6 +360,7 @@ names(traits_2)[ncol(traits_2)] <- 'upstream_path'
 names(traits_3)[ncol(traits_3)] <- 'upstream_path'
 names(traits_4)[ncol(traits_4)] <- 'upstream_path'
 #toc()
+}
 
 # DEFINE VARIABLES FOR SPAWNING DYNAMICS ----------------------------------
 # Carrying capacity for juvs based on potential production of adult shad in each
@@ -389,10 +370,20 @@ names(traits_4)[ncol(traits_4)] <- 'upstream_path'
 #if (useTictoc) tic("spawn dynamics variables")
 k_pus <- vector(mode = 'list', length = length(habitat))
 batch <- quantile(rnegbin(1e2, 2.5e4, 10), 0.5)[1]
-k_pus[[1]] <- ((habitat[[1]] / scalar) * sex_Ratio * batch)
-k_pus[[2]] <- ((habitat[[2]] / scalar) * sex_Ratio * batch)
-k_pus[[3]] <- ((habitat[[3]] / scalar) * sex_Ratio * batch)
-k_pus[[4]] <- ((habitat[[4]] / scalar) * sex_Ratio * batch)
+
+
+# Carrying capacity for first migration route (only route in some 
+# cases)
+  k_pus[[1]] <- ((habitat[[1]] / scalar) * sex_Ratio * batch)
+
+# Carrying capacity (k) for remaining Penobscot River
+# migration routes
+if(river=='penobscot'){
+  k_pus[[2]] <- ((habitat[[2]] / scalar) * sex_Ratio * batch)
+  k_pus[[3]] <- ((habitat[[3]] / scalar) * sex_Ratio * batch)
+  k_pus[[4]] <- ((habitat[[4]] / scalar) * sex_Ratio * batch)
+}
+
 k_pus <- lapply(k_pus, function(x) {
   x[is.na(x)] = 1
   x
@@ -431,6 +422,15 @@ up_effs <- mapply('-', up_effs, 1)
 
 # Finally, assign passage efficiencies for each reach in the river
 eFFs <- vector(mode = 'list', length = length(up_effs))
+
+
+# **********************
+# ### WORKING HERE #####
+# **********************
+
+
+
+# Fill with Open passage efficiency to begin
 eFFs[[1]] <- c(rep(Open, maxrkm[1])) # Create perfect passage for group 1
 eFFs[[2]] <- c(rep(Open, maxrkm[2])) # Create perfect passage for group 2
 eFFs[[3]] <- c(rep(Open, maxrkm[1])) # Create perfect passage for group 3

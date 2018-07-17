@@ -227,13 +227,11 @@ penobscotRiverModel <- function(
   
   if (.shadia$useTictoc) toc()
 
-
 # Hydro system configuration -----
   environment(defineHydroSystem) <- .shadia
   list2env(defineHydroSystem(), envir = .shadia)
   environment(defineHabitat) <- .shadia
   list2env(defineHabitat(), envir = .shadia)
-
 
 # Timers and progress -----
   # Start the timer for the simulation

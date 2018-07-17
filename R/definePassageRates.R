@@ -32,7 +32,7 @@ if(river=='penobscot'){
 
   # Downstream passage efficiencies
   # Define downstream passage efficiencies at each of the dams
-  OpenD <- 1.00 * delay                              # Perfect passage open reaches
+  OpenD <- 1.00                                      # Perfect passage open reaches
   GilmanD <- 1.00 * delay                            # Gilman passage
   StillwaterD <- d[1] * indirect * latent * delay    # Stillwater passage
   OronoD <- d[2] * indirect * latent * delay         # Orono passage
@@ -103,6 +103,7 @@ if(river=='penobscot'){
 
 if(river=='merrimack'){  
   # Upstream passage rates
+  Open <- 1.00
   EssexUp <- up[1] * fB
   PawtucketUp <- up[2] * fB
   AmoskeagUp <- up[3] * fB
@@ -110,6 +111,7 @@ if(river=='merrimack'){
 
   # Downstream passage efficiencies
   # Define downstream passage efficiencies at each of the dams
+  OpenD <- 1.00
   EssexD <- d[1] * indirect * latent * delay
   PawtucketD <- d[2] * indirect * latent * delay
   AmoskeagD <- d[3] * indirect * latent * delay

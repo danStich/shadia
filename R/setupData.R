@@ -161,9 +161,7 @@ mu <- ddply(tempData_merrimack2,
 mu <- mu[, c(3, 2, 1)]
 mu <- na.omit(mu)
 
-# Read in temperature data for NH (tempD)
-# This is now done automatically with package 
-# data sets. 
+# Read in temperature data for Connecticut River in NH (tempD)
 ### NEED TO RENAME THESE TEMPERATURE FILES !!!! ###
 # Summarize the temperature by day across years
 hmu <- ddply(tempD,

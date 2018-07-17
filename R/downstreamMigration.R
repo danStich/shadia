@@ -17,6 +17,7 @@
 #' 
 downstreamMigration <- function(){
 
+if(river=='penobscot'){
 # Derive downstream passage efficiencies for each group of spawners in each PU.
 # This uses the starting position of the fish, and then incorporates cumulative
 # dam passage efficiencies from the starting PU to the Bay- including the
@@ -226,6 +227,7 @@ return(
     outMigrants = outMigrants
   )
 )
-
+}
+  
 
 }
