@@ -2,7 +2,7 @@
 % Please edit documentation in R/weldonScenarios.R
 \name{weldonScenarios}
 \alias{weldonScenarios}
-\title{Weldon Dam relicensing scenarios}
+\title{Weldon Dam relicensing scenarios in Penobscot River}
 \usage{
 weldonScenarios()
 }

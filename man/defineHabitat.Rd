@@ -13,8 +13,7 @@ for production units in the Penobscot River, Maine, USA.
 \description{
 Internal function used to
 assign initial values of production potential
-for American shad in production units of the 
-Penobscot River, Maine, USA. 
+for American shad in production units of Rivers
 
 Not intended to be called directly, but visible 
 for model transparency.
@@ -24,5 +23,9 @@ Maine Department of Marine Resources (MDMR). 2009.
 Operational plan for the restoration of diadromous fishes 
 to the Penobscot River. Final Report, MDMR, 
 Maine Department of Inland Fish and Wildlife, 
-Augusta, ME. \url{http://maine.gov/dmr/searunfish/reports/Penobscot_Operational_Plan_final_2009.pdf}.
+Augusta, ME. 
+
+Technical Committee for Anadromous Fishery Management
+of the Merrimack River Basin. 2010. A plan for the 
+restoration of American shad Merrmimack River watershed.
 }
