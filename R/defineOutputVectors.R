@@ -300,6 +300,9 @@ if(river=='merrimack'){
   AmosD <- vector(mode = 'numeric', length = nYears * nRuns)
   HookD <- vector(mode = 'numeric', length = nYears * nRuns)
       
+  # Timing
+  ptime <- vector(mode = 'numeric', length = nYears * nRuns)
+
   # Indirect mortality during downstream passage
   indirectM <- vector(mode = 'numeric', length = nYears * nRuns)
   

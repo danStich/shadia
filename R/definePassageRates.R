@@ -129,6 +129,8 @@ if(river=='merrimack'){
   
   return(
     list(
+      Open = Open,
+      EssexUp = EssexUp,      
       PawtucketUp = PawtucketUp,
       AmoskeagUp = AmoskeagUp,
       HooksetUp = HooksetUp,

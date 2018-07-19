@@ -197,7 +197,7 @@ return(list(
   roe.lw = roe.lw,
   tempData_merrimack2 = tempData_merrimack2,
   mu = mu,
-  mmr = mmrr,
+  mmr = mmr,
   ctr = ctr,
   calMod = calMod,
   hmu = hmu

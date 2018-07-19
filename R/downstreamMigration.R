@@ -228,7 +228,7 @@ return(
   )
 )
 
-
+}
 
 
 
@@ -287,14 +287,8 @@ outMigrants <- femalesOut + malesOut
 
 return(
   list(
-    sPU_Pisc = sPU_Pisc,
-    sPU_Main = sPU_Main,
-    sPU_PiscStill = sPU_PiscStill,
-    sPU_MainStill = sPU_MainStill,
-    sPUj_Pisc = sPUj_Pisc,
-    sPUj_Main = sPUj_Main,
-    sPUj_PiscStill = sPUj_PiscStill,
-    sPUj_MainStill = sPUj_MainStill,
+    sPU = sPU,
+    sPj = sPUj,
     malesOut = malesOut,
     femalesOut = femalesOut,
     recruitsOut = recruitsOut,
@@ -303,19 +297,4 @@ return(
 )  
   
 }
-
-
-
-
-
-
-
-
-
-
-
-
-}
-  
-
 }

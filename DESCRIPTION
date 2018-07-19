@@ -19,7 +19,8 @@ Imports:
   methods, 
   fishmethods, 
   geosphere, 
-  lubridate
+  lubridate, 
+  stringr
 LinkingTo:  Rcpp
 Suggests: rlecuyer, snowfall
 RoxygenNote: 6.0.1

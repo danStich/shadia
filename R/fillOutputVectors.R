@@ -345,9 +345,6 @@ if(river=='merrimack'){
   # Year, fillling pre-allocated vector with this year
   years[(n + nYears * (k - 1))] <-  n
 
-  # Scenario for passage timing at Weldon
-  scen[(n + nYears * (k - 1))] <-  scenario
-
   # Upstream passage efficiencies, fillling pre-allocated vectors
   EssUp[(n + nYears * (k - 1))] <- EssexUp 
   PawUp[(n + nYears * (k - 1))] <- PawtucketUp
@@ -379,23 +376,23 @@ if(river=='merrimack'){
 
   # Population between Essex and Pawtucket dams
   popII[(n + nYears * (k - 1))] <-  (
-    sum(males[[2]][[1]]) + 
-      sum(females[[2]][[1]])) * scalar
+    sum(males[[1]][[2]]) + 
+      sum(females[[1]][[2]])) * scalar
 
   # Population between Pawtucket and Amoskeag dams
   popIII[(n + nYears * (k - 1))] <-  (
-    sum(males[[3]][[1]]) + 
-      sum(females[[3]][[1]])) * scalar
+    sum(males[[1]][[3]]) + 
+      sum(females[[1]][[3]])) * scalar
 
   # Population between Amoskeag and Hookset dams
   popIV[(n + nYears * (k - 1))] <-  (
-    sum(males[[4]][[1]]) + 
-      sum(females[[4]][[1]])) * scalar
+    sum(males[[1]][[4]]) + 
+      sum(females[[1]][[4]])) * scalar
   
   # Population upstream of Hookset Dam
   popV[(n + nYears * (k - 1))] <-  (
-    sum(males[[5]][[1]]) + 
-      sum(females[[5]][[1]])) * scalar
+    sum(males[[1]][[5]]) + 
+      sum(females[[1]][[5]])) * scalar
 
   # Proportion of repeat spawners at each age, fillling pre-allocated vector
   pRepeats[[(n + nYears * (k - 1))]] <-  pRepeat
@@ -488,7 +485,6 @@ return(list(
 scalar = scalar,
 populationSize = populationSize,
 years = years,
-scen = scen,
 EssUp = EssUp,
 PawUp = PawUp,
 AmosUp = AmosUp,
