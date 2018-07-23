@@ -1,8 +1,7 @@
-#' Penobscot River Model
+#' Merrimack River Model
 #'
 #' Runs American shad dam passage performance
-#' standard model for Penobscot River, Maine,
-#' USA
+#' standard model Merrimack River, USA
 #'
 #' @param nRuns The number of times that the
 #' model will be run.
@@ -19,9 +18,7 @@
 #'
 #' @param upstream A named list of upstream dam
 #' passage efficiencies at each dam in the
-#' Penobscot River. Stillwater and Orono dams are
-#' not included in the list of values because all
-#' fish reaching Orono Dam are trucked upstream.
+#' Merrimack River.
 #'
 #' Users may specify a single value of upstream
 #' passage at each dam, or a vector of upstream
@@ -34,8 +31,7 @@
 #'
 #' @param downstream A named list of downstream
 #' dam passage efficiencies at each dam in the
-#' Penobscot River (including Orono and Stillwater
-#' dams).
+#' Merrimack River.
 #'
 #' Users may specify a single value of downstream
 #' passage at each dam, or a vector of downstream
@@ -47,8 +43,7 @@
 #' is supplied for any dam.
 #'
 #' @param inRiverF Annual, recreational harvest of
-#' American shad.
-#' Parameterized as an annual rate [0, 1].
+#' American shad. Parameterized as an annual rate [0, 1].
 #'
 #' @param commercialF Commercial fishery mortality
 #' for American shad in marine environment incurred
@@ -115,9 +110,9 @@
 #' In order to achieve a desired number of runs for a given
 #' set of inputs, the recommended approach is to use
 #' parallel execution as demonstrated using snowfall in the
-#' example at the bottom of this page.**COMING SOON**
+#' example at the bottom of this page.
 #'
-# #' @example /inst/examples/sf-examplePNR.R
+#' @example /inst/examples/sf-exampleMMR.R
 #'
 #' @export
 merrimackRiverModel <- function(

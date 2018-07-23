@@ -195,7 +195,6 @@ wrapper <- function(idx) {
                     )
 
 # Run the model
-# Run the model
 res1 <- penobscotRiverModel(nYears = 50,
                             upstream = list(
                               milford = seq(0, 1, 0.10),
@@ -221,7 +220,7 @@ res1 <- penobscotRiverModel(nYears = 50,
 
 # Define the output lists
     retlist <- list(
-      worker=workerId,  # Worker id for now
+      worker=workerId,
       res=res1)       
     return(retlist)
 }
@@ -258,8 +257,7 @@ sfStop()
 # 'result' is a list of lists. Save this:
 save(result, file = "snowfall-result.rda")
 
-# pull out coef vector from the list, and summarize
-# its descriptive statistics, mean, etc.:
+# Extract results dataframes by string and rbind them
 res <- lapply(result, function(x) x[[c('res')]])
 resdf <- do.call(rbind, res)
 }
