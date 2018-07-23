@@ -693,7 +693,7 @@ sp_1 <- data.frame(spawnData_1)
 
 
 
-if(river=='penosbcot'){
+if(river=='penobscot'){
 # Assign each fish to a production unit before they spawn. Do this for
 # Piscataquis River spawners and Mainstem spawners
 # First, assign rkms to delineate each of the production units
