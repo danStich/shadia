@@ -2,6 +2,7 @@
 #' 
 #' @description Internal function passing user-defined
 #' arguments from call to \code{\link{penobscotRiverModel}}
+#' and other river models
 #' to named objects used to define passage rates at 
 #' dam rkms in the individual-based migration model.
 #' 
@@ -14,6 +15,7 @@
 
 definePassageRates <- function(){
 
+if(river=='penobscot'){  
   # Upstream passage rates
   Open <- 1.00
   Confluence <- 1.00 * fB
@@ -30,7 +32,7 @@ definePassageRates <- function(){
 
   # Downstream passage efficiencies
   # Define downstream passage efficiencies at each of the dams
-  OpenD <- 1.00 * delay                              # Perfect passage open reaches
+  OpenD <- 1.00                                      # Perfect passage open reaches
   GilmanD <- 1.00 * delay                            # Gilman passage
   StillwaterD <- d[1] * indirect * latent * delay    # Stillwater passage
   OronoD <- d[2] * indirect * latent * delay         # Orono passage
@@ -96,5 +98,53 @@ definePassageRates <- function(){
   
     )
   )
+}  
   
+
+if(river=='merrimack'){  
+  # Upstream passage rates
+  Open <- 1.00
+  EssexUp <- up[1] * fB
+  PawtucketUp <- up[2] * fB
+  AmoskeagUp <- up[3] * fB
+  HooksetUp <- up[4] * fB
+
+  # Downstream passage efficiencies
+  # Define downstream passage efficiencies at each of the dams
+  OpenD <- 1.00
+  EssexD <- d[1] * indirect * latent * delay
+  PawtucketD <- d[2] * indirect * latent * delay
+  AmoskeagD <- d[3] * indirect * latent * delay
+  HooksetD <- d[4] * indirect * latent * delay
+  
+  # Make downstream survival probabilities for juveniles
+  # Unused. Moved to separate calculations in the 
+  # Connecticut River Model. All runs in the Penobscot
+  # River to date have used equal performance standards.
+  # Will update this model to use the same approach.
+  EssexDj <- d[1] * indirect * latent * delay
+  PawtucketDj <- d[2] * indirect * latent * delay
+  AmoskeagDj <- d[3] * indirect * latent * delay
+  HooksetDj <- d[4] * indirect * latent * delay  
+  
+  return(
+    list(
+      Open = Open,
+      EssexUp = EssexUp,      
+      PawtucketUp = PawtucketUp,
+      AmoskeagUp = AmoskeagUp,
+      HooksetUp = HooksetUp,
+      EssexD = EssexD,
+      PawtucketD = PawtucketD,
+      AmoskeagD = AmoskeagD,
+      HooksetD = HooksetD,
+      EssexDj = EssexDj,
+      PawtucketDj = PawtucketDj,
+      AmoskeagDj = AmoskeagDj,
+      HooksetDj = HooksetDj
+    )
+  )
+  
+}
+    
 }  

@@ -32,6 +32,7 @@ colnames(spawners) <- paste(colnames(spawners), 'N', sep = '_')
 # Rescale population size based on reduction factor at start of script
 populationSize <- populationSize
 
+if(river=='penobscot'){
 # Collect inputs and outputs into a single object for file write
 res <- data.frame(
   years,
@@ -177,6 +178,132 @@ names(res)<-c(
 #   scalarVar,
 #   scen
 # )
+}
+
+if(river=='merrimack'){
+# Collect inputs and outputs into a single object for file write
+res <- data.frame(
+  years,
+  ptime,
+  EssUp,
+  PawUp,
+  AmosUp,
+  HookUp,
+  EssD,
+  PawD,
+  AmosD,
+  HookD,
+  F.inRiver,
+  F.commercial,
+  F.bycatch,
+  indirectM,
+  latentM,
+  pRepeats,
+  ceiling(populationSize),
+  ceiling(popI),
+  ceiling(popII),
+  ceiling(popIII),
+  ceiling(popIV),
+  ceiling(popV)
+)
+
+names(res)<-c(
+  "year",
+  "time",
+  "EssUp",
+  "PawUp",
+  "AmosUp",
+  "HookUp",
+  "EssD",
+  "PawD",
+  "AmosD",
+  "HookD",  
+  "inriverF",
+  "commercialF",
+  "bycatchF",
+  "indirect",
+  "latent",
+  "pRepeat_Age1",
+  "pRepeat_Age2",
+  "pRepeat_Age3",
+  "pRepeat_Age4",
+  "pRepeat_Age5",
+  "pRepeat_Age6",
+  "pRepeat_Age7",
+  "pRepeat_Age8",
+  "pRepeat_Age9",
+  "pRepeat_Age10",  
+  "pRepeat_Age11",  
+  "populationSize",
+  "N_I",
+  "N_II",
+  "N_III",
+  "N_IV",
+  "N_V"
+)
+
+# Collect variables for sensitivity analysis and save them out
+# sens = data.frame(
+#   S.downstream,
+#   S.marine,
+#   popStart,
+#   p.female,
+#   S.prespawnM,
+#   S.postspawnM,
+#   S.prespawnF,
+#   S.postspawnF,
+#   S.juvenile,
+#   t.stoch,
+#   t.RegrInt,
+#   t.RegrSlp,
+#   b.ArrRegrInt,
+#   b.ArrRegrSlp,
+#   r.ArrRegrInt,
+#   r.ArrRegrSlp,
+#   b.Arr,
+#   r.Arr,
+#   ATUspawn1,
+#   ATUspawn2,
+#   Dspawn1,
+#   Dspawn2,
+#   linF,
+#   kF,
+#   t0F,
+#   linM,
+#   kM,
+#   t0M,
+#   lwF.alpha,
+#   lwF.beta,
+#   lwM.alpha,
+#   lwM.beta,
+#   b.length,
+#   r.length,
+#   spawnInt,
+#   batchSize,
+#   resTime,
+#   s.Optim,
+#   d.Max,
+#   tortuosity,
+#   motivation,
+#   daily.move,
+#   habStoch,
+#   scalarVar,
+#   scen
+# )
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Write the inputs and outputs to a text file that can be read into R
 #writeData(filename)

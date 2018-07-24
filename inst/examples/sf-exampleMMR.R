@@ -36,7 +36,7 @@ data('tempData')
 
 # 3. Define wrapper function, which can be called in parallel.
 #
-#   Runs PenobscotRiverModel.R on each worker
+#   Runs merrimackRiverModel() on each worker
 #
 #   Here, workerId just contains the identity of the cpu that perfomed
 #   the work. We do this only to prove we have used all the specified cpus!
@@ -54,26 +54,18 @@ wrapper <- function(idx) {
                     )
 
 # Run the model
-res1 <- penobscotRiverModel(nYears = 50,
+res1 <- merrimackRiverModel(nYears = 50,
                             upstream = list(
-                              milford = seq(0, 1, 0.10),
-                              howland = seq(0, 1, 0.10),
-                              westEnfield = seq(0, 1, 0.10),
-                              brownsMill = seq(0, 1, 0.10),
-                              moosehead = seq(0, 1, 0.10),
-                              guilford = seq(0, 1, 0.10),
-                              weldon = seq(0, 1, 0.10)
+                              Essex = seq(0, 1, 0.10),
+                              Pawtucket = seq(0, 1, 0.10),
+                              Amoskeag = seq(0, 1, 0.10),
+                              Hookset = seq(0, 1, 0.10)
                             ),
                             downstream = list(
-                              stillwater = seq(0, 1, 0.10),
-                              orono = seq(0, 1, 0.10),
-                              milford = seq(0, 1, 0.10),
-                              howland = seq(0, 1, 0.10),
-                              westEnfield = seq(0, 1, 0.10),
-                              brownsMill = seq(0, 1, 0.10),
-                              moosehead = seq(0, 1, 0.10),
-                              guilford = seq(0, 1, 0.10),
-                              weldon = seq(0, 1, 0.10)
+                              Essex = seq(0, 1, 0.10),
+                              Pawtucket = seq(0, 1, 0.10),
+                              Amoskeag = seq(0, 1, 0.10),
+                              Hookset = seq(0, 1, 0.10)
                             )
         )
 
@@ -96,12 +88,11 @@ sfClusterSetupRNG()
 
 # 6. Distribute calculation to workers
 # -----
-niterations <- 5
+niterations <- 50
 start <- Sys.time()
 
 # The magic is in snowfall's sfLapply() function,
-# which sends wrapper() out to the
-# workers:
+# which sends wrapper() out to the workers:
 result <- sfLapply(1:niterations, wrapper) 
 
 Sys.time()-start
@@ -119,4 +110,8 @@ save(result, file = "snowfall-result.rda")
 # Extract results dataframes by string and rbind them
 res <- lapply(result, function(x) x[[c('res')]])
 resdf <- do.call(rbind, res)
+
+plot(resdf$year, resdf$populationSize)
+
+
 }

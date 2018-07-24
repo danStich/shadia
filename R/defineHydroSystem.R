@@ -3,7 +3,9 @@
 #' @description Internal function used to define the
 #' configuration of the hydrosystem and catchment. Not
 #' intended to be called directly, but visible for the
-#' sake of model transparency.
+#' sake of model transparency. Relies on river ID (chr)
+#' defined in the main file for each system (e.g. penobscot,
+#' merrimack, etc.)
 #' 
 #' @return A list of values related to the hydro system, 
 #' including 1) the number of migration routes, 2) number of 
@@ -15,7 +17,9 @@
 #'
 defineHydroSystem <- function(){
   
-# Hydrosystem characterstics -----------------------------------
+  
+if(river=='penobscot'){  
+# Penobscot River -----------------------------------
 # For the Penobscot, there are two potential
 # migration routes, so this needs to be accommodated.
 # FOR ALL OF THE HABITAT VARIABLES AND THE PASSAGE ROUTE
@@ -55,6 +59,41 @@ nPU=nPU,
 maxrkm=maxrkm,
 damRkms=damRkms
 ))
+}
+  
+if(river=='merrimack'){
+nRoutes <- 1
+nDams <- 4
+
+# Define number of production units- dams plus two in this system
+nPU <- nDams + 1
+
+# Define maximum rkm for the system.
+maxrkm <- 204
+
+# Define rkms for each of the dams for each migration group
+damRkms <- vector(mode = 'list', length = nRoutes)
+damRkms[[1]] <- c(45, 65, 120, 135)     # Dam rkms for group 1
+
+return(list(
+nRoutes=nRoutes,
+nDams=nDams,
+nPU=nPU,
+maxrkm=maxrkm,
+damRkms=damRkms
+))  
+  
+  
+  
+  
+  
+  
+}  
+
+
+
+
+
 
 }
 

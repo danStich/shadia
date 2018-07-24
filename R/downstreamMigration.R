@@ -17,6 +17,7 @@
 #' 
 downstreamMigration <- function(){
 
+if(river=='penobscot'){
 # Derive downstream passage efficiencies for each group of spawners in each PU.
 # This uses the starting position of the fish, and then incorporates cumulative
 # dam passage efficiencies from the starting PU to the Bay- including the
@@ -227,5 +228,73 @@ return(
   )
 )
 
+}
 
+
+
+
+
+if(river=='merrimack'){
+# Derive downstream passage efficiencies for each group of spawners in each PU.
+# This uses the starting position of the fish, and then incorporates cumulative
+# dam passage efficiencies from the starting PU to the ocean.
+sPU <- c()
+sPU[[1]] <- downstreamS ^ puRkm[[1]][1]
+sPU[[2]] <- sPU[[1]] * EssexD * (downstreamS ^ puRkm[[1]][2])
+sPU[[3]] <- sPU[[2]] * PawtucketD * (downstreamS ^ puRkm[[1]][3])
+sPU[[4]] <- sPU[[3]] * AmoskeagD * (downstreamS ^ puRkm[[1]][4])
+sPU[[5]] <- sPU[[4]] * HooksetD * (downstreamS ^ puRkm[[1]][5])
+
+# Derive downstream passage efficiencies for each group of juveniles in each PU.
+# This uses the starting position of the fish, and then incorporates cumulative
+# dam passage efficiencies from the starting PU to the ocean.
+sPUj <- c()
+sPUj[[1]] <- downstreamS ^ puRkm[[1]][1]
+sPUj[[2]] <- sPUj[[1]] * EssexDj * (downstreamS ^ puRkm[[1]][2])
+sPUj[[3]] <- sPUj[[2]] * PawtucketDj * (downstreamS ^ puRkm[[1]][3])
+sPUj[[4]] <- sPUj[[3]] * AmoskeagDj * (downstreamS ^ puRkm[[1]][4])
+sPUj[[5]] <- sPUj[[4]] * HooksetDj * (downstreamS ^ puRkm[[1]][5])
+
+# Calculate number of males reaching the mouth of the river after spawn from
+# each PU
+  malesOut <- vector(mode = 'list', length = length(males))
+  for (i in 1:length(sPU)) {
+    malesOut[[1]][[i]] <- mapply("*", males[[1]], sPU)[, i]
+  }
+  # Sum number of males in each age from all PUs reaching river mouth
+  malesOut <- apply(data.frame(malesOut[[1]]), 1, sum)
+
+# Calculate number of females reaching the mouth of the river after spawn from
+# each PU
+  femalesOut <- vector(mode = 'list', length = length(females))
+  for (i in 1:length(sPU)) {
+    femalesOut[[1]][[i]] <- mapply("*", females[[1]], sPU)[, i]
+  }
+  # Sum number of females in each age from all PUs reaching river mouth
+  femalesOut <- apply(data.frame(femalesOut[[1]]), 1, sum)
+
+# Calculate the number of recruits reaching the ocean
+  recruitsOut <- vector(mode = 'list', length = length(recruits))
+  # Mainstem-to-piscataquis spawners
+  for (i in 1:length(sPUj)) {
+    recruitsOut[[1]][[i]] <- mapply("*", recruits[[1]][[i]], sPUj[i])
+  }
+  # Sum number of recruits in each age from all PUs reaching river mouth
+  recruitsOut <- sum(unlist(recruitsOut))
+
+# Sum total number of out migrants
+outMigrants <- femalesOut + malesOut
+
+return(
+  list(
+    sPU = sPU,
+    sPj = sPUj,
+    malesOut = malesOut,
+    femalesOut = femalesOut,
+    recruitsOut = recruitsOut,
+    outMigrants = outMigrants
+  )
+)  
+  
+}
 }

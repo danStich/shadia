@@ -17,5 +17,7 @@ and 5) the locations of dams in rkm.
 Internal function used to define the
 configuration of the hydrosystem and catchment. Not
 intended to be called directly, but visible for the
-sake of model transparency.
+sake of model transparency. Relies on river ID (chr)
+defined in the main file for each system (e.g. penobscot,
+merrimack, etc.)
 }

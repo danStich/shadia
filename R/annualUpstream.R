@@ -23,6 +23,7 @@
 
 annualUpstream <- function(){
   
+if(river=='penobscot'){
   # Assign efficiencies to the upstream passage groups (pisc or main)
   upEffs <- vector(mode = 'list', length = nRoutes)
   upEffs[[1]] <- vector(mode = 'numeric', length = length(damRkms[[1]]))
@@ -76,6 +77,23 @@ return(list(
   pMainD = pMainD,
   pMainstemUp = pMainstemUp
 ))  
+}
+  
+if(river=='merrimack'){
+  # Assign efficiencies to the upstream passage groups (pisc or main)
+  upEffs <- vector(mode = 'list', length = nRoutes)
+
+  # Route 1- Mainstem to piscataquis
+  upEffs[[1]][1] <- EssexUp
+  upEffs[[1]][2] <- PawtucketUp
+  upEffs[[1]][3] <- AmoskeagUp
+  upEffs[[1]][4] <- HooksetUp
+
+  return(list(
+    upEffs = upEffs
+  ))  
+  
+}  
   
 }  
   
