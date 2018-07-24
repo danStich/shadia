@@ -179,7 +179,8 @@ merrimackRiverModel <- function(
   if(watershed){
   cat('WARNING: when watershed is set to TRUE,
     upstream and downstream passage rate(s) for 
-    Essex Dam will be used for all dams.')
+    Essex Dam will be used for all dams.',
+    '\n','\n', sep='')
   }
 
 # Set parameters -----

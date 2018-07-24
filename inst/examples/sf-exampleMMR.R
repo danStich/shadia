@@ -88,7 +88,7 @@ sfClusterSetupRNG()
 
 # 6. Distribute calculation to workers
 # -----
-niterations <- 5
+niterations <- 50
 start <- Sys.time()
 
 # The magic is in snowfall's sfLapply() function,
@@ -110,4 +110,8 @@ save(result, file = "snowfall-result.rda")
 # Extract results dataframes by string and rbind them
 res <- lapply(result, function(x) x[[c('res')]])
 resdf <- do.call(rbind, res)
+
+plot(resdf$year, resdf$populationSize)
+
+
 }

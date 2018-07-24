@@ -139,27 +139,41 @@ entryCols <- ncol(b.entry) # same for r.entry col count
 entryRows <- nrow(b.entry) + nrow(r.entry)
 
 # define size and characteristics of the data frame
-entry <- data.frame(matrix(ncol = entryCols, nrow = entryRows),
+entry <- data.frame(matrix(0,
+                           ncol = entryCols,
+                           nrow = entryRows),
                     row.names = NULL,
                     check.names=FALSE,
                     fix.empty.names = TRUE,
                     stringsAsFactors = FALSE)
 
+### FOO
+# We initialize with drop = FALSE just in case there are
+# no individuals left
 entry <- rbind(b.entry, r.entry, drop = FALSE)
 
 # Note that we need to cut out some of the wilder predictions.
 entry[, 1:60] <- 0
 entry[, 200:entryCols] <- 0
+
+# Remove last row to undo effect of drop=FALSE above if
+# there are any individuals left. Need to cast as a matrix
+# in case there is only one row left, in which case R tries
+# to default to vector
 if (nrow(entry) > 1) { # we are altering nrow inside the loop...dirty!!
-  entry <- entry[1:(nrow(entry) - 1),]
+  entry <- matrix(entry[1:(nrow(entry) - 1),], ncol=366)
 }
-# if we have changed it above:
+# if we have changed the object above
 entryRowsNew <- nrow(entry)
 
-c_entryDate <- vector(mode = 'numeric', length = entryRowsNew)
-for (i in 1:entryRowsNew) {
+# Added conditional in vector pre-allocation below.
+# We do a check to see if there are any fish left.
+c_entryDate <- vector(mode = 'numeric', length = max(1,entryRowsNew, na.rm=T))
+for (i in 1:length(c_entryDate)) {
   c_entryDate[i] <- which(entry[i,] == max(entry[i,], na.rm = TRUE))[1]
 }
+#### BAR
+
 rm(entryRowsNew, entryCols, entryRows)
 
 #toc() # combine into one matrix
