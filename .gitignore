@@ -6,8 +6,8 @@
 .Ruserdata
 shadia.Rproj
 
-sf-example.PNR.R
-sf-exampleMMR.R
+sf-example-tester.PNR.R
+sf-example-testerMMR.R
 ConnecticutRiverModel_20161111.R
 debugger.R
 snowfall-result.rda

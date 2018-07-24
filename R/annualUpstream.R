@@ -92,8 +92,25 @@ if(river=='merrimack'){
   return(list(
     upEffs = upEffs
   ))  
-  
 }  
+  
+if(river=='connecticut'){
+  # Assign efficiencies to the upstream passage groups (pisc or main)
+  upEffs <- vector(mode = 'list', length = nRoutes)
+
+  # Route 1- Mainstem to piscataquis
+  upEffs[[1]][1] <- HolyokeUp
+  upEffs[[1]][2] <- TurnersUp
+  upEffs[[1]][3] <- CabotUp
+  upEffs[[1]][4] <- VernonUp
+  upEffs[[1]][5] <- BellowsUp
+
+  return(list(
+    upEffs = upEffs
+  ))  
+}    
+  
+  
   
 }  
   
