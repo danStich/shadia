@@ -8,8 +8,9 @@ shadia.Rproj
 
 .sf-example.PNR.R
 .sf-exampleMMR.R
+.ConnecticutRiverModel_20161111.R
 .debugger.R
-snowfall-result.rda
+.snowfall-result.rda
 
 src/*.o
 src/*.so
