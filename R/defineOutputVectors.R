@@ -494,6 +494,10 @@ if(river=='connecticut'){
   # Empty container to hold Weldon scenario (depricated)
   scen <- vector(mode = 'numeric', length = nYears * nRuns)
   
+  # Probability of using the spillway passage route for
+  # upstream migration
+  pSpill <- vector(mode = 'numeric', length = nYears * nRuns)
+  
   # Upstream passage efficiencies
   HolUp <- vector(mode = 'numeric', length = nYears * nRuns)
   CabUp <- vector(mode = 'numeric', length = nYears * nRuns)
@@ -504,13 +508,13 @@ if(river=='connecticut'){
   # Downstream passage efficiencies
   HolD <- vector(mode = 'numeric', length = nYears * nRuns)
   CabD <- vector(mode = 'numeric', length = nYears * nRuns)
-  SpillD <- vector(mode = 'numeric', length = nYears * nRuns)
+  GateD <- vector(mode = 'numeric', length = nYears * nRuns)
   VernD <- vector(mode = 'numeric', length = nYears * nRuns)
 
   # Downstream dam passage performance standards juvenile
   HolDj = vector(mode='numeric', length = nYears*nRuns)
   CabDj = vector(mode='numeric', length = nYears*nRuns)
-  SpillDj = vector(mode='numeric', length = nYears*nRuns)
+  GateDj = vector(mode='numeric', length = nYears*nRuns)
   VernDj = vector(mode='numeric', length = nYears*nRuns)
 
   # Northfield mountain take
@@ -625,6 +629,7 @@ if(river=='connecticut'){
     list(
       years = years,
       scen = scen,
+      pSpill = pSpill,
       HolUp = HolUp,
       CabUp = CabUp,
       SpillUp = SpillUp,
@@ -632,11 +637,11 @@ if(river=='connecticut'){
       VernUp = VernUp,
       HolD = HolD,
       CabD = CabD,
-      SpillD = SpillD,
+      GateD = GateD,
       VernD = VernD,
       HolDj = HolDj,
       CabDj = CabDj,
-      SpillDj = SpillDj,
+      GateDj = GateDj,
       VernDj = VernDj,
       NorthFieldV = NorthFieldV,
       NorthFieldT = NorthFieldT,

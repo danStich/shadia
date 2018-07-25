@@ -295,6 +295,101 @@ return(
     outMigrants = outMigrants
   )
 )  
-  
 }
+  
+if(river=='connecticut'){
+  # Derive downstream passage efficiencies for each group of spawners in each PU.
+  # This uses the starting position of the fish, and then incorporates cumulative
+  # dam passage efficiencies from the starting PU to the ocean.
+  
+  # In connecticut river, need to add loss for take at males[[1]][[4]]northfield mountain
+  # This occurs for adults and juveniles in the turners falls head pond
+  # and in the vernon dam head pond. We use independent rates for adults
+  # and for juveniles in each of the reaches.
+  
+  # Juveniles - these are summed into a single route already 
+  # for applying carrying capacity, so we just do that one:
+  recruits[[1]][[4]] <- recruits[[1]][[4]]*northfield$turnersJ
+  recruits[[1]][[5]]  <- recruits[[1]][[5]]*northfield$vernonJ 
+  
+  # Males, both routes:
+  males[[1]][[4]] <- males[[1]][[4]]*northfield$turnersA
+  males[[1]][[5]] <- males[[1]][[5]]*northfield$vernonA   
+  males[[2]][[4]] <- males[[2]][[4]]*northfield$turnersA
+  males[[2]][[5]] <- males[[2]][[5]]*northfield$vernonA     
+  
+  # Females, both routes:
+  females[[1]][[4]] <- females[[1]][[4]]*northfield$turnersA
+  females[[1]][[5]] <- females[[1]][[5]]*northfield$vernonA   
+  females[[2]][[4]] <- females[[2]][[4]]*northfield$turnersA
+  females[[2]][[5]] <- females[[2]][[5]]*northfield$vernonA  
+  
+  # In the connecticut river, all downstream fish passage
+  # is designed to occur through gatehouse, so we can get
+  # away with one migration route here.
+  sPU <- c()
+  sPU[[1]] <- downstreamS ^ puRkm[[1]][1]
+  sPU[[2]] <- sPU[[1]] * HolyokeD * (downstreamS ^ puRkm[[1]][2])
+  sPU[[3]] <- sPU[[2]] * CabotD * (downstreamS ^ puRkm[[1]][3])
+  sPU[[4]] <- sPU[[3]] * GatehouseD * (downstreamS ^ puRkm[[1]][4])
+  sPU[[5]] <- sPU[[4]] * VernonD * (downstreamS ^ puRkm[[1]][5])
+  
+  # Derive downstream passage efficiencies for each group of juveniles in each PU.
+  # This uses the starting position of the fish, and then incorporates cumulative
+  # dam passage efficiencies from the starting PU to the ocean.
+  sPUj <- c()
+  sPUj[[1]] <- downstreamS ^ puRkm[[1]][1]
+  sPUj[[2]] <- sPUj[[1]] * HolyokeD * (downstreamS ^ puRkm[[1]][2])
+  sPUj[[3]] <- sPUj[[2]] * CabotD * (downstreamS ^ puRkm[[1]][3])
+  sPUj[[4]] <- sPUj[[3]] * GatehouseD * (downstreamS ^ puRkm[[1]][4])
+  sPUj[[5]] <- sPUj[[4]] * VernonD * (downstreamS ^ puRkm[[1]][5])
+
+# Calculate number of males reaching the mouth of the river after spawn from
+# each PU
+  malesOut <- vector(mode = 'list', length = length(males))
+  for (i in 1:length(sPU)) {
+    malesOut[[1]][[i]] <- mapply("*", males[[1]], sPU)[, i]
+    malesOut[[2]][[i]] <- mapply("*", males[[2]], sPU)[, i]
+  }
+  
+  # Sum number of males in each age from all PUs reaching river mouth
+  malesOut <- apply(data.frame(malesOut[[1]]), 1, sum) +
+    apply(data.frame(malesOut[[2]]), 1, sum)
+
+# Calculate number of females reaching the mouth of the river after spawn from
+# each PU
+  femalesOut <- vector(mode = 'list', length = length(females))
+  for (i in 1:length(sPU)) {
+    femalesOut[[1]][[i]] <- mapply("*", females[[1]], sPU)[, i]
+    femalesOut[[2]][[i]] <- mapply("*", females[[2]], sPU)[, i]
+  }
+  
+  # Sum number of females in each age from all PUs reaching river mouth
+  femalesOut <- apply(data.frame(femalesOut[[1]]), 1, sum) +
+    apply(data.frame(femalesOut[[2]]), 1, sum)
+
+# Calculate the number of recruits reaching the ocean
+  recruitsOut <- vector(mode = 'list', length = length(recruits))
+  # Mainstem-to-piscataquis spawners
+  for (i in 1:length(sPUj)) {
+    recruitsOut[[1]][[i]] <- mapply("*", recruits[[1]][[i]], sPUj[i])
+  }
+  # Sum number of recruits in each age from all PUs reaching river mouth
+  recruitsOut <- sum(unlist(recruitsOut))
+
+  # Sum total number of out migrants
+  outMigrants <- femalesOut + malesOut
+  
+  return(
+    list(
+      sPU = sPU,
+      sPj = sPUj,
+      malesOut = malesOut,
+      femalesOut = femalesOut,
+      recruitsOut = recruitsOut,
+      outMigrants = outMigrants
+    )
+  )  
+}  
+  
 }

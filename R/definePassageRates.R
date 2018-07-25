@@ -160,7 +160,7 @@ if(river=='connecticut'){
   OpenD <- 1.00
   HolyokeD <- d[1] * indirect * latent * delay
   CabotD <- d[2] * indirect * latent * delay
-  SpillwayD <- d[3] * indirect * latent * delay
+  GatehouseD <- d[3] * indirect * latent * delay
   VernonD <- d[4] * indirect * latent * delay
   
   # Make downstream survival probabilities for juveniles.
@@ -170,7 +170,7 @@ if(river=='connecticut'){
   # Will update this model to use the same approach.
   HolyokeDj <- d[1] * indirect * latent * delay
   CabotDj <- d[2] * indirect * latent * delay
-  SpillwayDj <- d[3] * indirect * latent * delay
+  GatehouseDj <- d[3] * indirect * latent * delay
   VernonDj <- d[4] * indirect * latent * delay
   
   return(
@@ -183,11 +183,11 @@ if(river=='connecticut'){
       VernonUp = VernonUp,
       HolyokeD = HolyokeD,      
       CabotD = CabotD,
-      SpillwayD = SpillwayD,
+      GatehouseD = GatehouseD,
       VernonD = VernonD,
       HolyokeDj = HolyokeDj,      
       CabotDj = CabotDj,
-      SpillwayDj = SpillwayDj,
+      GatehouseDj = GatehouseDj,
       VernonDj = VernonDj
     )
   )

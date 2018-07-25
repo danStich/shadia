@@ -12,6 +12,7 @@
 #' 
 populationMatrices <- function(){
 
+  # Penobscot River
   if(river=='penobscot'){
     # Main-to-piscataquis spawners
     x_1 <- expand.grid(puNames[[1]], seq(1, maxAge, 1))
@@ -36,6 +37,7 @@ populationMatrices <- function(){
     ))    
   }
     
+  # Merrimack River
   if(river=='merrimack'){
     # Mainstem spawners only
     x_1 <- expand.grid(puNames[[1]], seq(1, maxAge, 1))
@@ -46,6 +48,25 @@ populationMatrices <- function(){
       x_1 = x_1
     ))    
   }
+  
+  # Connecticut River
+  if(river=='connecticut'){
+    # Spillway migrants
+    x_1 <- expand.grid(puNames[[1]], seq(1, maxAge, 1))
+    names(x_1) <- c('pus', 'fishAges')
+    # Cabot migrants
+    x_2 <- expand.grid(puNames[[2]], seq(1, maxAge, 1))
+    names(x_2) <- c('pus', 'fishAges')
+    # if (useTictoc) toc() # counts in each PU
+  
+    # Output list
+    return(list(
+      x_1 = x_1,
+      x_2 = x_2
+    ))    
+  }  
+  
+  
   
   
   

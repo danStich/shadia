@@ -95,7 +95,7 @@ nDams <- c(4, 4)
 nPU <- nDams + 1
 
 # Define maximum rkm for the system.
-maxrkm <- 281
+maxrkm <- c(281, 281)
 
 # Define rkms for each of the dams for each migration route
 damRkms <- vector(mode = 'list', length = nRoutes)

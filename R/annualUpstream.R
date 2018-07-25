@@ -101,16 +101,14 @@ if(river=='connecticut'){
   # Route 1- Mainstem to spillway
   upEffs[[1]][1] <- HolyokeUp
   upEffs[[1]][2] <- CabotUp
-  upEffs[[1]][3] <- SpillwayUp
-  upEffs[[1]][4] <- GatehouseUp
-  upEffs[[1]][5] <- VernonUp
+  upEffs[[1]][3] <- GatehouseUp
+  upEffs[[1]][4] <- VernonUp
 
   # Route 1- Mainstem to spillway
-  upEffs[[1]][1] <- HolyokeUp
-  upEffs[[1]][2] <- CabotUp
-  upEffs[[1]][3] <- SpillwayUp
-  upEffs[[1]][4] <- GatehouseUp
-  upEffs[[1]][5] <- VernonUp
+  upEffs[[2]][1] <- HolyokeUp
+  upEffs[[2]][2] <- SpillwayUp
+  upEffs[[2]][3] <- GatehouseUp
+  upEffs[[2]][4] <- VernonUp
   
   return(list(
     upEffs = upEffs

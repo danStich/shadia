@@ -41,6 +41,14 @@
 #' (not each year). Therefore, multiple model runs
 #' are necessary if more than one passage efficiency
 #' is supplied for any dam.
+#' 
+#' @param northfield Annual take for juveniles and
+#' adults from PU IV and PU V at the Northfield
+#' Mountain pumped power storage facility.
+#' 
+#' @param pSpillway Probability of using the spillway
+#' route for passage through the Turner's Falls
+#' hydropower complex.
 #'
 #' @param inRiverF Annual, recreational harvest of
 #' American shad. Parameterized as an annual rate [0, 1].
@@ -89,7 +97,7 @@
 #'
 #'     \item \code{populationSize} Total number of adult spawners returning to the river
 #'
-#'     \item \code{N_I...N_VI} Production unit-specific population size after in-river fishery mortality
+#'     \item \code{N_I...N_V} Production unit-specific population size after in-river fishery mortality
 #' }
 #'
 #' @section Warning about serial execution and memory limits:
@@ -112,27 +120,31 @@
 #' parallel execution as demonstrated using snowfall in the
 #' example at the bottom of this page.
 #'
-# #' @example /inst/examples/sf-exampleCTR.R
+#' @example /inst/examples/sf-exampleCTR.R
 #'
 #' @export
 connecticutRiverModel <- function(
   nRuns = 1,
-  nYears = 50,
+  nYears = 40,
   timing = 1,
   upstream = list(
     holyoke = 1,
     cabot = 1,
     spillway = 1,
     gatehouse = 1,
-    vernon = 1,
-    bellows = 1
+    vernon = 1
   ),
   downstream = list(
     holyoke = 1,
     cabot = 1,
-    spillway = 1,
-    vernon = 1,
-    bellows = 1
+    gatehouse= 1,
+    vernon = 1
+  ),
+  northfield = list(
+    turnersA = 1,
+    turnersJ = 1,
+    vernonA = 1,
+    vernonJ = 1
   ),
   pSpillway = 0.50,
   inRiverF = 0,
@@ -144,8 +156,9 @@ connecticutRiverModel <- function(
   ){
 
 # Error message for passage efficiencies
-  if( (length(upstream)!=6 ) |  (length(downstream)!=5 ) ){
-    stop('`upstream` must have 6 elements and `dowsntream` must have 5.')
+  if( (length(upstream)!=5 ) |  (length(downstream)!=4 ) ){
+    stop('`upstream` must have 5 elements 
+         and `dowsntream` must have 4.')
   }
 
 # Create package workspace if it does not yet exist
@@ -254,11 +267,6 @@ connecticutRiverModel <- function(
     environment(definePassageRates) <- .shadia
     list2env(definePassageRates(), envir = .shadia)
 
-###
-#  LEFT OFF WORKING ON ANNUAL UPSTREAM FILE TRYING TO
-#  REMEMBER HOW I DID UPSTREAM PASSAGE ROUTES FOR THIS ONE
-###    
-    
   # . Upstream passage efficiencies and migration route -----
     # NOTE: This section is special for the PNR because of multiple routes with
     # unequal numbers of dams and unequal reach lengths

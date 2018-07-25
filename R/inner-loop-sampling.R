@@ -147,7 +147,6 @@ entry <- data.frame(matrix(0,
                     fix.empty.names = TRUE,
                     stringsAsFactors = FALSE)
 
-### FOO
 # We initialize with drop = FALSE just in case there are
 # no individuals left
 entry <- rbind(b.entry, r.entry, drop = FALSE)
@@ -172,12 +171,9 @@ c_entryDate <- vector(mode = 'numeric', length = max(1,entryRowsNew, na.rm=T))
 for (i in 1:length(c_entryDate)) {
   c_entryDate[i] <- which(entry[i,] == max(entry[i,], na.rm = TRUE))[1]
 }
-#### BAR
-
 rm(entryRowsNew, entryCols, entryRows)
 
 #toc() # combine into one matrix
-
 
 # Draw terminal spawning ATU from a truncated normal distribution based on
 # mean and standard deviaion of mean and standard deviation of ATU at which
@@ -334,10 +330,21 @@ if(river=='penobscot'){
   upstream_path <- upstreamPathC(upstream_path)
 }
 
+# Upstream path for merrimack river
 if(river=='merrimack'){
   upstream_path <- rep(1, length(c_fishAges))
 }
 
+if(river=='connecticut'){
+# Upstream path for connecticut river.
+# Draw migration path based on user-specified value 
+# of pSpill (probability of using spillway for 
+# upstream migration)
+  upstream_path <- rbinom(length(fishAges), 1, pSpillway)
+  upstream_path[upstream_path==0] <- 2
+}
+  
+  
 # Collect life-history parameters into a single matrix for c++ loop
 # NOTE: the source code for the loop was re-written to preclude the need for
 # these matrices. Instead, they are related to the ABM input and output post-
@@ -356,39 +363,52 @@ colnames(traits) <- gsub(pattern = "c_",
                         replacement = "",
                         colnames(traits))
 
-if(river=='penobscot'){
-# Re-organize the data so they match the output of the ABM below
-# Create a df for traits of Piscataquis River spawners
-traits_1 <- data.frame(traits[upstream_path == 1, , drop = FALSE],
-                      upstream_path[upstream_path == 1])
-# Create a df for traits of Mainstem spawners
-traits_2 <- data.frame(traits[upstream_path == 2, , drop = FALSE],
-                      upstream_path[upstream_path == 2])
-# Create a df for traits of Piscataquis River spawners
-traits_3 <- data.frame(traits[upstream_path == 3, , drop = FALSE],
-                      upstream_path[upstream_path == 3])
-# Create a df for traits of Mainstem spawners
-traits_4 <- data.frame(traits[upstream_path == 4, , drop = FALSE],
-                      upstream_path[upstream_path == 4])
+# Create traits for all spawners by river system
+  if(river=='penobscot'){
+    # Re-organize the data so they match the output of the ABM below
+    # Create a df for traits of Piscataquis River spawners
+    traits_1 <- data.frame(traits[upstream_path == 1, , drop = FALSE],
+                          upstream_path[upstream_path == 1])
+    # Create a df for traits of Mainstem spawners
+    traits_2 <- data.frame(traits[upstream_path == 2, , drop = FALSE],
+                          upstream_path[upstream_path == 2])
+    # Create a df for traits of Piscataquis River spawners
+    traits_3 <- data.frame(traits[upstream_path == 3, , drop = FALSE],
+                          upstream_path[upstream_path == 3])
+    # Create a df for traits of Mainstem spawners
+    traits_4 <- data.frame(traits[upstream_path == 4, , drop = FALSE],
+                          upstream_path[upstream_path == 4])
+    
+    # Change the name of the last column in each of the dfs so they match
+    names(traits_1)[ncol(traits_1)] <- 'upstream_path'
+    names(traits_2)[ncol(traits_2)] <- 'upstream_path'
+    names(traits_3)[ncol(traits_3)] <- 'upstream_path'
+    names(traits_4)[ncol(traits_4)] <- 'upstream_path'
+    #toc()
+  }
 
-# Change the name of the last column in each of the dfs so they match
-names(traits_1)[ncol(traits_1)] <- 'upstream_path'
-names(traits_2)[ncol(traits_2)] <- 'upstream_path'
-names(traits_3)[ncol(traits_3)] <- 'upstream_path'
-names(traits_4)[ncol(traits_4)] <- 'upstream_path'
-#toc()
-}
+  if(river=='merrimack'){
+    # Re-organize the data so they match the output of the ABM below
+    # Create a df for traits of Piscataquis River spawners
+    traits_1 <- data.frame(traits[upstream_path == 1, , drop = FALSE],
+                          upstream_path[upstream_path == 1])
+    # Change the name of the last column in each of the dfs so they match
+    names(traits_1)[ncol(traits_1)] <- 'upstream_path'
+    #toc()
+  }
 
-if(river=='merrimack'){
-# Re-organize the data so they match the output of the ABM below
-# Create a df for traits of Piscataquis River spawners
-traits_1 <- data.frame(traits[upstream_path == 1, , drop = FALSE],
-                      upstream_path[upstream_path == 1])
-# Change the name of the last column in each of the dfs so they match
-names(traits_1)[ncol(traits_1)] <- 'upstream_path'
-#toc()
-}
-
+  if(river=='connecticut'){
+    # Re-organize the data so they match the output of the ABM below
+    # Create a df for traits of Piscataquis River spawners
+    traits_1 <- data.frame(traits[upstream_path == 1, , drop = FALSE],
+                          upstream_path[upstream_path == 1])
+    traits_2 <- data.frame(traits[upstream_path == 2, , drop = FALSE],
+                          upstream_path[upstream_path == 2])    
+    # Change the name of the last column in each of the dfs so they match
+    names(traits_1)[ncol(traits_1)] <- 'upstream_path'
+    names(traits_2)[ncol(traits_2)] <- 'upstream_path'
+    #toc()
+  }
 
 # DEFINE VARIABLES FOR SPAWNING DYNAMICS ----------------------------------
 # Carrying capacity for juvs based on potential production of adult shad in each
@@ -411,6 +431,12 @@ if(river=='penobscot'){
   k_pus[[4]] <- ((habitat[[4]] / scalar) * sex_Ratio * batch)
 }
 
+# Carrying capacity for remaining Connecticut River
+# migration route
+if(river=='connecticut'){
+  k_pus[[2]] <- ((habitat[[2]] / scalar) * sex_Ratio * batch)
+}  
+  
 k_pus <- lapply(k_pus, function(x) {
   x[is.na(x)] = 1
   x
@@ -448,12 +474,12 @@ up_effs <- mapply('^', up_effs, (1 / timely))
 up_effs <- mapply('-', up_effs, 1)
 
 # Finally, assign passage efficiencies for each reach in the river
-eFFs <- vector(mode = 'list', length = length(up_effs))
+eFFs <- vector(mode = 'list', length = length(upEffs))
 
-# Fill with Open passage efficiency
-# to begin and replace efficiencies where there are dams.
+# Fill with Open passage efficiency to begin and
+# replace efficiencies where there are dams.
 # The first one works for all rivers because they all have
-# at least one passage route
+# at least one passage route.
 eFFs[[1]] <- c(rep(Open, maxrkm[1])) # Create perfect passage for group 1
 eFFs[[1]][damRkms[[1]]] <- up_effs[[1]] # Dam-specific efficiencies group 1
 
@@ -466,43 +492,54 @@ if(river=='penobscot'){
   eFFs[[3]][damRkms[[3]]] <- up_effs[[3]] # Dam-specific efficiencies group 3
   eFFs[[4]][damRkms[[4]]] <- up_effs[[4]] # Dam-specific efficiencies group 4
 }
+
+# Fill in eFFs for remaining passage route in Connecticut River
+if(river=='connecticut'){
+  eFFs[[2]] <- c(rep(Open, maxrkm[2])) # Create perfect passage for group 2
+  eFFs[[2]][damRkms[[2]]] <- up_effs[[2]] # Dam-specific efficiencies group 2
+}
+
 #toc()
 
 # UPSTREAM MIGRATION FOR EACH FISH IN EACH YEAR ---------------------------
 # Make the adult fish move upstream through space and time. The functions used
 # in this section call a collection of C++ and header files that were sourced
-# the front-end of this r script.
-# Add in a motivation penalty based on photoperiod. Fish are assumed to most
+# the front-end of this r script. # Add in a motivation penalty based on photoperiod. Fish are assumed to most
 # motivated at the peak of the run. Makes a passage efficiency for each
-# rkm on each day
+# rkm on each day.
+
 # Make a list of empty matrices to hold the results
 ppPenalty <- vector(mode = 'list', length = length(eFFs))
-# Fill in the first element of the list for all rivers
-ppPenalty[[1]] <-  matrix(0 , length(photo), maxrkm)
-
-# Fill in remaining elements for Penobscot River
-if(river=='penobscot'){
-ppPenalty[[2]] <-  matrix(0 , length(photo), maxrkm)
-ppPenalty[[3]] <-  matrix(0 , length(photo), maxrkm)
-ppPenalty[[4]] <-  matrix(0 , length(photo), maxrkm)
-}
+  # Fill in the first element of the list for all rivers
+  ppPenalty[[1]] <-  matrix(0 , length(photo), maxrkm[1])
+  # Fill in remaining elements for Penobscot River
+  if(river=='penobscot'){
+  ppPenalty[[2]] <-  matrix(0 , length(photo), maxrkm[2])
+  ppPenalty[[3]] <-  matrix(0 , length(photo), maxrkm[3])
+  ppPenalty[[4]] <-  matrix(0 , length(photo), maxrkm[4])
+  }
+  # Fill in remaining elements for Connecticut River
+  if(river=='connecticut'){
+  ppPenalty[[2]] <-  matrix(0 , length(photo), maxrkm[2])
+  }
 
 # Multiply passage efficiency by the penalty for each day
-#if (useTictoc) {
-#  tic("C++ function, motivationPenaltyC")
-#}
-newTU_2 <- newTU[min(c_entryDate):max(c_end)]
-# Fill in the first element of the list for all rivers
-ppPenalty[[1]] <-  motivationPenaltyC(eFFs[[1]], newTU_2, ppPenalty[[1]])
-# Fill in remaining elements for Penobscot River
-if(river=='penobscot'){
-ppPenalty[[2]] <-  motivationPenaltyC(eFFs[[2]], newTU_2, ppPenalty[[2]])
-ppPenalty[[3]] <-  motivationPenaltyC(eFFs[[3]], newTU_2, ppPenalty[[3]])
-ppPenalty[[4]] <-  motivationPenaltyC(eFFs[[4]], newTU_2, ppPenalty[[4]])
-}
-#toc() # C++ function, motivationPenaltyC
+  #if (useTictoc) {
+  #  tic("C++ function, motivationPenaltyC")
+  #}
+  newTU_2 <- newTU[min(c_entryDate):max(c_end)]
+  # Fill in the first element of the list for all rivers
+  ppPenalty[[1]] <-  motivationPenaltyC(eFFs[[1]], newTU_2, ppPenalty[[1]])
+  # Fill in remaining elements for Penobscot River
+  if(river=='penobscot'){
+  ppPenalty[[2]] <-  motivationPenaltyC(eFFs[[2]], newTU_2, ppPenalty[[2]])
+  ppPenalty[[3]] <-  motivationPenaltyC(eFFs[[3]], newTU_2, ppPenalty[[3]])
+  ppPenalty[[4]] <-  motivationPenaltyC(eFFs[[4]], newTU_2, ppPenalty[[4]])
+  }
+  #toc() # C++ function, motivationPenaltyC
 
 # Track the mean motivational penalty for the spawning season
+# to be used in sensitivity analyses
 mot <- mean((1 - (newTU - min(newTU)) /
               (max(newTU) - min(newTU)))[min(c_entryDate):max(c_end)])
 
@@ -510,34 +547,36 @@ mot <- mean((1 - (newTU - min(newTU)) /
 # These need to be RIVER SPECIFIC. For the Penobscot River, this can
 # be done in bulk for both Piscataquis River spawners and Mainstem spawners
 # because we use vectorization to select the appropriate elements later on.
-# For Penobscot River:
-  if(river=='penobscot'){
-    rkm1 <- rep(41, length(c_fishAges))
-  }
-  # For Merrimack River:
-  if(river=='merrimack'){
-    rkm1 <- rep(35, length(c_fishAges))
-  }
-  
-  rkm2 <- matrix(0, ncol = length(day), nrow = length(c_fishAges))
+  # For Penobscot River:
+    if(river=='penobscot'){
+      rkm1 <- rep(41, length(c_fishAges))
+    }
+    # For Merrimack River:
+    if(river=='merrimack'){
+      rkm1 <- rep(35, length(c_fishAges))
+    }
+    # For Connecticut River:
+    if(river=='connecticut'){
+      rkm1 <- rep(35, length(c_fishAges))
+    }
+    # For all rivers:
+    rkm2 <- matrix(0, ncol = length(day), nrow = length(c_fishAges))
 
 # Get max rkm for each fish. Rivers with one passage route skip
 # the C++ function because all fish have same max RKM.
-  
-# Create a vector of potential routes
-routes <- seq(1, nRoutes, 1)
-# Run the markmC C++ function to get max rkm for each fish given route
-#if (useTictoc) {
-  #tic("C++ function, maxrkmC")
-#}
-maxR <- maxrkmC(c_fishAges, maxrkm, upstream_path, routes)
-#toc()
-
+  # Create a vector of potential routes
+  routes <- seq(1, nRoutes, 1)
+  # Run the markmC C++ function to get max rkm for each fish given route
+  #if (useTictoc) {
+    #tic("C++ function, maxrkmC")
+  #}
+  maxR <- maxrkmC(c_fishAges, maxrkm, upstream_path, routes)
+  #toc()
   
 # Run the upstream migration model and get results
 # Run the agent-based model for upstream migration
 # Get start time for running ABM function in C++
-ptmABM <- proc.time() # Uncomment to time it
+# ptmABM <- proc.time() # Uncomment to time it
 
 #if (useTictoc) {
 #  tic("C++ ABM function, moveC")
@@ -592,8 +631,29 @@ moves_1 <- moveC(day,
                 c_initial[upstream_path == 1])  
 }
 
+if(river=='connecticut'){
+# Run the ABM for main-to-piscataquis spawners
+moves_1 <- moveC(day,
+                c_entryDate[upstream_path == 1],
+                dailyMove[upstream_path == 1],
+                maxR[upstream_path == 1],
+                ppPenalty[[1]],
+                rkm1[upstream_path == 1],
+                rkm2[upstream_path == 1, , drop = FALSE],
+                c_initial[upstream_path == 1])
+# Run the ABM for main-to-mainstem Spawners
+moves_2 <- moveC(day,
+                c_entryDate[upstream_path == 2],
+                dailyMove[upstream_path == 2],
+                maxR[upstream_path == 2],
+                ppPenalty[[2]],
+                rkm1[upstream_path == 2],
+                rkm2[upstream_path == 2,  , drop = FALSE],
+                c_initial[upstream_path == 2])
+}
+
 # Calculate total run time for ABM
-timeABM <- proc.time() - ptmABM # Uncomment to time it
+#timeABM <- proc.time() - ptmABM # Uncomment to time it
 
 #toc() # C++ ABM function, moveC
 
@@ -604,58 +664,72 @@ timeABM <- proc.time() - ptmABM # Uncomment to time it
 #  tic("C++ delay function, delayC")
 #}
 
-ptmDelay  <- proc.time() # Uncomment to time it
+#ptmDelay  <- proc.time() # Uncomment to time it
 
 # Calculate delay at each dam for each fish in the first 
-# migration route. For PNR, these are main-to-Piscataquis spawners
-delay_1 <- delayC(moves_1, damRkms[[1]][2:nPU[1]])
-
-if(river=='penobscot'){
-# Calculate delay at each dam for each main-to-Mainstem spawners
-delay_2 <- delayC(moves_2, damRkms[[2]][2:nPU[2]])
-# Calculate delay at each dam for each still-to-Piscataquis spawners
-delay_3 <- delayC(moves_3, damRkms[[3]][2:nPU[3]])
-# Calculate delay at each dam for each still-to-Mainstem spawners
-delay_4 <- delayC(moves_4, damRkms[[4]][2:nPU[4]])
-}
+# migration route for all rivers. 
+  delay_1 <- delayC(moves_1, damRkms[[1]][2:nPU[1]])
+  
+  # Remaining routes for penobscot River
+  if(river=='penobscot'){
+  # Calculate delay at each dam for each main-to-Mainstem spawners
+  delay_2 <- delayC(moves_2, damRkms[[2]][2:nPU[2]])
+  # Calculate delay at each dam for each still-to-Piscataquis spawners
+  delay_3 <- delayC(moves_3, damRkms[[3]][2:nPU[3]])
+  # Calculate delay at each dam for each still-to-Mainstem spawners
+  delay_4 <- delayC(moves_4, damRkms[[4]][2:nPU[4]])
+  }
+  # Remaining routes for connecticut River
+  if(river=='connecticut'){
+  # Calculate delay at each dam for each main-to-Mainstem spawners
+  delay_2 <- delayC(moves_2, damRkms[[2]][2:nPU[2]])
+  }
 
 # Assign names to the newly created matrices that hold delay at each dam
-if(river=='merrimack'){
-  colnames(delay_1) <- c('dEssex', 'dPawtucket', 'dAmoskeag', 'dHookset')
-}
+  # Names for delay matrix: penobscot river
+  if(river=='penobscot'){
+    # Main-to-Piscataquis spawners
+    colnames(delay_1) <- c('dConfluence',
+                          'dMilford',
+                          'dHowland',
+                          'dBrownsMill',
+                          'dMoosehead',
+                          'dGuilford')
+    # Main-to-Piscataquis spawners
+    colnames(delay_2) <- c('dConfluence', 'dMilford', 'dWestEnfield',
+                          'dWeldon')
+    # Main-to-Piscataquis spawners
+    colnames(delay_3) <- c(
+      'dOrono',
+      'dStillwater',
+      'Gilman',
+      'dHowland',
+      'dBrownsMill',
+      'dMoosehead',
+      'dGuilford'
+    )
+    # Main-to-Piscataquis spawners
+    colnames(delay_4) <- c('Orono',
+                          'Stillwater',
+                          'Gilman',
+                          'dWestEnfield',
+                          'dWeldon')
+  }
 
-if(river=='penobscot'){
-  # Main-to-Piscataquis spawners
-  colnames(delay_1) <- c('dConfluence',
-                        'dMilford',
-                        'dHowland',
-                        'dBrownsMill',
-                        'dMoosehead',
-                        'dGuilford')
-  # Main-to-Piscataquis spawners
-  colnames(delay_2) <- c('dConfluence', 'dMilford', 'dWestEnfield',
-                        'dWeldon')
-  # Main-to-Piscataquis spawners
-  colnames(delay_3) <- c(
-    'dOrono',
-    'dStillwater',
-    'Gilman',
-    'dHowland',
-    'dBrownsMill',
-    'dMoosehead',
-    'dGuilford'
-  )
-  # Main-to-Piscataquis spawners
-  colnames(delay_4) <- c('Orono',
-                        'Stillwater',
-                        'Gilman',
-                        'dWestEnfield',
-                        'dWeldon')
-}
+  # Names for delay matrix: merrimack
+  if(river=='merrimack'){
+    colnames(delay_1) <- c('dEssex', 'dPawtucket', 'dAmoskeag', 'dHookset')
+  }
+  # Names for delay matrix: merrimack
+  if(river=='connecticut'){
+    colnames(delay_1) <- c('dHolyoke', 'dCabot', 'dGatehouse', 'dVernon')
+    colnames(delay_2) <- c('dHolyoke', 'dSpillway', 'dGatehouse', 'dVernon')
+  }
+
 
 # Calculate run time for delay function in C++
-timeDelay <- proc.time() - ptmDelay
-#toc() # C++ delay function, delayC
+  #timeDelay <- proc.time() - ptmDelay
+  #toc() # C++ delay function, delayC
 
 # SPAWNING DYNAMICS FOR EACH YEAR WITH ANNUAL VARIABILITY -----------------
 # Combine the data for each fish stored in traits with the final rkm of that
@@ -663,424 +737,536 @@ timeDelay <- proc.time() - ptmDelay
 # upstream passage routes
 #if (useTictoc) tic("SPAWNING DYNAMICS FOR EACH YEAR WITH ANNUAL VARIABILITY")
 
-if(river=='penobscot'){
-# Combine all data for mainstem to piscataquis
-# Combine all three matrices
-spawnData_1 <- cbind(traits_1, moves_1[, ncol(moves_1)], delay_1)
-# Change the name for the final rkm column
-colnames(spawnData_1)[ncol(spawnData_1) - 6] = 'finalRkm'
-# Make it into a dataframe for easy manipulation
-sp_1 <- data.frame(spawnData_1)
-
-# Combine all data for main-to-mainstem spawners
-# Combine all three matrices
-spawnData_2 <- cbind(traits_2, moves_2[, ncol(moves_2)], delay_2)
-# Change the name for the final rkm column
-colnames(spawnData_2)[ncol(spawnData_2) - 4] = 'finalRkm'
-# Make it into a dataframe for easy manipulation
-sp_2 <- data.frame(spawnData_2)
-
-# Combine all data for stillwater-to-piscataquis spawners
-# Combine all three matrices
-spawnData_3 <- cbind(traits_3, moves_3[, ncol(moves_3)], delay_3)
-# Change the name for the final rkm column
-colnames(spawnData_3)[ncol(spawnData_3) - 7] = 'finalRkm'
-# Make it into a dataframe for easy manipulation
-sp_3 <- data.frame(spawnData_3)
-
-# Combine all data for stillwater-to-piscataquis spawners
-# Combine all three matrices
-spawnData_4 <- cbind(traits_4, moves_4[, ncol(moves_4)], delay_4)
-# Change the name for the final rkm column
-colnames(spawnData_4)[ncol(spawnData_4) - 5] = 'finalRkm'
-# Make it into a dataframe for easy manipulation
-sp_4 <- data.frame(spawnData_4)
-}
-
-if(river=='merrimack'){
-spawnData_1 <- cbind(traits_1, moves_1[, ncol(moves_1)], delay_1)
-# Change the name for the final rkm column
-colnames(spawnData_1)[ncol(spawnData_1) - (nDams)] = 'finalRkm'
-# Make it into a dataframe for easy manipulation
-sp_1 <- data.frame(spawnData_1)
-}
-
-
-
-if(river=='penobscot'){
-# Assign each fish to a production unit before they spawn. Do this for
-# Piscataquis River spawners and Mainstem spawners
-# First, assign rkms to delineate each of the production units
-puRkm <- vector(mode = 'list', length = length(nPU))
-puRkm[[1]] <- c(damRkms[[1]] + 1, (maxrkm[1] + 1))
-puRkm[[2]] <- c(damRkms[[2]] + 1, (maxrkm[2] + 1))
-puRkm[[3]] <- c(damRkms[[3]] + 1, (maxrkm[3] + 1))
-puRkm[[4]] <- c(damRkms[[4]] + 1, (maxrkm[4] + 1))
-# Create an empty list to hold the pu names for each route
-rm(list = ls()[grep(ls(), pat = '^mPU_')]) # Remove old counts
-puNames <- vector(mode = 'list', length = length(nPU))
-# Dynamically assign pu names based on river kilometers that delineate them
-for (t in 1:length(puRkm)) {
-  for (i in 1:(length(puRkm[[t]]) - 1)) {
-    assign(paste('PU_', t, '_', i, sep = ''), puRkm[i])
+  # Penobscot River
+  if(river=='penobscot'){
+    # Combine all data for mainstem to piscataquis
+    # Combine all three matrices
+    spawnData_1 <- cbind(traits_1, moves_1[, ncol(moves_1)], delay_1)
+    # Change the name for the final rkm column
+    colnames(spawnData_1)[ncol(spawnData_1) - 6] = 'finalRkm'
+    # Make it into a dataframe for easy manipulation
+    sp_1 <- data.frame(spawnData_1)
+    
+    # Combine all data for main-to-mainstem spawners
+    # Combine all three matrices
+    spawnData_2 <- cbind(traits_2, moves_2[, ncol(moves_2)], delay_2)
+    # Change the name for the final rkm column
+    colnames(spawnData_2)[ncol(spawnData_2) - 4] = 'finalRkm'
+    # Make it into a dataframe for easy manipulation
+    sp_2 <- data.frame(spawnData_2)
+    
+    # Combine all data for stillwater-to-piscataquis spawners
+    # Combine all three matrices
+    spawnData_3 <- cbind(traits_3, moves_3[, ncol(moves_3)], delay_3)
+    # Change the name for the final rkm column
+    colnames(spawnData_3)[ncol(spawnData_3) - 7] = 'finalRkm'
+    # Make it into a dataframe for easy manipulation
+    sp_3 <- data.frame(spawnData_3)
+    
+    # Combine all data for stillwater-to-piscataquis spawners
+    # Combine all three matrices
+    spawnData_4 <- cbind(traits_4, moves_4[, ncol(moves_4)], delay_4)
+    # Change the name for the final rkm column
+    colnames(spawnData_4)[ncol(spawnData_4) - 5] = 'finalRkm'
+    # Make it into a dataframe for easy manipulation
+    sp_4 <- data.frame(spawnData_4)  
+    
+    # Assign each fish to a production unit before they spawn. Do this for
+    # Piscataquis River spawners and Mainstem spawners
+    # First, assign rkms to delineate each of the production units
+    puRkm <- vector(mode = 'list', length = length(nPU))
+    puRkm[[1]] <- c(damRkms[[1]] + 1, (maxrkm[1] + 1))
+    puRkm[[2]] <- c(damRkms[[2]] + 1, (maxrkm[2] + 1))
+    puRkm[[3]] <- c(damRkms[[3]] + 1, (maxrkm[3] + 1))
+    puRkm[[4]] <- c(damRkms[[4]] + 1, (maxrkm[4] + 1))
+    # Create an empty list to hold the pu names for each route
+    rm(list = ls()[grep(ls(), pat = '^mPU_')]) # Remove old counts
+    puNames <- vector(mode = 'list', length = length(nPU))
+    # Dynamically assign pu names based on river kilometers that delineate them
+    for (t in 1:length(puRkm)) {
+      for (i in 1:(length(puRkm[[t]]) - 1)) {
+        assign(paste('PU_', t, '_', i, sep = ''), puRkm[i])
+      }
+      # Collect the names into a list
+      puNames[[t]] <- names(mget(ls(pat = paste(
+        '^PU_', t, sep = ''
+      ))))
+    }
+    # Determine which PU each fish ends up in based on its rkm and assign it.
+    # Uses pre-compiled function 'fishPU' from source files loaded up front.
+    # Main-to-piscataquis spawners
+    sp_1$pus <- as.character(fishPU(puRkm[[1]], sp_1$finalRkm, puNames[[1]]))
+    # Main-to-mainstem spawners
+    sp_2$pus <- as.character(fishPU(puRkm[[2]], sp_2$finalRkm, puNames[[2]]))
+    # Stillwater-to-piscataquis spawners
+    sp_3$pus <- as.character(fishPU(puRkm[[3]], sp_3$finalRkm, puNames[[3]]))
+    # Stillwater-to-mainstem spawners
+    sp_4$pus <- as.character(fishPU(puRkm[[4]], sp_4$finalRkm, puNames[[4]]))
+    
+    # Replace the blank PUs for fish that ended at Veazie
+    sp_1$pus[sp_1$pus == ""] <- "PU_1_1"
+    sp_2$pus[sp_2$pus == ""] <- "PU_2_1"
+    sp_3$pus[sp_3$pus == ""] <- "PU_3_1"
+    sp_4$pus[sp_4$pus == ""] <- "PU_4_1"
+    
+    # Determine the probability that a fish survives to spawn
+    # Pre-spawning mortality by sex
+    sp_1$preSpawn <- sp_1$female * pre_spawn_survival_females +
+      (1 - sp_1$female) * pre_spawn_survival_males
+    sp_2$preSpawn <- sp_2$female * pre_spawn_survival_females +
+      (1 - sp_2$female) * pre_spawn_survival_males
+    sp_3$preSpawn <- sp_3$female * pre_spawn_survival_females +
+      (1 - sp_3$female) * pre_spawn_survival_males
+    sp_4$preSpawn <- sp_4$female * pre_spawn_survival_females +
+      (1 - sp_4$female) * pre_spawn_survival_males
+    
+    # Determine fishing mortality by PU
+    sp_1$F <- inriv[[1]][as.numeric(substrRight(sp_1$pus, 1))]
+    sp_2$F <- inriv[[2]][as.numeric(substrRight(sp_2$pus, 1))]
+    sp_3$F <- inriv[[3]][as.numeric(substrRight(sp_3$pus, 1))]
+    sp_4$F <- inriv[[4]][as.numeric(substrRight(sp_4$pus, 1))]
+    
+    # Apply in-river fishing mortality and prespawn survival
+    sp_1$surv <- rbinom(nrow(sp_1), 1, sp_1$preSpawn * (1 - sp_1$F))
+    sp_2$surv <- rbinom(nrow(sp_2), 1, sp_2$preSpawn * (1 - sp_2$F))
+    sp_3$surv <- rbinom(nrow(sp_3), 1, sp_3$preSpawn * (1 - sp_3$F))
+    sp_4$surv <- rbinom(nrow(sp_4), 1, sp_4$preSpawn * (1 - sp_4$F))
+    #toc()
   }
-  # Collect the names into a list
-  puNames[[t]] <- names(mget(ls(pat = paste(
-    '^PU_', t, sep = ''
-  ))))
-}
-# Determine which PU each fish ends up in based on its rkm and assign it.
-# Uses pre-compiled function 'fishPU' from source files loaded up front.
-# Main-to-piscataquis spawners
-sp_1$pus <- as.character(fishPU(puRkm[[1]], sp_1$finalRkm, puNames[[1]]))
-# Main-to-mainstem spawners
-sp_2$pus <- as.character(fishPU(puRkm[[2]], sp_2$finalRkm, puNames[[2]]))
-# Stillwater-to-piscataquis spawners
-sp_3$pus <- as.character(fishPU(puRkm[[3]], sp_3$finalRkm, puNames[[3]]))
-# Stillwater-to-mainstem spawners
-sp_4$pus <- as.character(fishPU(puRkm[[4]], sp_4$finalRkm, puNames[[4]]))
 
-# Replace the blank PUs for fish that ended at Veazie
-sp_1$pus[sp_1$pus == ""] <- "PU_1_1"
-sp_2$pus[sp_2$pus == ""] <- "PU_2_1"
-sp_3$pus[sp_3$pus == ""] <- "PU_3_1"
-sp_4$pus[sp_4$pus == ""] <- "PU_4_1"
-
-# Determine the probability that a fish survives to spawn
-# Pre-spawning mortality by sex
-sp_1$preSpawn <- sp_1$female * pre_spawn_survival_females +
-  (1 - sp_1$female) * pre_spawn_survival_males
-sp_2$preSpawn <- sp_2$female * pre_spawn_survival_females +
-  (1 - sp_2$female) * pre_spawn_survival_males
-sp_3$preSpawn <- sp_3$female * pre_spawn_survival_females +
-  (1 - sp_3$female) * pre_spawn_survival_males
-sp_4$preSpawn <- sp_4$female * pre_spawn_survival_females +
-  (1 - sp_4$female) * pre_spawn_survival_males
-
-# Determine fishing mortality by PU
-sp_1$F <- inriv[[1]][as.numeric(substrRight(sp_1$pus, 1))]
-sp_2$F <- inriv[[2]][as.numeric(substrRight(sp_2$pus, 1))]
-sp_3$F <- inriv[[3]][as.numeric(substrRight(sp_3$pus, 1))]
-sp_4$F <- inriv[[4]][as.numeric(substrRight(sp_4$pus, 1))]
-
-# Apply in-river fishing mortality and prespawn survival
-sp_1$surv <- rbinom(nrow(sp_1), 1, sp_1$preSpawn * (1 - sp_1$F))
-sp_2$surv <- rbinom(nrow(sp_2), 1, sp_2$preSpawn * (1 - sp_2$F))
-sp_3$surv <- rbinom(nrow(sp_3), 1, sp_3$preSpawn * (1 - sp_3$F))
-sp_4$surv <- rbinom(nrow(sp_4), 1, sp_4$preSpawn * (1 - sp_4$F))
-#toc()
-}
-
-
-
-
-
-
-
-
-if(river=='merrimack'){
-# Assign each fish to a production unit before they spawn. Do this for
-# Piscataquis River spawners and Mainstem spawners
-# First, assign rkms to delineate each of the production units
-puRkm <- vector(mode = 'list', length = length(nPU))
-puRkm[[1]] <- c(35, damRkms[[1]] + 1, (maxrkm[1] + 1))
-
-# Create an empty list to hold the pu names for each route
-rm(list = ls()[grep(ls(), pat = '^mPU_')]) # Remove old counts
-puNames <- vector(mode = 'list', length = length(nPU))
-# Dynamically assign pu names based on river kilometers that delineate them
-for (t in 1:length(puRkm)) {
-  for (i in 1:(length(puRkm[[t]]) - 1)) {
-    assign(paste('PU_', t, '_', i, sep = ''), puRkm[i])
+  # Merrimack River:
+  if(river=='merrimack'){
+  
+    spawnData_1 <- cbind(traits_1, moves_1[, ncol(moves_1)], delay_1)
+    # Change the name for the final rkm column
+    colnames(spawnData_1)[ncol(spawnData_1) - (nDams)] = 'finalRkm'
+    # Make it into a dataframe for easy manipulation
+    sp_1 <- data.frame(spawnData_1)
+  
+    # Assign each fish to a production unit before they spawn. Do this for
+    # Piscataquis River spawners and Mainstem spawners
+    # First, assign rkms to delineate each of the production units
+    puRkm <- vector(mode = 'list', length = length(nPU))
+    puRkm[[1]] <- c(35, damRkms[[1]] + 1, (maxrkm[1] + 1))
+    
+    # Create an empty list to hold the pu names for each route
+    rm(list = ls()[grep(ls(), pat = '^mPU_')]) # Remove old counts
+    puNames <- vector(mode = 'list', length = length(nPU))
+    # Dynamically assign pu names based on river kilometers that delineate them
+    for (t in 1:length(puRkm)) {
+      for (i in 1:(length(puRkm[[t]]) - 1)) {
+        assign(paste('PU_', t, '_', i, sep = ''), puRkm[i])
+      }
+      # Collect the names into a list
+      puNames[[t]] <- names(mget(ls(pat = paste(
+        '^PU_', t, sep = ''
+      ))))
+    }
+    # Determine which PU each fish ends up in based on its rkm and assign it.
+    # Uses pre-compiled function 'fishPU' from source files loaded up front.
+    # Main-to-piscataquis spawners
+    sp_1$pus <- as.character(fishPU(puRkm[[1]], sp_1$finalRkm, puNames[[1]]))
+    
+    # Replace the blank PUs for fish that ended at head of tide
+    sp_1$pus[sp_1$pus == ""] <- "PU_1_1"
+    
+    # Determine the probability that a fish survives to spawn
+    # Pre-spawning survival by sex
+    sp_1$preSpawn <- sp_1$female * pre_spawn_survival_females +
+      (1 - sp_1$female) * pre_spawn_survival_males
+    
+    # Determine fishing mortality by PU
+    sp_1$F <- inriv[[1]][as.numeric(substrRight(sp_1$pus, 1))]
+    
+    # Apply in-river fishing mortality and prespawn survival
+    sp_1$surv <- rbinom(nrow(sp_1), 1, sp_1$preSpawn * (1 - sp_1$F))
+    
+    #toc()
   }
-  # Collect the names into a list
-  puNames[[t]] <- names(mget(ls(pat = paste(
-    '^PU_', t, sep = ''
-  ))))
+
+  # Connecticut River
+  if(river=='connecticut'){
+    # Combine all data for spillway migrants
+    # Combine all three matrices
+    spawnData_1 <- cbind(traits_1, moves_1[, ncol(moves_1)], delay_1)
+    # Change the name for the final rkm column
+    colnames(spawnData_1)[ncol(spawnData_1) - 4] = 'finalRkm'
+    # Make it into a dataframe for easy manipulation
+    sp_1 <- data.frame(spawnData_1)
+    
+    # Combine all data for Cabot migrants
+    # Combine all three matrices
+    spawnData_2 <- cbind(traits_2, moves_2[, ncol(moves_2)], delay_2)
+    # Change the name for the final rkm column
+    colnames(spawnData_2)[ncol(spawnData_2) - 4] = 'finalRkm'
+    # Make it into a dataframe for easy manipulation
+    sp_2 <- data.frame(spawnData_2)
+    
+    # Assign each fish to a production unit before they spawn. Do this for
+    # Piscataquis River spawners and Mainstem spawners
+    # First, assign rkms to delineate each of the production units
+    puRkm <- vector(mode = 'list', length = length(nPU))
+    puRkm[[1]] <- c(0, damRkms[[1]] + 1, (maxrkm[1] + 1))
+    puRkm[[2]] <- c(0, damRkms[[2]] + 1, (maxrkm[2] + 1))
+
+    # Create an empty list to hold the pu names for each route
+    rm(list = ls()[grep(ls(), pat = '^mPU_')]) # Remove old counts
+    puNames <- vector(mode = 'list', length = length(nPU))
+    # Dynamically assign pu names based on river kilometers that delineate them
+    for (t in 1:length(puRkm)) {
+      for (i in 1:(length(puRkm[[t]]) - 1)) {
+        assign(paste('PU_', t, '_', i, sep = ''), puRkm[i])
+      }
+      # Collect the names into a list
+      puNames[[t]] <- names(mget(ls(pat = paste(
+        '^PU_', t, sep = ''
+      ))))
+    }
+    # Determine which PU each fish ends up in based on its rkm and assign it.
+    # Uses pre-compiled function 'fishPU' from source files loaded up front.
+    # Spillway migrants
+    sp_1$pus <- as.character(fishPU(puRkm[[1]], sp_1$finalRkm, puNames[[1]]))
+    # Cabot migrants
+    sp_2$pus <- as.character(fishPU(puRkm[[2]], sp_2$finalRkm, puNames[[2]]))
+
+    # Replace the blank PUs for fish that ended 
+    # migration downstream of Holyoke
+    sp_1$pus[sp_1$pus == ""] <- "PU_1_1"
+    sp_2$pus[sp_2$pus == ""] <- "PU_2_1"
+    
+    # Determine the probability that a fish survives to spawn
+    # Pre-spawning mortality by sex
+    sp_1$preSpawn <- sp_1$female * pre_spawn_survival_females +
+      (1 - sp_1$female) * pre_spawn_survival_males
+    sp_2$preSpawn <- sp_2$female * pre_spawn_survival_females +
+      (1 - sp_2$female) * pre_spawn_survival_males
+    
+    # Determine fishing mortality by PU
+    sp_1$F <- inriv[[1]][as.numeric(substrRight(sp_1$pus, 1))]
+    sp_2$F <- inriv[[2]][as.numeric(substrRight(sp_2$pus, 1))]
+    
+    # Apply in-river fishing mortality and prespawn survival
+    sp_1$surv <- rbinom(nrow(sp_1), 1, sp_1$preSpawn * (1 - sp_1$F))
+    sp_2$surv <- rbinom(nrow(sp_2), 1, sp_2$preSpawn * (1 - sp_2$F))
+    #toc()
+  }  
+  
+# Data return to calling environment
+  # Penobscot River:
+  if(river=='penobscot'){
+    return(list(
+    b.entry = b.entry,
+    b.entryDate = b.entryDate,
+    b.lw = b.lw,
+    b.mat = b.mat,
+    b.pars = b.pars,
+    b.prob = b.prob,
+    b.res = b.res,
+    batch = batch,
+    bucklw = bucklw,
+    c_BF = c_BF,
+    c_end = c_end,
+    c_entryDate = c_entryDate,
+    c_fecundity = c_fecundity,
+    c_female = c_female,
+    c_female_lf = c_female_lf,
+    c_female_m = c_female_m,
+    c_femaleLWalpha = c_femaleLWalpha,
+    c_femaleLWbeta = c_femaleLWbeta,
+    c_fishAges = c_fishAges,
+    c_forkLength = c_forkLength,
+    c_initial = c_initial,
+    c_kF = c_kF,
+    c_kM = c_kM,
+    c_linF = c_linF,
+    c_linM = c_linM,
+    c_male = c_male,
+    c_male_lf = c_male_lf,
+    c_male_m = c_male_m,
+    c_maleLWalpha = c_maleLWalpha,
+    c_maleLWbeta = c_maleLWbeta,
+    c_mass = c_mass,
+    c_RAF = c_RAF,
+    c_repeat = c_repeat,
+    c_RT = c_RT,
+    c_sex = c_sex,
+    c_SI = c_SI,
+    c_spawnATU1 = c_spawnATU1,
+    c_spawnATU2 = c_spawnATU2,
+    c_t0F = c_t0F,
+    c_t0M = c_t0M,
+    dailyMove = dailyMove,
+    day = day,
+    delay_1 = delay_1,
+    delay_2 = delay_2,
+    delay_3 = delay_3,
+    delay_4 = delay_4,
+    dMax = dMax,
+    eFFs = eFFs,
+    entry = entry,
+    fishAges = fishAges,
+    id = id,
+    juvenile_survival = juvenile_survival,
+    k_pus = k_pus,
+    maxR = maxR,
+    mot = mot,
+    moves_1 = moves_1,
+    moves_2 = moves_2,
+    moves_3 = moves_3,
+    moves_4 = moves_4,
+    newTU = newTU,
+    newTU_2 = newTU_2,
+    oceanSurvival = oceanSurvival,
+    photo = photo,
+    post_spawn_survival_females = post_spawn_survival_females,
+    post_spawn_survival_males = post_spawn_survival_males,
+    ppPenalty = ppPenalty,
+    pre_spawn_survival_females = pre_spawn_survival_females,
+    pre_spawn_survival_males = pre_spawn_survival_males,
+    pred = pred,
+    predTemps = predTemps,
+    puNames = puNames,
+    puRkm = puRkm,
+    res.B = res.B,
+    res.R = res.R,
+    r.entry = r.entry,
+    r.entryDate = r.entryDate,
+    r.lw = r.lw,
+    r.mat = r.mat,
+    r.pars = r.pars,
+    r.prob = r.prob,
+    r.res = r.res,
+    rkm1 = rkm1,
+    rkm2 = rkm2,
+    roelw = roelw,
+    routes = routes,
+    sex_Ratio = sex_Ratio,
+    sOptim = sOptim,
+    sp_1 = sp_1,
+    sp_2 = sp_2,
+    sp_3 = sp_3,
+    sp_4 = sp_4,
+    spawnData_1 = spawnData_1,
+    spawnData_2 = spawnData_2,
+    spawnData_3 = spawnData_3,
+    spawnData_4 = spawnData_4,
+    stoch = stoch,
+    tort = tort,
+    traits = traits,
+    traits_1 = traits_1,
+    traits_2 = traits_2,
+    traits_3 = traits_3,
+    traits_4 = traits_4,
+    up_effs = up_effs,
+    upstream_path = upstream_path,
+    y = y,
+    Year = Year,
+    habStoch = habStoch
+    ))
+  }
+
+  # Merrimack River:
+  if(river=='merrimack'){
+    return(list(
+    b.entry = b.entry,
+    b.entryDate = b.entryDate,
+    b.lw = b.lw,
+    b.mat = b.mat,
+    b.pars = b.pars,
+    b.prob = b.prob,
+    b.res = b.res,
+    batch = batch,
+    bucklw = bucklw,
+    c_BF = c_BF,
+    c_end = c_end,
+    c_entryDate = c_entryDate,
+    c_fecundity = c_fecundity,
+    c_female = c_female,
+    c_female_lf = c_female_lf,
+    c_female_m = c_female_m,
+    c_femaleLWalpha = c_femaleLWalpha,
+    c_femaleLWbeta = c_femaleLWbeta,
+    c_fishAges = c_fishAges,
+    c_forkLength = c_forkLength,
+    c_initial = c_initial,
+    c_kF = c_kF,
+    c_kM = c_kM,
+    c_linF = c_linF,
+    c_linM = c_linM,
+    c_male = c_male,
+    c_male_lf = c_male_lf,
+    c_male_m = c_male_m,
+    c_maleLWalpha = c_maleLWalpha,
+    c_maleLWbeta = c_maleLWbeta,
+    c_mass = c_mass,
+    c_RAF = c_RAF,
+    c_repeat = c_repeat,
+    c_RT = c_RT,
+    c_sex = c_sex,
+    c_SI = c_SI,
+    c_spawnATU1 = c_spawnATU1,
+    c_spawnATU2 = c_spawnATU2,
+    c_t0F = c_t0F,
+    c_t0M = c_t0M,
+    dailyMove = dailyMove,
+    day = day,
+    delay_1 = delay_1,
+    dMax = dMax,
+    eFFs = eFFs,
+    entry = entry,
+    fishAges = fishAges,
+    id = id,
+    juvenile_survival = juvenile_survival,
+    k_pus = k_pus,
+    maxR = maxR,
+    mot = mot,
+    moves_1 = moves_1,
+    newTU = newTU,
+    newTU_2 = newTU_2,
+    oceanSurvival = oceanSurvival,
+    photo = photo,
+    post_spawn_survival_females = post_spawn_survival_females,
+    post_spawn_survival_males = post_spawn_survival_males,
+    ppPenalty = ppPenalty,
+    pre_spawn_survival_females = pre_spawn_survival_females,
+    pre_spawn_survival_males = pre_spawn_survival_males,
+    pred = pred,
+    predTemps = predTemps,
+    puNames = puNames,
+    puRkm = puRkm,
+    res.B = res.B,
+    res.R = res.R,
+    r.entry = r.entry,
+    r.entryDate = r.entryDate,
+    r.lw = r.lw,
+    r.mat = r.mat,
+    r.pars = r.pars,
+    r.prob = r.prob,
+    r.res = r.res,
+    rkm1 = rkm1,
+    rkm2 = rkm2,
+    roelw = roelw,
+    routes = routes,
+    sex_Ratio = sex_Ratio,
+    sOptim = sOptim,
+    sp_1 = sp_1,
+    spawnData_1 = spawnData_1,
+    stoch = stoch,
+    tort = tort,
+    traits = traits,
+    traits_1 = traits_1,
+    up_effs = up_effs,
+    upstream_path = upstream_path,
+    y = y,
+    Year = Year,
+    habStoch = habStoch
+    ))
+  }
+
+  # Penobscot River:
+  if(river=='connecticut'){
+    return(list(
+    b.entry = b.entry,
+    b.entryDate = b.entryDate,
+    b.lw = b.lw,
+    b.mat = b.mat,
+    b.pars = b.pars,
+    b.prob = b.prob,
+    b.res = b.res,
+    batch = batch,
+    bucklw = bucklw,
+    c_BF = c_BF,
+    c_end = c_end,
+    c_entryDate = c_entryDate,
+    c_fecundity = c_fecundity,
+    c_female = c_female,
+    c_female_lf = c_female_lf,
+    c_female_m = c_female_m,
+    c_femaleLWalpha = c_femaleLWalpha,
+    c_femaleLWbeta = c_femaleLWbeta,
+    c_fishAges = c_fishAges,
+    c_forkLength = c_forkLength,
+    c_initial = c_initial,
+    c_kF = c_kF,
+    c_kM = c_kM,
+    c_linF = c_linF,
+    c_linM = c_linM,
+    c_male = c_male,
+    c_male_lf = c_male_lf,
+    c_male_m = c_male_m,
+    c_maleLWalpha = c_maleLWalpha,
+    c_maleLWbeta = c_maleLWbeta,
+    c_mass = c_mass,
+    c_RAF = c_RAF,
+    c_repeat = c_repeat,
+    c_RT = c_RT,
+    c_sex = c_sex,
+    c_SI = c_SI,
+    c_spawnATU1 = c_spawnATU1,
+    c_spawnATU2 = c_spawnATU2,
+    c_t0F = c_t0F,
+    c_t0M = c_t0M,
+    dailyMove = dailyMove,
+    day = day,
+    delay_1 = delay_1,
+    delay_2 = delay_2,
+    dMax = dMax,
+    eFFs = eFFs,
+    entry = entry,
+    fishAges = fishAges,
+    id = id,
+    juvenile_survival = juvenile_survival,
+    k_pus = k_pus,
+    maxR = maxR,
+    mot = mot,
+    moves_1 = moves_1,
+    moves_2 = moves_2,
+    newTU = newTU,
+    newTU_2 = newTU_2,
+    oceanSurvival = oceanSurvival,
+    photo = photo,
+    post_spawn_survival_females = post_spawn_survival_females,
+    post_spawn_survival_males = post_spawn_survival_males,
+    ppPenalty = ppPenalty,
+    pre_spawn_survival_females = pre_spawn_survival_females,
+    pre_spawn_survival_males = pre_spawn_survival_males,
+    pred = pred,
+    predTemps = predTemps,
+    puNames = puNames,
+    puRkm = puRkm,
+    res.B = res.B,
+    res.R = res.R,
+    r.entry = r.entry,
+    r.entryDate = r.entryDate,
+    r.lw = r.lw,
+    r.mat = r.mat,
+    r.pars = r.pars,
+    r.prob = r.prob,
+    r.res = r.res,
+    rkm1 = rkm1,
+    rkm2 = rkm2,
+    roelw = roelw,
+    routes = routes,
+    sex_Ratio = sex_Ratio,
+    sOptim = sOptim,
+    sp_1 = sp_1,
+    sp_2 = sp_2,
+    spawnData_1 = spawnData_1,
+    spawnData_2 = spawnData_2,
+    stoch = stoch,
+    tort = tort,
+    traits = traits,
+    traits_1 = traits_1,
+    traits_2 = traits_2,
+    up_effs = up_effs,
+    upstream_path = upstream_path,
+    y = y,
+    Year = Year,
+    habStoch = habStoch
+    ))
+  }
+
 }
-# Determine which PU each fish ends up in based on its rkm and assign it.
-# Uses pre-compiled function 'fishPU' from source files loaded up front.
-# Main-to-piscataquis spawners
-sp_1$pus <- as.character(fishPU(puRkm[[1]], sp_1$finalRkm, puNames[[1]]))
-
-# Replace the blank PUs for fish that ended at head of tide
-sp_1$pus[sp_1$pus == ""] <- "PU_1_1"
-
-# Determine the probability that a fish survives to spawn
-# Pre-spawning survival by sex
-sp_1$preSpawn <- sp_1$female * pre_spawn_survival_females +
-  (1 - sp_1$female) * pre_spawn_survival_males
-
-# Determine fishing mortality by PU
-sp_1$F <- inriv[[1]][as.numeric(substrRight(sp_1$pus, 1))]
-
-# Apply in-river fishing mortality and prespawn survival
-sp_1$surv <- rbinom(nrow(sp_1), 1, sp_1$preSpawn * (1 - sp_1$F))
-
-#toc()
-}
-
-if(river=='penobscot'){
-  return(list(
-  b.entry = b.entry,
-  b.entryDate = b.entryDate,
-  b.lw = b.lw,
-  b.mat = b.mat,
-  b.pars = b.pars,
-  b.prob = b.prob,
-  b.res = b.res,
-  batch = batch,
-  bucklw = bucklw,
-  c_BF = c_BF,
-  c_end = c_end,
-  c_entryDate = c_entryDate,
-  c_fecundity = c_fecundity,
-  c_female = c_female,
-  c_female_lf = c_female_lf,
-  c_female_m = c_female_m,
-  c_femaleLWalpha = c_femaleLWalpha,
-  c_femaleLWbeta = c_femaleLWbeta,
-  c_fishAges = c_fishAges,
-  c_forkLength = c_forkLength,
-  c_initial = c_initial,
-  c_kF = c_kF,
-  c_kM = c_kM,
-  c_linF = c_linF,
-  c_linM = c_linM,
-  c_male = c_male,
-  c_male_lf = c_male_lf,
-  c_male_m = c_male_m,
-  c_maleLWalpha = c_maleLWalpha,
-  c_maleLWbeta = c_maleLWbeta,
-  c_mass = c_mass,
-  c_RAF = c_RAF,
-  c_repeat = c_repeat,
-  c_RT = c_RT,
-  c_sex = c_sex,
-  c_SI = c_SI,
-  c_spawnATU1 = c_spawnATU1,
-  c_spawnATU2 = c_spawnATU2,
-  c_t0F = c_t0F,
-  c_t0M = c_t0M,
-  dailyMove = dailyMove,
-  day = day,
-  delay_1 = delay_1,
-  delay_2 = delay_2,
-  delay_3 = delay_3,
-  delay_4 = delay_4,
-  dMax = dMax,
-  eFFs = eFFs,
-  entry = entry,
-  fishAges = fishAges,
-  id = id,
-  juvenile_survival = juvenile_survival,
-  k_pus = k_pus,
-  maxR = maxR,
-  mot = mot,
-  moves_1 = moves_1,
-  moves_2 = moves_2,
-  moves_3 = moves_3,
-  moves_4 = moves_4,
-  newTU = newTU,
-  newTU_2 = newTU_2,
-  oceanSurvival = oceanSurvival,
-  photo = photo,
-  post_spawn_survival_females = post_spawn_survival_females,
-  post_spawn_survival_males = post_spawn_survival_males,
-  ppPenalty = ppPenalty,
-  pre_spawn_survival_females = pre_spawn_survival_females,
-  pre_spawn_survival_males = pre_spawn_survival_males,
-  pred = pred,
-  predTemps = predTemps,
-  ptmABM = ptmABM,
-  ptmDelay = ptmDelay,
-  puNames = puNames,
-  puRkm = puRkm,
-  res.B = res.B,
-  res.R = res.R,
-  r.entry = r.entry,
-  r.entryDate = r.entryDate,
-  r.lw = r.lw,
-  r.mat = r.mat,
-  r.pars = r.pars,
-  r.prob = r.prob,
-  r.res = r.res,
-  rkm1 = rkm1,
-  rkm2 = rkm2,
-  roelw = roelw,
-  routes = routes,
-  sex_Ratio = sex_Ratio,
-  sOptim = sOptim,
-  sp_1 = sp_1,
-  sp_2 = sp_2,
-  sp_3 = sp_3,
-  sp_4 = sp_4,
-  spawnData_1 = spawnData_1,
-  spawnData_2 = spawnData_2,
-  spawnData_3 = spawnData_3,
-  spawnData_4 = spawnData_4,
-  stoch = stoch,
-  timeABM = timeABM,
-  timeDelay = timeDelay,
-  tort = tort,
-  traits = traits,
-  traits_1 = traits_1,
-  traits_2 = traits_2,
-  traits_3 = traits_3,
-  traits_4 = traits_4,
-  up_effs = up_effs,
-  upstream_path = upstream_path,
-  y = y,
-  Year = Year,
-  habStoch = habStoch
-  ))
-}
-
-if(river=='merrimack'){
-  return(list(
-  b.entry = b.entry,
-  b.entryDate = b.entryDate,
-  b.lw = b.lw,
-  b.mat = b.mat,
-  b.pars = b.pars,
-  b.prob = b.prob,
-  b.res = b.res,
-  batch = batch,
-  bucklw = bucklw,
-  c_BF = c_BF,
-  c_end = c_end,
-  c_entryDate = c_entryDate,
-  c_fecundity = c_fecundity,
-  c_female = c_female,
-  c_female_lf = c_female_lf,
-  c_female_m = c_female_m,
-  c_femaleLWalpha = c_femaleLWalpha,
-  c_femaleLWbeta = c_femaleLWbeta,
-  c_fishAges = c_fishAges,
-  c_forkLength = c_forkLength,
-  c_initial = c_initial,
-  c_kF = c_kF,
-  c_kM = c_kM,
-  c_linF = c_linF,
-  c_linM = c_linM,
-  c_male = c_male,
-  c_male_lf = c_male_lf,
-  c_male_m = c_male_m,
-  c_maleLWalpha = c_maleLWalpha,
-  c_maleLWbeta = c_maleLWbeta,
-  c_mass = c_mass,
-  c_RAF = c_RAF,
-  c_repeat = c_repeat,
-  c_RT = c_RT,
-  c_sex = c_sex,
-  c_SI = c_SI,
-  c_spawnATU1 = c_spawnATU1,
-  c_spawnATU2 = c_spawnATU2,
-  c_t0F = c_t0F,
-  c_t0M = c_t0M,
-  dailyMove = dailyMove,
-  day = day,
-  delay_1 = delay_1,
-  dMax = dMax,
-  eFFs = eFFs,
-  entry = entry,
-  fishAges = fishAges,
-  id = id,
-  juvenile_survival = juvenile_survival,
-  k_pus = k_pus,
-  maxR = maxR,
-  mot = mot,
-  moves_1 = moves_1,
-  newTU = newTU,
-  newTU_2 = newTU_2,
-  oceanSurvival = oceanSurvival,
-  photo = photo,
-  post_spawn_survival_females = post_spawn_survival_females,
-  post_spawn_survival_males = post_spawn_survival_males,
-  ppPenalty = ppPenalty,
-  pre_spawn_survival_females = pre_spawn_survival_females,
-  pre_spawn_survival_males = pre_spawn_survival_males,
-  pred = pred,
-  predTemps = predTemps,
-  ptmABM = ptmABM,
-  ptmDelay = ptmDelay,
-  puNames = puNames,
-  puRkm = puRkm,
-  res.B = res.B,
-  res.R = res.R,
-  r.entry = r.entry,
-  r.entryDate = r.entryDate,
-  r.lw = r.lw,
-  r.mat = r.mat,
-  r.pars = r.pars,
-  r.prob = r.prob,
-  r.res = r.res,
-  rkm1 = rkm1,
-  rkm2 = rkm2,
-  roelw = roelw,
-  routes = routes,
-  sex_Ratio = sex_Ratio,
-  sOptim = sOptim,
-  sp_1 = sp_1,
-  spawnData_1 = spawnData_1,
-  stoch = stoch,
-  timeABM = timeABM,
-  timeDelay = timeDelay,
-  tort = tort,
-  traits = traits,
-  traits_1 = traits_1,
-  up_effs = up_effs,
-  upstream_path = upstream_path,
-  y = y,
-  Year = Year,
-  habStoch = habStoch
-  ))
-}
-
-
-
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

@@ -36,7 +36,7 @@ data('tempData')
 
 # 3. Define wrapper function, which can be called in parallel.
 #
-#   Runs merrimackRiverModel() on each worker
+#   Runs connecticutRiverModel() on each worker
 #
 #   Here, workerId just contains the identity of the cpu that perfomed
 #   the work. We do this only to prove we have used all the specified cpus!
@@ -54,19 +54,21 @@ wrapper <- function(idx) {
                     )
 
 # Run the model
-res1 <- merrimackRiverModel(nYears = 50,
+res1 <- connecticutRiverModel(nYears = 40,
                             upstream = list(
-                              Essex = seq(0, 1, 0.10),
-                              Pawtucket = seq(0, 1, 0.10),
-                              Amoskeag = seq(0, 1, 0.10),
-                              Hookset = seq(0, 1, 0.10)
+                              holyoke = seq(0, 1, 0.10),
+                              cabot = seq(0, 1, 0.10),
+                              spillway = seq(0, 1, 0.10),
+                              gatehouse = seq(0, 1, 0.10),
+                              vernon = seq(0, 1, 0.10)
                             ),
                             downstream = list(
-                              Essex = seq(0, 1, 0.10),
-                              Pawtucket = seq(0, 1, 0.10),
-                              Amoskeag = seq(0, 1, 0.10),
-                              Hookset = seq(0, 1, 0.10)
-                            )
+                              holyoke = seq(0, 1, 0.10),
+                              cabot = seq(0, 1, 0.10),
+                              gatehouse = seq(0, 1, 0.10),
+                              vernon = seq(0, 1, 0.10)
+                            ),
+                            pSpillway = 1
         )
 
 # Define the output lists
@@ -112,6 +114,5 @@ res <- lapply(result, function(x) x[[c('res')]])
 resdf <- do.call(rbind, res)
 
 plot(resdf$year, resdf$populationSize)
-
 
 }
