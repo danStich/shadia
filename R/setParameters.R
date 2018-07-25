@@ -17,7 +17,7 @@ setParameters <- function(){
 useTictoc <- FALSE
 useProgress <- FALSE
 
-# Package install and load
+# Package load
 # library(plyr)
 # library(MASS)
 # library(Rcpp)
@@ -50,21 +50,8 @@ outerLoopSamplingRData <- 'outer-loop-sampling.RData'
 outerLoopSamplingSource <- 'outer-loop-sampling.R'
 
 # ---------
-
-# set the output directory and output filenames
-# baseDirectory = getwd()
-
-# directory = paste(baseDirectory,'outfiles',sep='/')
-# filename = paste(directory, "pnrProfile", sep = "/")
-
-# verify directory exists
-# if (dir.exists(directory)) {
-#   print(paste('writing to: ',directory))
-# } else {
-#   stop("exiting; output directory not found...")
-# }
-
-
+# Return parameters to calling environment
+# as a list.
 return(list(
 useTictoc = useTictoc,
 useProgress = useProgress,

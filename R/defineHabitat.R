@@ -86,7 +86,16 @@ if(river=='merrimack'){
   
 }  
   
+if(river=='connecticut'){
+
+  habitat <- vector(mode = 'list', length = nRoutes)
   
+  habitat[[1]] <- c(4480, 1311, 0, 755, 1030)
+  habitat[[2]] <- c(4480, 1311, 0, 755, 1030)
   
+  return(list(
+    habitat=habitat
+  ))
+}  
   
 }  
