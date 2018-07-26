@@ -15,8 +15,6 @@ fillOutputVectors <- function(){
 if(river=='penobscot'){ 
   # Store output in pre-allocated vectors 
   # if (useTictoc) tic("store output")
-  # Population size
-  populationSize[(n + nYears * (k - 1))] <-  sum(spawningPool)
 
   # Year, fillling pre-allocated vector with this year
   years[(n + nYears * (k - 1))] <-  n
@@ -62,95 +60,108 @@ if(river=='penobscot'){
 
   # Population below Milford, fillling pre-allocated vector
   LowerPop[(n + nYears * (k - 1))] <-  (
-    sum(males[[1]][[2]]) + 
-      sum(males[[1]][[2]]) +
-      sum(males[[2]][[1]]) + 
-      sum(males[[2]][[2]]) +
-      sum(males[[3]][[1]]) +
-      sum(males[[4]][[1]]) +
-      sum(females[[1]][[2]]) + 
-      sum(females[[1]][[2]]) +
-      sum(females[[2]][[1]]) + 
-      sum(females[[2]][[2]]) +
-      sum(females[[3]][[1]]) +
-      sum(females[[4]][[1]])
+      sum(males2res[[1]][[1]]) +
+      sum(males2res[[1]][[2]]) +
+      sum(males2res[[2]][[1]]) + 
+      sum(males2res[[2]][[2]]) +
+      sum(males2res[[3]][[1]]) +
+      sum(males2res[[4]][[1]]) +
+      sum(females2res[[1]][[2]]) + 
+      sum(females2res[[1]][[2]]) +
+      sum(females2res[[2]][[1]]) + 
+      sum(females2res[[2]][[2]]) +
+      sum(females2res[[3]][[1]]) +
+      sum(females2res[[4]][[1]])
   ) * scalar
 
   # Population between Orono and Stillwater dams, fillling pre-allocated vector
   OronoPop[(n + nYears * (k - 1))] <-  (
-    sum(males[[3]][[2]]) +
-      sum(males[[4]][[2]]) +
-      sum(females[[3]][[2]]) +
-      sum(females[[4]][[2]])
+    sum(males2res[[3]][[2]]) +
+      sum(males2res[[4]][[2]]) +
+      sum(females2res[[3]][[2]]) +
+      sum(females2res[[4]][[2]])
     ) * scalar
 
   # Population between Stillwater Dam and Gilman Falls, fillling pre-allocated
   StillwaterPop[(n + nYears * (k - 1))] <-  (
-    sum(males[[3]][[3]]) +
-      sum(males[[4]][[3]]) +
-      sum(females[[3]][[3]]) +
-      sum(females[[4]][[3]])
+    sum(males2res[[3]][[3]]) +
+      sum(males2res[[4]][[3]]) +
+      sum(females2res[[3]][[3]]) +
+      sum(females2res[[4]][[3]])
     ) * scalar
 
   # Population between Milford and West Enfield, fillling pre-allocated vector
   MilfordPop[(n + nYears * (k - 1))] <-  (
-    sum(males[[1]][[3]]) +
-      sum(males[[2]][[3]]) +
-      sum(males[[3]][[4]]) +
-      sum(males[[4]][[4]]) +
-      sum(females[[1]][[3]]) +
-      sum(females[[2]][[3]]) +
-      sum(females[[3]][[4]]) +
-      sum(females[[4]][[4]])
-    ) * scalar
+    sum(males2res[[1]][[3]]) +
+      sum(males2res[[2]][[3]]) +
+      sum(males2res[[3]][[4]]) +
+      sum(males2res[[4]][[4]]) +
+      sum(females2res[[1]][[3]]) +
+      sum(females2res[[2]][[3]]) +
+      sum(females2res[[3]][[4]]) +
+      sum(females2res[[4]][[4]])
+    ) * scalar + OronoPop[(n + nYears * (k - 1))] +
+    StillwaterPop[(n + nYears * (k - 1))]
 
   # Population between West Enfield and Weldon, fillling pre-allocated vector
   EnfieldPop[(n + nYears * (k - 1))] <-  (
-    sum(males[[2]][[4]]) +
-      sum(males[[4]][[5]]) +
-      sum(females[[2]][[4]]) +
-      sum(females[[4]][[5]])
+    sum(males2res[[2]][[4]]) +
+      sum(males2res[[4]][[5]]) +
+      sum(females2res[[2]][[4]]) +
+      sum(females2res[[4]][[5]])
     ) * scalar
 
   # Population above Weldon, fillling pre-allocated vector
   WeldonPop[(n + nYears * (k - 1))] <-  (
-    sum(males[[2]][[length(males[[2]])]]) +
-      sum(males[[4]][[length(males[[4]])]]) +
-      sum(females[[2]][[length(females[[2]])]]) +
-      sum(females[[4]][[length(females[[4]])]])
+    sum(males2res[[2]][[length(males2res[[2]])]]) +
+      sum(males2res[[4]][[length(males2res[[4]])]]) +
+      sum(females2res[[2]][[length(females2res[[2]])]]) +
+      sum(females2res[[4]][[length(females2res[[4]])]])
     ) * scalar
 
   # Population between Howland and Dover dams, fillling pre-allocated vector
   HowlandPop[(n + nYears * (k - 1))] <-  (
-    sum(males[[1]][[4]]) +
-      sum(males[[3]][[5]]) +
-      sum(females[[1]][[4]]) +
-      sum(females[[3]][[5]])
+    sum(males2res[[1]][[4]]) +
+      sum(males2res[[3]][[5]]) +
+      sum(females2res[[1]][[4]]) +
+      sum(females2res[[3]][[5]])
     ) * scalar
 
   # Population between Moosehead and Browns Mill dams
   MoosePop[(n + nYears * (k - 1))] <-  (
-    sum(males[[1]][[5]]) +
-      sum(males[[3]][[6]]) +
-      sum(females[[1]][[5]]) +
-      sum(females[[3]][[6]])
+    sum(males2res[[1]][[5]]) +
+      sum(males2res[[3]][[6]]) +
+      sum(females2res[[1]][[5]]) +
+      sum(females2res[[3]][[6]])
     ) * scalar
 
   # Population between Browns Mill and Guilford dams, fillling pre-allocated
   BrownsPop[(n + nYears * (k - 1))] <-  (
-    sum(males[[1]][[6]]) +
-      sum(males[[3]][[7]]) +
-      sum(females[[1]][[6]]) +
-      sum(females[[3]][[7]])
+    sum(males2res[[1]][[6]]) +
+      sum(males2res[[3]][[7]]) +
+      sum(females2res[[1]][[6]]) +
+      sum(females2res[[3]][[7]])
     ) * scalar
 
   # Population above Guilford Dam, fillling pre-allocated vector
   GuilfordPop[(n + nYears * (k - 1))] <-  (
-    sum(males[[1]][[7]]) +
-      sum(males[[3]][[8]]) +
-      sum(females[[1]][[7]]) +
-      sum(females[[3]][[8]])
+    sum(males2res[[1]][[7]]) +
+      sum(males2res[[3]][[8]]) +
+      sum(females2res[[1]][[7]]) +
+      sum(females2res[[3]][[8]])
     ) * scalar
+
+  
+  # Population size
+  populationSize[(n + nYears * (k - 1))] <-
+   LowerPop[(n + nYears * (k - 1))] +
+    MilfordPop[(n + nYears * (k - 1))] +
+    EnfieldPop[(n + nYears * (k - 1))] +
+    WeldonPop[(n + nYears * (k - 1))] +
+    HowlandPop[(n + nYears * (k - 1))] +
+    MoosePop[(n + nYears * (k - 1))] +
+    BrownsPop[(n + nYears * (k - 1))] +
+    GuilfordPop[(n + nYears * (k - 1))]
 
   # Proportion of repeat spawners at each age, fillling pre-allocated vector
   pRepeats[[(n + nYears * (k - 1))]] <-  pRepeat
@@ -339,8 +350,6 @@ daily.move = daily.move
 if(river=='merrimack'){ 
   # Store output in pre-allocated vectors 
   # if (useTictoc) tic("store output")
-  # Population size
-  populationSize[(n + nYears * (k - 1))] <-  sum(spawningPool)
 
   # Year, fillling pre-allocated vector with this year
   years[(n + nYears * (k - 1))] <-  n
@@ -371,29 +380,37 @@ if(river=='merrimack'){
 
   # Population below Essex, fillling pre-allocated vector
   popI[(n + nYears * (k - 1))] <-  (
-    sum(males[[1]][[1]]) + 
-      sum(females[[1]][[1]])) * scalar
+    sum(males2res[[1]][[1]]) + 
+      sum(females2res[[1]][[1]])) * scalar
 
   # Population between Essex and Pawtucket dams
   popII[(n + nYears * (k - 1))] <-  (
-    sum(males[[1]][[2]]) + 
-      sum(females[[1]][[2]])) * scalar
+    sum(males2res[[1]][[2]]) + 
+      sum(females2res[[1]][[2]])) * scalar
 
   # Population between Pawtucket and Amoskeag dams
   popIII[(n + nYears * (k - 1))] <-  (
-    sum(males[[1]][[3]]) + 
-      sum(females[[1]][[3]])) * scalar
+    sum(males2res[[1]][[3]]) + 
+      sum(females2res[[1]][[3]])) * scalar
 
   # Population between Amoskeag and Hookset dams
   popIV[(n + nYears * (k - 1))] <-  (
-    sum(males[[1]][[4]]) + 
-      sum(females[[1]][[4]])) * scalar
+    sum(males2res[[1]][[4]]) + 
+      sum(females2res[[1]][[4]])) * scalar
   
   # Population upstream of Hookset Dam
   popV[(n + nYears * (k - 1))] <-  (
-    sum(males[[1]][[5]]) + 
-      sum(females[[1]][[5]])) * scalar
+    sum(males2res[[1]][[5]]) + 
+      sum(females2res[[1]][[5]])) * scalar
 
+  # Population size
+  populationSize[(n + nYears * (k - 1))] <- 
+    popI[(n + nYears * (k - 1))] +
+    popII[(n + nYears * (k - 1))] +
+    popIII[(n + nYears * (k - 1))] +
+    popIV[(n + nYears * (k - 1))] +
+    popV[(n + nYears * (k - 1))]
+  
   # Proportion of repeat spawners at each age, fillling pre-allocated vector
   pRepeats[[(n + nYears * (k - 1))]] <-  pRepeat
 
@@ -559,7 +576,7 @@ return(list(
     # Store output in pre-allocated vectors 
     # if (useTictoc) tic("store output")
     # Population size
-    populationSize[(n + nYears * (k - 1))] <-  sum(spawningPool)
+    #populationSize[(n + nYears * (k - 1))] <-  sum(spawningPool)
   
     # Year, fillling pre-allocated vector with this year
     years[(n + nYears * (k - 1))] <-  n
@@ -600,35 +617,44 @@ return(list(
   
     # Population below Essex, fillling pre-allocated vector
     popI[(n + nYears * (k - 1))] <-  (
-      sum(males[[1]][[1]]) + 
-      sum(females[[1]][[1]]) +
-      sum(males[[2]][[1]]) + 
-      sum(females[[2]][[1]])) * scalar
+      sum(males2res[[1]][[1]]) + 
+      sum(females2res[[1]][[1]]) +
+      sum(males2res[[2]][[1]]) + 
+      sum(females2res[[2]][[1]])) * scalar
   
     # Population between Essex and Pawtucket dams
     popII[(n + nYears * (k - 1))] <-  (
-      sum(males[[1]][[2]]) + 
-      sum(females[[1]][[2]]) +
-      sum(males[[2]][[2]]) + 
-      sum(females[[2]][[2]])) * scalar
+      sum(males2res[[1]][[2]]) + 
+      sum(females2res[[1]][[2]]) +
+      sum(males2res[[2]][[2]]) + 
+      sum(females2res[[2]][[2]])) * scalar
     # Population between Pawtucket and Amoskeag dams
     popIII[(n + nYears * (k - 1))] <-  (
-      sum(males[[1]][[3]]) + 
-      sum(females[[1]][[3]]) +
-      sum(males[[2]][[3]]) + 
-      sum(females[[2]][[3]])) * scalar
+      sum(males2res[[1]][[3]]) + 
+      sum(females2res[[1]][[3]]) +
+      sum(males2res[[2]][[3]]) + 
+      sum(females2res[[2]][[3]])) * scalar
     # Population between Amoskeag and Hookset dams
     popIV[(n + nYears * (k - 1))] <-  (
-      sum(males[[1]][[4]]) + 
-      sum(females[[1]][[4]]) +
-      sum(males[[2]][[4]]) + 
-      sum(females[[2]][[4]])) * scalar
+      sum(males2res[[1]][[4]]) +
+      sum(females2res[[1]][[4]]) +
+      sum(males2res[[2]][[4]]) + 
+      sum(females2res[[2]][[4]])) * scalar
     # Population upstream of Hookset Dam
     popV[(n + nYears * (k - 1))] <-  (
-      sum(males[[1]][[5]]) + 
-      sum(females[[1]][[5]]) +
-      sum(males[[2]][[5]]) + 
-      sum(females[[2]][[5]])) * scalar
+      sum(males2res[[1]][[5]]) + 
+      sum(females2res[[1]][[5]]) +
+      sum(males2res[[2]][[5]]) + 
+      sum(females2res[[2]][[5]])) * scalar
+    
+    # Population size
+    populationSize[(n + nYears * (k - 1))] <- 
+      popI[(n + nYears * (k - 1))] +
+      popII[(n + nYears * (k - 1))] +
+      popIII[(n + nYears * (k - 1))] +
+      popIV[(n + nYears * (k - 1))] +
+      popV[(n + nYears * (k - 1))]
+      
     # Proportion of repeat spawners at each age, fillling pre-allocated vector
     pRepeats[[(n + nYears * (k - 1))]] <-  pRepeat
   

@@ -15,7 +15,7 @@ setScalar <- function(){
     if (sum(spawningPool) < 1e3) {
       scalar = 1
     }
-    if (sum(spawningPool) >= 1e3) {
+    if (sum(spawningPool) <= 1e4) {
       scalar = 10
     }
     if (sum(spawningPool) >= 1e4) {

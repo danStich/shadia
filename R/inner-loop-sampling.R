@@ -204,8 +204,21 @@ for (i in 1:length(c_entryDate)) {
 
 # Define the day of the year as an ordinal date
 day <- c(seq(min(c_initial), (max(c_end))))
+
 # Calculate photoperiod based on latitude and day
-photo <- daylength(44.39, day)
+  # Penobscot River:
+  if(river=='penobscot'){
+    photo <- daylength(44.39, day)
+  }
+  # Merrimack River:
+  if(river=='merrimack'){
+    photo <- daylength(42.65, day)
+  }
+  # Connecticut River:
+  if(river=='connecticut'){
+    photo <- daylength(42.09, day)
+  }
+
 #toc()
 
 # SIMULATE FISH CHARACTERISTICS FOR EACH FISH IN EACH YEAR ----------------
