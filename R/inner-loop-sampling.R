@@ -216,6 +216,9 @@ photo <- daylength(44.39, day)
 # Roes
 # Get the parameters
 r.pars <- r.parms[[sample(1:length(r.parms), 1)]]
+if(river=='merrimack'){
+  r.pars <- r.parms_merrimack[[sample(1:length(r.parms_merrimack), 1)]]
+}
 r.mat <- r.pars[, 1]
 # Rename them for ease of use
 c_linF <- r.mat[1] # L-infinity females
@@ -225,6 +228,9 @@ c_t0F <- r.mat[3]  # Intercept of VBGM females
 # Males
 # Get the parameters
 b.pars <- b.parms[[sample(1:length(b.parms), 1)]]
+if(river=='merrimack'){
+  b.pars <- b.parms_merrimack[[sample(1:length(b.parms_merrimack), 1)]]
+}
 b.mat <- b.pars[, 1]
 # Rename them for ease of use
 c_linM <- b.mat[1] # L-infinity males
@@ -301,6 +307,14 @@ c_RAF <- c_BF * (c_RT / c_SI)
 #}
 # Multiply by sex variable to set male fecundity to zero
 c_fecundity <- c_female * c_RAF
+
+
+
+
+
+
+
+
 
 
 # Upstream and downstream migration routes for Penobscot River

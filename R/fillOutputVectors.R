@@ -226,8 +226,8 @@ if(river=='penobscot'){
   lwM.beta[(n + nYears * (k - 1))] <-  c_maleLWbeta
 
   # Length
-  b.length[(n + nYears * (k - 1))] <-  mean(c_male_lf)
-  r.length[(n + nYears * (k - 1))] <-  mean(c_female_lf)
+  b.length[(n + nYears * (k - 1))] <-  mean(c_male_lf[c_male_lf!=0])
+  r.length[(n + nYears * (k - 1))] <-  mean(c_female_lf[c_male_lf!=0])
 
   # Fecundity
   spawnInt[(n + nYears * (k - 1))] <-  mean(c_SI)
@@ -465,8 +465,8 @@ if(river=='merrimack'){
   lwM.beta[(n + nYears * (k - 1))] <-  c_maleLWbeta
 
   # Length
-  b.length[(n + nYears * (k - 1))] <-  mean(c_male_lf)
-  r.length[(n + nYears * (k - 1))] <-  mean(c_female_lf)
+  b.length[(n + nYears * (k - 1))] <-  mean(c_male_lf[c_male_lf!=0])
+  r.length[(n + nYears * (k - 1))] <-  mean(c_female_lf[c_male_lf!=0])
 
   # Fecundity
   spawnInt[(n + nYears * (k - 1))] <-  mean(c_SI)
@@ -482,95 +482,78 @@ if(river=='merrimack'){
   #toc()
 
 return(list(
-scalar = scalar,
-populationSize = populationSize,
-years = years,
-EssUp = EssUp,
-PawUp = PawUp,
-AmosUp = AmosUp,
-HookUp = HookUp,
-EssD = EssD,
-PawD = PawD,
-AmosD = AmosD,
-HookD = HookD,
-indirectM = indirectM,
-latentM = latentM,
-juvReduction = juvReduction,
-fallback = fallback,
-popI = popI,
-popII = popII,
-popIII = popIII,
-popIV = popIV,
-popV = popV,
-pRepeats = pRepeats,
-spawners = spawners,
-scalarVar = scalarVar,
-ptime = ptime,
-S.downstream = S.downstream,
-S.marine = S.marine,
-F.inRiver = F.inRiver,
-F.commercial = F.commercial,
-F.bycatch = F.bycatch,
-popStart = popStart,
-p.female = p.female,
-S.prespawnM = S.prespawnM,
-S.postspawnM = S.postspawnM,
-S.prespawnF = S.prespawnF,
-S.postspawnF = S.postspawnF,
-S.juvenile = S.juvenile,
-t.stoch = t.stoch,
-t.RegrInt = t.RegrInt,
-t.RegrSlp = t.RegrSlp,
-b.ArrRegrInt = b.ArrRegrInt,
-b.ArrRegrSlp = b.ArrRegrSlp,
-r.ArrRegrInt = r.ArrRegrInt,
-r.ArrRegrSlp = r.ArrRegrSlp,
-b.Arr = b.Arr,
-r.Arr = r.Arr,
-ATUspawn1 = ATUspawn1,
-ATUspawn2 = ATUspawn2,
-Dspawn1 = Dspawn1,
-Dspawn2 = Dspawn2,
-linF = linF,
-kF = kF,
-t0F = t0F,
-linM = linM,
-kM = kM,
-t0M = t0M,
-lwF.alpha = lwF.alpha,
-lwF.beta = lwF.beta,
-lwM.alpha = lwM.alpha,
-lwM.beta = lwM.beta,
-b.length = b.length,
-r.length = r.length,
-spawnInt = spawnInt,
-batchSize = batchSize,
-resTime = resTime,
-s.Optim = s.Optim,
-d.Max = d.Max,
-tortuosity = tortuosity,
-motivation = motivation,
-daily.move = daily.move
-))
+  scalar = scalar,
+  populationSize = populationSize,
+  years = years,
+  EssUp = EssUp,
+  PawUp = PawUp,
+  AmosUp = AmosUp,
+  HookUp = HookUp,
+  EssD = EssD,
+  PawD = PawD,
+  AmosD = AmosD,
+  HookD = HookD,
+  indirectM = indirectM,
+  latentM = latentM,
+  juvReduction = juvReduction,
+  fallback = fallback,
+  popI = popI,
+  popII = popII,
+  popIII = popIII,
+  popIV = popIV,
+  popV = popV,
+  pRepeats = pRepeats,
+  spawners = spawners,
+  scalarVar = scalarVar,
+  ptime = ptime,
+  S.downstream = S.downstream,
+  S.marine = S.marine,
+  F.inRiver = F.inRiver,
+  F.commercial = F.commercial,
+  F.bycatch = F.bycatch,
+  popStart = popStart,
+  p.female = p.female,
+  S.prespawnM = S.prespawnM,
+  S.postspawnM = S.postspawnM,
+  S.prespawnF = S.prespawnF,
+  S.postspawnF = S.postspawnF,
+  S.juvenile = S.juvenile,
+  t.stoch = t.stoch,
+  t.RegrInt = t.RegrInt,
+  t.RegrSlp = t.RegrSlp,
+  b.ArrRegrInt = b.ArrRegrInt,
+  b.ArrRegrSlp = b.ArrRegrSlp,
+  r.ArrRegrInt = r.ArrRegrInt,
+  r.ArrRegrSlp = r.ArrRegrSlp,
+  b.Arr = b.Arr,
+  r.Arr = r.Arr,
+  ATUspawn1 = ATUspawn1,
+  ATUspawn2 = ATUspawn2,
+  Dspawn1 = Dspawn1,
+  Dspawn2 = Dspawn2,
+  linF = linF,
+  kF = kF,
+  t0F = t0F,
+  linM = linM,
+  kM = kM,
+  t0M = t0M,
+  lwF.alpha = lwF.alpha,
+  lwF.beta = lwF.beta,
+  lwM.alpha = lwM.alpha,
+  lwM.beta = lwM.beta,
+  b.length = b.length,
+  r.length = r.length,
+  spawnInt = spawnInt,
+  batchSize = batchSize,
+  resTime = resTime,
+  s.Optim = s.Optim,
+  d.Max = d.Max,
+  tortuosity = tortuosity,
+  motivation = motivation,
+  daily.move = daily.move
+  ))
 }    
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+
   
   if(river=='connecticut'){ 
     # Store output in pre-allocated vectors 
@@ -715,8 +698,8 @@ daily.move = daily.move
     lwM.beta[(n + nYears * (k - 1))] <-  c_maleLWbeta
   
     # Length
-    b.length[(n + nYears * (k - 1))] <-  mean(c_male_lf)
-    r.length[(n + nYears * (k - 1))] <-  mean(c_female_lf)
+    b.length[(n + nYears * (k - 1))] <-  mean(c_male_lf[c_male_lf!=0])
+    r.length[(n + nYears * (k - 1))] <-  mean(c_female_lf[c_female_lf!=0])
   
     # Fecundity
     spawnInt[(n + nYears * (k - 1))] <-  mean(c_SI)
