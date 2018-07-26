@@ -31,6 +31,8 @@ cat('CPU ids: ', unlist(sfClusterCall(function() Sys.getpid())), fill=TRUE)
 data('fish')
 data('arr.B')
 data('arr.R')
+data('b.parms')
+data('r.parms')
 data('tempD')
 data('tempData')
 

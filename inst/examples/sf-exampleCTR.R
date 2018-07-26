@@ -31,8 +31,10 @@ cat('CPU ids: ', unlist(sfClusterCall(function() Sys.getpid())), fill=TRUE)
 data('fish')
 data('arr.B')
 data('arr.R')
+data('b.parms')
+data('r.parms')
 data('tempD')
-data('tempData')
+data('tempData_connecticut')
 
 # 3. Define wrapper function, which can be called in parallel.
 #
