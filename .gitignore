@@ -18,3 +18,5 @@ R/arrivalRegression.R
 Rplots.pdf
 sf-exampleCTRRtester.R
 sf-exampleMMRtester.R
+sf-examplePNRtester.R
+logs.txt
