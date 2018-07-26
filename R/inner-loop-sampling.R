@@ -557,7 +557,7 @@ mot <- mean((1 - (newTU - min(newTU)) /
     }
     # For Connecticut River:
     if(river=='connecticut'){
-      rkm1 <- rep(35, length(c_fishAges))
+      rkm1 <- rep(90, length(c_fishAges))
     }
     # For all rivers:
     rkm2 <- matrix(0, ncol = length(day), nrow = length(c_fishAges))
