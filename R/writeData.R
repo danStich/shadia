@@ -180,6 +180,11 @@ names(res)<-c(
 #   scalarVar,
 #   scen
 # )
+
+return(#list(		
+  res	= res#,
+  #sens = sens
+)#)	
 }
 
 if(river=='merrimack'){
@@ -292,6 +297,11 @@ names(res)<-c(
 #   scalarVar,
 #   scen
 # )
+
+return(#list(		
+  res	= res#,
+  #sens = sens
+)#)	
 }
 
 if(river=='connecticut'){
@@ -377,8 +387,8 @@ names(res)<-c(
 #   S.postspawnF,
 #   S.juvenile,
 #   t.stoch,
-#   t.RegrInt,
-#   t.RegrSlp,
+#   # t.RegrInt,
+#   # t.RegrSlp,
 #   b.ArrRegrInt,
 #   b.ArrRegrSlp,
 #   r.ArrRegrInt,
@@ -413,29 +423,19 @@ names(res)<-c(
 #   scalarVar,
 #   scen
 # )
-}
-
-
-
-
-
-
-
-
-
-
-
-
-# Write the inputs and outputs to a text file that can be read into R
-#writeData(filename)
-
-if (.shadia$useTictoc) {
-  toc() #("data write")
-}
+# 
 
 return(#list(		
-res	= res#,
-#sens = sens
-)#)		
+  res	= res#,
+  #sens = sens
+)#)	
+
+}
+
+# Write the inputs and outputs to a text file that can be read into R
+# writeData(filename)
+  if (.shadia$useTictoc) {
+    toc() #("data write")
+  }
 
 }
