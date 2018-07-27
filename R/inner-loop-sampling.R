@@ -604,7 +604,8 @@ mot <- mean((1 - (newTU - min(newTU)) /
 # Run the agent-based model for upstream migration
 # Get start time for running ABM function in C++
 # ptmABM <- proc.time() # Uncomment to time it
-
+  #c_mid <- round(rowMeans(cbind(c_initial, c_end)))
+  
 #if (useTictoc) {
 #  tic("C++ ABM function, moveC")
 #}
@@ -696,7 +697,6 @@ moves_2 <- moveC(day,
 # Calculate delay at each dam for each fish in the first 
 # migration route for all rivers. 
   delay_1 <- delayC(moves_1, damRkms[[1]][2:nPU[1]])
-  
   # Remaining routes for penobscot River
   if(river=='penobscot'){
   # Calculate delay at each dam for each main-to-Mainstem spawners

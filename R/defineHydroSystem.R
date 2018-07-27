@@ -75,13 +75,15 @@ maxrkm <- 204
 damRkms <- vector(mode = 'list', length = nRoutes)
 damRkms[[1]] <- c(45, 65, 120, 135)     # Dam rkms for group 1
 
+# Return the list
 return(list(
-nRoutes=nRoutes,
-nDams=nDams,
-nPU=nPU,
-maxrkm=maxrkm,
-damRkms=damRkms
+  nRoutes=nRoutes,
+  nDams=nDams,
+  nPU=nPU,
+  maxrkm=maxrkm,
+  damRkms=damRkms
 ))  
+
 }  
 
 if(river=='connecticut'){

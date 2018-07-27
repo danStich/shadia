@@ -289,7 +289,7 @@ connecticutRiverModel <- function(
   # Run sim for nYears
   for (n in 1:nYears) {
 
-    # Assign iterator to a global var so it
+    # Assign iterator to a var so it
     # can be accessed in functions called
     .shadia$n <- n
 
@@ -342,7 +342,6 @@ connecticutRiverModel <- function(
     # Fill them in and change them into cohorts
     environment(processCohorts) <- .shadia
     list2env(processCohorts(), envir = .shadia)
-
 
   # . Downstream migration -----
     #if (useTictoc) toc()
