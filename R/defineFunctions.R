@@ -18,10 +18,10 @@
 createPUMatrix <- function(isFemale, pu, isEgg=FALSE){ 
   
   # dynamically identify the x_n dataframe, for PU n
-  fishCount <- get(paste0('x_',pu))
+  fishCount <- get(paste0('x_',pu), envir = .shadia)
   
   # dynamically identify the sp_n dataframe, for PU n
-  spawnProb <- get(paste0('sp_',pu))
+  spawnProb <- get(paste0('sp_',pu), envir = .shadia)
   
   if (!isEgg) {
     # for males and females

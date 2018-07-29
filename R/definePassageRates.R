@@ -12,6 +12,8 @@
 #' @return A list of upstream and downstream dam passage
 #' efficiencies at each dam in the hydro system. 
 #' 
+#' @export
+#' 
 
 definePassageRates <- function(){
 

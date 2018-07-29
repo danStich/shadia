@@ -298,7 +298,7 @@ penobscotRiverModel <- function(
   # Run sim for nYears
   for (n in 1:nYears) {
     
-    # Assign iterator to a global var so it
+    # Assign iterator to a var so it
     # can be accessed in functions called
     .shadia$n <- n
     
