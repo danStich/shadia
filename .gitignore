@@ -20,3 +20,5 @@ sf-exampleCTRRtester.R
 sf-exampleMMRtester.R
 sf-examplePNRtester.R
 logs.txt
+sf-example-testerCTRR.R
+defaultParams.R
