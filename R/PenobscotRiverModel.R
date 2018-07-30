@@ -21,7 +21,7 @@
 #' passage efficiencies at each dam in the 
 #' Penobscot River. Stillwater and Orono dams are
 #' not included in the list of values because all
-#' fish reaching Orono Dam are trucked upstream.
+#' fish reaching Orono Dam are "trucked" upstream.
 #' 
 #' Users may specify a single value of upstream
 #' passage at each dam, or a vector of upstream
@@ -122,12 +122,12 @@
 #' call (\code{nRuns} argument) to less than 10 or R will 
 #' hit memory limits quickly. In reality, serial 
 #' execution is prohibitively slow unless implemented 
-#' using manual parallel processing (i.e., bash scripting).
+#' using manual parallel processing (e.g., bash scripting).
 #' 
 #' In order to achieve a desired number of runs for a given
 #' set of inputs, the recommended approach is to use 
 #' parallel execution as demonstrated using snowfall in the
-#' example at the bottom of this page.
+#' example below.
 #' 
 #' @example /inst/examples/sf-examplePNR.R
 #' 
