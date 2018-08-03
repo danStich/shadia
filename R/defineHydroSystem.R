@@ -75,25 +75,43 @@ maxrkm <- 204
 damRkms <- vector(mode = 'list', length = nRoutes)
 damRkms[[1]] <- c(45, 65, 120, 135)     # Dam rkms for group 1
 
+# Return the list
 return(list(
-nRoutes=nRoutes,
-nDams=nDams,
-nPU=nPU,
-maxrkm=maxrkm,
-damRkms=damRkms
+  nRoutes=nRoutes,
+  nDams=nDams,
+  nPU=nPU,
+  maxrkm=maxrkm,
+  damRkms=damRkms
 ))  
-  
-  
-  
-  
-  
-  
+
 }  
 
+if(river=='connecticut'){
+# Number of routes
+#  Route 1 is spillway/gatehouse
+#  Route 2 is Cabot/canal/gatehouse
+nRoutes <- 2
+nDams <- c(4, 4)
 
+# Define number of production units- dams plus two in this system
+nPU <- nDams + 1
 
+# Define maximum rkm for the system.
+maxrkm <- c(281, 281)
 
+# Define rkms for each of the dams for each migration route
+damRkms <- vector(mode = 'list', length = nRoutes)
+damRkms[[1]] <- c(139, 198, 199, 229) # Route 1
+damRkms[[2]] <- c(139, 194, 199, 229) # Route 2
 
+return(list(
+  nRoutes=nRoutes,
+  nDams=nDams,
+  nPU=nPU,
+  maxrkm=maxrkm,
+  damRkms=damRkms
+))    
+}
 
 }
 

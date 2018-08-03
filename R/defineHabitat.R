@@ -86,7 +86,20 @@ if(river=='merrimack'){
   
 }  
   
+# Connecticut River relies on habitat estimated
+# and production potential of 203 spawners/ha
+# as identified in the Connecticut River
+# Shad Management Plan (2017) for inputs
+if(river=='connecticut'){
+
+  habitat <- vector(mode = 'list', length = nRoutes)
   
+  habitat[[1]] <- c(4825, 1369, 0, 762, 1042)*203
+  habitat[[2]] <- c(4825, 1369, 0, 762, 1042)*203
   
+  return(list(
+    habitat=habitat
+  ))
+}  
   
 }  

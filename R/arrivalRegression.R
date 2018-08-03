@@ -32,7 +32,9 @@
 # # Add a column for year to the catch data
 # cpue$year <- year(cpue$Date)
 # # Now add temperature to cpue data
-# test <<- merge(cpue, mu, by = c('year', 'day'), all.x = TRUE)
+# #mu <- tempData_connecticut[,c(ncol(tempData_connecticut),1,2)]
+# test <<- merge(cpue, hmu, by = c('year', 'day'), all.x = TRUE)
+# 
 # # Create new sequence of days for predictions
 # newDay <<- seq(0, 30, 1)
 # 
@@ -64,5 +66,5 @@
 # arr.B[[i]] <- summary(Bmod)$coefficients
 # }
 # 
-# save(arr.R, file='../data/arr.R.rda')
-# save(arr.B, file='../data/arr.B.rda')
+# save(arr.R, file='./data/arr.R.rda')
+# save(arr.B, file='./data/arr.B.rda')

@@ -4,12 +4,8 @@
 .Rhistory
 .RData
 .Ruserdata
-shadia.Rproj
 
-.sf-example.PNR.R
-.sf-exampleMMR.R
-.debugger.R
-snowfall-result.rda
+shadia.Rproj
 
 src/*.o
 src/*.so
@@ -18,4 +14,11 @@ src/*.dll
 R/growthCurvesBootstrapped.R
 R/arrivalRegression.R
 
+sf-exampleCTR-tester.R
+sf-exampleMMR-tester.R
+sf-examplePNR-tester.R
+
+snowfall-result.rda
 Rplots.pdf
+debugger.R
+defaultParams.R

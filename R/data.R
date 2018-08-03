@@ -204,3 +204,22 @@
 #' @source U.S. Fish and Wildlife Service (2018)
 #' 
 "b.parms_merrimack"
+
+#' @title Connecticut River temperatures,
+#' Turner's Falls, MA, USA.
+#' 
+#' @description Sub-daily temperatures from USGS S.O.
+#' Conte Anadromous Fish Lab in Turner's Falls, MA
+#' for the 21-year period 1994-2015.
+#' 
+#' @format A data frame with 167,333 obs. of 3 variables
+#' \describe{
+#'   \item{\code{val}}{Temperature in degrees celcius}
+#'   
+#'   \item{\code{year}}{Year of temperature observation}
+#'   
+#'   \item{\code{day}}{Ordinal date}
+#' }
+#' 
+#' @source T. Castro-Santos, U.S. Geological Survey
+"tempData_connecticut"

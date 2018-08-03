@@ -22,9 +22,11 @@ processCohorts <- function(){
   #if (useTictoc) tic("process Populations")
   #if (useTictoc) tic("process MALES NEW")
   males <- eval(processPopulation(isFemale=FALSE), envir = .shadia)
+  males2res <- males
   # if (useTictoc) toc()
   #if (useTictoc) tic("process FEMALES NEW")
   females <- eval(processPopulation(isFemale=TRUE), envir = .shadia)
+  females2res <- females  
   #if (useTictoc) toc()
   #if (useTictoc) tic("process EGGS NEW")
   fec_Max <- eval(processPopulation(isFemale=FALSE, isEgg=TRUE), envir = .shadia)
@@ -34,7 +36,9 @@ processCohorts <- function(){
   return(list(  
     males = males,
     females = females,
-    fec_Max = fec_Max
+    fec_Max = fec_Max,
+    males2res = males2res,
+    females2res = females2res
   ))   
   
 }

@@ -12,6 +12,8 @@
 #' @return A list of upstream and downstream dam passage
 #' efficiencies at each dam in the hydro system. 
 #' 
+#' @export
+#' 
 
 definePassageRates <- function(){
 
@@ -144,7 +146,53 @@ if(river=='merrimack'){
       HooksetDj = HooksetDj
     )
   )
-  
 }
-    
+   
+if(river=='connecticut'){  
+  # Upstream passage rates
+  Open <- 1.00
+  HolyokeUp <- up[1] * fB
+  CabotUp <- up[2] * fB
+  SpillwayUp <- up[3] * fB
+  GatehouseUp <- up[4] * fB
+  VernonUp <- up[4] * fB
+  
+  # Downstream passage efficiencies
+  # Define downstream passage efficiencies at each of the dams
+  OpenD <- 1.00
+  HolyokeD <- d[1] * indirect * latent * delay
+  CabotD <- d[2] * indirect * latent * delay
+  GatehouseD <- d[3] * indirect * latent * delay
+  VernonD <- d[4] * indirect * latent * delay
+  
+  # Make downstream survival probabilities for juveniles.
+  # Unused. Moved to separate calculations in the 
+  # Connecticut River Model. All runs in the Penobscot
+  # River to date have used equal performance standards.
+  # Will update this model to use the same approach.
+  HolyokeDj <- d[1] * indirect * latent * delay
+  CabotDj <- d[2] * indirect * latent * delay
+  GatehouseDj <- d[3] * indirect * latent * delay
+  VernonDj <- d[4] * indirect * latent * delay
+  
+  return(
+    list(
+      Open = Open,
+      HolyokeUp = HolyokeUp,      
+      CabotUp = CabotUp,
+      SpillwayUp = SpillwayUp,
+      GatehouseUp = GatehouseUp,
+      VernonUp = VernonUp,
+      HolyokeD = HolyokeD,      
+      CabotD = CabotD,
+      GatehouseD = GatehouseD,
+      VernonD = VernonD,
+      HolyokeDj = HolyokeDj,      
+      CabotDj = CabotDj,
+      GatehouseDj = GatehouseDj,
+      VernonDj = VernonDj
+    )
+  )
+}
+  
 }  

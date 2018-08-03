@@ -4,7 +4,9 @@
 #' return all model inputs and relevant model
 #' outputs (e.g., population size) from all k iterations 
 #' of n years to the temporary environment 
-#' in \code{\link{penobscotRiverModel}}()
+#' in \code{\link{penobscotRiverModel}}, 
+#' \code{\link{merrimackRiverModel}}, and
+#' \code{\link{connecticutRiverModel}}.
 #' 
 #' Not intended to be called directly, but visible 
 #' nonetheless.
@@ -178,6 +180,11 @@ names(res)<-c(
 #   scalarVar,
 #   scen
 # )
+
+return(#list(		
+  res	= res#,
+  #sens = sens
+)#)	
 }
 
 if(river=='merrimack'){
@@ -290,31 +297,144 @@ names(res)<-c(
 #   scalarVar,
 #   scen
 # )
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# Write the inputs and outputs to a text file that can be read into R
-#writeData(filename)
-
-if (.shadia$useTictoc) {
-  toc() #("data write")
-}
 
 return(#list(		
-res	= res#,
-#sens = sens
-)#)		
+  res	= res#,
+  #sens = sens
+)#)	
+}
+
+if(river=='connecticut'){
+# Collect inputs and outputs into a single object for file write
+res <- data.frame(
+  years,
+  ptime,
+  pSpill,
+  HolUp,
+  CabUp,
+  SpillUp,
+  GateUp,
+  VernUp,
+  HolD,
+  CabD,
+  GateD,
+  VernD,
+  NorthFieldV,
+  NorthFieldT,
+  NorthFieldVa,
+  NorthFieldTa,
+  F.inRiver,
+  F.commercial,
+  F.bycatch,
+  indirectM,
+  latentM,
+  pRepeats,
+  ceiling(populationSize),
+  ceiling(popI),
+  ceiling(popII),
+  ceiling(popIII),
+  ceiling(popIV),
+  ceiling(popV)
+)
+
+names(res)<-c(
+  "year",
+  "time",
+  "pSpill",
+  "HolyokeUp",
+  "CabotUp",
+  "SpillwayUp",
+  "GatehouseUp",
+  "VernonUp",
+  "HolyokeD",
+  "CabotD",
+  "GatehouseD",
+  "VernonD",
+  "NorthFieldV",
+  "NorthFieldT",
+  "NorthFieldVa",
+  "NorthFieldTa",
+  "inriverF",
+  "commercialF",
+  "bycatchF",
+  "indirect",
+  "latent",
+  "pRepeat_Age1",
+  "pRepeat_Age2",
+  "pRepeat_Age3",
+  "pRepeat_Age4",
+  "pRepeat_Age5",
+  "pRepeat_Age6",
+  "pRepeat_Age7",
+  "pRepeat_Age8",
+  "populationSize",
+  "N_I",
+  "N_II",
+  "N_III",
+  "N_IV",
+  "N_V"
+)
+
+# Collect variables for sensitivity analysis and save them out
+# sens = data.frame(
+#   S.downstream,
+#   S.marine,
+#   popStart,
+#   p.female,
+#   S.prespawnM,
+#   S.postspawnM,
+#   S.prespawnF,
+#   S.postspawnF,
+#   S.juvenile,
+#   t.stoch,
+#   # t.RegrInt,
+#   # t.RegrSlp,
+#   b.ArrRegrInt,
+#   b.ArrRegrSlp,
+#   r.ArrRegrInt,
+#   r.ArrRegrSlp,
+#   b.Arr,
+#   r.Arr,
+#   ATUspawn1,
+#   ATUspawn2,
+#   Dspawn1,
+#   Dspawn2,
+#   linF,
+#   kF,
+#   t0F,
+#   linM,
+#   kM,
+#   t0M,
+#   lwF.alpha,
+#   lwF.beta,
+#   lwM.alpha,
+#   lwM.beta,
+#   b.length,
+#   r.length,
+#   spawnInt,
+#   batchSize,
+#   resTime,
+#   s.Optim,
+#   d.Max,
+#   tortuosity,
+#   motivation,
+#   daily.move,
+#   habStoch,
+#   scalarVar,
+#   scen
+# )
+
+return(#list(		
+  res	= res#,
+  #sens = sens
+)#)	
+
+}
+
+# Write the inputs and outputs to a text file that can be read into R
+# writeData(filename)
+  if (.shadia$useTictoc) {
+    toc() #("data write")
+  }
 
 }

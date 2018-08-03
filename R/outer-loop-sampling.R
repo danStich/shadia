@@ -35,7 +35,6 @@ fB <- 1.00
 # Downstream passage efficiencies
 # Define downstream passage efficiencies
 d <- as.vector(mapply(sample, dDraws, 1))
-#d = rep(1, 9) # Uncomment for perfect passage
 
 # Define indirect mortality in freshwater resulting from dam passage
 #indirect = 1#sample(c(0.90, 0.95, 0.99, 1.00), 1, replace = TRUE)
@@ -50,24 +49,6 @@ ildProduct <- indirect * latent * delay
 
 jReduction <- 1 #sample(c(.50,.60,.70,.80,.90,1.00), 1, replace =TRUE)
 
-if(river=='penobscot'){
-# Draw timing of Weldon passage implementation
-weldon <- 0#c(0, 10, 20)
-#     if(up[1] != 0.75){scenario = sample(weldon[2:3], 1, replace = TRUE)
-#       } else {
-scenario <- sample(weldon, 1, replace = TRUE)
-# }
-
-# Draw probability of using the Stillwater Branch. NOTE: NEED TO MAKE THIS
-# CONDITIONAL ON FLOW.
-pStillwaterUp <- rbeta(1, 15, 120) # During upstream passage
-pStillwaterD <- rbeta(1, 15, 120)  # During downstream passage
-
-# Draw probability of using the Piscataquis for upstream migration. NOTE: NEED
-# TO MAKE THIS CONDITIONAL ON FLOW.
-pPiscUp <- rbeta(1, 25, 75) # During upstream passage
-}
-
 # Survival rates for various life-history stages
 # Define ocean survival for each age (1-M from Hoenig 1983 in ASMFC 2007
 # stock assessment). ALTERNATIVE: Could use age-variant M.
@@ -79,69 +60,112 @@ inRiverF <- inRiverF                          # Recreational MORTALITY RATE
 commercialF <- rep(commercialF, maxAge)       # Commercial MORTALITY RATE
 bycatchF <- rep(bycatchF, maxAge)             # Bycatch MORTALITY RATE
 
-if(river=='penobscot'){
-pinHarvest <- pinHarvest                      # Sustenance harvest by PIN for
-}                                             # penobscotRiverModel()
-
-
-# Assign the starting population based on a seed of
-# age-1 fish and application of an ocean survival curve
-# The population size is scaled to make the models
-# run faster. Output is re-scaled
 
 if(river=='penobscot'){
-# Original number of Age 1 individuals in the population
-Age1 <- rpois(1, 1e4)
+  # Assign the starting population based on a seed of
+  # age-1 fish and application of an ocean survival curve
+  # The population size is scaled to make the models
+  # run faster. Output is re-scaled
+  Age1 <- rpois(1, 1e4)
+  
+  # Sustenance harvest by PIN for penobscotRiverModel
+  pinHarvest <- pinHarvest                      
+  
+  # Draw timing of Weldon passage implementation
+  weldon <- 0#c(0, 10, 20)
+  #     if(up[1] != 0.75){scenario = sample(weldon[2:3], 1, replace = TRUE)
+  #       } else {
+  scenario <- sample(weldon, 1, replace = TRUE)
+  # }
+  
+  # Draw probability of using the Stillwater Branch. NOTE: NEED TO MAKE THIS
+  # CONDITIONAL ON FLOW.
+  pStillwaterUp <- rbeta(1, 15, 120) # During upstream passage
+  pStillwaterD <- rbeta(1, 15, 120)  # During downstream passage
+  
+  # Draw probability of using the Piscataquis for upstream migration. NOTE: NEED
+  # TO MAKE THIS CONDITIONAL ON FLOW.
+  pPiscUp <- rbeta(1, 25, 75) # During upstream passage
+  
+  return(list(
+    up = up,
+    timely = timely,
+    fB = fB,
+    d = d,
+    indirect = indirect,
+    latent = latent,
+    delay = delay,
+    ildProduct = ildProduct,
+    jReduction = jReduction,
+    weldon = weldon,
+    scenario = scenario,
+    pStillwaterUp = pStillwaterUp,
+    pStillwaterD = pStillwaterD,
+    pPiscUp = pPiscUp,
+    downstreamS = downstreamS,
+    oceanSurvival = oceanSurvival,
+    pinHarvest = pinHarvest,
+    inRiverF = inRiverF,
+    commercialF = commercialF,
+    bycatchF = bycatchF,
+    Age1 = Age1
+  ))
 }
 
+
 if(river=='merrimack'){
+  
+  # Assign the starting population based on a seed of
+  # age-1 fish and application of an ocean survival curve
+  # The population size is scaled to make the models
+  # run faster. Output is re-scaled  
   Age1 <- rpois(1, 2e5)
+  
+  return(list(
+    up = up,
+    timely = timely,
+    fB = fB,
+    d = d,
+    indirect = indirect,
+    latent = latent,
+    delay = delay,
+    ildProduct = ildProduct,
+    jReduction = jReduction,
+    downstreamS = downstreamS,
+    oceanSurvival = oceanSurvival,
+    inRiverF = inRiverF,
+    commercialF = commercialF,
+    bycatchF = bycatchF,
+    Age1 = Age1
+  ))
 }
 
-if(river=='penobscot'){
-return(list(
-up = up,
-timely = timely,
-fB = fB,
-d = d,
-indirect = indirect,
-latent = latent,
-delay = delay,
-ildProduct = ildProduct,
-jReduction = jReduction,
-weldon = weldon,
-scenario = scenario,
-pStillwaterUp = pStillwaterUp,
-pStillwaterD = pStillwaterD,
-pPiscUp = pPiscUp,
-downstreamS = downstreamS,
-oceanSurvival = oceanSurvival,
-pinHarvest = pinHarvest,
-inRiverF = inRiverF,
-commercialF = commercialF,
-bycatchF = bycatchF,
-Age1 = Age1
-))
-}
 
-if(river=='merrimack'){
-return(list(
-up = up,
-timely = timely,
-fB = fB,
-d = d,
-indirect = indirect,
-latent = latent,
-delay = delay,
-ildProduct = ildProduct,
-jReduction = jReduction,
-downstreamS = downstreamS,
-oceanSurvival = oceanSurvival,
-inRiverF = inRiverF,
-commercialF = commercialF,
-bycatchF = bycatchF,
-Age1 = Age1
-))
+if(river=='connecticut'){
+  
+  # Assign the starting population based on a seed of
+  # age-1 fish and application of an ocean survival curve
+  # The population size is scaled to make the models
+  # run faster. Output is re-scaled  
+  Age1 <- rpois(1, 2e6)
+  
+  return(list(
+    up = up,
+    timely = timely,
+    fB = fB,
+    d = d,
+    indirect = indirect,
+    latent = latent,
+    delay = delay,
+    ildProduct = ildProduct,
+    jReduction = jReduction,
+    downstreamS = downstreamS,
+    oceanSurvival = oceanSurvival,
+    inRiverF = inRiverF,
+    commercialF = commercialF,
+    bycatchF = bycatchF,
+    Age1 = Age1
+  ))
 }
 
 }

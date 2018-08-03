@@ -31,8 +31,10 @@ cat('CPU ids: ', unlist(sfClusterCall(function() Sys.getpid())), fill=TRUE)
 data('fish')
 data('arr.B')
 data('arr.R')
+data('b.parms_merrimack')
+data('r.parms_merrimack')
 data('tempD')
-data('tempData')
+data('tempData_merrimack')
 
 # 3. Define wrapper function, which can be called in parallel.
 #
@@ -88,7 +90,7 @@ sfClusterSetupRNG()
 
 # 6. Distribute calculation to workers
 # -----
-niterations <- 50
+niterations <- 10
 start <- Sys.time()
 
 # The magic is in snowfall's sfLapply() function,
