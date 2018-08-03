@@ -668,7 +668,7 @@ moves_1 <- moveC(day,
                 ppPenalty[[1]],
                 rkm1[upstream_path == 1],
                 rkm2[upstream_path == 1, , drop = FALSE],
-                c_initial[upstream_path == 1])
+                c_end[upstream_path == 1])
 # Run the ABM for main-to-mainstem Spawners
 moves_2 <- moveC(day,
                 c_entryDate[upstream_path == 2],
@@ -677,7 +677,7 @@ moves_2 <- moveC(day,
                 ppPenalty[[2]],
                 rkm1[upstream_path == 2],
                 rkm2[upstream_path == 2,  , drop = FALSE],
-                c_initial[upstream_path == 2])
+                c_end[upstream_path == 2])
 }
 
 # Calculate total run time for ABM
