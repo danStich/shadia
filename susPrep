@@ -1,0 +1,115 @@
+-DAM RKMS: E=Upstream Extent, P=Passable
+
+--JUNIATA (River comes in at RKM 141- mainstem distance is 45% of distance to Sunbury)
+  Conowingo      16
+  Holtwood       39
+  SafeHarbor     50
+  YorkHaven      90
+  junConfluence  141
+  WarriorRidge	 265 (E)
+
+--WEST BRANCH
+  Conowingo      16
+  Holtwood       39
+  SafeHarbor     50
+  YorkHaven      90
+  Sunbury        204
+  Williamsport	 275
+  LockHaven      326
+  Shawville      474 (E)
+
+--CHEMUNG
+  Conowingo      16
+  Holtwood       39
+  SafeHarbor     50
+  YorkHaven      90
+  Sunbury        204
+  Chase-Hibbard	 511
+  Corning        538 (E)
+
+--NORTH BRANCH
+  Conowingo      16
+  Holtwood       39
+  SafeHarbor     50
+  YorkHaven      90
+  Sunbury        204
+  AvonSt         538 (P)
+  CrockerIsland  541 (P)
+  MemorialBridge 544 (P)
+  Rock Bottom    545      
+  Oakland	 571
+  Southside      681
+  Colliersville  692
+  Cooperstown    715 (E)
+
+
+-PRODUCTION UNITS
+ --JUNIATA
+   Conowingo to Holtwood             0 ha
+   Holtwood to SafeHarbor            0 ha
+   SafeHarbor to YorkHaven       1,461 ha + 165 + 308 + 229
+   YorkHaven  to Sunbury        (0.45*10,407 ha) + 245 + 80 + 325
+   JuniataRiver to WarriorRidge  2,018 ha
+
+ --WEST BRANCH
+   Conowingo to Holtwood             0 ha
+   Holtwood to SafeHarbor            0 ha
+   SafeHarbor to YorkHaven       1,461 ha + 165 + 308 + 229
+   YorkHaven  to Sunbury        10,407 ha + 245 + 80 + 325
+   Sunbury to Williamsport       1,489 ha
+   Williamsport to LockHaven     1,489 ha
+   LockHaven to Shawville            ? ha
+
+ --CHEMUNG
+   Conowingo to Holtwood             0 ha
+   Holtwood to SafeHarbor            0 ha
+   SafeHarbor to YorkHaven       1,461 ha + 165 + 308 + 229
+   YorkHaven  to Sunbury        10,407 ha + 245 + 80 + 325
+   Sunbury to NyLine             6,664 ha
+   NyLine to PaLine                104 ha
+
+ --NORTH BRANCH
+   Conowingo to Holtwood             0 ha
+   Holtwood to SafeHarbor            0 ha
+   SafeHarbor to YorkHaven       1,461 ha + 165 + 308 + 229
+   YorkHaven  to Sunbury        10,407 ha + 245 + 80 + 325
+   Sunbury to NyLine             6,664 ha
+   NyLine to RockBottom          1,142 ha
+   RockBottom to Unadilla        1,147 ha
+
+
+
+
+
+-HABITAT AND TARGETS
+Boundaries                                      area (hectares) Percent Am. Shad target
+--All
+Susq. R., Marietta to York Haven                          1,461       5.4%      107,118
+ Conestoga River to mouth of Cocalico Cr.             	    308       1.1%       22,598
+ Conewago Creek (York Co.) to mouth of Bermudian Cr.   	    165       0.6%       12,100
+ Swatara Creek to mouth of Little Swatara Cr.         	    229       0.8%       16,829
+Susq. R., York Haven to Sunbury                          10,407      38.2%      763,123
+ Sherman's Creek to mouth of McCabe Run                      80       0.3%        5,893
+ Penn's Creek to mouth of Laurel Run                        245       0.9%       17,977
+ Conodoguinet Creek to mouth of Big Spring Cr.              325       1.2%       23,823
+
+--Juniata
+Juniata River to Raystown Dam and Warrior Ridge Dam       2,018       7.4%      147,952
+
+--West Branch
+Fabri-Dam to Lock Haven                             	  2,978      10.9%      218,415
+
+--North Branch
+Susq. R., Sunbury to NY line                       	  6,664      24.4%      488,680
+Susq. R. NY line to Binghamton                     	  1,142       4.2%       83,757
+Susq. R., Binghamtom to mouth of Unadilla Cr.      	  1,147       4.2%       84,137
+
+--Chemung
+Chemung/Tioga River PA state line upstream to PA state line 104       0.4%        7,597
+
+--Unknown tribs
+
+
+-Probabilities of using each route?
+-Environmental data?
+

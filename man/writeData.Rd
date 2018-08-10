@@ -14,9 +14,9 @@ Internal function used to collect and
 return all model inputs and relevant model
 outputs (e.g., population size) from all k iterations 
 of n years to the temporary environment 
-in \code{\link{penobscotRiverModel}}(), 
-\code{\link{merrimackRiverModel}}(), and
-\code{\link{connecticutRiverModel}}()
+in \code{\link{penobscotRiverModel}}, 
+\code{\link{merrimackRiverModel}}, and
+\code{\link{connecticutRiverModel}}.
 
 Not intended to be called directly, but visible 
 nonetheless.

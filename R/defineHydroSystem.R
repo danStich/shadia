@@ -113,5 +113,45 @@ return(list(
 ))    
 }
 
+  
+if(river=='susquehanna'){  
+# Penobscot River -----------------------------------
+# For the Penobscot, there are two potential
+# migration routes, so this needs to be accommodated.
+# FOR ALL OF THE HABITAT VARIABLES AND THE PASSAGE ROUTE
+# VARIABLES, GROUP 1 CORRESPONDS TO THE PISCATAQUIS ROUTE 
+# AND GROUP 2 TO THE UPPER MAINSTEM PENOBSCOT ROUTE.
+nRoutes <- 4
+
+# Need separate habitat values for each migration route
+# Group 1: Juniata River spawners
+# Group 2: West Branch spawners
+# Group 3: Chemung River spawners
+# Group 4: North Branch spawners
+nDams <- c(5, 7, 6, 9)
+
+# Define number of production units- dams plus two in this system
+nPU <- nDams + 1
+
+# Define maximum rkm for the system. In the Piscataquis, Guilford Dam is fine,
+# and for the mainstem use Mattaceunk
+maxrkm <- c(265, 474, 538, 715)
+
+# Define rkms for each of the dams for each migration group
+damRkms <- vector(mode = 'list', length = nRoutes)
+damRkms[[1]] <- c(16, 39, 50, 90, 141)       
+damRkms[[2]] <- c(16, 39, 50, 90, 204, 275, 326)
+damRkms[[3]] <- c(16, 39, 50, 90, 204, 511)         
+damRkms[[4]] <- c(16, 39, 50, 90, 204, 545, 645, 692)
+
+return(list(
+nRoutes=nRoutes,
+nDams=nDams,
+nPU=nPU,
+maxrkm=maxrkm,
+damRkms=damRkms
+))
+}
+  
 }
 

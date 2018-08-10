@@ -18,4 +18,12 @@ routes, and apply carrying capacity based on k_pus. In addition
 to cohort processing routines (hence the name). Not
 intended to be called directly. Visible for the sake of
 model transparency.
+
+A function that uses \code{\link{createPUMatrix}},
+\code{\link{assignFishToRoutes}}, and 
+\code{\link{additionalEggsProcessing}} to return the 
+number of fish in each cohort in each PU prior to 
+application of annual mortality rates and downstream
+migration. Not intended to be called directly.
+ Visible for the sake of model transparency.
 }
