@@ -87,6 +87,29 @@ additionalEggsProcessing <- function(fec){
     # Now sum all eggs from each of the shared PUs for all routes.  Put all
     # of the eggs from shared PUs into fec2[[min]] that shares the PU,
     # set all others to zero
+    fec2[[1]][1] <- fec2[[1]][1] + fec2[[2]][1]
+    fec2[[1]][2] <- fec2[[1]][2] + fec2[[2]][2]
+    fec2[[1]][3] <- 0 # No juv survival allowed in the canal!!
+    fec2[[1]][4] <- fec2[[1]][4] + fec2[[2]][4]
+    fec2[[1]][5] <- fec2[[1]][5] + fec2[[2]][5]
+    fec2[[2]][1:5] <- 0
+    
+    # Apply carrying capacity limitation to each production unit based
+    # on habitat availability
+    fec_Max <- vector(mode = 'list', length = length(fec))
+    for (i in 1:length(fec2)) {
+      for (j in 1:length(fec2[[i]])) {
+        if (fec2[[i]][j] > k_pus[[i]][j]) {
+          fec_Max[[i]][j] = k_pus[[i]][j]
+        } else {
+          fec_Max[[i]][j] = fec2[[i]][j]
+        }
+      }
+    }
+    return(fec_Max)
+    #toc()
+  }  
+    
 #' @title Process population
 #' 
 #' @description A function that uses \code{\link{createPUMatrix}},
