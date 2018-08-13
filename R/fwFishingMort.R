@@ -35,4 +35,15 @@ fwFishingMort <- function(){
     return(list(inriv=inriv))
   }
   
+  if(river=='susquehanna'){  
+    inriv <- vector(mode = 'list', length = nRoutes)
+    inriv[[1]] <- rep(inRiverF, 6)
+    inriv[[2]] <- rep(inRiverF, 8)
+    inriv[[3]] <- rep(inRiverF, 7)
+    inriv[[4]] <- rep(inRiverF, 9)    
+    
+    return(list(inriv=inriv))
+  }  
+  
+  
 }

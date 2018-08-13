@@ -130,6 +130,7 @@ susquehannaRiverModel <- function(
     williamsport = 1,
     lockhaven = 1,
     rockbottom = 1,
+    chasehibbard = 1,
     colliersville = 0
   ),
   downstream = list(
@@ -141,6 +142,7 @@ susquehannaRiverModel <- function(
     williamsport = 1,
     lockhaven = 1,
     rockbottom = 1,
+    chasehibbard = 1,    
     colliersville = 1
   ),
   inRiverF = 0,
@@ -217,12 +219,7 @@ susquehannaRiverModel <- function(
   environment(defineHabitat) <- .shadia
   list2env(defineHabitat(), envir = .shadia)
 
-###########################################################  
-###########################################################    
-###                LEFT OFF HERE                        ###  
-###########################################################  
-###########################################################  
-  
+
 # Timers and progress -----
   # Start the timer for the simulation
   ptmSim <- proc.time()
@@ -262,16 +259,19 @@ susquehannaRiverModel <- function(
       #if (useTictoc) toc()
     }
 
+      
   # . Dam passage efficiencies -----
     environment(definePassageRates) <- .shadia
     list2env(definePassageRates(), envir = .shadia)
+
     
   # . Upstream passage efficiencies and migration route -----
     # NOTE: This section is special for the PNR because of multiple routes with
     # unequal numbers of dams and unequal reach lengths
     environment(annualUpstream) <- .shadia
     list2env(annualUpstream(), envir = .shadia)
-    
+
+
   # . In-river fishing mortality
     # Define in-river fishing mortalities for 
     # each PU in each of the four
@@ -279,11 +279,13 @@ susquehannaRiverModel <- function(
     environment(fwFishingMort) <- .shadia
     list2env(fwFishingMort(), envir = .shadia)
     
+        
 # Starting population structure -----
 # Define starting population structure for each simulation
   environment(startingPop) <- .shadia
   list2env(startingPop(), envir = .shadia)
-
+  
+    
 # Inner loop -----
   # Run sim for nYears
   for (n in 1:nYears) {
@@ -306,6 +308,7 @@ susquehannaRiverModel <- function(
     # minimum year of passage implementation at 
     # Weldon, set upstream 
     # efficiency to zero"
+    
     environment(weldonScenarios) <- .shadia
     list2env(weldonScenarios(), envir = .shadia)
     
@@ -316,7 +319,13 @@ susquehannaRiverModel <- function(
     # Scale the population
     environment(scalePop) <- .shadia
     list2env(scalePop(), envir = .shadia)
-    
+   
+###########################################################  
+###########################################################    
+###                LEFT OFF HERE                        ###  
+###########################################################  
+###########################################################       
+     
     # If you need to load/reuse inner loop sampling,
     # uncomment/use this stop, then call
     # the inner loop sampling code.
@@ -336,7 +345,12 @@ susquehannaRiverModel <- function(
       #if (useTictoc) toc()
     }
 
-
+###########################################################  
+###########################################################    
+###                LEFT OFF HERE                        ###  
+###########################################################  
+###########################################################    
+    
   # . Process fish and eggs ----
     # Processing of populations generalized and
     # moved into functions. See defineFunctions.R

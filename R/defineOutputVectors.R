@@ -727,6 +727,7 @@ if(river=='susquehanna'){
   YorkUp <- vector(mode = 'numeric', length = nYears * nRuns)
   SunUp <- vector(mode = 'numeric', length = nYears * nRuns)
   WillUp <- vector(mode = 'numeric', length = nYears * nRuns)
+  ChasUp <- vector(mode = 'numeric', length = nYears * nRuns)
   LockUp <- vector(mode = 'numeric', length = nYears * nRuns)
   RockUp <- vector(mode = 'numeric', length = nYears * nRuns)
   CollUp <- vector(mode = 'numeric', length = nYears * nRuns)
@@ -739,6 +740,7 @@ if(river=='susquehanna'){
   SunD <- vector(mode = 'numeric', length = nYears * nRuns)
   WillD <- vector(mode = 'numeric', length = nYears * nRuns)
   LockD <- vector(mode = 'numeric', length = nYears * nRuns)
+  ChasD <- vector(mode = 'numeric', length = nYears * nRuns)
   RockD <- vector(mode = 'numeric', length = nYears * nRuns)
   CollD <- vector(mode = 'numeric', length = nYears * nRuns)
   
@@ -764,6 +766,7 @@ if(river=='susquehanna'){
   WesPop <- vector(mode = 'numeric', length = nYears * nRuns)
   WilPop <- vector(mode = 'numeric', length = nYears * nRuns)
   LocPop <- vector(mode = 'numeric', length = nYears * nRuns)
+  ChaPop <- vector(mode = 'numeric', length = nYears * nRuns)
   SunPop <- vector(mode = 'numeric', length = nYears * nRuns)  
   ChePop <- vector(mode = 'numeric', length = nYears * nRuns)
   NorPop <- vector(mode = 'numeric', length = nYears * nRuns)
@@ -871,6 +874,7 @@ if(river=='susquehanna'){
       SunUp = SunUp,
       WillUp = WillUp,
       LockUp = LockUp,
+      ChasUp = ChasUp,
       RockUp = RockUp,
       CollUp = CollUp,
       ConD = ConD,
@@ -880,6 +884,7 @@ if(river=='susquehanna'){
       SunD = SunD,
       WillD = WillD,
       LockD = LockD,
+      ChasD = ChasD,
       RockD = RockD,
       CollD = CollD,
       indirectM = indirectM,
@@ -895,6 +900,7 @@ if(river=='susquehanna'){
       WesPop = WesPop,
       WilPop = WilPop,
       LocPop = LocPop,
+      ChaPop = ChaPop,
       SunPop = SunPop,
       ChePop = ChePop,
       NorPop = NorPop,

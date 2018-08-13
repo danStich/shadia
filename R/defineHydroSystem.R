@@ -115,12 +115,8 @@ return(list(
 
   
 if(river=='susquehanna'){  
-# Penobscot River -----------------------------------
-# For the Penobscot, there are two potential
-# migration routes, so this needs to be accommodated.
-# FOR ALL OF THE HABITAT VARIABLES AND THE PASSAGE ROUTE
-# VARIABLES, GROUP 1 CORRESPONDS TO THE PISCATAQUIS ROUTE 
-# AND GROUP 2 TO THE UPPER MAINSTEM PENOBSCOT ROUTE.
+# Susquehanna River -----------------------------------
+# Four passage routes in Susquehanna River
 nRoutes <- 4
 
 # Need separate habitat values for each migration route
@@ -128,7 +124,7 @@ nRoutes <- 4
 # Group 2: West Branch spawners
 # Group 3: Chemung River spawners
 # Group 4: North Branch spawners
-nDams <- c(5, 7, 6, 9)
+nDams <- c(5, 7, 6, 8)
 
 # Define number of production units- dams plus two in this system
 nPU <- nDams + 1

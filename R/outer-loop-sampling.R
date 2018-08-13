@@ -168,4 +168,41 @@ if(river=='connecticut'){
   ))
 }
 
+
+if(river=='susquehanna'){
+  # Assign the starting population based on a seed of
+  # age-1 fish and application of an ocean survival curve
+  # The population size is scaled to make the models
+  # run faster. Output is re-scaled
+  Age1 <- rpois(1, 1e4)
+  
+  # Draw probability of using each passage route, conditional on flow
+  pJuniataUp <- 0.206262
+  pWestBranchUp <- 0.2195443
+  pChemungUp <- 0.2719814
+  pNorthBranchUp <- 0.3022123
+
+  return(list(
+    up = up,
+    timely = timely,
+    fB = fB,
+    d = d,
+    indirect = indirect,
+    latent = latent,
+    delay = delay,
+    ildProduct = ildProduct,
+    jReduction = jReduction,
+    pJuniataUp = pJuniataUp,
+    pWestBranchUp = pWestBranchUp,
+    pChemungUp = pChemungUp,
+    pNorthBranchUp = pNorthBranchUp,
+    downstreamS = downstreamS,
+    oceanSurvival = oceanSurvival,
+    inRiverF = inRiverF,
+    commercialF = commercialF,
+    bycatchF = bycatchF,
+    Age1 = Age1
+  ))
+}
+
 }

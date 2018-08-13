@@ -116,6 +116,49 @@ if(river=='connecticut'){
 }    
   
   
+if(river=='susquehanna'){
+  # Assign efficiencies to the upstream passage groups
+  upEffs <- vector(mode = 'list', length = nRoutes)
+  upEffs[[1]] <- vector(mode = 'numeric', length = length(damRkms[[1]]))
+  upEffs[[2]] <- vector(mode = 'numeric', length = length(damRkms[[2]]))
+  upEffs[[3]] <- vector(mode = 'numeric', length = length(damRkms[[3]]))
+  upEffs[[4]] <- vector(mode = 'numeric', length = length(damRkms[[4]]))
+
+  # Route 1- Juniata River
+  upEffs[[1]][1] <- ConowingoUp
+  upEffs[[1]][2] <- HoltwoodUp
+  upEffs[[1]][3] <- SafeHarborUp
+  upEffs[[1]][4] <- YorkHavenUp
+  upEffs[[1]][5] <- junConfluenceUp
+  # Route 2- West Branch Susquehanna
+  upEffs[[2]][1] <- ConowingoUp
+  upEffs[[2]][2] <- HoltwoodUp
+  upEffs[[2]][3] <- SafeHarborUp
+  upEffs[[2]][4] <- YorkHavenUp
+  upEffs[[2]][5] <- SunburyUp
+  upEffs[[2]][6] <- WilliamsportUp
+  upEffs[[2]][7] <- LockHavenUp
+  # Route 1- Chemung River
+  upEffs[[3]][1] <- ConowingoUp
+  upEffs[[3]][2] <- HoltwoodUp
+  upEffs[[3]][3] <- SafeHarborUp
+  upEffs[[3]][4] <- YorkHavenUp
+  upEffs[[3]][5] <- SunburyUp
+  upEffs[[3]][6] <- ChaseHibbardUp
+  # Route 1- North Branch
+  upEffs[[4]][1] <- ConowingoUp
+  upEffs[[4]][2] <- HoltwoodUp
+  upEffs[[4]][3] <- SafeHarborUp
+  upEffs[[4]][4] <- YorkHavenUp
+  upEffs[[4]][5] <- SunburyUp
+  upEffs[[4]][6] <- RockBottomUp
+  upEffs[[4]][7] <- UnadillaReachUp    
+  upEffs[[4]][8] <- ColliersvilleUp   
+
+  return(list(
+    upEffs = upEffs
+  ))  
+}
   
 }  
   
