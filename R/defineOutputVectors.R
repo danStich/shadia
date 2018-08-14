@@ -808,8 +808,7 @@ if(river=='susquehanna'){
   S.postspawnF <- vector(mode = 'numeric', length = nYears * nRuns)
   S.juvenile <- vector(mode = 'numeric', length = nYears * nRuns)
   
-  # Environmental
-  # Stochasticity
+  # Environmental stochasticity
   t.stoch <- vector(mode = 'numeric', length = nYears * nRuns)
   # Regression relating temperatures in PNR and CTR
   t.RegrInt <- vector(mode = 'numeric', length = nYears * nRuns)

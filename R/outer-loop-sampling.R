@@ -177,10 +177,10 @@ if(river=='susquehanna'){
   Age1 <- rpois(1, 1e4)
   
   # Draw probability of using each passage route, conditional on flow
-  pJuniataUp <- 0.206262
-  pWestBranchUp <- 0.2195443
-  pChemungUp <- 0.2719814
-  pNorthBranchUp <- 0.3022123
+  p_JuniataUp <- 0.206262
+  p_WestBranchUp <- 0.2195443
+  p_ChemungUp <- 0.2719814
+  p_NorthBranchUp <- 0.3022123
 
   return(list(
     up = up,
@@ -192,10 +192,10 @@ if(river=='susquehanna'){
     delay = delay,
     ildProduct = ildProduct,
     jReduction = jReduction,
-    pJuniataUp = pJuniataUp,
-    pWestBranchUp = pWestBranchUp,
-    pChemungUp = pChemungUp,
-    pNorthBranchUp = pNorthBranchUp,
+    p_JuniataUp = p_JuniataUp,
+    p_WestBranchUp = p_WestBranchUp,
+    p_ChemungUp = p_ChemungUp,
+    p_NorthBranchUp = p_NorthBranchUp,
     downstreamS = downstreamS,
     oceanSurvival = oceanSurvival,
     inRiverF = inRiverF,

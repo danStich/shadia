@@ -389,10 +389,10 @@ if(river=='susquehanna'){
     n = length(c_fishAges),
     size = 1,
     prob = c(
-      pJuniataUp,
-      pWestBranchUp,
-      pChemungUp,
-      pNorthBranchUp
+      p_JuniataUp,
+      p_WestBranchUp,
+      p_ChemungUp,
+      p_NorthBranchUp
     )
   )
   upstream_path[2,][upstream_path[2,] > 0] <- 2
@@ -774,23 +774,23 @@ if(river=='susquehanna'){
     colnames(delay_2) <- c('dHolyoke', 'dSpillway', 'dGatehouse', 'dVernon')
   }
 
-  # Names for delay matrix: penobscot river
-  if(river=='susquehanna'){
-    # Juniata River
-    colnames(delay_1) <- c('dConowingo', 'dHoltwood', 'dSafeHarbor',
-                           'dYorkHaven', 'djunConf')
-    # West Branch
-    colnames(delay_2) <- c('dConowingo', 'dHoltwood', 'dSafeHarbor',
-                           'dYorkHaven', 'dSunbury', 'dWilliamsport',
-                           'dLockHaven')
-    # Chemung River
-    colnames(delay_3) <- c('dConowingo', 'dHoltwood', 'dSafeHarbor',
-                           'dYorkHaven', 'dSunbury', 'dChaseHibbard')
-    # North Branch
-    colnames(delay_4) <- c('dConowingo', 'dHoltwood', 'dSafeHarbor',
-                           'dYorkHaven', 'dSunbury', 'dRockBottom',
-                           'dUnadilla', 'dColliersville')
-  }
+  # # Names for delay matrix: penobscot river
+  # if(river=='susquehanna'){
+  #   # Juniata River
+  #   colnames(delay_1) <- c('dConowingo', 'dHoltwood', 'dSafeHarbor',
+  #                          'dYorkHaven', 'djunConf')
+  #   # West Branch
+  #   colnames(delay_2) <- c('dConowingo', 'dHoltwood', 'dSafeHarbor',
+  #                          'dYorkHaven', 'dSunbury', 'dWilliamsport',
+  #                          'dLockHaven')
+  #   # Chemung River
+  #   colnames(delay_3) <- c('dConowingo', 'dHoltwood', 'dSafeHarbor',
+  #                          'dYorkHaven', 'dSunbury', 'dChaseHibbard')
+  #   # North Branch
+  #   colnames(delay_4) <- c('dConowingo', 'dHoltwood', 'dSafeHarbor',
+  #                          'dYorkHaven', 'dSunbury', 'dRockBottom',
+  #                          'dUnadilla', 'dColliersville')
+  # }
   
 # Calculate run time for delay function in C++
   #timeDelay <- proc.time() - ptmDelay
@@ -1016,17 +1016,22 @@ if(river=='susquehanna'){
     #toc()
   }  
   
+  
+  
+  
+  
+  
+  
   # Susquehanna River
   if(river=='susquehanna'){
-    # Combine all data for mainstem to piscataquis
-    # Combine all three matrices
+    # Combine all data for juniata river
     spawnData_1 <- cbind(traits_1, moves_1[, ncol(moves_1)], delay_1)
     # Change the name for the final rkm column
     colnames(spawnData_1)[ncol(spawnData_1) - 5] = 'finalRkm'
     # Make it into a dataframe for easy manipulation
     sp_1 <- data.frame(spawnData_1)
     
-    # Combine all data for main-to-mainstem spawners
+    # Combine all data for west branch
     # Combine all three matrices
     spawnData_2 <- cbind(traits_2, moves_2[, ncol(moves_2)], delay_2)
     # Change the name for the final rkm column
@@ -1034,7 +1039,7 @@ if(river=='susquehanna'){
     # Make it into a dataframe for easy manipulation
     sp_2 <- data.frame(spawnData_2)
     
-    # Combine all data for stillwater-to-piscataquis spawners
+    # Combine all data for chemung
     # Combine all three matrices
     spawnData_3 <- cbind(traits_3, moves_3[, ncol(moves_3)], delay_3)
     # Change the name for the final rkm column
@@ -1042,11 +1047,11 @@ if(river=='susquehanna'){
     # Make it into a dataframe for easy manipulation
     sp_3 <- data.frame(spawnData_3)
     
-    # Combine all data for stillwater-to-piscataquis spawners
+    # Combine all data for north branch
     # Combine all three matrices
     spawnData_4 <- cbind(traits_4, moves_4[, ncol(moves_4)], delay_4)
     # Change the name for the final rkm column
-    colnames(spawnData_4)[ncol(spawnData_4) - 8] = 'finalRkm'
+    colnames(spawnData_4)[ncol(spawnData_4) - 9] = 'finalRkm'
     # Make it into a dataframe for easy manipulation
     sp_4 <- data.frame(spawnData_4)  
     
@@ -1054,10 +1059,10 @@ if(river=='susquehanna'){
     # Piscataquis River spawners and Mainstem spawners
     # First, assign rkms to delineate each of the production units
     puRkm <- vector(mode = 'list', length = length(nPU))
-    puRkm[[1]] <- c(damRkms[[1]] + 1, (maxrkm[1] + 1))
-    puRkm[[2]] <- c(damRkms[[2]] + 1, (maxrkm[2] + 1))
-    puRkm[[3]] <- c(damRkms[[3]] + 1, (maxrkm[3] + 1))
-    puRkm[[4]] <- c(damRkms[[4]] + 1, (maxrkm[4] + 1))
+    puRkm[[1]] <- c(0, damRkms[[1]] + 1, (maxrkm[1] + 1))
+    puRkm[[2]] <- c(0, damRkms[[2]] + 1, (maxrkm[2] + 1))
+    puRkm[[3]] <- c(0, damRkms[[3]] + 1, (maxrkm[3] + 1))
+    puRkm[[4]] <- c(0, damRkms[[4]] + 1, (maxrkm[4] + 1))
     # Create an empty list to hold the pu names for each route
     rm(list = ls()[grep(ls(), pat = '^mPU_')]) # Remove old counts
     puNames <- vector(mode = 'list', length = length(nPU))
@@ -1326,7 +1331,7 @@ if(river=='susquehanna'){
     ))
   }
 
-  # Penobscot River:
+  # Connecticut:
   if(river=='connecticut'){
     return(list(
     b.entry = b.entry,

@@ -91,7 +91,7 @@
 #'  
 #'     \item \code{populationSize} Total number of adult spawners returning to the river
 #' 
-#'     \item \code{N_pu1A...N_pu1D} Production unit-specific population size after in-river fishery mortality
+#'     \item \code{N_pu1A...N_pu9D} Production unit-specific population size after in-river fishery mortality
 #' }
 #' 
 #' @section Warning about serial execution and memory limits:
@@ -154,8 +154,8 @@ susquehannaRiverModel <- function(
   ){
   
 # Error message for passage efficiencies
-  if( (length(upstream)!=8 ) |  (length(downstream)!=8 ) ){ 
-    stop('`upstream` must have 9 elements and `dowsntream` must have 9.')
+  if( (length(upstream)!=10 ) |  (length(downstream)!=10 ) ){ 
+    stop('`upstream` must have 10 elements and `dowsntream` must have 10.')
   }  
   
 # Create package workspace if it does not yet exist  
