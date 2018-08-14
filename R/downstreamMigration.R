@@ -422,7 +422,8 @@ if(river=='susquehanna'){
   sPU_che[[4]] <- sPU_che[[3]] * SafeHarborD * (downstreamS ^ puRkm[[3]][4])
   sPU_che[[5]] <- sPU_che[[4]] * YorkHavenD * (downstreamS ^ puRkm[[3]][5])
   sPU_che[[6]] <- sPU_che[[5]] * SunburyD * (downstreamS ^ puRkm[[3]][6])
-  sPU_che[[7]] <- sPU_che[[6]] * ChaseHibbardD * (downstreamS ^ puRkm[[3]][7])
+  sPU_che[[7]] <- sPU_che[[6]] * NyD * (downstreamS ^ puRkm[[3]][7])
+  sPU_che[[8]] <- sPU_che[[7]] * ChaseHibbardD * (downstreamS ^ puRkm[[3]][8])
   
   sPU_nor <- vector(mode='list', length=nPU[4])
   sPU_nor[[1]] <- downstreamS ^ puRkm[[1]][1]
@@ -431,7 +432,7 @@ if(river=='susquehanna'){
   sPU_nor[[4]] <- sPU_nor[[3]] * SafeHarborD * (downstreamS ^ puRkm[[4]][4])
   sPU_nor[[5]] <- sPU_nor[[4]] * YorkHavenD * (downstreamS ^ puRkm[[4]][5])
   sPU_nor[[6]] <- sPU_nor[[5]] * SunburyD * (downstreamS ^ puRkm[[4]][6])
-  sPU_nor[[7]] <- sPU_nor[[6]] * (downstreamS ^ puRkm[[4]][7])
+  sPU_nor[[7]] <- sPU_nor[[6]] * NyD * (downstreamS ^ puRkm[[4]][7])
   sPU_nor[[8]] <- sPU_nor[[7]] * RockBottomD * (downstreamS ^ puRkm[[4]][8])
   sPU_nor[[9]] <- sPU_nor[[8]] * UnadillaReachD * (downstreamS ^ puRkm[[4]][9])
   sPU_nor[[10]] <- sPU_nor[[9]] * ColliersvilleD * (downstreamS ^ puRkm[[4]][10])
@@ -465,7 +466,8 @@ if(river=='susquehanna'){
   sPU_chej[[4]] <- sPU_chej[[3]] * SafeHarborDj * (downstreamS ^ puRkm[[3]][4])
   sPU_chej[[5]] <- sPU_chej[[4]] * YorkHavenDj * (downstreamS ^ puRkm[[3]][5])
   sPU_chej[[6]] <- sPU_chej[[5]] * SunburyDj * (downstreamS ^ puRkm[[3]][6])
-  sPU_chej[[7]] <- sPU_chej[[6]] * ChaseHibbardDj * (downstreamS ^ puRkm[[3]][7])
+  sPU_chej[[7]] <- sPU_chej[[6]] * NyDj * (downstreamS ^ puRkm[[3]][7])
+  sPU_chej[[8]] <- sPU_chej[[7]] * ChaseHibbardDj * (downstreamS ^ puRkm[[3]][8])
   
   sPU_norj <- vector(mode='list', length=nPU[4])
   sPU_norj[[1]] <- downstreamS ^ puRkm[[1]][1]
@@ -474,7 +476,7 @@ if(river=='susquehanna'){
   sPU_norj[[4]] <- sPU_norj[[3]] * SafeHarborDj * (downstreamS ^ puRkm[[4]][4])
   sPU_norj[[5]] <- sPU_norj[[4]] * YorkHavenDj * (downstreamS ^ puRkm[[4]][5])
   sPU_norj[[6]] <- sPU_norj[[5]] * SunburyDj * (downstreamS ^ puRkm[[4]][6])
-  sPU_norj[[7]] <- sPU_norj[[6]] * (downstreamS ^ puRkm[[4]][7])
+  sPU_norj[[7]] <- sPU_norj[[6]] * NyDj * (downstreamS ^ puRkm[[4]][7])
   sPU_norj[[8]] <- sPU_norj[[7]] * RockBottomDj * (downstreamS ^ puRkm[[4]][8])
   sPU_norj[[9]] <- sPU_norj[[8]] * UnadillaReachDj * (downstreamS ^ puRkm[[4]][9])
   sPU_norj[[10]] <- sPU_norj[[9]] * ColliersvilleDj * (downstreamS ^ puRkm[[4]][10])

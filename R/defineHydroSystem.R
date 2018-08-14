@@ -124,7 +124,7 @@ nRoutes <- 4
 # Group 2: West Branch spawners
 # Group 3: Chemung River spawners
 # Group 4: North Branch spawners
-nDams <- c(5, 7, 6, 9)
+nDams <- c(5, 7, 7, 9)
 
 # Define number of production units- dams plus two in this system
 nPU <- nDams + 1
@@ -137,8 +137,8 @@ maxrkm <- c(265, 474, 538, 715)
 damRkms <- vector(mode = 'list', length = nRoutes)
 damRkms[[1]] <- c(16, 39, 50, 90, 141)       
 damRkms[[2]] <- c(16, 39, 50, 90, 204, 275, 326)
-damRkms[[3]] <- c(16, 39, 50, 90, 204, 511)         
-damRkms[[4]] <- c(16, 39, 50, 90, 204, 545, 640, 645, 692)
+damRkms[[3]] <- c(16, 39, 50, 90, 204, 472, 511)         
+damRkms[[4]] <- c(16, 39, 50, 90, 204, 472, 545, 645, 692)
 
 return(list(
 nRoutes=nRoutes,

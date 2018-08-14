@@ -39,8 +39,8 @@ fwFishingMort <- function(){
     inriv <- vector(mode = 'list', length = nRoutes)
     inriv[[1]] <- rep(inRiverF, 6)
     inriv[[2]] <- rep(inRiverF, 8)
-    inriv[[3]] <- rep(inRiverF, 7)
-    inriv[[4]] <- rep(inRiverF, 9)    
+    inriv[[3]] <- rep(inRiverF, 8)
+    inriv[[4]] <- rep(inRiverF, 10)    
     
     return(list(inriv=inriv))
   }  

@@ -22,7 +22,6 @@ CI <- function(x) {
   quantile(x, probs = c(0.025, 0.975))
 }
 
-
 #' @title Substring right
 #' 
 #' @description Collect characters from the right side of a text string.

@@ -30,6 +30,7 @@ pred <- data.frame(matrix(0, nrow = 366, ncol = 2))
 
 # Simulate annual temperature
 Year <- sample(unique(mu$year), 1, replace = TRUE)
+if(river=='susquehanna') Year = 2012
 
 # JMS: precalculate before the loop:
 muInYear <-  mu[, 2] == Year
@@ -774,23 +775,24 @@ if(river=='susquehanna'){
     colnames(delay_2) <- c('dHolyoke', 'dSpillway', 'dGatehouse', 'dVernon')
   }
 
-  # # Names for delay matrix: penobscot river
-  # if(river=='susquehanna'){
-  #   # Juniata River
-  #   colnames(delay_1) <- c('dConowingo', 'dHoltwood', 'dSafeHarbor',
-  #                          'dYorkHaven', 'djunConf')
-  #   # West Branch
-  #   colnames(delay_2) <- c('dConowingo', 'dHoltwood', 'dSafeHarbor',
-  #                          'dYorkHaven', 'dSunbury', 'dWilliamsport',
-  #                          'dLockHaven')
-  #   # Chemung River
-  #   colnames(delay_3) <- c('dConowingo', 'dHoltwood', 'dSafeHarbor',
-  #                          'dYorkHaven', 'dSunbury', 'dChaseHibbard')
-  #   # North Branch
-  #   colnames(delay_4) <- c('dConowingo', 'dHoltwood', 'dSafeHarbor',
-  #                          'dYorkHaven', 'dSunbury', 'dRockBottom',
-  #                          'dUnadilla', 'dColliersville')
-  # }
+  # Names for delay matrix: penobscot river
+  if(river=='susquehanna'){
+    # Juniata River
+    colnames(delay_1) <- c('dConowingo', 'dHoltwood', 'dSafeHarbor',
+                           'dYorkHaven', 'djunConf')
+    # West Branch
+    colnames(delay_2) <- c('dConowingo', 'dHoltwood', 'dSafeHarbor',
+                           'dYorkHaven', 'dSunbury', 'dWilliamsport',
+                           'dLockHaven')
+    # Chemung River
+    colnames(delay_3) <- c('dConowingo', 'dHoltwood', 'dSafeHarbor',
+                           'dYorkHaven', 'dSunbury', 'dNyLine',
+                           'dChaseHibbard')
+    # North Branch
+    colnames(delay_4) <- c('dConowingo', 'dHoltwood', 'dSafeHarbor',
+                           'dYorkHaven', 'dSunbury', 'dNyLine',
+                           'dRockBottom', 'dUnadilla', 'dColliersville')
+  }
   
 # Calculate run time for delay function in C++
   #timeDelay <- proc.time() - ptmDelay
@@ -1016,12 +1018,6 @@ if(river=='susquehanna'){
     #toc()
   }  
   
-  
-  
-  
-  
-  
-  
   # Susquehanna River
   if(river=='susquehanna'){
     # Combine all data for juniata river
@@ -1043,7 +1039,7 @@ if(river=='susquehanna'){
     # Combine all three matrices
     spawnData_3 <- cbind(traits_3, moves_3[, ncol(moves_3)], delay_3)
     # Change the name for the final rkm column
-    colnames(spawnData_3)[ncol(spawnData_3) - 6] = 'finalRkm'
+    colnames(spawnData_3)[ncol(spawnData_3) - 7] = 'finalRkm'
     # Make it into a dataframe for easy manipulation
     sp_3 <- data.frame(spawnData_3)
     
@@ -1076,6 +1072,14 @@ if(river=='susquehanna'){
         '^PU_', t, sep = ''
       ))))
     }
+    puNames[[4]] <- puNames[[4]][order(
+      as.numeric(
+        gsub(
+          x=substrRight(sapply(puNames[[4]], head, 1), 2),
+          pattern="_", replacement = '')
+        )
+      )]
+    
     # Determine which PU each fish ends up in based on its rkm and assign it.
     # Uses pre-compiled function 'fishPU' from source files loaded up front.
     # Main-to-piscataquis spawners

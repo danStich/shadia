@@ -319,13 +319,7 @@ susquehannaRiverModel <- function(
     # Scale the population
     environment(scalePop) <- .shadia
     list2env(scalePop(), envir = .shadia)
-   
-###########################################################  
-###########################################################    
-###                LEFT OFF HERE                        ###  
-###########################################################  
-###########################################################       
-     
+
     # If you need to load/reuse inner loop sampling,
     # uncomment/use this stop, then call
     # the inner loop sampling code.
@@ -345,11 +339,6 @@ susquehannaRiverModel <- function(
       #if (useTictoc) toc()
     }
 
-###########################################################  
-###########################################################    
-###                LEFT OFF HERE                        ###  
-###########################################################  
-###########################################################    
     
   # . Process fish and eggs ----
     # Processing of populations generalized and
@@ -379,7 +368,7 @@ susquehannaRiverModel <- function(
     environment(downstreamMigration) <- .shadia
     list2env(downstreamMigration(), envir = .shadia)
 
-  
+    
   # . The next generation -----
     # next year (after applying ocean survival)
     #if (useTictoc) tic("NEXT GENERATION")

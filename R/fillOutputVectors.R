@@ -989,7 +989,7 @@ if(river=='susquehanna'){
     NorPop[(n + nYears * (k - 1))] +
     UnaPop[(n + nYears * (k - 1))] +
     RocPop[(n + nYears * (k - 1))] +
-    ColPop[(n + nYears * (k - 1))] +
+    ColPop[(n + nYears * (k - 1))]
   
   # Proportion of repeat spawners at each age, fillling pre-allocated vector
   pRepeats[[(n + nYears * (k - 1))]] <-  pRepeat

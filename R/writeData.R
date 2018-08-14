@@ -442,16 +442,16 @@ res <- data.frame(
   HolPop = HolPop,
   SafPop = SafPop,
   YorPop = YorPop,
+  SunPop = SunPop,
   JunPop = JunPop,
   WesPop = WesPop,
   WilPop = WilPop,
   LocPop = LocPop,
-  ChaPop = ChaPop,
-  SunPop = SunPop,
   ChePop = ChePop,
+  ChaPop = ChaPop,
   NorPop = NorPop,
-  UnaPop = UnaPop,
   RocPop = RocPop,
+  UnaPop = UnaPop,  
   ColPop = ColPop,
   ConUp = ConUp,
   HoltUp = HoltUp,
@@ -482,6 +482,7 @@ res <- data.frame(
   pRepeats
 )
 
+
 names(res)<-c(
   'years',
   'populationSize',
@@ -490,19 +491,17 @@ names(res)<-c(
   'N_3A',
   'N_4A',
   'N_5A',
+  'N_6A',
   'N_1B',
   'N_1C',
   'N_2C',
   'N_3C',
-  'N_4C',
-  'N_6A',
   'N_1D',
+  'N_2D',
   'N_7A',
   'N_8A',
   'N_9A',
   'N_10A',
-  'RocPop',
-  'ColPop',
   'ConUp',
   'HoltUp',
   'SafeUp',
@@ -538,8 +537,8 @@ names(res)<-c(
   "pRepeat_Age7",
   "pRepeat_Age8",
   "pRepeat_Age9",
-  "pRepeat_Age10",  
-  "pRepeat_Age11",  
+  "pRepeat_Age10",
+  "pRepeat_Age11"
 )
 
 # Collect variables for sensitivity analysis and save them out

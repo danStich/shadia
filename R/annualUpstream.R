@@ -144,16 +144,18 @@ if(river=='susquehanna'){
   upEffs[[3]][3] <- SafeHarborUp
   upEffs[[3]][4] <- YorkHavenUp
   upEffs[[3]][5] <- SunburyUp
-  upEffs[[3]][6] <- ChaseHibbardUp
+  upEffs[[3]][6] <- NyUp
+  upEffs[[3]][7] <- ChaseHibbardUp
   # Route 1- North Branch
   upEffs[[4]][1] <- ConowingoUp
   upEffs[[4]][2] <- HoltwoodUp
   upEffs[[4]][3] <- SafeHarborUp
   upEffs[[4]][4] <- YorkHavenUp
   upEffs[[4]][5] <- SunburyUp
-  upEffs[[4]][6] <- RockBottomUp
-  upEffs[[4]][7] <- UnadillaReachUp    
-  upEffs[[4]][8] <- ColliersvilleUp   
+  upEffs[[4]][6] <- NyUp  
+  upEffs[[4]][7] <- RockBottomUp
+  upEffs[[4]][8] <- UnadillaReachUp    
+  upEffs[[4]][9] <- ColliersvilleUp   
 
   return(list(
     upEffs = upEffs

@@ -205,6 +205,7 @@ if(river=='susquehanna'){
   SunburyUp <- up[5] * fB
   WilliamsportUp <- up[6] * fB
   LockHavenUp <- up[7] * fB
+  NyUp <- 1
   ChaseHibbardUp <- up[8] * fB
   RockBottomUp <- up[9] * fB
   UnadillaReachUp <- 1
@@ -219,6 +220,7 @@ if(river=='susquehanna'){
   SunburyD <- d[5]* indirect * latent * delay
   WilliamsportD <- d[6] * indirect * latent * delay
   LockHavenD <- d[7] * indirect * latent * delay
+  NyD <- 1
   ChaseHibbardD <- d[8] * indirect * latent * delay
   RockBottomD <- d[9]  * indirect * latent * delay
   UnadillaReachD <- 1
@@ -237,6 +239,7 @@ if(river=='susquehanna'){
   SunburyDj <- d[5]* indirect * latent * delay
   WilliamsportDj <- d[6] * indirect * latent * delay
   LockHavenDj <- d[7] * indirect * latent * delay
+  NyDj <- 1
   ChaseHibbardDj <- d[8] * indirect * latent * delay
   RockBottomDj <- d[9]  * indirect * latent * delay
   UnadillaReachDj <- 1
@@ -254,6 +257,7 @@ if(river=='susquehanna'){
       SunburyUp = SunburyUp,
       WilliamsportUp = WilliamsportUp,
       LockHavenUp = LockHavenUp,
+      NyUp = NyUp,
       ChaseHibbardUp = ChaseHibbardUp,
       RockBottomUp = RockBottomUp,
       UnadillaReachUp = UnadillaReachUp,
@@ -266,6 +270,7 @@ if(river=='susquehanna'){
       SunburyD = SunburyD,
       WilliamsportD = WilliamsportD,
       LockHavenD = LockHavenD,
+      NyD = NyD,
       ChaseHibbardD = ChaseHibbardD,
       RockBottomD = RockBottomD,
       UnadillaReachD = UnadillaReachD,
@@ -278,6 +283,7 @@ if(river=='susquehanna'){
       SunburyDj = SunburyDj,
       WilliamsportDj = WilliamsportDj,
       LockHavenDj = LockHavenDj,
+      NyDj = NyDj,
       ChaseHibbardDj = ChaseHibbardDj,
       RockBottomDj = RockBottomDj,
       UnadillaReachDj = UnadillaReachDj,
