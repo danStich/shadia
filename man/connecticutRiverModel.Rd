@@ -120,7 +120,7 @@ Current implementation is based on work
 in press, and is thus subject to modification
 without notice.
 
-Currently, internal functions rely on `\code{list2env}` to return
+Currently, internal functions rely on \code{list2env} to return
 lists to a temporary environment created in the
 \code{connecticutRiverModel} function. Consequently, lists
 that are exported must be limited in size. Therefore,
