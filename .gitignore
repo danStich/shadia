@@ -17,6 +17,7 @@ R/arrivalRegression.R
 sf-exampleCTR-tester.R
 sf-exampleMMR-tester.R
 sf-examplePNR-tester.R
+sf-exampleSSR-tester.R
 
 snowfall-result.rda
 Rplots.pdf
