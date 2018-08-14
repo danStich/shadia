@@ -79,19 +79,19 @@
 #' 
 #' The folowing named columns are returned:
 #' \itemize{
-#'     \item \code{year} Year of simulation
+#'     \item \code{years} Year of simulation
+#'     
+#'     \item \code{populationSize} Total number of adult spawners returning to the river
+#'     
+#'     \item \code{N_1A...N_9A} Production unit-specific population size after in-river fishery mortality
 #' 
-#'     \item \code{time} Passage timing input by user
-#' 
-#'     \item \code{conowingo_up...cooperstown_up} User-specified upstream passage efficiencies
+#'     \item \code{conowingo_up...colliersville_up} User-specified upstream passage efficiencies
 #'  
 #'     \item \code{conowingo_down...cooperstown_down}  User-specified downstream passage efficiencies
-#'  
-#'     \item \code{pRepeat_Age1...Age9} Age-specific probability of repeat spawning  
-#'  
-#'     \item \code{populationSize} Total number of adult spawners returning to the river
-#' 
-#'     \item \code{N_pu1A...N_pu9D} Production unit-specific population size after in-river fishery mortality
+#'     
+#'     \item \code{time} Passage timing input by user
+#'     
+#'     \item \code{pRepeat_Age1...Age11} Age-specific probability of repeat spawning  
 #' }
 #' 
 #' @section Warning about serial execution and memory limits:
@@ -114,7 +114,7 @@
 #' parallel execution as demonstrated using snowfall in the
 #' example below.
 #' 
-# #' @example /inst/examples/sf-exampleSSR.R
+#' @example /inst/examples/sf-exampleSSR.R
 #' 
 #' @export
 susquehannaRiverModel <- function(
@@ -308,7 +308,6 @@ susquehannaRiverModel <- function(
     # minimum year of passage implementation at 
     # Weldon, set upstream 
     # efficiency to zero"
-    
     environment(weldonScenarios) <- .shadia
     list2env(weldonScenarios(), envir = .shadia)
     
