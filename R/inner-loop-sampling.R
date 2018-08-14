@@ -30,7 +30,6 @@ pred <- data.frame(matrix(0, nrow = 366, ncol = 2))
 
 # Simulate annual temperature
 Year <- sample(unique(mu$year), 1, replace = TRUE)
-if(river=='susquehanna') Year = 2012
 
 # JMS: precalculate before the loop:
 muInYear <-  mu[, 2] == Year
