@@ -90,7 +90,7 @@ of dataframes.
 
 The folowing named columns are returned:
 \itemize{
-    \item \code{years} Year of simulation
+    \item \code{year} Year of simulation
     
     \item \code{populationSize} Total number of adult spawners returning to the river
     

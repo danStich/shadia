@@ -484,7 +484,7 @@ res <- data.frame(
 
 
 names(res)<-c(
-  'years',
+  'year',
   'populationSize',
   'N_1A',
   'N_2A',
