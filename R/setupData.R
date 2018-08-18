@@ -326,7 +326,7 @@ roe.lw <- roe.lw[is.finite(roe.lw[, 2]),]
 # Temperature data for Susquehanna River -----
 # Load the SSR temperature data from
 # years 2008-2013 in the built-in dataset
-tempData_susquehanna2 <- tempData_susquehanna[tempData_susquehanna$year>=2012]
+tempData_susquehanna2 <- tempData_susquehanna[tempData_susquehanna$year>=2012,]
 
 # Summarize the temperature by day across years
 mu <- ddply(tempData_susquehanna2,
