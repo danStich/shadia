@@ -337,6 +337,8 @@ mu <- ddply(tempData_susquehanna2,
 # Change the orders of the column to match original data
 mu <- mu[, c(3, 2, 1)]
 mu <- na.omit(mu)
+# For testing arbitrary, invariant temp increases/decreases
+#mu$val <- mu$val - 1
 
 # Read in temperature data for Connecticut River in NH (tempD)
 ### NEED TO RENAME THESE TEMPERATURE FILES !!!! ###

@@ -308,7 +308,7 @@ dMax <- (sOptim * c_forkLength * 86400) / 1e6
 # Movement tortuosity drawn from uniform distribution.  This corresponds to
 # the range used in Castro-Santos and Letcher (2010) but it's just applied
 # as a multiplier
-tort <- runif(length(c_mass), 0.2, 1)
+tort <- runif(length(c_fishAges), 0.2, 1)
 # Now scale by tortuosity and divide by two to restrict movement to day time
 dailyMove <- dMax * tort * mean(photo / 24)
 
@@ -540,7 +540,7 @@ for(i in 1:length(eFFs)){
 ppPenalty <- vector(mode = 'list', length = length(eFFs))
   # Fill in the first element of the list for all rivers
   for(i in 1:length(ppPenalty)){
-    ppPenalty[[i]] <-  matrix(0 , length(photo), maxrkm[1])
+    ppPenalty[[i]] <-  matrix(0 , length(photo), maxrkm[i])
   }
 
 # Multiply passage efficiency by the penalty for each day
@@ -1111,7 +1111,12 @@ if(river=='susquehanna'){
     sp_1$F <- inriv[[1]][as.numeric(substrRight(sp_1$pus, 1))]
     sp_2$F <- inriv[[2]][as.numeric(substrRight(sp_2$pus, 1))]
     sp_3$F <- inriv[[3]][as.numeric(substrRight(sp_3$pus, 1))]
-    sp_4$F <- inriv[[4]][as.numeric(substrRight(sp_4$pus, 1))]
+    sp_4$F <- inriv[[4]][as.numeric(
+                          gsub(
+                            x=substrRight(sapply(sp_4$pus[[4]], head, 1), 2),
+                            pattern="_", replacement = '')
+                          )
+                        ]
     
     # Apply in-river fishing mortality and prespawn survival
     sp_1$surv <- rbinom(nrow(sp_1), 1, sp_1$preSpawn * (1 - sp_1$F))
@@ -1388,6 +1393,7 @@ if(river=='susquehanna'){
     id = id,
     juvenile_survival = juvenile_survival,
     k_pus = k_pus,
+    #maxrkm = maxrkm,
     maxR = maxR,
     mot = mot,
     moves_1 = moves_1,

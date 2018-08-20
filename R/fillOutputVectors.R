@@ -925,8 +925,6 @@ if(river=='susquehanna'){
   
   # Abundance between Sunbury and PA/NY line
   SunPop[(n + nYears * (k - 1))] <-(
-    sum(males2res[[2]][[6]]) + 
-    sum(females2res[[2]][[6]]) +    
     sum(males2res[[3]][[6]]) + 
     sum(females2res[[3]][[6]]) +      
     sum(males2res[[4]][[6]]) + 
@@ -934,44 +932,56 @@ if(river=='susquehanna'){
   
   # Abundance in Juniata River downstream of Warrior Ridge Dam
   JunPop[(n + nYears * (k - 1))] <- (
-    sum(males2res[[1]][[6]])) * scalar
+    sum(males2res[[1]][[6]]) +
+    sum(females2res[[1]][[6]])) * scalar
   
   # Abundance in the West Branch down stream of Williamsport
   WesPop[(n + nYears * (k - 1))] <- (
-    sum(males2res[[2]][[6]])) * scalar
-    
+    sum(males2res[[2]][[6]]) +
+    sum(females2res[[2]][[6]])) * scalar
+  
   # Abunance in West Branch between Williamsport and Lock Haven
   WilPop[(n + nYears * (k - 1))] <- (
-    sum(males2res[[2]][[6]])) * scalar
+    sum(males2res[[2]][[7]]) +
+    sum(females2res[[2]][[7]])) * scalar
     
   # Abundance in West Branch upstream of Lock Haven
   LocPop[(n + nYears * (k - 1))] <- (
-    sum(males2res[[2]][[6]])) * scalar
+    sum(males2res[[2]][[8]]) +
+    sum(females2res[[2]][[8]])) * scalar
     
   # Abundance upstream of Chase-Hibbard in West Branch
   ChaPop[(n + nYears * (k - 1))] <- (
-    sum(males2res[[3]][[6]])) * scalar
-        
+    sum(males2res[[3]][[7]]) +
+    sum(females2res[[3]][[7]])
+    ) * scalar
+  
   # Abundance in Chemung River between NY/PA lines
   ChePop[(n + nYears * (k - 1))] <- (
-    sum(males2res[[3]][[7]])) * scalar
+    sum(males2res[[3]][[8]]) +
+    sum(females2res[[3]][[8]])
+    ) * scalar
     
   # Abundance between PA/NY line and Rock Bottom (Binghamton)
   NorPop[(n + nYears * (k - 1))] <- (
-    sum(males2res[[4]][[6]])) * scalar
+    sum(males2res[[4]][[7]]) +
+    sum(females2res[[4]][[7]])) * scalar
     
   # Abundance between Rock Bottom and Unadilla
   RocPop[(n + nYears * (k - 1))] <- (
-    sum(males2res[[4]][[7]])) * scalar
+    sum(males2res[[4]][[8]]) +
+    sum(females2res[[4]][[8]])) * scalar
     
   # Abundance between Unadilla and Colliersville
   UnaPop[(n + nYears * (k - 1))] <- (
-    sum(males2res[[4]][[8]])) * scalar   
+    sum(males2res[[4]][[9]]) +
+    sum(females2res[[4]][[9]])) * scalar
     
   # Abundance upstream of Colliersville Dam
   ColPop[(n + nYears * (k - 1))] <- (
-    sum(males2res[[4]][[9]])) * scalar
-
+    sum(males2res[[4]][[10]]) +
+    sum(females2res[[4]][[10]])) * scalar
+    
   # Population size
   populationSize[(n + nYears * (k - 1))] <- 
     LowPop[(n + nYears * (k - 1))] +
