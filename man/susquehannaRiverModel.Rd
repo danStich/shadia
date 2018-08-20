@@ -94,7 +94,7 @@ The folowing named columns are returned:
     
     \item \code{populationSize} Total number of adult spawners returning to the river
     
-    \item \code{N_1A...N_9A} Production unit-specific population size after in-river fishery mortality
+    \item \code{N_1A...N_10A} Production unit-specific population size after in-river fishery mortality
 
     \item \code{conowingo_up...colliersville_up} User-specified upstream passage efficiencies
  
@@ -110,6 +110,56 @@ Runs American shad dam passage performance
 standard model for Penobscot River, Maine,
 USA
 }
+\section{Production units by migration route}{
+
+\itemize{
+  \item Juniata River
+    \itemize{
+      \item \code{PU 1A} Downstream of Conowingo
+      \item \code{PU 2A} Conowingo to Holtwood
+      \item \code{PU 3A} Holtwood to SafeHarbor
+      \item \code{PU 4A} SafeHarbor to YorkHaven
+      \item \code{PU 5A} YorkHaven  to Sunbury
+      \item \code{PU 1B} JuniataRiver to WarriorRidge
+    }
+  \item West Branch
+    \itemize{
+      \item \code{PU 1A} Downstream of Conowingo
+      \item \code{PU 2A} Conowingo to Holtwood
+      \item \code{PU 3A} Holtwood to SafeHarbor
+      \item \code{PU 4A} SafeHarbor to YorkHaven
+      \item \code{PU 5A} YorkHaven  to Sunbury
+      \item \code{PU 1C} Sunbury to Williamsport
+      \item \code{PU 2C} Williamsport to LockHaven
+      \item \code{PU 3C} LockHaven to Shawville
+    }
+  \item Chemung River
+    \itemize{
+      \item \code{PU 1A} Downstream of Conowingo
+      \item \code{PU 2A} Conowingo to Holtwood
+      \item \code{PU 3A} Holtwood to SafeHarbor
+      \item \code{PU 4A} SafeHarbor to YorkHaven
+      \item \code{PU 5A} YorkHaven  to Sunbury
+      \item \code{PU 6A} Sunbury to NyLine
+      \item \code{PU 1D} NyLine to PaLine
+      \item \code{PU 2D} Upstream Chase-Hibbard
+    }
+  \item North Branch
+    \itemize{
+      \item \code{PU 1A} Downstream of Conowingo
+      \item \code{PU 2A} Conowingo to Holtwood
+      \item \code{PU 3A} Holtwood to SafeHarbor
+      \item \code{PU 4A} SafeHarbor to YorkHaven
+      \item \code{PU 5A} YorkHaven to Sunbury
+      \item \code{PU 6A} Sunbury to NyLine
+      \item \code{PU 7A} NyLine to RockBottom
+      \item \code{PU 8A} RockBottom to Unadilla
+      \item \code{PU 9A} Unadilla to Colliersville
+      \item \code{PU 10A} Colliersville to Cooperstown
+  }
+}
+}
+
 \section{Warning about serial execution and memory limits}{
 
 Current implementation is based on work

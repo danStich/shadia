@@ -89,9 +89,9 @@
 #'
 #'     \item \code{time} Passage timing input by user
 #'
-#'     \item \code{HolyokeUp...BellowsUp} User-specified upstream passage efficiencies
+#'     \item \code{HolyokeUp...VernonUp} User-specified upstream passage efficiencies
 #'
-#'     \item \code{HolyokeD...BellowsD}  User-specified downstream passage efficiencies
+#'     \item \code{HolyokeD...VernonD}  User-specified downstream passage efficiencies
 #'
 #'     \item \code{pRepeat_Age1...Age8} Age-specific probability of repeat spawning
 #'
@@ -100,6 +100,22 @@
 #'     \item \code{N_I...N_V} Production unit-specific population size after in-river fishery mortality
 #' }
 #'
+#' @section 
+#' Production units by migration route:
+#' For the Connecticut River, PUs are invariant
+#' by path because of the layout of the hydro-complex
+#' at Turners Falls
+#' \itemize{
+#'   \item Connecticut River
+#'     \itemize{
+#'       \item \code{PU I} Downstream of Holyoke
+#'       \item \code{PU II} Holyoke to Turner's Falls
+#'       \item \code{PU III} Canal
+#'       \item \code{PU IV} Turner's Falls to Vernon Dam
+#'       \item \code{PU V} Vernon Dam to Bellow's Falls
+#'    }
+#'  }
+#'  
 #' @section Warning about serial execution and memory limits:
 #' Current implementation is based on work
 #' in press, and is thus subject to modification

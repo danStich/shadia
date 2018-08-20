@@ -92,6 +92,19 @@
 #'     \item \code{N_I...N_V} Production unit-specific population size after in-river fishery mortality
 #' }
 #'
+#' @section 
+#' Production units by migration route:
+#' \itemize{
+#'   \item Merrimack River
+#'     \itemize{
+#'       \item \code{PU I} Downstream of Essex
+#'       \item \code{PU II} Essex to Pawtucket
+#'       \item \code{PU III} Pawtucket to Amoskeag
+#'       \item \code{PU IV} Amoskeag to Hookset
+#'       \item \code{PU V} Upstream of Hookset
+#'    }
+#'  }
+#'  
 #' @section Warning about serial execution and memory limits:
 #' Current implementation is based on work
 #' in press, and is thus subject to modification

@@ -105,6 +105,20 @@ The folowing named columns are returned:
 Runs American shad dam passage performance
 standard model Merrimack River, USA
 }
+\section{Production units by migration route}{
+
+\itemize{
+  \item Merrimack River
+    \itemize{
+      \item \code{PU I} Downstream of Essex
+      \item \code{PU II} Essex to Pawtucket
+      \item \code{PU III} Pawtucket to Amoskeag
+      \item \code{PU IV} Amoskeag to Hookset
+      \item \code{PU V} Upstream of Hookset
+   }
+ }
+}
+
 \section{Warning about serial execution and memory limits}{
 
 Current implementation is based on work
