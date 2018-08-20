@@ -1,6 +1,9 @@
 # shadia
 Package containing functions and data for American shad population modeling. 
 
+## Note
+This package is under constant, rapid development as it is part of ongoing research. Therefore, there is not currently a *stable* version of the package. Please check regularly for updates, changes, and bug patches.
+
 </br>
  
 ## Installation
@@ -14,14 +17,14 @@ To install `shadia`, you will need to have `devtools` installed ahead of time in
  
 ## Use
 
-The purpose of this package is to distribute code used to run the American shad dam passage performance standard model. Currently, the model is implemented for the Penobscot, Merrimack, and Connecticut rivers, USA, but we currently are developing code for the Susquehanna River. The main package functions, `penobscotRiverModel()`, `merrimackRiverModel()`, and `connecticutRiverModel()` can be run without any arguments to estimate population abundance in various reaches or in whole rivers under 'no dam' passage scenarios. Alternatively, the user can pass one or more values for upstream and downstream fish passage at a given dam which can then be applied throughout the watershed, or separately at each dam. Outputs include population abundance of spawners in the watershed, within specific production units of each river, and the proportion of repeat spawners in each age class.
+The purpose of this package is to distribute code used to run the American shad dam passage performance standard model. Currently, the model is implemented for the Penobscot, Merrimack, Connecticut, and Susquehanna rivers, USA, but we are actively adding new rivers. The main package functions, `penobscotRiverModel()`, `merrimackRiverModel()`, and `connecticutRiverModel()` can be run without any arguments to estimate population abundance in various reaches or in whole rivers under 'no dam' passage scenarios. Alternatively, the user can pass one or more values for upstream and downstream fish passage at a given dam which can then be applied throughout the watershed, or separately at each dam. Outputs include population abundance of spawners in the watershed, within specific production units of each river, and the proportion of repeat spawners in each age class.
 
-The models take several (10-20) seconds to run for one iteration on most standard workstations.
+The models take several (10-30) seconds to run for one iteration on most standard workstations.
 
 </br>
  
 ## Warning 
-Management decisions should not be based on a single model run. The models rely on stochastic inputs for parameterization, as detailed in [Stich et al. (*Accepted*)](http://www.nrcresearchpress.com/doi/10.1139/cjfas-2018-0008#.W2SVohRKgeI). As such, any two model runs might result in substantially different predictions, even under the same passage scenario. We recommend at least 100 model runs per scenario to provide a minimal characterization of stochasticity, and a cursory understanding of variability in the response(s) of interest. In these cases, we strongly recommend running the model using the `snowfall` package as demonstrated in the help file for each model, which can be accessed by typing `?...RiverModel` (where '...' is the name of each river in lowercase) in the console and pressing `< Enter >`.
+Management decisions should not be based on a single model run. The models rely on stochastic inputs for parameterization, as detailed in [Stich et al. (2018)](http://www.nrcresearchpress.com/doi/10.1139/cjfas-2018-0008#.W2SVohRKgeI). As such, any two model runs might result in substantially different predictions, even under the same passage scenario. We recommend at least 100 model runs per scenario to provide a minimal characterization of stochasticity, and a cursory understanding of variability in the response(s) of interest. In these cases, we strongly recommend running the model using the `snowfall` package as demonstrated in the help file for each model, which can be accessed by typing `?...RiverModel` (where '...' is the name of each river in lowercase) in the console and pressing `< Enter >`.
 
 ## Directories
 
