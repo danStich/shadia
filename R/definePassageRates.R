@@ -105,17 +105,19 @@ if(river=='merrimack'){
   # Upstream passage rates
   Open <- 1.00
   EssexUp <- up[1] * fB
-  PawtucketUp <- up[2] * fB
-  AmoskeagUp <- up[3] * fB
-  HooksetUp <- up[4] * fB
+  PawtucketBypassUp <- up[2] * fB
+  PawtucketUp <- up[3] * fB
+  AmoskeagUp <- up[4] * fB
+  HooksetUp <- up[5] * fB
 
   # Downstream passage efficiencies
   # Define downstream passage efficiencies at each of the dams
   OpenD <- 1.00
   EssexD <- d[1] * indirect * latent * delay
-  PawtucketD <- d[2] * indirect * latent * delay
-  AmoskeagD <- d[3] * indirect * latent * delay
-  HooksetD <- d[4] * indirect * latent * delay
+  PawtucketBypassD <- d[2] * indirect * latent * delay
+  PawtucketD <- d[3] * indirect * latent * delay
+  AmoskeagD <- d[4] * indirect * latent * delay
+  HooksetD <- d[5] * indirect * latent * delay
   
   # Make downstream survival probabilities for juveniles
   # Unused. Moved to separate calculations in the 
@@ -123,22 +125,26 @@ if(river=='merrimack'){
   # River to date have used equal performance standards.
   # Will update this model to use the same approach.
   EssexDj <- d[1] * indirect * latent * delay
-  PawtucketDj <- d[2] * indirect * latent * delay
-  AmoskeagDj <- d[3] * indirect * latent * delay
-  HooksetDj <- d[4] * indirect * latent * delay  
+  PawtucketBypassDj <- d[2] * indirect * latent * delay
+  PawtucketDj <- d[3] * indirect * latent * delay
+  AmoskeagDj <- d[4] * indirect * latent * delay
+  HooksetDj <- d[5] * indirect * latent * delay  
   
   return(
     list(
       Open = Open,
       EssexUp = EssexUp,      
       PawtucketUp = PawtucketUp,
+      PawtucketBypassUp = PawtucketBypassUp,
       AmoskeagUp = AmoskeagUp,
       HooksetUp = HooksetUp,
       EssexD = EssexD,
+      PawtucketBypassD = PawtucketBypassD,
       PawtucketD = PawtucketD,
       AmoskeagD = AmoskeagD,
       HooksetD = HooksetD,
       EssexDj = EssexDj,
+      PawtucketBypassDj = PawtucketBypassDj,
       PawtucketDj = PawtucketDj,
       AmoskeagDj = AmoskeagDj,
       HooksetDj = HooksetDj

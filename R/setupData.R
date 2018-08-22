@@ -116,7 +116,7 @@ if(river=='merrimack'){
 # Maximum age for fish in this population
 maxAge <- 11
 
-# Fish age and growth data from Connecticut River -----
+# Fish age and growth data from Merrimack River -----
 # Using built-in data set `fish` because there are no
 # weight data from Merrimack River
 names(fish) <- c('sex', 'age', 'fl', 'year', 'backCalculated', 'mass')

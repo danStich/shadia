@@ -79,6 +79,12 @@ if(river=='merrimack'){
                     48000,
                     182598
   )
+  habitat[[2]] <- c(202782,
+                    92910,
+                    220532,
+                    48000,
+                    182598
+  )
   
   return(list(
     habitat=habitat

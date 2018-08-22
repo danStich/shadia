@@ -5,8 +5,9 @@
 \title{Merrimack River Model}
 \usage{
 merrimackRiverModel(nRuns = 1, nYears = 50, timing = 1,
-  upstream = list(essex = 1, pawtucket = 1, amoskeag = 1, hookset = 1),
-  downstream = list(essex = 1, pawtucket = 1, amoskeag = 1, hookset = 1),
+  upstream = list(essex = 1, pawtucketBypass = 1, pawtucket = 1, amoskeag = 1,
+  hookset = 1), downstream = list(essex = 1, pawtucketBypass = 1, pawtucket =
+  1, amoskeag = 1, hookset = 1), pBypassUp = 1, pBypassD = 1,
   inRiverF = 0, commercialF = 0, bycatchF = 0, indirect = 1,
   latent = 1, watershed = TRUE)
 }
@@ -75,6 +76,9 @@ to use the same dam passage efficiencies at all dams
 for upstream and downstream. If watershed = TRUE, then
 the first element in lists `upstream` and `downstream`
 are recycled for all subsequent dams.}
+
+\item{pBypass}{Probability of using bypass at 
+Pawtucket Dam for passage (alternative is mainstem).}
 }
 \value{
 Returns a dataframe of user-defined
@@ -92,7 +96,11 @@ The folowing named columns are returned:
 
     \item \code{EssUp...HookUp} User-specified upstream passage efficiencies
 
-    \item \code{EssD...HookD}  User-specified downstream passage efficiencies
+    \item \code{EssD...HookD} User-specified downstream passage efficiencies
+
+    \item \code{pBypassUp} User-specified probability of using bypass at Pawtucket Dam for upstream migration
+    
+    \item \code{pBypassD} User-specified probability of using bypass at Pawtucket Dam for downstream migration
 
     \item \code{pRepeat_Age1...Age11} Age-specific probability of repeat spawning
 

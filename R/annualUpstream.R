@@ -83,12 +83,17 @@ if(river=='merrimack'){
   # Assign efficiencies to the upstream passage groups (pisc or main)
   upEffs <- vector(mode = 'list', length = nRoutes)
 
-  # Route 1- Mainstem to piscataquis
+  # Route 1- Bypass at Pawtucket
   upEffs[[1]][1] <- EssexUp
-  upEffs[[1]][2] <- PawtucketUp
-  upEffs[[1]][3] <- AmoskeagUp
-  upEffs[[1]][4] <- HooksetUp
-
+  upEffs[[1]][2] <- PawtucketBypassUp
+  upEffs[[1]][4] <- AmoskeagUp
+  upEffs[[1]][5] <- HooksetUp
+  # Route 2- Mainstem at Pawtucket
+  upEffs[[2]][1] <- EssexUp
+  upEffs[[2]][3] <- PawtucketUp
+  upEffs[[2]][4] <- AmoskeagUp
+  upEffs[[2]][5] <- HooksetUp  
+  
   return(list(
     upEffs = upEffs
   ))  

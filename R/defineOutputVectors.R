@@ -290,16 +290,22 @@ if(river=='merrimack'){
   
   # Upstream passage efficiencies
   EssUp <- vector(mode = 'numeric', length = nYears * nRuns)
+  PawBUp <- vector(mode = 'numeric', length = nYears * nRuns)
   PawUp <- vector(mode = 'numeric', length = nYears * nRuns)
   AmosUp <- vector(mode = 'numeric', length = nYears * nRuns)
   HookUp <- vector(mode = 'numeric', length = nYears * nRuns)
   
   # Downstream passage efficiencies
   EssD <- vector(mode = 'numeric', length = nYears * nRuns)
+  PawBD <- vector(mode = 'numeric', length = nYears * nRuns)
   PawD <- vector(mode = 'numeric', length = nYears * nRuns)
   AmosD <- vector(mode = 'numeric', length = nYears * nRuns)
   HookD <- vector(mode = 'numeric', length = nYears * nRuns)
       
+  # Probability of using bypass route at pawtucket
+  pBypassUS <- vector(mode = 'numeric', length = nYears * nRuns)
+  pBypassDS <- vector(mode = 'numeric', length = nYears * nRuns)
+  
   # Timing
   ptime <- vector(mode = 'numeric', length = nYears * nRuns)
 
@@ -410,12 +416,16 @@ if(river=='merrimack'){
       scen = scen,
       EssUp = EssUp,
       PawUp = PawUp,
+      PawBUp = PawBUp,      
       AmosUp = AmosUp,
       HookUp = HookUp,
       EssD = EssD,
       PawD = PawD,
+      PawBD = PawBD,      
       AmosD = AmosD,
-      HookD = HookD,      
+      HookD = HookD,
+      pBypassUS = pBypassUS,
+      pBypassDS = pBypassDS,
       indirectM = indirectM,
       latentM = latentM,
       juvReduction = juvReduction,

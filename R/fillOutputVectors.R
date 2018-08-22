@@ -357,16 +357,22 @@ if(river=='merrimack'){
 
   # Upstream passage efficiencies, fillling pre-allocated vectors
   EssUp[(n + nYears * (k - 1))] <- EssexUp 
+  PawBUp[(n + nYears * (k - 1))] <- PawtucketBypassUp
   PawUp[(n + nYears * (k - 1))] <- PawtucketUp
   AmosUp[(n + nYears * (k - 1))] <- AmoskeagUp
   HookUp[(n + nYears * (k - 1))] <- HooksetUp
 
   # Downstream passage efficiencies, fillling pre-allocated vectors
   EssD[(n + nYears * (k - 1))] <-  EssexD
+  PawBD[(n + nYears * (k - 1))] <- PawtucketBypassD
   PawD[(n + nYears * (k - 1))] <-  PawtucketD
   AmosD[(n + nYears * (k - 1))] <- AmoskeagD
   HookD[(n + nYears * (k - 1))] <- HooksetD
 
+  # Probability of using bypass route at pawtucket
+  pBypassUS[(n + nYears * (k - 1))] <- pBypassUp
+  pBypassDS[(n + nYears * (k - 1))] <- pBypassD
+  
   # Indirect mortality, fillling pre-allocated vector
   indirectM[(n + nYears * (k - 1))] <-  indirect
 

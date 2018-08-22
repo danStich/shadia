@@ -368,7 +368,8 @@ if(river=='penobscot'){
 
 # Upstream path for merrimack river
 if(river=='merrimack'){
-  upstream_path <- rep(1, length(c_fishAges))
+  upstream_path <- rbinom(length(c_fishAges), 1, pBypassUp)
+  upstream_path[upstream_path==0] <- 2  
 }
 
 if(river=='connecticut'){
@@ -447,8 +448,11 @@ colnames(traits) <- gsub(pattern = "c_", replacement = "", colnames(traits))
     # Create a df for traits of Piscataquis River spawners
     traits_1 <- data.frame(traits[upstream_path == 1, , drop = FALSE],
                           upstream_path[upstream_path == 1])
+    traits_2 <- data.frame(traits[upstream_path == 2, , drop = FALSE],
+                          upstream_path[upstream_path == 2])    
     # Change the name of the last column in each of the dfs so they match
     names(traits_1)[ncol(traits_1)] <- 'upstream_path'
+    names(traits_2)[ncol(traits_2)] <- 'upstream_path'
     #toc()
   }
 
@@ -643,6 +647,7 @@ if(river=='penobscot'){
 }
 
 if(river=='merrimack'){
+# Run the ABM for bypass route through Pawtucket
   moves_1 <- moveC(day,
                   c_entryDate[upstream_path == 1],
                   dailyMove[upstream_path == 1],
@@ -650,7 +655,16 @@ if(river=='merrimack'){
                   ppPenalty[[1]],
                   rkm1[upstream_path == 1],
                   rkm2[upstream_path == 1, , drop = FALSE],
-                  c_initial[upstream_path == 1])  
+                  c_initial[upstream_path == 1])
+  # Run the ABM for mainstem route through Pawtucket
+  moves_2 <- moveC(day,
+                  c_entryDate[upstream_path == 2],
+                  dailyMove[upstream_path == 2],
+                  maxR[upstream_path == 2],
+                  ppPenalty[[2]],
+                  rkm1[upstream_path == 2],
+                  rkm2[upstream_path == 2,  , drop = FALSE],
+                  c_initial[upstream_path == 2])
 }
 
 if(river=='connecticut'){
@@ -731,7 +745,7 @@ if(river=='susquehanna'){
 # migration route for all rivers. 
   delay_1 <- delayC(moves_1, damRkms[[1]][2:nPU[1]])
   # Remaining routes for connecticut River
-  if(river=='connecticut'){
+  if(river=='connecticut' | river=='merrimack'){
   # Calculate delay at each dam for each main-to-Mainstem spawners
   delay_2 <- delayC(moves_2, damRkms[[2]][2:nPU[2]])
   }
@@ -767,7 +781,9 @@ if(river=='susquehanna'){
   # Names for delay matrix: merrimack
   if(river=='merrimack'){
     colnames(delay_1) <- c('dEssex', 'dPawtucket', 'dAmoskeag', 'dHookset')
+    colnames(delay_2) <- c('dEssex', 'dPawtucket', 'dAmoskeag', 'dHookset')
   }
+  
   # Names for delay matrix: merrimack
   if(river=='connecticut'){
     colnames(delay_1) <- c('dHolyoke', 'dCabot', 'dGatehouse', 'dVernon')
@@ -902,19 +918,28 @@ if(river=='susquehanna'){
 
   # Merrimack River:
   if(river=='merrimack'){
-  
+   # Combine all data for bypass migrants
+    # Combine both matrices
     spawnData_1 <- cbind(traits_1, moves_1[, ncol(moves_1)], delay_1)
     # Change the name for the final rkm column
-    colnames(spawnData_1)[ncol(spawnData_1) - (nDams)] = 'finalRkm'
+    colnames(spawnData_1)[ncol(spawnData_1) - 4] = 'finalRkm'
     # Make it into a dataframe for easy manipulation
     sp_1 <- data.frame(spawnData_1)
-  
+    
+    # Combine all data for Cabot migrants
+    spawnData_2 <- cbind(traits_2, moves_2[, ncol(moves_2)], delay_2)
+    # Change the name for the final rkm column
+    colnames(spawnData_2)[ncol(spawnData_2) - 4] = 'finalRkm'
+    # Make it into a dataframe for easy manipulation
+    sp_2 <- data.frame(spawnData_2)
+    
     # Assign each fish to a production unit before they spawn. Do this for
     # Piscataquis River spawners and Mainstem spawners
     # First, assign rkms to delineate each of the production units
     puRkm <- vector(mode = 'list', length = length(nPU))
-    puRkm[[1]] <- c(35, damRkms[[1]] + 1, (maxrkm[1] + 1))
-    
+    puRkm[[1]] <- c(0, damRkms[[1]] + 1, (maxrkm[1] + 1))
+    puRkm[[2]] <- c(0, damRkms[[2]] + 1, (maxrkm[2] + 1))
+
     # Create an empty list to hold the pu names for each route
     rm(list = ls()[grep(ls(), pat = '^mPU_')]) # Remove old counts
     puNames <- vector(mode = 'list', length = length(nPU))
@@ -953,7 +978,7 @@ if(river=='susquehanna'){
   # Connecticut River
   if(river=='connecticut'){
     # Combine all data for spillway migrants
-    # Combine all three matrices
+    # Combine both matrices
     spawnData_1 <- cbind(traits_1, moves_1[, ncol(moves_1)], delay_1)
     # Change the name for the final rkm column
     colnames(spawnData_1)[ncol(spawnData_1) - 4] = 'finalRkm'
@@ -961,7 +986,6 @@ if(river=='susquehanna'){
     sp_1 <- data.frame(spawnData_1)
     
     # Combine all data for Cabot migrants
-    # Combine all three matrices
     spawnData_2 <- cbind(traits_2, moves_2[, ncol(moves_2)], delay_2)
     # Change the name for the final rkm column
     colnames(spawnData_2)[ncol(spawnData_2) - 4] = 'finalRkm'
@@ -1326,11 +1350,14 @@ if(river=='susquehanna'){
     sex_Ratio = sex_Ratio,
     sOptim = sOptim,
     sp_1 = sp_1,
+    sp_2 = sp_2,
     spawnData_1 = spawnData_1,
+    spawnData_2 = spawnData_2,
     stoch = stoch,
     tort = tort,
     traits = traits,
     traits_1 = traits_1,
+    traits_2 = traits_2,
     up_effs = up_effs,
     upstream_path = upstream_path,
     y = y,
