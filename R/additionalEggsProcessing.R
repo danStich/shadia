@@ -57,6 +57,7 @@ additionalEggsProcessing <- function(fec){
     for (i in 1:length(fec)) {
       fec2[[i]] <- mapply(sum, na.rm=TRUE, fec[[i]])
     }
+
     fec2[[1]][1] <- fec2[[1]][1] + fec2[[2]][1]
     fec2[[1]][2] <- fec2[[1]][2] + fec2[[2]][2]
     fec2[[1]][3] <- fec2[[1]][3] + fec2[[2]][3]
@@ -85,6 +86,10 @@ additionalEggsProcessing <- function(fec){
     for (i in 1:length(fec)) {
       fec2[[i]] <- mapply(sum, fec[[i]])
     }
+
+    # Now sum all eggs from each of the shared PUs for all routes.  Put all
+    # of the eggs from shared PUs into fec2[[min]] that shares the PU,
+    # set all others to zero
     fec2[[1]][1] <- fec2[[1]][1] + fec2[[2]][1]
     fec2[[1]][2] <- fec2[[1]][2] + fec2[[2]][2]
     fec2[[1]][3] <- 0 # No juv survival allowed in the canal!!
@@ -107,7 +112,7 @@ additionalEggsProcessing <- function(fec){
     return(fec_Max)
     #toc()
   }  
-  
+
   if(river=='susquehanna'){
     # Calculate total number of eggs in each PU
     fec2 <- vector(mode = 'list', length = length(fec))
@@ -150,3 +155,5 @@ additionalEggsProcessing <- function(fec){
   
 
 }
+
+}    
