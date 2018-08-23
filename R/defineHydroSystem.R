@@ -62,18 +62,19 @@ damRkms=damRkms
 }
   
 if(river=='merrimack'){
-nRoutes <- 1
-nDams <- 4
+nRoutes <- 2
+nDams <- c(4,4)
 
 # Define number of production units- dams plus two in this system
 nPU <- nDams + 1
 
 # Define maximum rkm for the system.
-maxrkm <- 204
+maxrkm <- c(204,204)
 
 # Define rkms for each of the dams for each migration group
 damRkms <- vector(mode = 'list', length = nRoutes)
-damRkms[[1]] <- c(45, 65, 120, 135)     # Dam rkms for group 1
+damRkms[[1]] <- c(45, 64, 120, 135)     # Dam rkms for group 1
+damRkms[[2]] <- c(45, 65, 120, 135)     # Dam rkms for group 1
 
 # Return the list
 return(list(
@@ -113,5 +114,41 @@ return(list(
 ))    
 }
 
+  
+if(river=='susquehanna'){  
+# Susquehanna River
+# Four passage routes in Susquehanna River
+nRoutes <- 4
+
+# Need separate habitat values for each migration route
+# Group 1: Juniata River spawners
+# Group 2: West Branch spawners
+# Group 3: Chemung River spawners
+# Group 4: North Branch spawners
+nDams <- c(5, 7, 7, 9)
+
+# Define number of production units- dams plus two in this system
+nPU <- nDams + 1
+
+# Define maximum rkm for the system. In the Piscataquis, Guilford Dam is fine,
+# and for the mainstem use Mattaceunk
+maxrkm <- c(265, 474, 538, 715)
+
+# Define rkms for each of the dams for each migration group
+damRkms <- vector(mode = 'list', length = nRoutes)
+damRkms[[1]] <- c(16, 39, 50, 90, 141)       
+damRkms[[2]] <- c(16, 39, 50, 90, 204, 275, 326)
+damRkms[[3]] <- c(16, 39, 50, 90, 204, 472, 511)         
+damRkms[[4]] <- c(16, 39, 50, 90, 204, 472, 545, 645, 692)
+
+return(list(
+nRoutes=nRoutes,
+nDams=nDams,
+nPU=nPU,
+maxrkm=maxrkm,
+damRkms=damRkms
+))
+}
+  
 }
 

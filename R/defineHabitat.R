@@ -79,6 +79,12 @@ if(river=='merrimack'){
                     48000,
                     182598
   )
+  habitat[[2]] <- c(202782,
+                    92910,
+                    220532,
+                    48000,
+                    182598
+  )
   
   return(list(
     habitat=habitat
@@ -101,5 +107,24 @@ if(river=='connecticut'){
     habitat=habitat
   ))
 }  
+  
+  
+# Susquehanna River relies on ha, using same numbers
+# as Connecticut River for the sake of consistency
+if(river=='susquehanna'){
+
+  habitat <- vector(mode = 'list', length = nRoutes)
+  
+  habitat[[1]] <- c(0, 0, 0, 1833, 11057, 2018)*203
+  habitat[[2]] <- c(0, 0, 0, 1833, 11057, 1489, 1489, 0)*203
+  habitat[[3]] <- c(0, 0, 0, 1833, 11057, 6664, 104, 0)*203
+  habitat[[4]] <- c(0, 0, 0, 1833, 11057, 6664, 1142, 1147, 0, 0)*203  
+  
+  return(list(
+    habitat=habitat
+  ))
+}    
+  
+  
   
 }  

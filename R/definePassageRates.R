@@ -97,27 +97,27 @@ if(river=='penobscot'){
       WestEnfieldD = WestEnfieldD,
       WestEnfieldDj = WestEnfieldDj,
       WestEnfieldUp = WestEnfieldUp
-  
     )
   )
 }  
   
-
 if(river=='merrimack'){  
   # Upstream passage rates
   Open <- 1.00
   EssexUp <- up[1] * fB
-  PawtucketUp <- up[2] * fB
-  AmoskeagUp <- up[3] * fB
-  HooksetUp <- up[4] * fB
+  PawtucketBypassUp <- up[2] * fB
+  PawtucketUp <- up[3] * fB
+  AmoskeagUp <- up[4] * fB
+  HooksetUp <- up[5] * fB
 
   # Downstream passage efficiencies
   # Define downstream passage efficiencies at each of the dams
   OpenD <- 1.00
   EssexD <- d[1] * indirect * latent * delay
-  PawtucketD <- d[2] * indirect * latent * delay
-  AmoskeagD <- d[3] * indirect * latent * delay
-  HooksetD <- d[4] * indirect * latent * delay
+  PawtucketBypassD <- d[2] * indirect * latent * delay
+  PawtucketD <- d[3] * indirect * latent * delay
+  AmoskeagD <- d[4] * indirect * latent * delay
+  HooksetD <- d[5] * indirect * latent * delay
   
   # Make downstream survival probabilities for juveniles
   # Unused. Moved to separate calculations in the 
@@ -125,22 +125,26 @@ if(river=='merrimack'){
   # River to date have used equal performance standards.
   # Will update this model to use the same approach.
   EssexDj <- d[1] * indirect * latent * delay
-  PawtucketDj <- d[2] * indirect * latent * delay
-  AmoskeagDj <- d[3] * indirect * latent * delay
-  HooksetDj <- d[4] * indirect * latent * delay  
+  PawtucketBypassDj <- d[2] * indirect * latent * delay
+  PawtucketDj <- d[3] * indirect * latent * delay
+  AmoskeagDj <- d[4] * indirect * latent * delay
+  HooksetDj <- d[5] * indirect * latent * delay  
   
   return(
     list(
       Open = Open,
       EssexUp = EssexUp,      
       PawtucketUp = PawtucketUp,
+      PawtucketBypassUp = PawtucketBypassUp,
       AmoskeagUp = AmoskeagUp,
       HooksetUp = HooksetUp,
       EssexD = EssexD,
+      PawtucketBypassD = PawtucketBypassD,
       PawtucketD = PawtucketD,
       AmoskeagD = AmoskeagD,
       HooksetD = HooksetD,
       EssexDj = EssexDj,
+      PawtucketBypassDj = PawtucketBypassDj,
       PawtucketDj = PawtucketDj,
       AmoskeagDj = AmoskeagDj,
       HooksetDj = HooksetDj
@@ -194,5 +198,105 @@ if(river=='connecticut'){
     )
   )
 }
+  
+  
+if(river=='susquehanna'){  
+  # Upstream passage rates
+  Open <- 1.00
+  ConowingoUp <- up[1] * fB
+  HoltwoodUp <- up[2]
+  SafeHarborUp <- up[3] * fB
+  YorkHavenUp <- up[4] * fB
+  junConfluenceUp <- 1
+  SunburyUp <- up[5] * fB
+  WilliamsportUp <- up[6] * fB
+  LockHavenUp <- up[7] * fB
+  NyUp <- 1
+  ChaseHibbardUp <- up[8] * fB
+  RockBottomUp <- up[9] * fB
+  UnadillaReachUp <- 1
+  ColliersvilleUp <- up[10] * fB
+
+  # Downstream passage efficiencies
+  ConowingoD <- d[1] * indirect * latent * delay
+  HoltwoodD <- d[2] * indirect * latent * delay
+  SafeHarborD <- d[3] * indirect * latent * delay
+  YorkHavenD <- d[4] * indirect * latent * delay
+  junConfluenceD <- 1
+  SunburyD <- d[5]* indirect * latent * delay
+  WilliamsportD <- d[6] * indirect * latent * delay
+  LockHavenD <- d[7] * indirect * latent * delay
+  NyD <- 1
+  ChaseHibbardD <- d[8] * indirect * latent * delay
+  RockBottomD <- d[9]  * indirect * latent * delay
+  UnadillaReachD <- 1
+  ColliersvilleD <- d[10] * indirect * latent * delay
+
+  # Make downstream survival probabilities for juveniles
+  # Unused. Moved to separate calculations in the 
+  # Connecticut River Model. All runs in the Penobscot
+  # River to date have used equal performance standards.
+  # Will update this model to use the same approach.
+  ConowingoDj <- d[1] * indirect * latent * delay
+  HoltwoodDj <- d[2] * indirect * latent * delay
+  SafeHarborDj <- d[3] * indirect * latent * delay
+  YorkHavenDj <- d[4] * indirect * latent * delay
+  junConfluenceDj <- 1
+  SunburyDj <- d[5]* indirect * latent * delay
+  WilliamsportDj <- d[6] * indirect * latent * delay
+  LockHavenDj <- d[7] * indirect * latent * delay
+  NyDj <- 1
+  ChaseHibbardDj <- d[8] * indirect * latent * delay
+  RockBottomDj <- d[9]  * indirect * latent * delay
+  UnadillaReachDj <- 1
+  ColliersvilleDj <- d[10] * indirect * latent * delay
+
+
+  return(
+    list(
+      Open = Open,
+      ConowingoUp = ConowingoUp,
+      HoltwoodUp = HoltwoodUp,
+      SafeHarborUp = SafeHarborUp,
+      YorkHavenUp = YorkHavenUp,
+      junConfluenceUp = junConfluenceUp,
+      SunburyUp = SunburyUp,
+      WilliamsportUp = WilliamsportUp,
+      LockHavenUp = LockHavenUp,
+      NyUp = NyUp,
+      ChaseHibbardUp = ChaseHibbardUp,
+      RockBottomUp = RockBottomUp,
+      UnadillaReachUp = UnadillaReachUp,
+      ColliersvilleUp = ColliersvilleUp,
+      ConowingoD = ConowingoD,
+      HoltwoodD = HoltwoodD,
+      SafeHarborD = SafeHarborD,
+      YorkHavenD = YorkHavenD,
+      junConfluenceD = junConfluenceD,
+      SunburyD = SunburyD,
+      WilliamsportD = WilliamsportD,
+      LockHavenD = LockHavenD,
+      NyD = NyD,
+      ChaseHibbardD = ChaseHibbardD,
+      RockBottomD = RockBottomD,
+      UnadillaReachD = UnadillaReachD,
+      ColliersvilleD = ColliersvilleD,
+      ConowingoDj = ConowingoDj,
+      HoltwoodDj = HoltwoodDj,
+      SafeHarborDj = SafeHarborDj,
+      YorkHavenDj = YorkHavenDj,
+      junConfluenceDj = junConfluenceDj,
+      SunburyDj = SunburyDj,
+      WilliamsportDj = WilliamsportDj,
+      LockHavenDj = LockHavenDj,
+      NyDj = NyDj,
+      ChaseHibbardDj = ChaseHibbardDj,
+      RockBottomDj = RockBottomDj,
+      UnadillaReachDj = UnadillaReachDj,
+      ColliersvilleDj = ColliersvilleDj
+    )
+  )
+}    
+  
   
 }  

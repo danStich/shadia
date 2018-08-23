@@ -230,54 +230,72 @@ return(
 
 }
 
-
-
-
-
+  
 if(river=='merrimack'){
 # Derive downstream passage efficiencies for each group of spawners in each PU.
 # This uses the starting position of the fish, and then incorporates cumulative
 # dam passage efficiencies from the starting PU to the ocean.
+# Mainstem at Pawtucket
 sPU <- c()
 sPU[[1]] <- downstreamS ^ puRkm[[1]][1]
 sPU[[2]] <- sPU[[1]] * EssexD * (downstreamS ^ puRkm[[1]][2])
 sPU[[3]] <- sPU[[2]] * PawtucketD * (downstreamS ^ puRkm[[1]][3])
 sPU[[4]] <- sPU[[3]] * AmoskeagD * (downstreamS ^ puRkm[[1]][4])
 sPU[[5]] <- sPU[[4]] * HooksetD * (downstreamS ^ puRkm[[1]][5])
+# Bypass at Pawtucket
+sPU_bp <- c()
+sPU_bp[[1]] <- downstreamS ^ puRkm[[2]][1]
+sPU_bp[[2]] <- sPU_bp[[1]] * EssexD * (downstreamS ^ puRkm[[2]][2])
+sPU_bp[[3]] <- sPU_bp[[2]] * PawtucketBypassD * (downstreamS ^ puRkm[[2]][3])
+sPU_bp[[4]] <- sPU_bp[[3]] * AmoskeagD * (downstreamS ^ puRkm[[2]][4])
+sPU_bp[[5]] <- sPU_bp[[4]] * HooksetD * (downstreamS ^ puRkm[[2]][5])
 
 # Derive downstream passage efficiencies for each group of juveniles in each PU.
 # This uses the starting position of the fish, and then incorporates cumulative
 # dam passage efficiencies from the starting PU to the ocean.
+# Mainstem at Pawtucket
 sPUj <- c()
 sPUj[[1]] <- downstreamS ^ puRkm[[1]][1]
 sPUj[[2]] <- sPUj[[1]] * EssexDj * (downstreamS ^ puRkm[[1]][2])
-sPUj[[3]] <- sPUj[[2]] * PawtucketDj * (downstreamS ^ puRkm[[1]][3])
+sPUj[[3]] <- sPUj[[2]] * (1-pBypassD)*PawtucketDj * (downstreamS ^ puRkm[[1]][3])
 sPUj[[4]] <- sPUj[[3]] * AmoskeagDj * (downstreamS ^ puRkm[[1]][4])
 sPUj[[5]] <- sPUj[[4]] * HooksetDj * (downstreamS ^ puRkm[[1]][5])
+# Bypass at Pawtucket
+sPU_bpj <- c()
+sPU_bpj[[1]] <- downstreamS ^ puRkm[[2]][1]
+sPU_bpj[[2]] <- sPU_bpj[[1]] * EssexDj * (downstreamS ^ puRkm[[2]][2])
+sPU_bpj[[3]] <- sPU_bpj[[2]] * pBypassD*PawtucketBypassDj * (downstreamS ^ puRkm[[2]][3])
+sPU_bpj[[4]] <- sPU_bpj[[3]] * AmoskeagDj * (downstreamS ^ puRkm[[2]][4])
+sPU_bpj[[5]] <- sPU_bpj[[4]] * HooksetDj * (downstreamS ^ puRkm[[2]][5])
 
 # Calculate number of males reaching the mouth of the river after spawn from
 # each PU
   malesOut <- vector(mode = 'list', length = length(males))
   for (i in 1:length(sPU)) {
     malesOut[[1]][[i]] <- mapply("*", males[[1]], sPU)[, i]
+    malesOut[[2]][[i]] <- mapply("*", males[[2]], sPU_bp)[, i]    
   }
   # Sum number of males in each age from all PUs reaching river mouth
-  malesOut <- apply(data.frame(malesOut[[1]]), 1, sum)
-
+    malesOut <- apply(data.frame(malesOut[[1]]), 1, sum) +
+      apply(data.frame(malesOut[[2]]), 1, sum)
+    
 # Calculate number of females reaching the mouth of the river after spawn from
 # each PU
   femalesOut <- vector(mode = 'list', length = length(females))
   for (i in 1:length(sPU)) {
     femalesOut[[1]][[i]] <- mapply("*", females[[1]], sPU)[, i]
+    femalesOut[[2]][[i]] <- mapply("*", females[[2]], sPU_bp)[, i]    
   }
   # Sum number of females in each age from all PUs reaching river mouth
-  femalesOut <- apply(data.frame(femalesOut[[1]]), 1, sum)
-
+    femalesOut <- apply(data.frame(femalesOut[[1]]), 1, sum) +
+      apply(data.frame(femalesOut[[2]]), 1, sum)
+    
 # Calculate the number of recruits reaching the ocean
   recruitsOut <- vector(mode = 'list', length = length(recruits))
   # Mainstem-to-piscataquis spawners
   for (i in 1:length(sPUj)) {
     recruitsOut[[1]][[i]] <- mapply("*", recruits[[1]][[i]], sPUj[i])
+    recruitsOut[[1]][[i]] <- mapply("*", recruits[[2]][[i]], sPU_bpj[i])
   }
   # Sum number of recruits in each age from all PUs reaching river mouth
   recruitsOut <- sum(unlist(recruitsOut))
@@ -296,7 +314,8 @@ return(
   )
 )  
 }
-  
+
+    
 if(river=='connecticut'){
   # Derive downstream passage efficiencies for each group of spawners in each PU.
   # This uses the starting position of the fish, and then incorporates cumulative
@@ -391,5 +410,193 @@ if(river=='connecticut'){
     )
   )  
 }  
+
   
+if(river=='susquehanna'){
+  # Derive downstream passage efficiencies for each group of spawners in each PU.
+  # This uses the starting position of the fish, and then incorporates cumulative
+  # dam passage efficiencies from the starting PU to the ocean.
+  sPU_jun <- vector(mode='list', length=nPU[1])
+  sPU_jun[[1]] <- downstreamS ^ puRkm[[1]][1]
+  sPU_jun[[2]] <- sPU_jun[[1]] * ConowingoD * (downstreamS ^ puRkm[[1]][2])
+  sPU_jun[[3]] <- sPU_jun[[2]] * HoltwoodD * (downstreamS ^ puRkm[[1]][3])
+  sPU_jun[[4]] <- sPU_jun[[3]] * SafeHarborD * (downstreamS ^ puRkm[[1]][4])
+  sPU_jun[[5]] <- sPU_jun[[4]] * YorkHavenD * (downstreamS ^ puRkm[[1]][5])
+  sPU_jun[[6]] <- sPU_jun[[5]] * junConfluenceD * (downstreamS ^ puRkm[[1]][6])
+  
+  sPU_wes <- vector(mode='list', length=nPU[2])
+  sPU_wes[[1]] <- downstreamS ^ puRkm[[1]][1]
+  sPU_wes[[2]] <- sPU_wes[[1]] * ConowingoD * (downstreamS ^ puRkm[[2]][2])
+  sPU_wes[[3]] <- sPU_wes[[2]] * HoltwoodD * (downstreamS ^ puRkm[[2]][3])
+  sPU_wes[[4]] <- sPU_wes[[3]] * SafeHarborD * (downstreamS ^ puRkm[[2]][4])
+  sPU_wes[[5]] <- sPU_wes[[4]] * YorkHavenD * (downstreamS ^ puRkm[[2]][5])
+  sPU_wes[[6]] <- sPU_wes[[5]] * SunburyD * (downstreamS ^ puRkm[[2]][6])
+  sPU_wes[[7]] <- sPU_wes[[6]] * WilliamsportD * (downstreamS ^ puRkm[[2]][7])
+  sPU_wes[[8]] <- sPU_wes[[7]] * LockHavenD * (downstreamS ^ puRkm[[2]][8])
+  
+  sPU_che <- vector(mode='list', length=nPU[3])
+  sPU_che[[1]] <- downstreamS ^ puRkm[[3]][1]
+  sPU_che[[2]] <- sPU_che[[1]] * ConowingoD * (downstreamS ^ puRkm[[3]][2])
+  sPU_che[[3]] <- sPU_che[[2]] * HoltwoodD * (downstreamS ^ puRkm[[3]][3])
+  sPU_che[[4]] <- sPU_che[[3]] * SafeHarborD * (downstreamS ^ puRkm[[3]][4])
+  sPU_che[[5]] <- sPU_che[[4]] * YorkHavenD * (downstreamS ^ puRkm[[3]][5])
+  sPU_che[[6]] <- sPU_che[[5]] * SunburyD * (downstreamS ^ puRkm[[3]][6])
+  sPU_che[[7]] <- sPU_che[[6]] * NyD * (downstreamS ^ puRkm[[3]][7])
+  sPU_che[[8]] <- sPU_che[[7]] * ChaseHibbardD * (downstreamS ^ puRkm[[3]][8])
+  
+  sPU_nor <- vector(mode='list', length=nPU[4])
+  sPU_nor[[1]] <- downstreamS ^ puRkm[[1]][1]
+  sPU_nor[[2]] <- sPU_nor[[1]] * ConowingoD * (downstreamS ^ puRkm[[4]][2])
+  sPU_nor[[3]] <- sPU_nor[[2]] * HoltwoodD * (downstreamS ^ puRkm[[4]][3])
+  sPU_nor[[4]] <- sPU_nor[[3]] * SafeHarborD * (downstreamS ^ puRkm[[4]][4])
+  sPU_nor[[5]] <- sPU_nor[[4]] * YorkHavenD * (downstreamS ^ puRkm[[4]][5])
+  sPU_nor[[6]] <- sPU_nor[[5]] * SunburyD * (downstreamS ^ puRkm[[4]][6])
+  sPU_nor[[7]] <- sPU_nor[[6]] * NyD * (downstreamS ^ puRkm[[4]][7])
+  sPU_nor[[8]] <- sPU_nor[[7]] * RockBottomD * (downstreamS ^ puRkm[[4]][8])
+  sPU_nor[[9]] <- sPU_nor[[8]] * UnadillaReachD * (downstreamS ^ puRkm[[4]][9])
+  sPU_nor[[10]] <- sPU_nor[[9]] * ColliersvilleD * (downstreamS ^ puRkm[[4]][10])
+
+  
+  # Derive downstream passage efficiencies for each group of juveniles in each PU.
+  # This uses the starting position of the fish, and then incorporates cumulative
+  # dam passage efficiencies from the starting PU to the ocean.
+  sPU_junj <- vector(mode='list', length=nPU[1])
+  sPU_junj[[1]] <- downstreamS ^ puRkm[[1]][1]
+  sPU_junj[[2]] <- sPU_junj[[1]] * ConowingoDj * (downstreamS ^ puRkm[[1]][2])
+  sPU_junj[[3]] <- sPU_junj[[2]] * HoltwoodDj * (downstreamS ^ puRkm[[1]][3])
+  sPU_junj[[4]] <- sPU_junj[[3]] * SafeHarborDj * (downstreamS ^ puRkm[[1]][4])
+  sPU_junj[[5]] <- sPU_junj[[4]] * YorkHavenDj * (downstreamS ^ puRkm[[1]][5])
+  sPU_junj[[6]] <- sPU_junj[[5]] * junConfluenceDj * (downstreamS ^ puRkm[[1]][6])
+  
+  sPU_wesj <- vector(mode='list', length=nPU[2])
+  sPU_wesj[[1]] <- downstreamS ^ puRkm[[1]][1]
+  sPU_wesj[[2]] <- sPU_wesj[[1]] * ConowingoDj * (downstreamS ^ puRkm[[2]][2])
+  sPU_wesj[[3]] <- sPU_wesj[[2]] * HoltwoodDj * (downstreamS ^ puRkm[[2]][3])
+  sPU_wesj[[4]] <- sPU_wesj[[3]] * SafeHarborDj * (downstreamS ^ puRkm[[2]][4])
+  sPU_wesj[[5]] <- sPU_wesj[[4]] * YorkHavenDj * (downstreamS ^ puRkm[[2]][5])
+  sPU_wesj[[6]] <- sPU_wesj[[5]] * SunburyDj * (downstreamS ^ puRkm[[2]][6])
+  sPU_wesj[[7]] <- sPU_wesj[[6]] * WilliamsportDj * (downstreamS ^ puRkm[[2]][7])
+  sPU_wesj[[8]] <- sPU_wesj[[7]] * LockHavenDj * (downstreamS ^ puRkm[[2]][8])
+  
+  sPU_chej <- vector(mode='list', length=nPU[3])
+  sPU_chej[[1]] <- downstreamS ^ puRkm[[1]][1]
+  sPU_chej[[2]] <- sPU_chej[[1]] * ConowingoDj * (downstreamS ^ puRkm[[3]][2])
+  sPU_chej[[3]] <- sPU_chej[[2]] * HoltwoodDj * (downstreamS ^ puRkm[[3]][3])
+  sPU_chej[[4]] <- sPU_chej[[3]] * SafeHarborDj * (downstreamS ^ puRkm[[3]][4])
+  sPU_chej[[5]] <- sPU_chej[[4]] * YorkHavenDj * (downstreamS ^ puRkm[[3]][5])
+  sPU_chej[[6]] <- sPU_chej[[5]] * SunburyDj * (downstreamS ^ puRkm[[3]][6])
+  sPU_chej[[7]] <- sPU_chej[[6]] * NyDj * (downstreamS ^ puRkm[[3]][7])
+  sPU_chej[[8]] <- sPU_chej[[7]] * ChaseHibbardDj * (downstreamS ^ puRkm[[3]][8])
+  
+  sPU_norj <- vector(mode='list', length=nPU[4])
+  sPU_norj[[1]] <- downstreamS ^ puRkm[[1]][1]
+  sPU_norj[[2]] <- sPU_norj[[1]] * ConowingoDj * (downstreamS ^ puRkm[[4]][2])
+  sPU_norj[[3]] <- sPU_norj[[2]] * HoltwoodDj * (downstreamS ^ puRkm[[4]][3])
+  sPU_norj[[4]] <- sPU_norj[[3]] * SafeHarborDj * (downstreamS ^ puRkm[[4]][4])
+  sPU_norj[[5]] <- sPU_norj[[4]] * YorkHavenDj * (downstreamS ^ puRkm[[4]][5])
+  sPU_norj[[6]] <- sPU_norj[[5]] * SunburyDj * (downstreamS ^ puRkm[[4]][6])
+  sPU_norj[[7]] <- sPU_norj[[6]] * NyDj * (downstreamS ^ puRkm[[4]][7])
+  sPU_norj[[8]] <- sPU_norj[[7]] * RockBottomDj * (downstreamS ^ puRkm[[4]][8])
+  sPU_norj[[9]] <- sPU_norj[[8]] * UnadillaReachDj * (downstreamS ^ puRkm[[4]][9])
+  sPU_norj[[10]] <- sPU_norj[[9]] * ColliersvilleDj * (downstreamS ^ puRkm[[4]][10])
+
+# Calculate number of males reaching the mouth of the river after spawn from
+# each PU from each upstream migration route
+  malesOut <- vector(mode = 'list', length = length(males))
+  # Juniata
+  for (i in 1:length(sPU_jun)) {
+    malesOut[[1]][[i]] <- mapply("*", males[[1]], sPU_jun)[, i]
+  }
+  # West Branch
+  for (i in 1:length(sPU_wes)) {
+    malesOut[[2]][[i]] <- mapply("*", males[[2]], sPU_wes)[, i]
+  }
+  # Chemung
+  for (i in 1:length(sPU_che)) {
+    malesOut[[3]][[i]] <- mapply("*", males[[3]], sPU_che)[, i]
+  }
+  # North Branch
+  for (i in 1:length(sPU_nor)) {
+    malesOut[[4]][[i]] <- mapply("*", males[[4]], sPU_nor)[, i]
+  }
+  # Sum number of males in each age from all PUs reaching river mouth
+  malesOut <- apply(data.frame(malesOut[[1]]), 1, sum) +
+    apply(data.frame(malesOut[[2]]), 1, sum) +
+    apply(data.frame(malesOut[[3]]), 1, sum) +
+    apply(data.frame(malesOut[[4]]), 1, sum)
+
+  
+  
+  
+# Calculate number of females reaching the mouth of the river after spawn from
+# each PU
+  femalesOut <- vector(mode = 'list', length = length(females))
+  # Juniata
+  for (i in 1:length(sPU_jun)) {
+    femalesOut[[1]][[i]] <- mapply("*", females[[1]], sPU_jun)[, i]
+  }
+  # West Branch
+  for (i in 1:length(sPU_wes)) {
+    femalesOut[[2]][[i]] <- mapply("*", females[[2]], sPU_wes)[, i]
+  }
+  # Chemung
+  for (i in 1:length(sPU_che)) {
+    femalesOut[[3]][[i]] <- mapply("*", females[[3]], sPU_che)[, i]
+  }
+  # North Brance
+  for (i in 1:length(sPU_nor)) {
+    femalesOut[[4]][[i]] <- mapply("*", females[[4]], sPU_nor)[, i]
+  }
+  # Sum number of females in each age from all PUs reaching river mouth
+  femalesOut <- apply(data.frame(femalesOut[[1]]), 1, sum) +
+    apply(data.frame(femalesOut[[2]]), 1, sum) +
+    apply(data.frame(femalesOut[[3]]), 1, sum) +
+    apply(data.frame(femalesOut[[4]]), 1, sum)
+  
+  
+
+# Calculate the number of recruits reaching the ocean
+  recruitsOut <- vector(mode = 'list', length = length(recruits))
+  # Juniata
+  for (i in 1:length(sPU_junj)) {
+    recruitsOut[[1]][[i]] <- mapply("*", recruits[[1]][[i]], sPU_junj[i])
+  }
+  # West Branch
+  for (i in 1:length(sPU_wesj)) {
+    recruitsOut[[2]][[i]] <- mapply("*", recruits[[2]][[i]], sPU_wesj[i])
+  }
+  # Chemung
+  for (i in 1:length(sPU_chej)) {
+    recruitsOut[[3]][[i]] <- mapply("*", recruits[[3]][[i]], sPU_chej[i])
+  }
+  # North Brance
+  for (i in 1:length(sPU_norj)) {
+    recruitsOut[[4]][[i]] <- mapply("*", recruits[[4]][[i]], sPU_norj[i])
+  }
+
+  # Sum number of recruits in each age from all PUs reaching river mouth
+  recruitsOut <- sum(unlist(recruitsOut))
+  
+# Sum total number of out migrants
+outMigrants <- femalesOut + malesOut
+
+return(
+  list(
+    sPU_jun = sPU_jun,
+    sPU_wes = sPU_wes,
+    sPU_che = sPU_che,
+    sPU_nor = sPU_nor,
+    sPU_junj = sPU_junj,
+    sPU_wesj = sPU_wesj,
+    sPU_chej = sPU_chej,
+    sPU_norj = sPU_norj,
+    malesOut = malesOut,
+    femalesOut = femalesOut,
+    recruitsOut = recruitsOut,
+    outMigrants = outMigrants
+  )
+)  
+}
+  
+    
 }

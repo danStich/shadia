@@ -42,6 +42,9 @@
 #' are necessary if more than one passage efficiency
 #' is supplied for any dam.
 #'
+#' @param pBypass Probability of using bypass at 
+#' Pawtucket Dam for passage (alternative is mainstem).
+#'
 #' @param inRiverF Annual, recreational harvest of
 #' American shad. Parameterized as an annual rate [0, 1].
 #'
@@ -83,7 +86,11 @@
 #'
 #'     \item \code{EssUp...HookUp} User-specified upstream passage efficiencies
 #'
-#'     \item \code{EssD...HookD}  User-specified downstream passage efficiencies
+#'     \item \code{EssD...HookD} User-specified downstream passage efficiencies
+#'
+#'     \item \code{pBypassUp} User-specified probability of using bypass at Pawtucket Dam for upstream migration
+#'     
+#'     \item \code{pBypassD} User-specified probability of using bypass at Pawtucket Dam for downstream migration
 #'
 #'     \item \code{pRepeat_Age1...Age11} Age-specific probability of repeat spawning
 #'
@@ -92,6 +99,19 @@
 #'     \item \code{N_I...N_V} Production unit-specific population size after in-river fishery mortality
 #' }
 #'
+#' @section 
+#' Production units by migration route:
+#' \itemize{
+#'   \item Merrimack River
+#'     \itemize{
+#'       \item \code{PU I} Downstream of Essex
+#'       \item \code{PU II} Essex to Pawtucket
+#'       \item \code{PU III} Pawtucket to Amoskeag
+#'       \item \code{PU IV} Amoskeag to Hookset
+#'       \item \code{PU V} Upstream of Hookset
+#'    }
+#'  }
+#'  
 #' @section Warning about serial execution and memory limits:
 #' Current implementation is based on work
 #' in press, and is thus subject to modification
@@ -121,16 +141,20 @@ merrimackRiverModel <- function(
   timing = 1,
   upstream = list(
     essex = 1,
+    pawtucketBypass = 1,
     pawtucket = 1,
     amoskeag = 1,
     hookset = 1
   ),
   downstream = list(
     essex = 1,
+    pawtucketBypass = 1,
     pawtucket = 1,
     amoskeag = 1,
     hookset = 1
   ),
+  pBypassUp = 1,
+  pBypassD = 1,
   inRiverF = 0,
   commercialF = 0,
   bycatchF = 0,
@@ -140,8 +164,8 @@ merrimackRiverModel <- function(
   ){
 
 # Error message for passage efficiencies
-  if( (length(upstream)!=4 ) |  (length(downstream)!=4 ) ){
-    stop('`upstream` must have 4 elements and `dowsntream` must also have 4.')
+  if( (length(upstream)!=5 ) |  (length(downstream)!=5 ) ){
+    stop('`upstream` must have 5 elements and `dowsntream` must also have 5.')
   }
 
 # Create package workspace if it does not yet exist

@@ -24,6 +24,7 @@ fwFishingMort <- function(){
   if(river=='merrimack'){  
     inriv <- vector(mode = 'list', length = nRoutes)
     inriv[[1]] <- rep(inRiverF, 5)
+    inriv[[2]] <- rep(inRiverF, 5)
     return(list(inriv=inriv))
   }  
   
@@ -34,5 +35,16 @@ fwFishingMort <- function(){
    
     return(list(inriv=inriv))
   }
+  
+  if(river=='susquehanna'){  
+    inriv <- vector(mode = 'list', length = nRoutes)
+    inriv[[1]] <- rep(inRiverF, 6)
+    inriv[[2]] <- rep(inRiverF, 8)
+    inriv[[3]] <- rep(inRiverF, 8)
+    inriv[[4]] <- rep(inRiverF, 10)    
+    
+    return(list(inriv=inriv))
+  }  
+  
   
 }
