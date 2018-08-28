@@ -326,7 +326,7 @@ if(river=='connecticut'){
 # Collect inputs and outputs into a single object for file write
 res <- data.frame(
   years,
-  ptime,
+  times,
   pSpill,
   HolUp,
   CabUp,
@@ -357,7 +357,11 @@ res <- data.frame(
 
 names(res)<-c(
   "year",
-  "time",
+  "time_holyoke",
+  "time_cabot",
+  "time_spillway",
+  "time_gatehouse",
+  "time_vernon",
   "pSpill",
   "HolyokeUp",
   "CabotUp",

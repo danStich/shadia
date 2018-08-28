@@ -675,7 +675,7 @@ if(river=='connecticut'){
 
   # Store the inputs for sensitivity analysis
   # Passage assumptions
-  ptime[(n + nYears * (k - 1))] <-  timely
+  ptime[[(n + nYears * (k - 1))]] <-  timing
 
   # Population demographics and survival rates
   S.downstream[(n + nYears * (k - 1))] <-  mean(downstreamS)

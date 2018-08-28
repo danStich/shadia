@@ -515,11 +515,11 @@ juvenile_survival <- runif(1, 0.0005, 0.00083)
 # Convert passage performance standards into rates over time based on passage
 # efficiency and timely
 #if (useTictoc) tic("passage rates at dams")
-up_effs <- mapply('+', upEffs, 1)
+up_effs <- mapply('+', upEffs, 1, SIMPLIFY = FALSE)
 for(i in 1:length(up_effs)){
   up_effs[[i]] <- mapply('^', up_effs[[i]], (1 / times[[i]]))
 }
-up_effs <- mapply('-', up_effs, 1)
+up_effs <- mapply('-', up_effs, 1, SIMPLIFY = FALSE)
 
 # Finally, assign passage efficiencies for each reach in the river
 eFFs <- vector(mode = 'list', length = length(upEffs))

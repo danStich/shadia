@@ -534,7 +534,7 @@ if(river=='connecticut'){
   NorthFieldTa = vector(mode='numeric', length = nYears*nRuns)
    
   # Timing
-  ptime <- vector(mode = 'numeric', length = nYears * nRuns)
+  ptime <- vector(mode = 'list', length = nYears * nRuns)
 
   # Indirect mortality during downstream passage
   indirectM <- vector(mode = 'numeric', length = nYears * nRuns)

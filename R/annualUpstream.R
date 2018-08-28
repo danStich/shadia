@@ -142,19 +142,36 @@ if(river=='connecticut'){
   # Assign efficiencies to the upstream passage groups (pisc or main)
   upEffs <- vector(mode = 'list', length = nRoutes)
 
-  # Route 1- Mainstem to spillway
+  # Route 1- Canal
   upEffs[[1]][1] <- HolyokeUp
   upEffs[[1]][2] <- CabotUp
   upEffs[[1]][3] <- GatehouseUp
   upEffs[[1]][4] <- VernonUp
 
-  # Route 1- Mainstem to spillway
+  # Route 1- Spillway
   upEffs[[2]][1] <- HolyokeUp
   upEffs[[2]][2] <- SpillwayUp
   upEffs[[2]][3] <- GatehouseUp
   upEffs[[2]][4] <- VernonUp
   
+  # Upstream passage times
+  times <- vector(mode = 'list', length = nRoutes)
+
+  # Route 1- Canal route
+  times[[1]][1] <- timing[[1]]
+  times[[1]][2] <- timing[[2]]
+  times[[1]][3] <- timing[[4]]
+  times[[1]][4] <- timing[[5]]
+
+  # Route 1- Spillway route
+  times[[2]][1] <- timing[[1]]
+  times[[2]][2] <- timing[[3]]
+  times[[2]][3] <- timing[[4]]
+  times[[2]][4] <- timing[[5]] 
+  
+  # Output list
   return(list(
+    times = times,
     upEffs = upEffs
   ))  
 }    
