@@ -88,7 +88,7 @@
 #' \itemize{
 #'     \item \code{year} Year of simulation
 #' 
-#'     \item \code{time} Passage timing input by user
+#'     \item \code{time_milford...time_guilford} Passage timing input by user
 #' 
 #'     \item \code{milford_up...guilford_up} User-specified upstream passage efficiencies
 #'  
