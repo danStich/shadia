@@ -27,6 +27,10 @@ if (.shadia$useTictoc) {
 pRepeats <- do.call("rbind", lapply(pRepeats, unlist))
 colnames(pRepeats) <- paste('pRepeat_', colnames(pRepeats), sep = '')
 
+# Unlist and stack upstream passage times
+times <- do.call("rbind", lapply(ptime, unlist))
+colnames(times) <- paste('timing_', 1:length(timing), sep = '')
+
 # Unlist and stack age-structured spawning population into a useable output
 spawners <- do.call("rbind", lapply(spawners, unlist))
 colnames(spawners) <- paste(colnames(spawners), 'N', sep = '_')
@@ -38,7 +42,7 @@ if(river=='penobscot'){
 # Collect inputs and outputs into a single object for file write
 res <- data.frame(
   years,
-  ptime,
+  times,
   #OrUp,
   #StUp,
   #GilmUp,
@@ -80,7 +84,13 @@ res <- data.frame(
 
 names(res)<-c(
   "year",
-  "time",
+  "time_milford",
+  "time_howland",
+  "time_westenfield",
+  "time_brownsmill",
+  "time_moosehead",
+  "time_guilford",
+  "time_weldon",
   #"orono_up",
   #"stillwater_up",
   #"gilman_up",

@@ -102,7 +102,7 @@ if(river=='penobscot'){
   
   # Store the inputs for sensitivity analysis
   # Passage assumptions
-  ptime <- vector(mode = 'numeric', length = nYears * nRuns)
+  ptime <- vector(mode = 'list', length = nYears * nRuns)
   pStillUP <- vector(mode = 'numeric', length = nYears * nRuns)
   pStillD <- vector(mode = 'numeric', length = nYears * nRuns)
   pPiscUP <- vector(mode = 'numeric', length = nYears * nRuns)

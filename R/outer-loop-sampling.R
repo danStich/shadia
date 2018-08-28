@@ -25,7 +25,10 @@ up <- as.vector(mapply(sample, pDraws, 1))
 
 # Define the variable 'timely' to determine over what period the time will be
 # expressed as a rate. A value of '1' results in a 24-hr passage rate
-timely <- sample(timing, 1)
+timely <- vector(mode='list', length=length(timing))
+for(i in 1:length(timing)){
+  timely[[i]] <- sample(timing[[i]], 1)
+}
 
 # Define fall back
 fB <- 1.00

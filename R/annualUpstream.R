@@ -61,6 +61,44 @@ if(river=='penobscot'){
   upEffs[[4]][4] <- GilmanUp
   upEffs[[4]][5] <- WestEnfieldUp
   upEffs[[4]][6] <- MattaceunkUp
+  
+  times <- vector(mode = 'list', length = nRoutes)
+  times[[1]] <- vector(mode = 'numeric', length = length(damRkms[[1]]))
+  times[[2]] <- vector(mode = 'numeric', length = length(damRkms[[2]]))
+  times[[3]] <- vector(mode = 'numeric', length = length(damRkms[[3]]))
+  times[[4]] <- vector(mode = 'numeric', length = length(damRkms[[4]]))
+
+  # Route 1- Mainstem to piscataquis
+  times[[1]][1] <- 1
+  times[[1]][2] <- 1
+  times[[1]][3] <- timely[[1]]
+  times[[1]][4] <- timely[[2]]
+  times[[1]][5] <- timely[[4]]
+  times[[1]][6] <- timely[[5]]
+  times[[1]][7] <- timely[[6]]
+  # Route 2- Main-stem to main-stem
+  times[[2]][1] <- 1
+  times[[2]][2] <- 1
+  times[[2]][3] <- timely[[1]]
+  times[[2]][4] <- timely[[3]]
+  times[[2]][5] <- timely[[7]]
+  # Route 1- Stillwater to piscataquis
+  times[[3]][1] <- 1
+  times[[3]][2] <- 1
+  times[[3]][3] <- 1
+  times[[3]][4] <- 1
+  times[[3]][5] <- timely[[2]]
+  times[[3]][6] <- timely[[4]]
+  times[[3]][7] <- timely[[5]]
+  times[[3]][8] <- timely[[6]]
+  # Route 1- Stillwater to main-stem
+  times[[4]][1] <- 1
+  times[[4]][2] <- 1
+  times[[4]][3] <- 1
+  times[[4]][4] <- 1
+  times[[4]][5] <- timely[[3]]
+  times[[4]][6] <- timely[[7]]
+  
 
   # JMS: Draw probability of using the Stillwater Branch moved to outer-loop-sampling.R
   pMainUp <- 1 - pStillwaterUp
@@ -72,6 +110,7 @@ if(river=='penobscot'){
   pMainstemUp <- 1 - pPiscUp  # Probability of using mainstem in upper river
 
 return(list(
+  times = times,
   upEffs = upEffs,
   pMainUp = pMainUp,
   pMainD = pMainD,

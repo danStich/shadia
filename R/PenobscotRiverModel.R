@@ -135,7 +135,7 @@
 penobscotRiverModel <- function(
   nRuns = 1,
   nYears = 50,
-  timing = 1,
+  timing = list(1,1,1,1,1,1,1),
   upstream = list(
     milford = 1,
     howland = 1,

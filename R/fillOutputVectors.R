@@ -177,7 +177,7 @@ if(river=='penobscot'){
 
   # Store the inputs for sensitivity analysis
   # Passage assumptions
-  ptime[(n + nYears * (k - 1))] <-  timely
+  ptime[[(n + nYears * (k - 1))]] <-  timing
   pStillUP[(n + nYears * (k - 1))] <-  pStillwaterUp
   pStillD[(n + nYears * (k - 1))] <-  pStillwaterD
   pPiscUP[(n + nYears * (k - 1))] <-  pPiscUp
