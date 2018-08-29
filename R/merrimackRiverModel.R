@@ -82,7 +82,7 @@
 #' \itemize{
 #'     \item \code{year} Year of simulation
 #'
-#'     \item \code{time} Passage timing input by user
+#'     \item \code{time_essex...time_hookset} Passage timing input by user
 #'
 #'     \item \code{EssUp...HookUp} User-specified upstream passage efficiencies
 #'
@@ -138,7 +138,7 @@
 merrimackRiverModel <- function(
   nRuns = 1,
   nYears = 50,
-  timing = 1,
+  timing = list(1,1,1,1,1),
   upstream = list(
     essex = 1,
     pawtucketBypass = 1,

@@ -177,7 +177,7 @@ if(river=='penobscot'){
 
   # Store the inputs for sensitivity analysis
   # Passage assumptions
-  ptime[[(n + nYears * (k - 1))]] <-  timing
+  ptime[[(n + nYears * (k - 1))]] <-  timely
   pStillUP[(n + nYears * (k - 1))] <-  pStillwaterUp
   pStillD[(n + nYears * (k - 1))] <-  pStillwaterD
   pPiscUP[(n + nYears * (k - 1))] <-  pPiscUp
@@ -432,7 +432,7 @@ if(river=='merrimack'){
 
   # Store the inputs for sensitivity analysis
   # Passage assumptions
-  ptime[(n + nYears * (k - 1))] <-  timely
+  ptime[[(n + nYears * (k - 1))]] <-  timely
 
   # Population demographics and survival rates
   S.downstream[(n + nYears * (k - 1))] <-  mean(downstreamS)
@@ -1021,7 +1021,7 @@ if(river=='susquehanna'){
 
   # Store the inputs for sensitivity analysis
   # Passage assumptions
-  ptime[(n + nYears * (k - 1))] <-  timely
+  ptime[[(n + nYears * (k - 1))]] <-  timely
 
   # Population demographics and survival rates
   S.downstream[(n + nYears * (k - 1))] <-  mean(downstreamS)

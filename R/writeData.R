@@ -29,7 +29,7 @@ colnames(pRepeats) <- paste('pRepeat_', colnames(pRepeats), sep = '')
 
 # Unlist and stack upstream passage times
 times <- do.call("rbind", lapply(ptime, unlist))
-colnames(times) <- paste('timing_', 1:length(timing), sep = '')
+colnames(times) <- paste('timing_', 1:length(timely), sep = '')
 
 # Unlist and stack age-structured spawning population into a useable output
 spawners <- do.call("rbind", lapply(spawners, unlist))
@@ -201,7 +201,7 @@ if(river=='merrimack'){
 # Collect inputs and outputs into a single object for file write
 res <- data.frame(
   years,
-  ptime,
+  times,
   EssUp,
   PawBUp,  
   PawUp,
@@ -230,7 +230,11 @@ res <- data.frame(
 
 names(res)<-c(
   "year",
-  "time",
+  "time_essex",
+  "time_pawBypass",
+  "time_pawtucket",
+  "time_amoskeag",
+  "time_hookset",
   "EssexUp",
   "PawtucketBypassUp",
   "PawtucketUp",

@@ -307,7 +307,7 @@ if(river=='merrimack'){
   pBypassDS <- vector(mode = 'numeric', length = nYears * nRuns)
   
   # Timing
-  ptime <- vector(mode = 'numeric', length = nYears * nRuns)
+  ptime <- vector(mode = 'list', length = nYears * nRuns)
 
   # Indirect mortality during downstream passage
   indirectM <- vector(mode = 'numeric', length = nYears * nRuns)
@@ -798,7 +798,7 @@ if(river=='susquehanna'){
   
   # Store the inputs for sensitivity analysis
   # Passage assumptions
-  ptime <- vector(mode = 'numeric', length = nYears * nRuns)
+  ptime <- vector(mode = 'list', length = nYears * nRuns)
   pJuniataUp <- vector(mode = 'numeric', length = nYears * nRuns)
   pWestBranchUp <- vector(mode = 'numeric', length = nYears * nRuns)
   pChemungUp <- vector(mode = 'numeric', length = nYears * nRuns)

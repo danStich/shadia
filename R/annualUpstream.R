@@ -125,15 +125,31 @@ if(river=='merrimack'){
   # Route 1- Bypass at Pawtucket
   upEffs[[1]][1] <- EssexUp
   upEffs[[1]][2] <- PawtucketBypassUp
-  upEffs[[1]][4] <- AmoskeagUp
-  upEffs[[1]][5] <- HooksetUp
+  upEffs[[1]][3] <- AmoskeagUp
+  upEffs[[1]][4] <- HooksetUp
   # Route 2- Mainstem at Pawtucket
   upEffs[[2]][1] <- EssexUp
-  upEffs[[2]][3] <- PawtucketUp
-  upEffs[[2]][4] <- AmoskeagUp
-  upEffs[[2]][5] <- HooksetUp  
+  upEffs[[2]][2] <- PawtucketUp
+  upEffs[[2]][3] <- AmoskeagUp
+  upEffs[[2]][4] <- HooksetUp  
   
+  # Passage times
+  times <- vector(mode = 'list', length = nRoutes)
+
+  # Route 1- Bypass at Pawtucket
+  times[[1]][1] <- timely[[1]]
+  times[[1]][2] <- timely[[2]]
+  times[[1]][3] <- timely[[4]]
+  times[[1]][4] <- timely[[5]]
+  # Route 2- Mainstem at Pawtucket
+  times[[2]][1] <- timely[[1]]
+  times[[2]][2] <- timely[[3]]
+  times[[2]][3] <- timely[[4]]
+  times[[2]][4] <- timely[[5]]  
+  
+  # Output list
   return(list(
+    times = times,
     upEffs = upEffs
   ))  
 }  
@@ -158,16 +174,16 @@ if(river=='connecticut'){
   times <- vector(mode = 'list', length = nRoutes)
 
   # Route 1- Canal route
-  times[[1]][1] <- timing[[1]]
-  times[[1]][2] <- timing[[2]]
-  times[[1]][3] <- timing[[4]]
-  times[[1]][4] <- timing[[5]]
+  times[[1]][1] <- timely[[1]]
+  times[[1]][2] <- timely[[2]]
+  times[[1]][3] <- timely[[4]]
+  times[[1]][4] <- timely[[5]]
 
   # Route 1- Spillway route
-  times[[2]][1] <- timing[[1]]
-  times[[2]][2] <- timing[[3]]
-  times[[2]][3] <- timing[[4]]
-  times[[2]][4] <- timing[[5]] 
+  times[[2]][1] <- timely[[1]]
+  times[[2]][2] <- timely[[3]]
+  times[[2]][3] <- timely[[4]]
+  times[[2]][4] <- timely[[5]] 
   
   # Output list
   return(list(
@@ -175,7 +191,6 @@ if(river=='connecticut'){
     upEffs = upEffs
   ))  
 }    
-  
   
 if(river=='susquehanna'){
   # Assign efficiencies to the upstream passage groups
