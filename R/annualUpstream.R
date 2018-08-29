@@ -61,6 +61,44 @@ if(river=='penobscot'){
   upEffs[[4]][4] <- GilmanUp
   upEffs[[4]][5] <- WestEnfieldUp
   upEffs[[4]][6] <- MattaceunkUp
+  
+  times <- vector(mode = 'list', length = nRoutes)
+  times[[1]] <- vector(mode = 'numeric', length = length(damRkms[[1]]))
+  times[[2]] <- vector(mode = 'numeric', length = length(damRkms[[2]]))
+  times[[3]] <- vector(mode = 'numeric', length = length(damRkms[[3]]))
+  times[[4]] <- vector(mode = 'numeric', length = length(damRkms[[4]]))
+
+  # Route 1- Mainstem to piscataquis
+  times[[1]][1] <- 1
+  times[[1]][2] <- 1
+  times[[1]][3] <- timely[[1]]
+  times[[1]][4] <- timely[[2]]
+  times[[1]][5] <- timely[[4]]
+  times[[1]][6] <- timely[[5]]
+  times[[1]][7] <- timely[[6]]
+  # Route 2- Main-stem to main-stem
+  times[[2]][1] <- 1
+  times[[2]][2] <- 1
+  times[[2]][3] <- timely[[1]]
+  times[[2]][4] <- timely[[3]]
+  times[[2]][5] <- timely[[7]]
+  # Route 1- Stillwater to piscataquis
+  times[[3]][1] <- 1
+  times[[3]][2] <- 1
+  times[[3]][3] <- 1
+  times[[3]][4] <- 1
+  times[[3]][5] <- timely[[2]]
+  times[[3]][6] <- timely[[4]]
+  times[[3]][7] <- timely[[5]]
+  times[[3]][8] <- timely[[6]]
+  # Route 1- Stillwater to main-stem
+  times[[4]][1] <- 1
+  times[[4]][2] <- 1
+  times[[4]][3] <- 1
+  times[[4]][4] <- 1
+  times[[4]][5] <- timely[[3]]
+  times[[4]][6] <- timely[[7]]
+  
 
   # JMS: Draw probability of using the Stillwater Branch moved to outer-loop-sampling.R
   pMainUp <- 1 - pStillwaterUp
@@ -72,6 +110,7 @@ if(river=='penobscot'){
   pMainstemUp <- 1 - pPiscUp  # Probability of using mainstem in upper river
 
 return(list(
+  times = times,
   upEffs = upEffs,
   pMainUp = pMainUp,
   pMainD = pMainD,
@@ -86,15 +125,31 @@ if(river=='merrimack'){
   # Route 1- Bypass at Pawtucket
   upEffs[[1]][1] <- EssexUp
   upEffs[[1]][2] <- PawtucketBypassUp
-  upEffs[[1]][4] <- AmoskeagUp
-  upEffs[[1]][5] <- HooksetUp
+  upEffs[[1]][3] <- AmoskeagUp
+  upEffs[[1]][4] <- HooksetUp
   # Route 2- Mainstem at Pawtucket
   upEffs[[2]][1] <- EssexUp
-  upEffs[[2]][3] <- PawtucketUp
-  upEffs[[2]][4] <- AmoskeagUp
-  upEffs[[2]][5] <- HooksetUp  
+  upEffs[[2]][2] <- PawtucketUp
+  upEffs[[2]][3] <- AmoskeagUp
+  upEffs[[2]][4] <- HooksetUp  
   
+  # Passage times
+  times <- vector(mode = 'list', length = nRoutes)
+
+  # Route 1- Bypass at Pawtucket
+  times[[1]][1] <- timely[[1]]
+  times[[1]][2] <- timely[[2]]
+  times[[1]][3] <- timely[[4]]
+  times[[1]][4] <- timely[[5]]
+  # Route 2- Mainstem at Pawtucket
+  times[[2]][1] <- timely[[1]]
+  times[[2]][2] <- timely[[3]]
+  times[[2]][3] <- timely[[4]]
+  times[[2]][4] <- timely[[5]]  
+  
+  # Output list
   return(list(
+    times = times,
     upEffs = upEffs
   ))  
 }  
@@ -103,23 +158,39 @@ if(river=='connecticut'){
   # Assign efficiencies to the upstream passage groups (pisc or main)
   upEffs <- vector(mode = 'list', length = nRoutes)
 
-  # Route 1- Mainstem to spillway
+  # Route 1- Canal
   upEffs[[1]][1] <- HolyokeUp
   upEffs[[1]][2] <- CabotUp
   upEffs[[1]][3] <- GatehouseUp
   upEffs[[1]][4] <- VernonUp
 
-  # Route 1- Mainstem to spillway
+  # Route 1- Spillway
   upEffs[[2]][1] <- HolyokeUp
   upEffs[[2]][2] <- SpillwayUp
   upEffs[[2]][3] <- GatehouseUp
   upEffs[[2]][4] <- VernonUp
   
+  # Upstream passage times
+  times <- vector(mode = 'list', length = nRoutes)
+
+  # Route 1- Canal route
+  times[[1]][1] <- timely[[1]]
+  times[[1]][2] <- timely[[2]]
+  times[[1]][3] <- timely[[4]]
+  times[[1]][4] <- timely[[5]]
+
+  # Route 1- Spillway route
+  times[[2]][1] <- timely[[1]]
+  times[[2]][2] <- timely[[3]]
+  times[[2]][3] <- timely[[4]]
+  times[[2]][4] <- timely[[5]] 
+  
+  # Output list
   return(list(
+    times = times,
     upEffs = upEffs
   ))  
 }    
-  
   
 if(river=='susquehanna'){
   # Assign efficiencies to the upstream passage groups
@@ -143,7 +214,7 @@ if(river=='susquehanna'){
   upEffs[[2]][5] <- SunburyUp
   upEffs[[2]][6] <- WilliamsportUp
   upEffs[[2]][7] <- LockHavenUp
-  # Route 1- Chemung River
+  # Route 3- Chemung River
   upEffs[[3]][1] <- ConowingoUp
   upEffs[[3]][2] <- HoltwoodUp
   upEffs[[3]][3] <- SafeHarborUp
@@ -151,7 +222,7 @@ if(river=='susquehanna'){
   upEffs[[3]][5] <- SunburyUp
   upEffs[[3]][6] <- NyUp
   upEffs[[3]][7] <- ChaseHibbardUp
-  # Route 1- North Branch
+  # Route 4- North Branch
   upEffs[[4]][1] <- ConowingoUp
   upEffs[[4]][2] <- HoltwoodUp
   upEffs[[4]][3] <- SafeHarborUp
@@ -162,7 +233,48 @@ if(river=='susquehanna'){
   upEffs[[4]][8] <- UnadillaReachUp    
   upEffs[[4]][9] <- ColliersvilleUp   
 
+  # Dam passage times by route
+  times <- vector(mode = 'list', length = nRoutes)
+  times[[1]] <- vector(mode = 'numeric', length = length(damRkms[[1]]))
+  times[[2]] <- vector(mode = 'numeric', length = length(damRkms[[2]]))
+  times[[3]] <- vector(mode = 'numeric', length = length(damRkms[[3]]))
+  times[[4]] <- vector(mode = 'numeric', length = length(damRkms[[4]]))
+
+  # Route 1- Juniata River
+  times[[1]][1] <- timely[[1]]
+  times[[1]][2] <- timely[[2]]
+  times[[1]][3] <- timely[[3]]
+  times[[1]][4] <- timely[[4]]
+  times[[1]][5] <- 1
+  # Route 2- West Branch Susquehanna
+  times[[2]][1] <- timely[[1]]
+  times[[2]][2] <- timely[[2]]
+  times[[2]][3] <- timely[[3]]
+  times[[2]][4] <- timely[[4]]
+  times[[2]][5] <- timely[[5]]
+  times[[2]][6] <- timely[[6]]
+  times[[2]][7] <- timely[[7]]
+  # Route 3- Chemung River
+  times[[3]][1] <- timely[[1]]
+  times[[3]][2] <- timely[[2]]
+  times[[3]][3] <- timely[[3]]
+  times[[3]][4] <- timely[[4]]
+  times[[3]][5] <- timely[[5]]
+  times[[3]][6] <- 1
+  times[[3]][7] <- timely[[8]]
+  # Route 4- North Branch
+  times[[4]][1] <- timely[[1]]
+  times[[4]][2] <- timely[[2]]
+  times[[4]][3] <- timely[[3]]
+  times[[4]][4] <- timely[[4]]
+  times[[4]][5] <- timely[[5]]
+  times[[4]][6] <- 1
+  times[[4]][7] <- timely[[9]]
+  times[[4]][8] <- 1   
+  times[[4]][9] <- timely[[10]] 
+  
   return(list(
+    times = times,
     upEffs = upEffs
   ))  
 }
