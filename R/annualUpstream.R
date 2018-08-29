@@ -214,7 +214,7 @@ if(river=='susquehanna'){
   upEffs[[2]][5] <- SunburyUp
   upEffs[[2]][6] <- WilliamsportUp
   upEffs[[2]][7] <- LockHavenUp
-  # Route 1- Chemung River
+  # Route 3- Chemung River
   upEffs[[3]][1] <- ConowingoUp
   upEffs[[3]][2] <- HoltwoodUp
   upEffs[[3]][3] <- SafeHarborUp
@@ -222,7 +222,7 @@ if(river=='susquehanna'){
   upEffs[[3]][5] <- SunburyUp
   upEffs[[3]][6] <- NyUp
   upEffs[[3]][7] <- ChaseHibbardUp
-  # Route 1- North Branch
+  # Route 4- North Branch
   upEffs[[4]][1] <- ConowingoUp
   upEffs[[4]][2] <- HoltwoodUp
   upEffs[[4]][3] <- SafeHarborUp
@@ -233,7 +233,48 @@ if(river=='susquehanna'){
   upEffs[[4]][8] <- UnadillaReachUp    
   upEffs[[4]][9] <- ColliersvilleUp   
 
+  # Dam passage times by route
+  times <- vector(mode = 'list', length = nRoutes)
+  times[[1]] <- vector(mode = 'numeric', length = length(damRkms[[1]]))
+  times[[2]] <- vector(mode = 'numeric', length = length(damRkms[[2]]))
+  times[[3]] <- vector(mode = 'numeric', length = length(damRkms[[3]]))
+  times[[4]] <- vector(mode = 'numeric', length = length(damRkms[[4]]))
+
+  # Route 1- Juniata River
+  times[[1]][1] <- timely[[1]]
+  times[[1]][2] <- timely[[2]]
+  times[[1]][3] <- timely[[3]]
+  times[[1]][4] <- timely[[4]]
+  times[[1]][5] <- 1
+  # Route 2- West Branch Susquehanna
+  times[[2]][1] <- timely[[1]]
+  times[[2]][2] <- timely[[2]]
+  times[[2]][3] <- timely[[3]]
+  times[[2]][4] <- timely[[4]]
+  times[[2]][5] <- timely[[5]]
+  times[[2]][6] <- timely[[6]]
+  times[[2]][7] <- timely[[7]]
+  # Route 3- Chemung River
+  times[[3]][1] <- timely[[1]]
+  times[[3]][2] <- timely[[2]]
+  times[[3]][3] <- timely[[3]]
+  times[[3]][4] <- timely[[4]]
+  times[[3]][5] <- timely[[5]]
+  times[[3]][6] <- 1
+  times[[3]][7] <- timely[[8]]
+  # Route 4- North Branch
+  times[[4]][1] <- timely[[1]]
+  times[[4]][2] <- timely[[2]]
+  times[[4]][3] <- timely[[3]]
+  times[[4]][4] <- timely[[4]]
+  times[[4]][5] <- timely[[5]]
+  times[[4]][6] <- 1
+  times[[4]][7] <- timely[[9]]
+  times[[4]][8] <- 1   
+  times[[4]][9] <- timely[[10]] 
+  
   return(list(
+    times = times,
     upEffs = upEffs
   ))  
 }
