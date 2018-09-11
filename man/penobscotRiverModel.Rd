@@ -4,10 +4,10 @@
 \alias{penobscotRiverModel}
 \title{Penobscot River Model}
 \usage{
-penobscotRiverModel(nRuns = 1, nYears = 50, timing = 1,
-  upstream = list(milford = 1, howland = 1, westEnfield = 1, brownsMill = 1,
-  moosehead = 1, guilford = 1, weldon = 1), downstream = list(stillwater = 1,
-  orono = 1, milford = 1, howland = 1, westEnfield = 1, brownsMill = 1,
+penobscotRiverModel(nRuns = 1, nYears = 50, timing = list(1, 1, 1, 1, 1,
+  1, 1), upstream = list(milford = 1, howland = 1, westEnfield = 1, brownsMill
+  = 1, moosehead = 1, guilford = 1, weldon = 1), downstream = list(stillwater
+  = 1, orono = 1, milford = 1, howland = 1, westEnfield = 1, brownsMill = 1,
   moosehead = 1, guilford = 1, weldon = 1), pinHarvest = 0, inRiverF = 0,
   commercialF = 0, bycatchF = 0, indirect = 1, latent = 1,
   watershed = TRUE)
@@ -98,7 +98,7 @@ The folowing named columns are returned:
 \itemize{
     \item \code{year} Year of simulation
 
-    \item \code{time} Passage timing input by user
+    \item \code{time_milford...time_guilford} Passage timing input by user
 
     \item \code{milford_up...guilford_up} User-specified upstream passage efficiencies
  

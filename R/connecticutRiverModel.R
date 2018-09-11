@@ -87,7 +87,7 @@
 #' \itemize{
 #'     \item \code{year} Year of simulation
 #'
-#'     \item \code{time} Passage timing input by user
+#'     \item \code{time_holyoke...time_vernon} Passage timing input by user
 #'
 #'     \item \code{HolyokeUp...VernonUp} User-specified upstream passage efficiencies
 #'
@@ -142,7 +142,7 @@
 connecticutRiverModel <- function(
   nRuns = 1,
   nYears = 40,
-  timing = 1,
+  timing = list(1,1,1,1,1),
   upstream = list(
     holyoke = 1,
     cabot = 1,
@@ -162,7 +162,7 @@ connecticutRiverModel <- function(
     vernonA = 1,
     vernonJ = 1
   ),
-  pSpillway = 0.50,
+  pSpillway = 1,
   inRiverF = 0,
   commercialF = 0,
   bycatchF = 0,

@@ -87,9 +87,9 @@
 #' 
 #'     \item \code{conowingo_up...colliersville_up} User-specified upstream passage efficiencies
 #'  
-#'     \item \code{conowingo_down...cooperstown_down}  User-specified downstream passage efficiencies
+#'     \item \code{conowingo_down...colliersville_down}  User-specified downstream passage efficiencies
 #'     
-#'     \item \code{time} Passage timing input by user
+#'     \item \code{time_conowingo...time_colliersville} Passage timing input by user
 #'     
 #'     \item \code{pRepeat_Age1...Age11} Age-specific probability of repeat spawning  
 #' }
@@ -169,7 +169,7 @@
 susquehannaRiverModel <- function(
   nRuns = 1,
   nYears = 50,
-  timing = 1,
+  timing = list(1,1,1,1,1,1,1,1,1,1),
   upstream = list(
     conowingo = 1,
     holtwood = 1,
