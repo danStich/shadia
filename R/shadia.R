@@ -1,4 +1,4 @@
-#' shadia: American shad dam passage performance standard model
+#' shadia: American shad dam passage performance standard models for R
 #' 
 #' The shadia package provides an interface for running
 #' the American shad dam passage performance standard
