@@ -239,14 +239,16 @@ if(river=='merrimack'){
 sPU <- c()
 sPU[[1]] <- downstreamS ^ puRkm[[1]][1]
 sPU[[2]] <- sPU[[1]] * EssexD * (downstreamS ^ puRkm[[1]][2])
-sPU[[3]] <- sPU[[2]] * PawtucketD * (downstreamS ^ puRkm[[1]][3])
+sPU[[3]] <- sPU[[2]] * (((1-pBypassD)*PawtucketD) + pBypassD*PawtucketBypassD) *
+  (downstreamS ^ puRkm[[1]][3])
 sPU[[4]] <- sPU[[3]] * AmoskeagD * (downstreamS ^ puRkm[[1]][4])
 sPU[[5]] <- sPU[[4]] * HooksetD * (downstreamS ^ puRkm[[1]][5])
 # Bypass at Pawtucket
 sPU_bp <- c()
 sPU_bp[[1]] <- downstreamS ^ puRkm[[2]][1]
 sPU_bp[[2]] <- sPU_bp[[1]] * EssexD * (downstreamS ^ puRkm[[2]][2])
-sPU_bp[[3]] <- sPU_bp[[2]] * PawtucketBypassD * (downstreamS ^ puRkm[[2]][3])
+sPU_bp[[3]] <- sPU_bp[[2]] * (((1-pBypassD)*PawtucketD) + pBypassD*PawtucketBypassD) *
+  (downstreamS ^ puRkm[[1]][3])
 sPU_bp[[4]] <- sPU_bp[[3]] * AmoskeagD * (downstreamS ^ puRkm[[2]][4])
 sPU_bp[[5]] <- sPU_bp[[4]] * HooksetD * (downstreamS ^ puRkm[[2]][5])
 
@@ -257,14 +259,16 @@ sPU_bp[[5]] <- sPU_bp[[4]] * HooksetD * (downstreamS ^ puRkm[[2]][5])
 sPUj <- c()
 sPUj[[1]] <- downstreamS ^ puRkm[[1]][1]
 sPUj[[2]] <- sPUj[[1]] * EssexDj * (downstreamS ^ puRkm[[1]][2])
-sPUj[[3]] <- sPUj[[2]] * (1-pBypassD)*PawtucketDj * (downstreamS ^ puRkm[[1]][3])
+sPUj[[3]] <- sPUj[[2]] * (((1-pBypassD)*PawtucketDj) + pBypassD*PawtucketBypassDj) *
+  (downstreamS ^ puRkm[[1]][3])
 sPUj[[4]] <- sPUj[[3]] * AmoskeagDj * (downstreamS ^ puRkm[[1]][4])
 sPUj[[5]] <- sPUj[[4]] * HooksetDj * (downstreamS ^ puRkm[[1]][5])
 # Bypass at Pawtucket
 sPU_bpj <- c()
 sPU_bpj[[1]] <- downstreamS ^ puRkm[[2]][1]
 sPU_bpj[[2]] <- sPU_bpj[[1]] * EssexDj * (downstreamS ^ puRkm[[2]][2])
-sPU_bpj[[3]] <- sPU_bpj[[2]] * pBypassD*PawtucketBypassDj * (downstreamS ^ puRkm[[2]][3])
+sPU_bpj[[3]] <- sPU_bpj[[2]] * (((1-pBypassD)*PawtucketDj) + pBypassD*PawtucketBypassDj) *
+  (downstreamS ^ puRkm[[1]][3])
 sPU_bpj[[4]] <- sPU_bpj[[3]] * AmoskeagDj * (downstreamS ^ puRkm[[2]][4])
 sPU_bpj[[5]] <- sPU_bpj[[4]] * HooksetDj * (downstreamS ^ puRkm[[2]][5])
 
@@ -314,7 +318,6 @@ return(
   )
 )  
 }
-
     
 if(river=='connecticut'){
   # Derive downstream passage efficiencies for each group of spawners in each PU.

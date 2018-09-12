@@ -928,7 +928,7 @@ if(river=='susquehanna'){
     # Make it into a dataframe for easy manipulation
     sp_1 <- data.frame(spawnData_1)
     
-    # Combine all data for Cabot migrants
+    # Combine all data for mainstem migrants
     spawnData_2 <- cbind(traits_2, moves_2[, ncol(moves_2)], delay_2)
     # Change the name for the final rkm column
     colnames(spawnData_2)[ncol(spawnData_2) - 4] = 'finalRkm'
@@ -936,7 +936,7 @@ if(river=='susquehanna'){
     sp_2 <- data.frame(spawnData_2)
     
     # Assign each fish to a production unit before they spawn. Do this for
-    # Piscataquis River spawners and Mainstem spawners
+    # bypass and Mainstem migrants
     # First, assign rkms to delineate each of the production units
     puRkm <- vector(mode = 'list', length = length(nPU))
     puRkm[[1]] <- c(0, damRkms[[1]] + 1, (maxrkm[1] + 1))
@@ -960,21 +960,25 @@ if(river=='susquehanna'){
     # Main-to-piscataquis spawners
     sp_1$pus <- as.character(fishPU(puRkm[[1]], sp_1$finalRkm, puNames[[1]]))
     
-    # Replace the blank PUs for fish that ended at head of tide
+    # Replace the blank PUs for fish that ended 
+    # at head of tide
     sp_1$pus[sp_1$pus == ""] <- "PU_1_1"
+    sp_2$pus[sp_2$pus == ""] <- "PU_2_1"
     
     # Determine the probability that a fish survives to spawn
-    # Pre-spawning survival by sex
+    # Pre-spawning mortality by sex
     sp_1$preSpawn <- sp_1$female * pre_spawn_survival_females +
       (1 - sp_1$female) * pre_spawn_survival_males
+    sp_2$preSpawn <- sp_2$female * pre_spawn_survival_females +
+      (1 - sp_2$female) * pre_spawn_survival_males
     
     # Determine fishing mortality by PU
     sp_1$F <- inriv[[1]][as.numeric(substrRight(sp_1$pus, 1))]
+    sp_2$F <- inriv[[2]][as.numeric(substrRight(sp_2$pus, 1))]
     
     # Apply in-river fishing mortality and prespawn survival
     sp_1$surv <- rbinom(nrow(sp_1), 1, sp_1$preSpawn * (1 - sp_1$F))
-    
-    #toc()
+    sp_2$surv <- rbinom(nrow(sp_2), 1, sp_2$preSpawn * (1 - sp_2$F))
   }
 
   # Connecticut River
@@ -1107,13 +1111,13 @@ if(river=='susquehanna'){
     
     # Determine which PU each fish ends up in based on its rkm and assign it.
     # Uses pre-compiled function 'fishPU' from source files loaded up front.
-    # Main-to-piscataquis spawners
+    # Route 1
     sp_1$pus <- as.character(fishPU(puRkm[[1]], sp_1$finalRkm, puNames[[1]]))
-    # Main-to-mainstem spawners
+    # Route 2
     sp_2$pus <- as.character(fishPU(puRkm[[2]], sp_2$finalRkm, puNames[[2]]))
-    # Stillwater-to-piscataquis spawners
+    # Route 3
     sp_3$pus <- as.character(fishPU(puRkm[[3]], sp_3$finalRkm, puNames[[3]]))
-    # Stillwater-to-mainstem spawners
+    # Route 4
     sp_4$pus <- as.character(fishPU(puRkm[[4]], sp_4$finalRkm, puNames[[4]]))
     
     # Replace the blank PUs for fish that ended at Conowingo
