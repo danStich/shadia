@@ -299,7 +299,7 @@ sPU_bpj[[5]] <- sPU_bpj[[4]] * HooksetDj * (downstreamS ^ puRkm[[2]][5])
   # Mainstem-to-piscataquis spawners
   for (i in 1:length(sPUj)) {
     recruitsOut[[1]][[i]] <- mapply("*", recruits[[1]][[i]], sPUj[i])
-    recruitsOut[[1]][[i]] <- mapply("*", recruits[[2]][[i]], sPU_bpj[i])
+    recruitsOut[[2]][[i]] <- mapply("*", recruits[[2]][[i]], sPU_bpj[i])
   }
   # Sum number of recruits in each age from all PUs reaching river mouth
   recruitsOut <- sum(unlist(recruitsOut))
