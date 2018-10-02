@@ -191,19 +191,23 @@ connecticutRiverModel <- function(
   # For watershed applications of
   # the model, all values need to
   # match
-  pDraws <- lapply(pDraws,
+  # For watershed applications of
+  # the model, all values need to
+  # match
+  sampU <- sample(pDraws[[1]], 1)
+  pDraws <- lapply(pDraws, 
                     function(x){
                       if(watershed){
-                        x <- pDraws[[1]]}
+                        x <- sampU}
                       else
                         {x <- x}
                       }
                     )
-
-  dDraws <- lapply(dDraws,
+  sampD <- sample(dDraws[[1]], 1)
+  dDraws <- lapply(dDraws, 
                     function(x){
                       if(watershed){
-                        x <- dDraws[[1]]}
+                        x <- sampD}
                       else
                         {x <- x}
                       }
