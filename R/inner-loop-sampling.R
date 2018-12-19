@@ -327,6 +327,7 @@ c_BF[c_repeat == 0] <- sample(rnegbin(10000, 20000, 10),
                              length(c_repeat[c_repeat == 0]), replace = TRUE)
 c_BF[c_repeat == 1] <- sample(rnegbin(10000, 30000, 10),
                              length(c_repeat[c_repeat == 1]), replace = TRUE)
+
 # Calculate realized annual fecundity
 #c_RAF = vector(mode = 'numeric', length=length(c_RT))
 #for(i in 1:length(c_RT)){

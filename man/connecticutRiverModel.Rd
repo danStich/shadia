@@ -4,11 +4,11 @@
 \alias{connecticutRiverModel}
 \title{Connecticut River Model}
 \usage{
-connecticutRiverModel(nRuns = 1, nYears = 40, timing = 1,
-  upstream = list(holyoke = 1, cabot = 1, spillway = 1, gatehouse = 1, vernon
-  = 1), downstream = list(holyoke = 1, cabot = 1, gatehouse = 1, vernon = 1),
-  northfield = list(turnersA = 1, turnersJ = 1, vernonA = 1, vernonJ = 1),
-  pSpillway = 0.5, inRiverF = 0, commercialF = 0, bycatchF = 0,
+connecticutRiverModel(nRuns = 1, nYears = 40, timing = list(1, 1, 1, 1,
+  1), upstream = list(holyoke = 1, cabot = 1, spillway = 1, gatehouse = 1,
+  vernon = 1), downstream = list(holyoke = 1, cabot = 1, gatehouse = 1, vernon
+  = 1), northfield = list(turnersA = 1, turnersJ = 1, vernonA = 1, vernonJ =
+  1), pSpillway = 1, inRiverF = 0, commercialF = 0, bycatchF = 0,
   indirect = 1, latent = 1, watershed = TRUE)
 }
 \arguments{
@@ -20,9 +20,9 @@ each run will last. The default is 40 years
 to match current license lengths in the 
 Connecticut River.}
 
-\item{timing}{The amount of time required for
+\item{timing}{A list. The amount of time required for
 upstream passage by individual fish (in days),
-where the default (1) indicates a 24-h dam
+where the default, list(1,1,1,1,1), indicates a 24-h dam
 passage performance standard.}
 
 \item{upstream}{A named list of upstream dam
@@ -97,7 +97,7 @@ The folowing named columns are returned:
 \itemize{
     \item \code{year} Year of simulation
 
-    \item \code{time} Passage timing input by user
+    \item \code{time_holyoke...time_vernon} Passage timing input by user
 
     \item \code{HolyokeUp...VernonUp} User-specified upstream passage efficiencies
 

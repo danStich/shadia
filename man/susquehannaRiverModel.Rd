@@ -4,14 +4,14 @@
 \alias{susquehannaRiverModel}
 \title{Susquehanna River Model}
 \usage{
-susquehannaRiverModel(nRuns = 1, nYears = 50, timing = 1,
-  upstream = list(conowingo = 1, holtwood = 1, safeHarbor = 1, yorkHaven = 1,
-  sunbury = 1, williamsport = 1, lockhaven = 1, rockbottom = 1, chasehibbard =
-  1, colliersville = 0), downstream = list(conowingo = 1, holtwood = 1,
-  safeHarbor = 1, yorkHaven = 1, sunbury = 1, williamsport = 1, lockhaven = 1,
-  rockbottom = 1, chasehibbard = 1, colliersville = 1), inRiverF = 0,
-  commercialF = 0, bycatchF = 0, indirect = 1, latent = 1,
-  watershed = TRUE)
+susquehannaRiverModel(nRuns = 1, nYears = 50, timing = list(1, 1, 1, 1, 1,
+  1, 1, 1, 1, 1), upstream = list(conowingo = 1, holtwood = 1, safeHarbor = 1,
+  yorkHaven = 1, sunbury = 1, williamsport = 1, lockhaven = 1, rockbottom = 1,
+  chasehibbard = 1, colliersville = 0), downstream = list(conowingo = 1,
+  holtwood = 1, safeHarbor = 1, yorkHaven = 1, sunbury = 1, williamsport = 1,
+  lockhaven = 1, rockbottom = 1, chasehibbard = 1, colliersville = 1),
+  inRiverF = 0, commercialF = 0, bycatchF = 0, indirect = 1,
+  latent = 1, watershed = TRUE)
 }
 \arguments{
 \item{nRuns}{The number of times that the
@@ -98,9 +98,9 @@ The folowing named columns are returned:
 
     \item \code{conowingo_up...colliersville_up} User-specified upstream passage efficiencies
  
-    \item \code{conowingo_down...cooperstown_down}  User-specified downstream passage efficiencies
+    \item \code{conowingo_down...colliersville_down}  User-specified downstream passage efficiencies
     
-    \item \code{time} Passage timing input by user
+    \item \code{time_conowingo...time_colliersville} Passage timing input by user
     
     \item \code{pRepeat_Age1...Age11} Age-specific probability of repeat spawning  
 }
