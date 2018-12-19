@@ -11,9 +11,9 @@
 #' to match current license lengths in the 
 #' Connecticut River.
 #'
-#' @param timing The amount of time required for
+#' @param timing A list. The amount of time required for
 #' upstream passage by individual fish (in days),
-#' where the default (1) indicates a 24-h dam
+#' where the default, list(1,1,1,1,1), indicates a 24-h dam
 #' passage performance standard.
 #'
 #' @param upstream A named list of upstream dam
