@@ -4,9 +4,9 @@ Version: 1.3.0
 Date: 2018-08-03
 Author: Dan Stich, Erin Gilligan, Jeanette Sperhac
 Maintainer: Dan Stich <daniel.stich@oneonta.edu>
-Description: This package includes source code and data
-    files for parallel execution of the American shad
-    dam passage performance standards model. 
+Description: This package includes source code and data 
+files for parallel execution of the American shad
+dam passage performance standards model. 
 License: GNU >= 3.0
 Encoding: UTF-8
 LazyData: true
