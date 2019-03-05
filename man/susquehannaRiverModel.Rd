@@ -160,6 +160,16 @@ USA
 }
 }
 
+\section{Schematic of production units}{
+
+Production units delineated by dams in the watershed. Circles are log 
+are log proportional to carrying capacity in each units.
+Black dots indicate no suitable habitat in a unit. 
+ 
+\if{html}{\figure{susquehanna.png}{Susquehanna River}}
+\if{latex}{\figure{susquehanna.png}{options: width=0.5in}}
+}
+
 \section{Warning about serial execution and memory limits}{
 
 Current implementation is based on work

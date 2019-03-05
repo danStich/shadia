@@ -19,5 +19,7 @@ Rplots.pdf
 debugger.R
 defaultParams.R
 susPrep
-*.png
+*.pdf
 sensitivity.xlsx
+sacoOld.png
+sacoPrep
