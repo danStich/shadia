@@ -110,7 +110,7 @@ The folowing named columns are returned in \code{res}:
     \item \code{N_I...N_V} Production unit-specific population size after in-river fishery mortality
 }
 
-#' The folowing named columns are returned in \code{sens}:
+The folowing named columns are returned in \code{sens}:
 \itemize{
     \item \code{S.downstream} Downstream survival per kilometer
     \item \code{S.marine} Marine survival (z, instantaneous)
