@@ -82,7 +82,7 @@ res1 <- penobscotRiverModel(nYears = 50,
 # Define the output lists
     retlist <- list(
       worker=workerId,
-      res=res1)       
+      sim=res1)       
     return(retlist)
 }
 
@@ -118,7 +118,15 @@ sfStop()
 # 'result' is a list of lists. Save this:
 save(result, file = "snowfall-result.rda")
 
-# Extract results dataframes by string and rbind them
-res <- lapply(result, function(x) x[[c('res')]])
+# Extract results list from output list
+out <- lapply(result, function(x) x[[c('sim')]])
+
+# Extract user inputs and population metrics
+res <- lapply(out, function(x) x[[c('res')]])
 resdf <- do.call(rbind, res)
+
+# Extract sensitivity variables
+sens <- lapply(out, function(x) x[[c('sens')]])
+sensdf <- do.call(rbind, sens)
+
 }
