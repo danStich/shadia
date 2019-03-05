@@ -145,7 +145,7 @@
 #' parallel execution as demonstrated using snowfall in the
 #' example at the bottom of this page.
 #'
-#' @example /inst/examples/sf-exampleCTR.R
+#' @example inst/examples/sf-exampleCTR.R
 #'
 #' @export
 connecticutRiverModel <- function(
