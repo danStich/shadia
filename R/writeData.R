@@ -272,58 +272,46 @@ names(res)<-c(
 )
 
 # Collect variables for sensitivity analysis and save them out
-# sens = data.frame(
-#   S.downstream,
-#   S.marine,
-#   popStart,
-#   p.female,
-#   S.prespawnM,
-#   S.postspawnM,
-#   S.prespawnF,
-#   S.postspawnF,
-#   S.juvenile,
-#   t.stoch,
-#   t.RegrInt,
-#   t.RegrSlp,
-#   b.ArrRegrInt,
-#   b.ArrRegrSlp,
-#   r.ArrRegrInt,
-#   r.ArrRegrSlp,
-#   b.Arr,
-#   r.Arr,
-#   ATUspawn1,
-#   ATUspawn2,
-#   Dspawn1,
-#   Dspawn2,
-#   linF,
-#   kF,
-#   t0F,
-#   linM,
-#   kM,
-#   t0M,
-#   lwF.alpha,
-#   lwF.beta,
-#   lwM.alpha,
-#   lwM.beta,
-#   b.length,
-#   r.length,
-#   spawnInt,
-#   batchSize,
-#   resTime,
-#   s.Optim,
-#   d.Max,
-#   tortuosity,
-#   motivation,
-#   daily.move,
-#   habStoch,
-#   scalarVar,
-#   scen
-# )
+sens = data.frame(
+  S.downstream,
+  S.marine,
+  popStart,
+  p.female,
+  S.prespawnM,
+  S.postspawnM,
+  S.prespawnF,
+  S.postspawnF,
+  S.juvenile,
+  t.stoch,
+  b.Arr,
+  r.Arr,
+  ATUspawn1,
+  ATUspawn2,
+  Dspawn1,
+  Dspawn2,
+  linF,
+  kF,
+  t0F,
+  linM,
+  kM,
+  t0M,
+  b.length,
+  r.length,
+  spawnInt,
+  batchSize,
+  resTime,
+  s.Optim,
+  d.Max,
+  tortuosity,
+  motivation,
+  daily.move,
+  habStoch
+)
 
-return(#list(		
-  res	= res#,
-  #sens = sens
-)#)	
+return(list(		
+  res	= res,
+  sens = sens
+))	
 }
 
 if(river=='connecticut'){
