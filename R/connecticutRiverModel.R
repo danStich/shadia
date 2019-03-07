@@ -76,14 +76,14 @@
 #' the first element in lists `upstream` and `downstream`
 #' are recycled for all subsequent dams.
 #'
-#' @return Returns a dataframe of user-defined
-#' inputs and available model outputs for each use that
-#' contains \code{nRuns} x \code{nYears} number of rows.
+#' @return Returns a list of two named dataframes.
+#' The first dataframe (\code{res}) contains user-defined
+#' inputs and available model outputs.
 #'
-#' If run in parallel, returns a list
+#' If run in parallel, returns a list of lists
 #' of dataframes.
 #'
-#' The folowing named columns are returned:
+#' The folowing named columns are returned in \code{res}:
 #' \itemize{
 #'     \item \code{year} Year of simulation
 #'
@@ -98,6 +98,43 @@
 #'     \item \code{populationSize} Total number of adult spawners returning to the river
 #'
 #'     \item \code{N_I...N_V} Production unit-specific population size after in-river fishery mortality
+#' }
+#' 
+#' The following named columns are returned in \code{sens}:
+#' \itemize{
+#'     \item \code{S.downstream} Downstream survival per kilometer
+#'     \item \code{S.marine} Marine survival (z, instantaneous)
+#'     \item \code{popStart} Starting population size
+#'     \item \code{p.female} Probability of being female
+#'     \item \code{S.prespawnM} Prespawn survival rate for males
+#'     \item \code{S.postspawnM} Postspawn survival rate for males
+#'     \item \code{S.prespawnF} Postspawn survival rate for males
+#'     \item \code{S.postspawnF} Postspawn survival rate for males
+#'     \item \code{S.juvenile} Hatch to out-migrant survival rate
+#'     \item \code{t.stoch} Temperature stochasticity parameter
+#'     \item \code{b.Arr} Mean arrival date for males
+#'     \item \code{r.Arr} Mean arrival date for females
+#'     \item \code{ATUspawn1} Accumulated thermal units at initiation of spawn
+#'     \item \code{ATUspawn2} Accumulated thermal units at termination of spawn
+#'     \item \code{Dspawn1} Initial spawning date
+#'     \item \code{Dspawn2} Terminal spawning date
+#'     \item \code{linF} L-infinity parameter from the von Bertalanffy growth function for females
+#'     \item \code{kF} K parameter from the von Bertalanffy growth function for females
+#'     \item \code{t0F} t0 parameter from the von Bertalanffy growth function for females
+#'     \item \code{linM} L-infinity parameter from the von Bertalanffy growth function for males
+#'     \item \code{kM} K parameter from the von Bertalanffy growth function for males
+#'     \item \code{t0M} t0 parameter from the von Bertalanffy growth function for males
+#'     \item \code{b.length} Mean length of males
+#'     \item \code{r.length} Mean length of females
+#'     \item \code{spawnInt} Mean spawning interval
+#'     \item \code{batchSize} Mean batch size
+#'     \item \code{resTime} Mean residence time
+#'     \item \code{s.Optim} Mean optimal ground speed
+#'     \item \code{d.Max} Mean maximum daily movement rate
+#'     \item \code{tortuosity} Path tortuosity parameter
+#'     \item \code{motivation} Seasonal change in fish "motivation" for upstream movement
+#'     \item \code{daily.move} Mean realized daily movement rate
+#'     \item \code{habStoch} Habitat stochasticity
 #' }
 #'
 #' @section 
