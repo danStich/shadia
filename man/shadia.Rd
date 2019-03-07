@@ -16,9 +16,10 @@ transparency in the model.
 \section{Functions called directly}{
 
   \describe{
-    \code{\link{penobscotRiverModel}} \cr
-    \code{\link{merrimackRiverModel}} \cr
     \code{\link{connecticutRiverModel}} \cr
+    \code{\link{merrimackRiverModel}} \cr
+    \code{\link{penobscotRiverModel}} \cr
+    \code{\link{susquehannaRiverModel}} \cr
     \code{\link{addStochList}} \cr
     \code{\link{CI}} \cr
     \code{\link{invlogit}} \cr
