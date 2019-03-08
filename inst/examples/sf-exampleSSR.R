@@ -3,7 +3,6 @@
 \dontrun{
   
 # R snowfall example
-
 # Load R packages
   library(snowfall)
   library(rlecuyer)
@@ -15,30 +14,19 @@
 # command-line args
 sfInit(parallel=TRUE, cpus=3, type="SOCK")
 
-# Display information about nodes and processes
-# used by this job. This is entirely optional,
-# to demonstrate snowfall methods sfClusterCall()
-# and sfCpus().
-
-# Describe the nodes and cpus:
-cat(paste0('CPU count: ', sfCpus()), fill=TRUE)
-
-# Count off each process with anonymous function
-cat('CPU ids: ', unlist(sfClusterCall(function() Sys.getpid())), fill=TRUE)
-
 # 2. Load data. 
 # -----
-data('fish')
-data('arr.B')
-data('arr.R')
-data('b.parms_susquehanna')
-data('r.parms_susquehanna')
-data('tempD')
-data('tempData_susquehanna')
+# data('fish')
+# data('arr.B')
+# data('arr.R')
+# data('b.parms_susquehanna')
+# data('r.parms_susquehanna')
+# data('tempD')
+# data('tempData_susquehanna')
 
 # 3. Define wrapper function, which can be called in parallel.
 #
-#   Runs connecticutRiverModel() on each worker
+#   Runs penobscotRiverModel() on each worker
 #
 #   Here, workerId just contains the identity of the cpu that perfomed
 #   the work. We do this only to prove we have used all the specified cpus!
@@ -47,20 +35,13 @@ data('tempData_susquehanna')
 #   Note that constructing and returning a list enables the function to
 #   return more than one output.
 # -----
-wrapper <- function(idx) {
-
-# Get cpu ids  
-  workerId <- paste(Sys.info()[['nodename']],
-                    Sys.getpid(),
-                    sep='-'
-                    )
+wrapper <- function(x) {
 
 # Run the model
 res1 <- susquehannaRiverModel()
 
 # Define the output lists
     retlist <- list(
-      worker=workerId,
       sim=res1)       
     return(retlist)
 }
