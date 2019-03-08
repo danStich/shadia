@@ -291,7 +291,7 @@ sfLibrary(shadia)
 # 5. Start network random number generator 
 #    (as "sample" uses random numbers).
 # -----
-sfClusterSetupRNG()
+#sfClusterSetupRNG()
 
 # 6. Distribute calculation to workers
 # -----

@@ -56,7 +56,7 @@ wrapper <- function(idx) {
                     )
 
 # Run the model
-res1 <- connecticutRiverModel()
+res1 <- susquehannaRiverModel()
 
 # Define the output lists
     retlist <- list(

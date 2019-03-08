@@ -257,16 +257,18 @@ wrapper <- function(idx) {
 # Run the model
 res1 <- merrimackRiverModel(nYears = 50,
                             upstream = list(
-                              Essex = seq(0, 1, 0.10),
-                              Pawtucket = seq(0, 1, 0.10),
-                              Amoskeag = seq(0, 1, 0.10),
-                              Hookset = seq(0, 1, 0.10)
+                              essex = seq(0, 1, 0.10),
+                              pawtucketBypass = seq(0, 1, 0.10),
+                              pawtucket = seq(0, 1, 0.10),
+                              amoskeag = seq(0, 1, 0.10),
+                              hookset = seq(0, 1, 0.10)
                             ),
                             downstream = list(
-                              Essex = seq(0, 1, 0.10),
-                              Pawtucket = seq(0, 1, 0.10),
-                              Amoskeag = seq(0, 1, 0.10),
-                              Hookset = seq(0, 1, 0.10)
+                              essex = seq(0, 1, 0.10),
+                              pawtucketBypass = seq(0, 1, 0.10),                              
+                              pawtucket = seq(0, 1, 0.10),
+                              amoskeag = seq(0, 1, 0.10),
+                              hookset = seq(0, 1, 0.10)
                             )
         )
 
