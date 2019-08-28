@@ -1190,7 +1190,7 @@ if(river=='saco'){
                         #   )
                         # ]
     ######
-    ### THIS IS WHERE THE ERROR IS OCCURRING
+    ### THIS IS WHERE THE ERROR IS OCCURRING (ISSUE #18)
     ######
     
     
@@ -1209,7 +1209,7 @@ if(river=='saco'){
     # Combine both matrices
     spawnData_1 <- cbind(traits_1, moves_1[, ncol(moves_1)], delay_1)
     # Change the name for the final rkm column
-    colnames(spawnData_1)[ncol(spawnData_1) - 4] = 'finalRkm'
+    colnames(spawnData_1)[ncol(spawnData_1) - 5] = 'finalRkm'
     # Make it into a dataframe for easy manipulation
     sp_1 <- data.frame(spawnData_1)
     
