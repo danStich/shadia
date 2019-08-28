@@ -383,7 +383,103 @@ return(list(
 ))
 }  
 
+if(river=='saco'){
+# Maximum age for fish in this population
+maxAge <- 9
+
+# Fish age and growth data from Connecticut River -----
+# Using built-in data set `fish`
+names(fish) <- c('sex', 'age', 'fl', 'year', 'backCalculated', 'mass')
+fish <- fish[fish$fl > 10, ]
+
+# Make a dataframe of age and growth data just for females
+roes <- fish[fish$sex == 'R',]
+
+# Make an dataframe of age and growth data just for males
+bucks <- fish[fish$sex == 'B',]
+
+# Correct errors in fish mass & make a separate df for l-w regression due to
+# missing fish masses
+fish$mass <- as.numeric(fish$mass)
+fishw <- fish[!is.na(fish$mass) & fish$mass != 0,]
+
+# Log transform and data cleaning for l-w regressions
+# Bucks
+b.l <- log(fishw$fl[fishw$sex == 'B'])
+b.w <- log(fishw$mass[fishw$sex == 'B'])
+buck.lw <- na.omit(data.frame(b.l, b.w))
+buck.lw <- buck.lw[is.finite(buck.lw[, 2]),]
+
+# Roes
+r.l <- log(fishw$fl[fishw$sex == 'R'])
+r.w <- log(fishw$mass[fishw$sex == 'R'])
+roe.lw <- na.omit(data.frame(r.l, r.w))
+roe.lw <- roe.lw[is.finite(roe.lw[, 2]),]
+
+# Temperature data for Saco River -----
+# Load the temperature data from Saco River
+tempData_saco2 <- tempData_saco#[tempData_merrimack$year > 2007 & tempData_merrimack$year < 2014 ,]
+
+# Summarize the temperature by day across years
+mu <- ddply(tempData_saco2,
+           .(day, year),
+           summarize,
+           val = mean(val, na.rm = TRUE))
+
+# Change the orders of the column to match original data
+mu <- mu[, c(3, 2, 1)]
+mu <- na.omit(mu)
+
+# Read in temperature data for Connecticut River in NH (tempD)
+# Summarize the temperature by day across years
+hmu <- ddply(tempD,
+            .(day, year),
+            summarize,
+            val = mean(val, na.rm = TRUE))
+# Change the orders of the columns to match original data
+hmu <- hmu[, c(3, 2, 1)]
+hmu <- na.omit(hmu)
+
+# Make a regression relating temperature in the 
+# Merrimack to temperature in the Connecticut
+mmr <- mu[paste(mu$year, mu$day) %in%
+                      paste(hmu$year, hmu$day),]
+ctr <- hmu[paste(hmu$year, hmu$day) %in% 
+                       paste(mu$year, mu$day),]
+# Predict temperature
+calMod <- summary(lm(mmr$val ~ ctr$val))$coefficients
+hmu$val <- calMod[1, 1] + calMod[2, 1] * hmu$val
+
+return(list(
+  maxAge = maxAge,
+  fish = fish,
+  roes = roes,
+  bucks = bucks,
+  b.l = b.l,
+  b.w = b.w,
+  buck.lw = buck.lw,
+  buck.lw = buck.lw,
+  r.l = r.l,
+  r.w = r.w,
+  roe.lw = roe.lw,
+  roe.lw = roe.lw,
+  tempData_saco2 = tempData_saco2,
+  mu = mu,
+  mmr = mmr,
+  ctr = ctr,
+  calMod = calMod,
+  hmu = hmu
+))
+
 }
+
+}  
+
+
+
+
+
+
 
 
 

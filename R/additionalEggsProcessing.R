@@ -150,6 +150,40 @@ additionalEggsProcessing <- function(fec){
     return(fec_Max)
     #toc()
   }    
+ 
   
+  ########
+  HAVING TROUBLE here
+  #######
+  
+  if(river=='saco'){
+    # Calculate total number of eggs in each PU
+    fec2 <- vector(mode = 'list', length = length(fec))
+    for (i in 1:length(fec)) {
+      fec2[[i]] <- mapply(sum, na.rm=TRUE, fec[[i]])
+    }
+
+    fec2[[1]][1] <- fec2[[1]][1] + fec2[[2]][1]
+    fec2[[1]][2] <- fec2[[1]][2] + fec2[[2]][2]
+    fec2[[1]][3] <- fec2[[1]][3] + fec2[[2]][3]
+    fec2[[1]][4] <- fec2[[1]][4] + fec2[[2]][4]
+    fec2[[2]][1:4] <- 0    
+
+    # Apply carrying capacity limitation to each production unit based
+    # on habitat availability
+    fec_Max <- vector(mode = 'list', length = length(fec))
+    for (i in 1:length(fec2)) {
+      for (j in 1:length(fec2[[i]])) {
+        if (fec2[[i]][j] > k_pus[[i]][j]) {
+          fec_Max[[i]][j] = k_pus[[i]][j]
+        } else {
+          fec_Max[[i]][j] = fec2[[i]][j]
+        }
+      }
+    }
+    return(fec_Max)
+    #toc()
+  }    
+   
 }
 

@@ -46,5 +46,11 @@ fwFishingMort <- function(){
     return(list(inriv=inriv))
   }  
   
+  if(river=='saco'){  
+    inriv <- vector(mode = 'list', length = nRoutes)
+    inriv[[1]] <- rep(inRiverF, 7)
+   
+    return(list(inriv=inriv))
+  }  
   
 }

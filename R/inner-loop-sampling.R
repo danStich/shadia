@@ -222,6 +222,12 @@ day <- c(seq(min(c_initial), (max(c_end))))
   if(river=='susquehanna'){
     photo <- daylength(40.88, day)
   }
+  # Saco River:
+  if(river=='saco'){
+    photo <- daylength(43.65, day)
+  }
+
+
 #toc()
 
 # SIMULATE FISH CHARACTERISTICS FOR EACH FISH IN EACH YEAR ----------------
@@ -401,8 +407,12 @@ if(river=='susquehanna'){
   upstream_path[3,][upstream_path[3,] > 0] <- 3
   upstream_path[4,][upstream_path[4,] > 0] <- 4
   
-  # A '1' is Piscataquis, and a '2' is mainstem
   upstream_path <- upstreamPathC(upstream_path)
+}
+
+# Upstream path for Saco river
+if(river=='saco'){
+  upstream_path <- 1
 }
 
 # Collect life-history parameters into a single matrix for c++ loop
@@ -467,6 +477,16 @@ colnames(traits) <- gsub(pattern = "c_", replacement = "", colnames(traits))
     # Change the name of the last column in each of the dfs so they match
     names(traits_1)[ncol(traits_1)] <- 'upstream_path'
     names(traits_2)[ncol(traits_2)] <- 'upstream_path'
+    #toc()
+  }
+
+  if(river=='saco'){
+    # Re-organize the data so they match the output of the ABM below
+    # Create a df for traits of Piscataquis River spawners
+    traits_1 <- data.frame(traits[upstream_path == 1, , drop = FALSE],
+                          upstream_path[upstream_path == 1])
+    # Change the name of the last column in each of the dfs so they match
+    names(traits_1)[ncol(traits_1)] <- 'upstream_path'
     #toc()
   }
 
@@ -586,7 +606,10 @@ mot <- mean((1 - (newTU - min(newTU)) /
     if(river=='susquehanna'){
       rkm1 <- rep(0, length(c_fishAges))
     }
-
+    # For Saco River:
+    if(river=='saco'){
+      rkm1 <- rep(0, length(c_fishAges))
+    }
     # For all rivers:
     rkm2 <- matrix(0, ncol = length(day), nrow = length(c_fishAges))
 
@@ -729,6 +752,18 @@ if(river=='susquehanna'){
                   rkm2[upstream_path == 4, , drop = FALSE],
                   c_end[upstream_path == 4])  
 }  
+
+if(river=='saco'){
+# Run the ABM for bypass route through Pawtucket
+  moves_1 <- moveC(day,
+                  c_entryDate[upstream_path == 1],
+                  dailyMove[upstream_path == 1],
+                  maxR[upstream_path == 1],
+                  ppPenalty[[1]],
+                  rkm1[upstream_path == 1],
+                  rkm2[upstream_path == 1, , drop = FALSE],
+                  c_initial[upstream_path == 1])
+}  
   
 # Calculate total run time for ABM
 #timeABM <- proc.time() - ptmABM # Uncomment to time it
@@ -787,7 +822,7 @@ if(river=='susquehanna'){
     colnames(delay_2) <- c('dEssex', 'dPawtucket', 'dAmoskeag', 'dHookset')
   }
   
-  # Names for delay matrix: merrimack
+  # Names for delay matrix: connecticut
   if(river=='connecticut'){
     colnames(delay_1) <- c('dHolyoke', 'dCabot', 'dGatehouse', 'dVernon')
     colnames(delay_2) <- c('dHolyoke', 'dSpillway', 'dGatehouse', 'dVernon')
@@ -811,6 +846,12 @@ if(river=='susquehanna'){
                            'dYorkHaven', 'dSunbury', 'dNyLine',
                            'dRockBottom', 'dUnadilla', 'dColliersville')
   }
+  
+  # Names for delay matrix: merrimack
+  if(river=='saco'){
+    colnames(delay_1) <- c('dCataract', 'dSprings', 'dSkelton', 'dBarmills',
+                           'dBuxton', 'dBonny')
+  }  
   
 # Calculate run time for delay function in C++
   #timeDelay <- proc.time() - ptmDelay
@@ -1162,6 +1203,59 @@ if(river=='susquehanna'){
   }
   
   
+  # Saco River:
+  if(river=='saco'){
+   # Combine all data for bypass migrants
+    # Combine both matrices
+    spawnData_1 <- cbind(traits_1, moves_1[, ncol(moves_1)], delay_1)
+    # Change the name for the final rkm column
+    colnames(spawnData_1)[ncol(spawnData_1) - 4] = 'finalRkm'
+    # Make it into a dataframe for easy manipulation
+    sp_1 <- data.frame(spawnData_1)
+    
+    # Assign each fish to a production unit before they spawn. Do this for
+    # bypass and Mainstem migrants
+    # First, assign rkms to delineate each of the production units
+    puRkm <- vector(mode = 'list', length = length(nPU))
+    puRkm[[1]] <- c(0, damRkms[[1]] + 1, (maxrkm[1] + 1))
+
+    # Create an empty list to hold the pu names for each route
+    rm(list = ls()[grep(ls(), pat = '^mPU_')]) # Remove old counts
+    puNames <- vector(mode = 'list', length = length(nPU))
+    # Dynamically assign pu names based on river kilometers that delineate them
+    for (t in 1:length(puRkm)) {
+      for (i in 1:(length(puRkm[[t]]) - 1)) {
+        assign(paste('PU_', t, '_', i, sep = ''), puRkm[i])
+      }
+      # Collect the names into a list
+      puNames[[t]] <- names(mget(ls(pat = paste(
+        '^PU_', t, sep = ''
+      ))))
+    }
+    # Determine which PU each fish ends up in based on its rkm and assign it.
+    # Uses pre-compiled function 'fishPU' from source files loaded up front.
+    # Main-to-piscataquis spawners
+    sp_1$pus <- as.character(fishPU(puRkm[[1]], sp_1$finalRkm, puNames[[1]]))
+    
+    # Replace the blank PUs for fish that ended 
+    # at head of tide
+    sp_1$pus[sp_1$pus == ""] <- "PU_1_1"
+
+    # Determine the probability that a fish survives to spawn
+    # Pre-spawning mortality by sex
+    sp_1$preSpawn <- sp_1$female * pre_spawn_survival_females +
+      (1 - sp_1$female) * pre_spawn_survival_males
+    
+    # Determine fishing mortality by PU
+    sp_1$F <- inriv[[1]][as.numeric(substrRight(sp_1$pus, 1))]
+
+    # Apply in-river fishing mortality and prespawn survival
+    sp_1$surv <- rbinom(nrow(sp_1), 1, sp_1$preSpawn * (1 - sp_1$F))
+  }  
+  
+  
+  
+  
 # Data return to calling environment
   # Penobscot River:
   if(river=='penobscot' | river=='susquehanna'){
@@ -1483,10 +1577,105 @@ if(river=='susquehanna'){
     ))
   }
 
+  # Merrimack River:
+  if(river=='saco'){
+    return(list(
+    b.entry = b.entry,
+    b.entryDate = b.entryDate,
+    b.lw = b.lw,
+    b.mat = b.mat,
+    b.pars = b.pars,
+    b.prob = b.prob,
+    b.res = b.res,
+    batch = batch,
+    bucklw = bucklw,
+    c_BF = c_BF,
+    c_end = c_end,
+    c_entryDate = c_entryDate,
+    c_fecundity = c_fecundity,
+    c_female = c_female,
+    c_female_lf = c_female_lf,
+    c_female_m = c_female_m,
+    c_femaleLWalpha = c_femaleLWalpha,
+    c_femaleLWbeta = c_femaleLWbeta,
+    c_fishAges = c_fishAges,
+    c_forkLength = c_forkLength,
+    c_initial = c_initial,
+    c_kF = c_kF,
+    c_kM = c_kM,
+    c_linF = c_linF,
+    c_linM = c_linM,
+    c_male = c_male,
+    c_male_lf = c_male_lf,
+    c_male_m = c_male_m,
+    c_maleLWalpha = c_maleLWalpha,
+    c_maleLWbeta = c_maleLWbeta,
+    c_mass = c_mass,
+    c_RAF = c_RAF,
+    c_repeat = c_repeat,
+    c_RT = c_RT,
+    c_sex = c_sex,
+    c_SI = c_SI,
+    c_spawnATU1 = c_spawnATU1,
+    c_spawnATU2 = c_spawnATU2,
+    c_t0F = c_t0F,
+    c_t0M = c_t0M,
+    dailyMove = dailyMove,
+    day = day,
+    delay_1 = delay_1,
+    dMax = dMax,
+    eFFs = eFFs,
+    entry = entry,
+    fishAges = fishAges,
+    id = id,
+    juvenile_survival = juvenile_survival,
+    k_pus = k_pus,
+    maxR = maxR,
+    mot = mot,
+    moves_1 = moves_1,
+    newTU = newTU,
+    newTU_2 = newTU_2,
+    oceanSurvival = oceanSurvival,
+    photo = photo,
+    post_spawn_survival_females = post_spawn_survival_females,
+    post_spawn_survival_males = post_spawn_survival_males,
+    ppPenalty = ppPenalty,
+    pre_spawn_survival_females = pre_spawn_survival_females,
+    pre_spawn_survival_males = pre_spawn_survival_males,
+    pred = pred,
+    predTemps = predTemps,
+    puNames = puNames,
+    puRkm = puRkm,
+    res.B = res.B,
+    res.R = res.R,
+    r.entry = r.entry,
+    r.entryDate = r.entryDate,
+    r.lw = r.lw,
+    r.mat = r.mat,
+    r.pars = r.pars,
+    r.prob = r.prob,
+    r.res = r.res,
+    rkm1 = rkm1,
+    rkm2 = rkm2,
+    roelw = roelw,
+    routes = routes,
+    sex_Ratio = sex_Ratio,
+    sOptim = sOptim,
+    sp_1 = sp_1,
+    spawnData_1 = spawnData_1,
+    stoch = stoch,
+    tort = tort,
+    traits = traits,
+    traits_1 = traits_1,
+    up_effs = up_effs,
+    upstream_path = upstream_path,
+    y = y,
+    Year = Year,
+    habStoch = habStoch
+    ))
+  }
+
 }
-
-
-
 
 # To save only inner loop sampling variables: uncomment
 # filename can be adjusted in setParameters.R

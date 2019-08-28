@@ -279,5 +279,36 @@ if(river=='susquehanna'){
   ))  
 }
   
+if(river=='saco'){
+  # Assign efficiencies to the upstream passage groups (pisc or main)
+  upEffs <- vector(mode = 'list', length = nRoutes)
+  upEffs[[1]] <- vector(mode = 'numeric', length = length(damRkms[[1]]))
+  
+  # Route 1
+  upEffs[[1]][1] <- catUp
+  upEffs[[1]][2] <- springUp
+  upEffs[[1]][3] <- skeltonUp
+  upEffs[[1]][4] <- barmillsUp
+  upEffs[[1]][5] <- buxtonUp
+  upEffs[[1]][6] <- bonnyUp
+
+  # Passage times
+  times <- vector(mode = 'list', length = nRoutes)
+
+  # Route 1
+  times[[1]][1] <- timely[[1]]
+  times[[1]][2] <- timely[[2]]
+  times[[1]][3] <- timely[[3]]
+  times[[1]][4] <- timely[[4]]
+  times[[1]][5] <- timely[[5]]
+  times[[1]][6] <- timely[[6]]
+    
+  # Output list
+  return(list(
+    times = times,
+    upEffs = upEffs
+  ))  
+}    
+  
 }  
   

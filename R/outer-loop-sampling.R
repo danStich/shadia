@@ -208,4 +208,31 @@ if(river=='susquehanna'){
   ))
 }
 
+if(river=='saco'){
+  
+  # Assign the starting population based on a seed of
+  # age-1 fish and application of an ocean survival curve
+  # The population size is scaled to make the models
+  # run faster. Output is re-scaled  
+  Age1 <- rpois(1, 2e5)
+  
+  return(list(
+    up = up,
+    timely = timely,
+    fB = fB,
+    d = d,
+    indirect = indirect,
+    latent = latent,
+    delay = delay,
+    ildProduct = ildProduct,
+    jReduction = jReduction,
+    downstreamS = downstreamS,
+    oceanSurvival = oceanSurvival,
+    inRiverF = inRiverF,
+    commercialF = commercialF,
+    bycatchF = bycatchF,
+    Age1 = Age1
+  ))
+}
+
 }

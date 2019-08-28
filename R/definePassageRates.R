@@ -299,4 +299,63 @@ if(river=='susquehanna'){
 }    
   
   
+if(river=='saco'){  
+  # Upstream passage rates
+  Open <- 1.00
+  catUp <- up[1] * fB
+  springUp <- up[2] * fB
+  skeltonUp <- up[3] * fB
+  barmillsUp <- up[4] * fB
+  buxtonUp <- up[5] * fB
+  bonnyUp <- up[6] * fB
+
+  # Downstream passage efficiencies
+  # Define downstream passage efficiencies at each of the dams
+  OpenD <- 1.00
+  catD <- d[1] * indirect * latent * delay
+  springD <- d[2] * indirect * latent * delay
+  skeltonD <- d[3] * indirect * latent * delay
+  barmillsD <- d[4] * indirect * latent * delay
+  buxtonD <- d[5] * indirect * latent * delay
+  bonnyD <- d[6] * indirect * latent * delay
+  
+  # Make downstream survival probabilities for juveniles
+  # Unused. Moved to separate calculations in the 
+  # Connecticut River Model. All runs in the Penobscot
+  # River to date have used equal performance standards.
+  # Will update this model to use the same approach.
+  catDj <- d[1] * indirect * latent * delay
+  springDj <- d[2] * indirect * latent * delay
+  skeltonDj <- d[3] * indirect * latent * delay
+  barmillsDj <- d[4] * indirect * latent * delay
+  buxtonDj <- d[5] * indirect * latent * delay  
+  bonnyDj <- d[6] * indirect * latent * delay  
+
+  return(
+    list(
+      Open = Open,
+      catUp = catUp,
+      springUp = springUp,
+      skeltonUp = skeltonUp,
+      barmillsUp = barmillsUp,
+      buxtonUp = buxtonUp,
+      bonnyUp = bonnyUp,
+      catD = catD,
+      springD = springD,
+      skeltonD = skeltonD,
+      barmillsD = barmillsD,
+      buxtonD = buxtonD,
+      bonnyD = bonnyD,
+      catDj = catDj,
+      springDj = springDj,
+      skeltonDj = skeltonDj,
+      barmillsDj = barmillsDj,
+      buxtonDj = buxtonDj,
+      bonnyDj = bonnyDj      
+    )
+  )
+}  
+  
+  
+  
 }  

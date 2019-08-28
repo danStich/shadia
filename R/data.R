@@ -223,3 +223,26 @@
 #' 
 #' @source T. Castro-Santos, U.S. Geological Survey
 "tempData_connecticut"
+
+#' @title Saco River at River Street in Bartlett, NH
+#' 
+#' @description Temperature data for 
+#' the Saco River at Bartlett, NH
+#' 
+#' @format A data frame with 3631 observations of 6 variables
+#' \describe{
+#'   \item{\code{staid}}{USGS Station ID}
+#'   
+#'   \item{\code{val}}{Temperature in degrees celcius}
+#'   
+#'   \item{\code{dates}}{Date of temperature observation}
+#'   
+#'   \item{\code{qualcode}}{Qualification code}
+#'   
+#'   \item{\code{year}}{Year of temperature observation}
+#'   
+#'   \item{\code{day}}{Ordinal date}
+#' }
+#' 
+#' @source U.S. Geological Survey
+"tempData_saco"
