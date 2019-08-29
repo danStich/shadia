@@ -163,7 +163,7 @@ maxrkm <- 55
 
 # Define rkms for each of the dams for each migration group
 damRkms <- vector(mode = 'list', length = nRoutes)
-damRkms[[1]] <- c(9,11,27,32,42,44)     # Dam rkms for group 1
+damRkms[[1]] <- c(9,11,27,32,42,44)     # Dam rkms
 
 # Return the list
 return(list(
