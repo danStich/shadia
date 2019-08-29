@@ -411,24 +411,24 @@ if(river=='susquehanna'){
 }
 
 # Upstream path for Saco river
-if(river=='saco'){
-  upstream_path <- 1
-}
+  if(river=='saco'){
+    upstream_path <- rep(1, length(c_fishAges))
+  }
 
 # Collect life-history parameters into a single matrix for c++ loop
 # NOTE: the source code for the loop was re-written to preclude the need for
 # these matrices. Instead, they are related to the ABM input and output post-
 # hoc to speed things up.
-getEm <- mget(ls(pat = '^c_'))
-for (i in 1:length(getEm)) {
-  if (is.na(getEm[[i]][1])) {
-    getEm[[i]][1] = 0
-  } else {
-    next
+  getEm <- mget(ls(pat = '^c_'))
+  for (i in 1:length(getEm)) {
+    if (is.na(getEm[[i]][1])) {
+      getEm[[i]][1] = 0
+    } else {
+      next
+    }
   }
-}
-traits <- as.matrix(data.frame(getEm))
-colnames(traits) <- gsub(pattern = "c_", replacement = "", colnames(traits))
+  traits <- as.matrix(data.frame(getEm))
+  colnames(traits) <- gsub(pattern = "c_", replacement = "", colnames(traits))
 
 # Create traits for all spawners by river system
   if(river=='penobscot' | river=='susquehanna'){
@@ -621,7 +621,11 @@ mot <- mean((1 - (newTU - min(newTU)) /
   #if (useTictoc) {
     #tic("C++ function, maxrkmC")
   #}
+  # if(nRoutes==1){
+  #   max <- maxrkm
+  #   } else {
   maxR <- maxrkmC(c_fishAges, maxrkm, upstream_path, routes)
+  #}
   #toc()
   
 # Run the upstream migration model and get results
@@ -1202,14 +1206,13 @@ if(river=='saco'){
     #toc()
   }
   
-  
   # Saco River:
   if(river=='saco'){
    # Combine all data for bypass migrants
     # Combine both matrices
     spawnData_1 <- cbind(traits_1, moves_1[, ncol(moves_1)], delay_1)
     # Change the name for the final rkm column
-    colnames(spawnData_1)[ncol(spawnData_1) - 5] = 'finalRkm'
+    colnames(spawnData_1)[ncol(spawnData_1) - nDams] = 'finalRkm'
     # Make it into a dataframe for easy manipulation
     sp_1 <- data.frame(spawnData_1)
     
@@ -1225,7 +1228,7 @@ if(river=='saco'){
     # Dynamically assign pu names based on river kilometers that delineate them
     for (t in 1:length(puRkm)) {
       for (i in 1:(length(puRkm[[t]]) - 1)) {
-        assign(paste('PU_', t, '_', i, sep = ''), puRkm[i])
+        assign(paste('PU_', t, '_', i, sep = ''), puRkm[[t]][i])
       }
       # Collect the names into a list
       puNames[[t]] <- names(mget(ls(pat = paste(

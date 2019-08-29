@@ -4,12 +4,12 @@
 \alias{merrimackRiverModel}
 \title{Merrimack River Model}
 \usage{
-merrimackRiverModel(nRuns = 1, nYears = 50, timing = list(1, 1, 1, 1, 1),
-  upstream = list(essex = 1, pawtucketBypass = 1, pawtucket = 1, amoskeag = 1,
-  hookset = 1), downstream = list(essex = 1, pawtucketBypass = 1, pawtucket =
-  1, amoskeag = 1, hookset = 1), pBypassUp = 1, pBypassD = 1,
-  inRiverF = 0, commercialF = 0, bycatchF = 0, indirect = 1,
-  latent = 1, watershed = TRUE)
+merrimackRiverModel(nRuns = 1, nYears = 50, timing = list(1, 1, 1, 1,
+  1), upstream = list(essex = 1, pawtucketBypass = 1, pawtucket = 1,
+  amoskeag = 1, hookset = 1), downstream = list(essex = 1,
+  pawtucketBypass = 1, pawtucket = 1, amoskeag = 1, hookset = 1),
+  pBypassUp = 1, pBypassD = 1, inRiverF = 0, commercialF = 0,
+  bycatchF = 0, indirect = 1, latent = 1, watershed = TRUE)
 }
 \arguments{
 \item{nRuns}{The number of times that the

@@ -285,7 +285,7 @@ if(river=='saco'){
   upEffs[[1]] <- vector(mode = 'numeric', length = length(damRkms[[1]]))
   
   # Route 1
-  upEffs[[1]][1] <- catUp
+  upEffs[[1]][1] <- cataractUp
   upEffs[[1]][2] <- springUp
   upEffs[[1]][3] <- skeltonUp
   upEffs[[1]][4] <- barmillsUp

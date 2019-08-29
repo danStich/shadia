@@ -17,7 +17,7 @@
 #' 
 writeData <- function(){
 
-# DATA WRITE --------------------------------------------------------------
+# DATA WRITE ----
 # Post-simulation data manipulation
 if (.shadia$useTictoc) {
   tic("data write")
@@ -180,7 +180,7 @@ sens = data.frame(
   r.length,
   spawnInt,
   batchSize,
-  resTime,
+  RAF,
   s.Optim,
   d.Max,
   tortuosity,
@@ -299,7 +299,7 @@ sens = data.frame(
   r.length,
   spawnInt,
   batchSize,
-  resTime,
+  RAF,
   s.Optim,
   d.Max,
   tortuosity,
@@ -417,7 +417,7 @@ sens = data.frame(
   r.length,
   spawnInt,
   batchSize,
-  resTime,
+  RAF,
   s.Optim,
   d.Max,
   tortuosity,
@@ -432,7 +432,6 @@ return(list(
 ))	
 
 }
-
 
 if(river=='susquehanna'){
 # Collect inputs and outputs into a single object for file write
@@ -584,7 +583,7 @@ sens = data.frame(
   r.length = r.length,
   spawnInt = spawnInt,
   batchSize = batchSize,
-  resTime = resTime,
+  RAF = RAF,
   s.Optim = s.Optim,
   d.Max = d.Max,
   tortuosity = tortuosity,
@@ -597,6 +596,126 @@ return(list(
   res	= res,
   sens = sens
 ))	
+}
+
+if(river=='saco'){
+  # Collect inputs and outputs into a single object for file write
+  res <- data.frame(
+    years,
+    times,
+    CataractUp,
+    SpringsBradburyUp,  
+    SkeltonUp,
+    BarMillsUp,
+    WestBuxtonUp,
+    BonnyEagleUp,
+    CataractD,
+    SpringsBradburyD,  
+    SkeltonD,
+    BarMillsD,
+    WestBuxtonD,
+    BonnyEagleD,
+    F.inRiver,
+    F.commercial,
+    F.bycatch,
+    indirectM,
+    latentM,
+    pRepeats,
+    ceiling(populationSize),
+    ceiling(popI),
+    ceiling(popII),
+    ceiling(popIII),
+    ceiling(popIV),
+    ceiling(popV),
+    ceiling(popVI),    
+    ceiling(popVII)   
+  )
+  
+  names(res)<-c(
+    "year",
+    "time_Cataract",
+    "time_SpringsBradbury",
+    "time_Skelton",
+    "time_BarMills",
+    "time_Buxton",
+    "time_BonnyEagle",
+    "CataractUp",
+    "SpringsBradburyUp",
+    "SkeltonUp",
+    "BarMillsUp",
+    "WestBuxtonUp",
+    "BonnyEagleUp",
+    "CataractD",
+    "SpringsBradburyD",
+    "SkeltonD",
+    "BarMillsD",
+    "WestBuxtonD",
+    "BonnyEagleD",
+    "inriverF",
+    "commercialF",
+    "bycatchF",
+    "indirect",
+    "latent",
+    "pRepeat_Age1",
+    "pRepeat_Age2",
+    "pRepeat_Age3",
+    "pRepeat_Age4",
+    "pRepeat_Age5",
+    "pRepeat_Age6",
+    "pRepeat_Age7",
+    "pRepeat_Age8",
+    "pRepeat_Age9",
+    "populationSize",
+    "N_I",
+    "N_II",
+    "N_III",
+    "N_IV",
+    "N_V",
+    "N_VI",
+    "N_VII"
+  )
+  
+  # Collect variables for sensitivity analysis and save them out
+  sens = data.frame(
+    S.downstream,
+    S.marine,
+    popStart,
+    p.female,
+    S.prespawnM,
+    S.postspawnM,
+    S.prespawnF,
+    S.postspawnF,
+    S.juvenile,
+    t.stoch,
+    b.Arr,
+    r.Arr,
+    ATUspawn1,
+    ATUspawn2,
+    Dspawn1,
+    Dspawn2,
+    linF,
+    kF,
+    t0F,
+    linM,
+    kM,
+    t0M,
+    b.length,
+    r.length,
+    spawnInt,
+    batchSize,
+    RAF,
+    s.Optim,
+    d.Max,
+    tortuosity,
+    motivation,
+    daily.move,
+    habStoch
+  )
+  
+  return(list(		
+    res	= res,
+    sens = sens
+  ))	
 }
 
 # Write the inputs and outputs to a text file that can be read into R

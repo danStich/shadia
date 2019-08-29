@@ -605,7 +605,7 @@ if(river=='saco'){
 # Mainstem at Pawtucket
   sPU <- c()
   sPU[[1]] <- downstreamS ^ puRkm[[1]][1]
-  sPU[[2]] <- sPU[[1]] * catD * (downstreamS ^ puRkm[[1]][2])
+  sPU[[2]] <- sPU[[1]] * cataractD * (downstreamS ^ puRkm[[1]][2])
   sPU[[3]] <- sPU[[2]] * springD * (downstreamS ^ puRkm[[1]][3])
   sPU[[4]] <- sPU[[3]] * skeltonD * (downstreamS ^ puRkm[[1]][4])
   sPU[[5]] <- sPU[[4]] * barmillsD * (downstreamS ^ puRkm[[1]][5])
@@ -618,7 +618,7 @@ if(river=='saco'){
 # Mainstem at Pawtucket
   sPUj <- c()
   sPUj[[1]] <- downstreamS ^ puRkm[[1]][1]
-  sPUj[[2]] <- sPUj[[1]] * catDj * (downstreamS ^ puRkm[[1]][2])
+  sPUj[[2]] <- sPUj[[1]] * cataractDj * (downstreamS ^ puRkm[[1]][2])
   sPUj[[3]] <- sPUj[[2]] * springDj * (downstreamS ^ puRkm[[1]][3])
   sPUj[[4]] <- sPUj[[3]] * skeltonDj * (downstreamS ^ puRkm[[1]][4])
   sPUj[[5]] <- sPUj[[4]] * barmillsDj * (downstreamS ^ puRkm[[1]][5])

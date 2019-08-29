@@ -169,7 +169,7 @@ if(river=='penobscot'){
   # Fecundity
   spawnInt <- vector(mode = 'numeric', length = nYears * nRuns)
   batchSize <- vector(mode = 'numeric', length = nYears * nRuns)
-  resTime <- vector(mode = 'numeric', length = nYears * nRuns)
+  RAF <- vector(mode = 'numeric', length = nYears * nRuns)
   
   # Movement parameters
   s.Optim <- vector(mode = 'numeric', length = nYears * nRuns)
@@ -264,7 +264,7 @@ if(river=='penobscot'){
       r.length = r.length,
       spawnInt = spawnInt,
       batchSize = batchSize,
-      resTime = resTime,
+      RAF = RAF,
       s.Optim = s.Optim,
       d.Max = d.Max,
       tortuosity = tortuosity,
@@ -401,7 +401,7 @@ if(river=='merrimack'){
   # Fecundity
   spawnInt <- vector(mode = 'numeric', length = nYears * nRuns)
   batchSize <- vector(mode = 'numeric', length = nYears * nRuns)
-  resTime <- vector(mode = 'numeric', length = nYears * nRuns)
+  RAF <- vector(mode = 'numeric', length = nYears * nRuns)
   
   # Movement parameters
   s.Optim <- vector(mode = 'numeric', length = nYears * nRuns)
@@ -480,7 +480,7 @@ if(river=='merrimack'){
       r.length = r.length,
       spawnInt = spawnInt,
       batchSize = batchSize,
-      resTime = resTime,
+      RAF = RAF,
       s.Optim = s.Optim,
       d.Max = d.Max,
       tortuosity = tortuosity,
@@ -626,7 +626,7 @@ if(river=='connecticut'){
   # Fecundity
   spawnInt <- vector(mode = 'numeric', length = nYears * nRuns)
   batchSize <- vector(mode = 'numeric', length = nYears * nRuns)
-  resTime <- vector(mode = 'numeric', length = nYears * nRuns)
+  RAF <- vector(mode = 'numeric', length = nYears * nRuns)
   
   # Movement parameters
   s.Optim <- vector(mode = 'numeric', length = nYears * nRuns)
@@ -709,7 +709,7 @@ if(river=='connecticut'){
       r.length = r.length,
       spawnInt = spawnInt,
       batchSize = batchSize,
-      resTime = resTime,
+      RAF = RAF,
       s.Optim = s.Optim,
       d.Max = d.Max,
       tortuosity = tortuosity,
@@ -864,7 +864,7 @@ if(river=='susquehanna'){
   # Fecundity
   spawnInt <- vector(mode = 'numeric', length = nYears * nRuns)
   batchSize <- vector(mode = 'numeric', length = nYears * nRuns)
-  resTime <- vector(mode = 'numeric', length = nYears * nRuns)
+  RAF <- vector(mode = 'numeric', length = nYears * nRuns)
   
   # Movement parameters
   s.Optim <- vector(mode = 'numeric', length = nYears * nRuns)
@@ -965,7 +965,7 @@ if(river=='susquehanna'){
       r.length = r.length,
       spawnInt = spawnInt,
       batchSize = batchSize,
-      resTime = resTime,
+      RAF = RAF,
       s.Optim = s.Optim,
       d.Max = d.Max,
       tortuosity = tortuosity,
@@ -974,7 +974,6 @@ if(river=='susquehanna'){
     )
   )
 }
-  
   
 if(river=='saco'){  
   # if (useTictoc | useProgress) {
@@ -987,25 +986,21 @@ if(river=='saco'){
   # Empty container to hold year
   years <- vector(mode = 'numeric', length = nYears * nRuns)
   
-  # Empty container to hold Weldon scenario (depricated)
-  scen <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Upstream passage efficiencies
+  # Upstream passage efficiencies - first three letters each dam
   catUp <- vector(mode = 'numeric', length = nYears * nRuns)
-  springUp <- vector(mode = 'numeric', length = nYears * nRuns)
-  skeltonUp <- vector(mode = 'numeric', length = nYears * nRuns)
-  barmillsUp <- vector(mode = 'numeric', length = nYears * nRuns)
-  buxtonUp <- vector(mode = 'numeric', length = nYears * nRuns)
-  bonnyUp <- vector(mode = 'numeric', length = nYears * nRuns)
+  sprUp <- vector(mode = 'numeric', length = nYears * nRuns)
+  skeUp <- vector(mode = 'numeric', length = nYears * nRuns)
+  barUp <- vector(mode = 'numeric', length = nYears * nRuns)
+  buxUp <- vector(mode = 'numeric', length = nYears * nRuns)
+  bonUp <- vector(mode = 'numeric', length = nYears * nRuns)
   
-  
-  # Downstream passage efficiencies
+  # Downstream passage efficiencies - first three letters each dam
   catD <- vector(mode = 'numeric', length = nYears * nRuns)
-  springD <- vector(mode = 'numeric', length = nYears * nRuns)
-  skeltonD <- vector(mode = 'numeric', length = nYears * nRuns)
-  barmillsD <- vector(mode = 'numeric', length = nYears * nRuns)
-  buxtonD <- vector(mode = 'numeric', length = nYears * nRuns)
-  bonnyD <- vector(mode = 'numeric', length = nYears * nRuns)
+  sprD <- vector(mode = 'numeric', length = nYears * nRuns)
+  skeD <- vector(mode = 'numeric', length = nYears * nRuns)
+  barD <- vector(mode = 'numeric', length = nYears * nRuns)
+  buxD <- vector(mode = 'numeric', length = nYears * nRuns)
+  bonD <- vector(mode = 'numeric', length = nYears * nRuns)
   
   # Timing
   ptime <- vector(mode = 'list', length = nYears * nRuns)
@@ -1104,7 +1099,7 @@ if(river=='saco'){
   # Fecundity
   spawnInt <- vector(mode = 'numeric', length = nYears * nRuns)
   batchSize <- vector(mode = 'numeric', length = nYears * nRuns)
-  resTime <- vector(mode = 'numeric', length = nYears * nRuns)
+  RAF <- vector(mode = 'numeric', length = nYears * nRuns)
   
   # Movement parameters
   s.Optim <- vector(mode = 'numeric', length = nYears * nRuns)
@@ -1116,19 +1111,18 @@ if(river=='saco'){
   return(
     list(
       years = years,
-      scen = scen,
       catUp = catUp,
-      springUp = springUp,
-      skeltonUp = skeltonUp,
-      barmillsUp = barmillsUp,
-      buxtonUp = buxtonUp,
-      bonnyUp = bonnyUp,
+      sprUp = sprUp,
+      skeUp = skeUp,
+      barUp = barUp,
+      buxUp = buxUp,
+      bonUp = bonUp,
       catD = catD,
-      springD = springD,
-      skeltonD = skeltonD,
-      barmillsD = barmillsD,
-      buxtonD = buxtonD,
-      bonnyD = bonnyD,   
+      sprD = sprD,
+      skeD = skeD,
+      barD = barD,
+      buxD = buxD,
+      bonD = bonD,   
       indirectM = indirectM,
       latentM = latentM,
       juvReduction = juvReduction,
@@ -1185,7 +1179,7 @@ if(river=='saco'){
       r.length = r.length,
       spawnInt = spawnInt,
       batchSize = batchSize,
-      resTime = resTime,
+      RAF = RAF,
       s.Optim = s.Optim,
       d.Max = d.Max,
       tortuosity = tortuosity,
@@ -1195,5 +1189,4 @@ if(river=='saco'){
   )
 }  
   
-       
 }

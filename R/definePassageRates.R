@@ -302,7 +302,7 @@ if(river=='susquehanna'){
 if(river=='saco'){  
   # Upstream passage rates
   Open <- 1.00
-  catUp <- up[1] * fB
+  cataractUp <- up[1] * fB
   springUp <- up[2] * fB
   skeltonUp <- up[3] * fB
   barmillsUp <- up[4] * fB
@@ -312,7 +312,7 @@ if(river=='saco'){
   # Downstream passage efficiencies
   # Define downstream passage efficiencies at each of the dams
   OpenD <- 1.00
-  catD <- d[1] * indirect * latent * delay
+  cataractD <- d[1] * indirect * latent * delay
   springD <- d[2] * indirect * latent * delay
   skeltonD <- d[3] * indirect * latent * delay
   barmillsD <- d[4] * indirect * latent * delay
@@ -324,7 +324,7 @@ if(river=='saco'){
   # Connecticut River Model. All runs in the Penobscot
   # River to date have used equal performance standards.
   # Will update this model to use the same approach.
-  catDj <- d[1] * indirect * latent * delay
+  cataractDj <- d[1] * indirect * latent * delay
   springDj <- d[2] * indirect * latent * delay
   skeltonDj <- d[3] * indirect * latent * delay
   barmillsDj <- d[4] * indirect * latent * delay
@@ -334,19 +334,19 @@ if(river=='saco'){
   return(
     list(
       Open = Open,
-      catUp = catUp,
+      cataractUp = cataractUp,
       springUp = springUp,
       skeltonUp = skeltonUp,
       barmillsUp = barmillsUp,
       buxtonUp = buxtonUp,
       bonnyUp = bonnyUp,
-      catD = catD,
+      cataractD = cataractD,
       springD = springD,
       skeltonD = skeltonD,
       barmillsD = barmillsD,
       buxtonD = buxtonD,
       bonnyD = bonnyD,
-      catDj = catDj,
+      cataractDj = cataractDj,
       springDj = springDj,
       skeltonDj = skeltonDj,
       barmillsDj = barmillsDj,

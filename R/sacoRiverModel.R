@@ -168,7 +168,7 @@ sacoRiverModel <- function(
   timing = list(1,1,1,1,1,1),
   upstream = list(
     cataract = 1,
-    springIsle = 1,
+    spring = 1,
     skelton = 1,
     barmills = 1,
     westBuxton = 1,
@@ -176,7 +176,7 @@ sacoRiverModel <- function(
   ),
   downstream = list(
     cataract = 1,
-    springIsle = 1,
+    spring = 1,
     barmills = 1,
     skelton = 1,
     westBuxton = 1,
@@ -231,7 +231,8 @@ sacoRiverModel <- function(
   if(watershed){
   cat('WARNING: when watershed is set to TRUE,
     upstream and downstream passage rate(s)
-    for Cataract will be used at all dams.')
+    for Cataract will be used at all dams.'
+    )
   }
   
 # Set parameters -----
@@ -332,16 +333,6 @@ sacoRiverModel <- function(
     # legacy effects in naming new objects- this could lead to negative
     # population sizes and the like
     #rm(list = ls(.shadia)[grep(ls(.shadia), pat = '_')])
-
-    # Set passage efficiency at Weldon 
-    # (MattaceunkUp, upEffs[[2]][5] & [[4]][6])
-    # This code takes the timing scenario, 
-    # and says "if the year is less than the
-    # minimum year of passage implementation at 
-    # Weldon, set upstream 
-    # efficiency to zero"
-    environment(weldonScenarios) <- .shadia
-    list2env(weldonScenarios(), envir = .shadia)
     
     # Reset the scalar based on population size
     environment(setScalar) <- .shadia
