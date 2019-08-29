@@ -165,17 +165,19 @@
 sacoRiverModel <- function(
   nRuns = 1,
   nYears = 50,
-  timing = list(1,1,1,1,1,1,1),
+  timing = list(1,1,1,1,1,1),
   upstream = list(
     cataract = 1,
     springIsle = 1,
     skelton = 1,
+    barmills = 1,
     westBuxton = 1,
     bonnyEagle = 1
   ),
   downstream = list(
     cataract = 1,
     springIsle = 1,
+    barmills = 1,
     skelton = 1,
     westBuxton = 1,
     bonnyEagle = 1
@@ -189,7 +191,7 @@ sacoRiverModel <- function(
   ){
   
 # Error message for passage efficiencies
-  if( (length(upstream)!=5 ) |  (length(downstream)!=5 ) ){ 
+  if( (length(upstream)!=6 ) |  (length(downstream)!=6 ) ){ 
     stop('`upstream` and `downstream` must have 5 elements each')
   }  
   
