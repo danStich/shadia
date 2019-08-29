@@ -21,7 +21,6 @@ if (!exists("maxAge")) list2env(setUpData(), envir = .GlobalEnv)
 # Draw passage rates for all dams in this system from a set of pre-defined
 # values
 up <- as.vector(mapply(sample, pDraws, 1))
-#up = rep(1, 7) # Uncomment for perfect passage
 
 # Define the variable 'timely' to determine over what period the time will be
 # expressed as a rate. A value of '1' results in a 24-hr passage rate
@@ -199,6 +198,33 @@ if(river=='susquehanna'){
     p_WestBranchUp = p_WestBranchUp,
     p_ChemungUp = p_ChemungUp,
     p_NorthBranchUp = p_NorthBranchUp,
+    downstreamS = downstreamS,
+    oceanSurvival = oceanSurvival,
+    inRiverF = inRiverF,
+    commercialF = commercialF,
+    bycatchF = bycatchF,
+    Age1 = Age1
+  ))
+}
+
+if(river=='saco'){
+  
+  # Assign the starting population based on a seed of
+  # age-1 fish and application of an ocean survival curve
+  # The population size is scaled to make the models
+  # run faster. Output is re-scaled  
+  Age1 <- rpois(1, 2e5)
+  
+  return(list(
+    up = up,
+    timely = timely,
+    fB = fB,
+    d = d,
+    indirect = indirect,
+    latent = latent,
+    delay = delay,
+    ildProduct = ildProduct,
+    jReduction = jReduction,
     downstreamS = downstreamS,
     oceanSurvival = oceanSurvival,
     inRiverF = inRiverF,

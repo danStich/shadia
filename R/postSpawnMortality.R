@@ -117,5 +117,22 @@ if(river=='susquehanna'){
   ))
 }    
   
+if(river=='saco'){   
+  # Males
+  males[[1]] <- Map("*", males[[1]], post_spawn_survival_males)
+
+  # Females
+  females[[1]] <- Map("*", females[[1]], post_spawn_survival_females)
+
+  # Apply juvenile mortality up to outmigration.
+  recruits = vector(mode = 'list', length = length(fec_Max))
+  recruits[[1]] <- Map("*", fec_Max[[1]], juvenile_survival)
+
+  return(list(
+    males=males,
+    females=females,
+    recruits=recruits
+  ))
+}    
   
 }

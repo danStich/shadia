@@ -4,14 +4,15 @@
 \alias{susquehannaRiverModel}
 \title{Susquehanna River Model}
 \usage{
-susquehannaRiverModel(nRuns = 1, nYears = 50, timing = list(1, 1, 1, 1, 1,
-  1, 1, 1, 1, 1), upstream = list(conowingo = 1, holtwood = 1, safeHarbor = 1,
-  yorkHaven = 1, sunbury = 1, williamsport = 1, lockhaven = 1, rockbottom = 1,
-  chasehibbard = 1, colliersville = 0), downstream = list(conowingo = 1,
-  holtwood = 1, safeHarbor = 1, yorkHaven = 1, sunbury = 1, williamsport = 1,
-  lockhaven = 1, rockbottom = 1, chasehibbard = 1, colliersville = 1),
-  inRiverF = 0, commercialF = 0, bycatchF = 0, indirect = 1,
-  latent = 1, watershed = TRUE)
+susquehannaRiverModel(nRuns = 1, nYears = 50, timing = list(1, 1, 1,
+  1, 1, 1, 1, 1, 1, 1), upstream = list(conowingo = 1, holtwood = 1,
+  safeHarbor = 1, yorkHaven = 1, sunbury = 1, williamsport = 1, lockhaven =
+  1, rockbottom = 1, chasehibbard = 1, colliersville = 0),
+  downstream = list(conowingo = 1, holtwood = 1, safeHarbor = 1,
+  yorkHaven = 1, sunbury = 1, williamsport = 1, lockhaven = 1, rockbottom =
+  1, chasehibbard = 1, colliersville = 1), inRiverF = 0,
+  commercialF = 0, bycatchF = 0, indirect = 1, latent = 1,
+  watershed = TRUE)
 }
 \arguments{
 \item{nRuns}{The number of times that the
@@ -239,7 +240,6 @@ example below.
 \dontrun{
   
 # R snowfall example
-
 # Load R packages
   library(snowfall)
   library(rlecuyer)
@@ -251,30 +251,19 @@ example below.
 # command-line args
 sfInit(parallel=TRUE, cpus=3, type="SOCK")
 
-# Display information about nodes and processes
-# used by this job. This is entirely optional,
-# to demonstrate snowfall methods sfClusterCall()
-# and sfCpus().
-
-# Describe the nodes and cpus:
-cat(paste0('CPU count: ', sfCpus()), fill=TRUE)
-
-# Count off each process with anonymous function
-cat('CPU ids: ', unlist(sfClusterCall(function() Sys.getpid())), fill=TRUE)
-
 # 2. Load data. 
 # -----
-data('fish')
-data('arr.B')
-data('arr.R')
-data('b.parms_susquehanna')
-data('r.parms_susquehanna')
-data('tempD')
-data('tempData_susquehanna')
+# data('fish')
+# data('arr.B')
+# data('arr.R')
+# data('b.parms_susquehanna')
+# data('r.parms_susquehanna')
+# data('tempD')
+# data('tempData_susquehanna')
 
 # 3. Define wrapper function, which can be called in parallel.
 #
-#   Runs connecticutRiverModel() on each worker
+#   Runs penobscotRiverModel() on each worker
 #
 #   Here, workerId just contains the identity of the cpu that perfomed
 #   the work. We do this only to prove we have used all the specified cpus!
@@ -283,20 +272,13 @@ data('tempData_susquehanna')
 #   Note that constructing and returning a list enables the function to
 #   return more than one output.
 # -----
-wrapper <- function(idx) {
-
-# Get cpu ids  
-  workerId <- paste(Sys.info()[['nodename']],
-                    Sys.getpid(),
-                    sep='-'
-                    )
+wrapper <- function(x) {
 
 # Run the model
 res1 <- susquehannaRiverModel()
 
 # Define the output lists
     retlist <- list(
-      worker=workerId,
       sim=res1)       
     return(retlist)
 }

@@ -125,6 +125,18 @@ if(river=='susquehanna'){
   ))
 }    
   
+# Saco River relies on ha, using same numbers as others
+# for sake of consistency
+if(river=='saco'){
   
+  habitat <- vector(mode='list', length=nRoutes)
+  
+  habitat[[1]] <- c(268, 5, 178, 97, 57, 238, 157)*203
+  
+  return(list(
+    habitat=habitat
+  ))
+  
+}    
   
 }  
