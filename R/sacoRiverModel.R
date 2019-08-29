@@ -82,9 +82,9 @@
 #' 
 #'     \item \code{time_cataract...time_bonnyEagle} Passage timing input by user
 #' 
-#'     \item \code{cataract_up...bonnyEagle_up} User-specified upstream passage efficiencies
+#'     \item \code{CataractUp...BonnyEagleD} User-specified upstream passage efficiencies
 #'  
-#'     \item \code{cataract_down...bonnyEagle_down}  User-specified downstream passage efficiencies
+#'     \item \code{CataractD...BonnyEagleD}  User-specified downstream passage efficiencies
 #'  
 #'     \item \code{pRepeat_Age1...Age9} Age-specific probability of repeat spawning  
 #'  
@@ -159,12 +159,11 @@
 #' parallel execution as demonstrated using snowfall in the
 #' example below.
 #' 
-# #' @example /inst/examples/sf-examplePNR.R
-#' 
 #' @export
+#' 
 sacoRiverModel <- function(
   nRuns = 1,
-  nYears = 50,
+  nYears = 40,
   timing = list(1,1,1,1,1,1),
   upstream = list(
     cataract = 1,
@@ -231,14 +230,14 @@ sacoRiverModel <- function(
   if(watershed){
   cat('WARNING: when watershed is set to TRUE,
     upstream and downstream passage rate(s)
-    for Cataract will be used at all dams.'
-    )
+    for Cataract will be used at all dams.',
+    '\n','\n', sep='')
   }
   
 # Set parameters -----
   environment(setParameters) <- .shadia
   list2env(setParameters(), envir = .shadia)
-
+  
   
 # Data load and memory pre-allocation -----
   if (.shadia$useTictoc) tic("Running data load...")
@@ -251,6 +250,7 @@ sacoRiverModel <- function(
   
   if (.shadia$useTictoc) toc()
 
+  
 # Hydro system configuration -----
   environment(defineHydroSystem) <- .shadia
   list2env(defineHydroSystem(), envir = .shadia)
@@ -258,6 +258,7 @@ sacoRiverModel <- function(
   environment(defineHabitat) <- .shadia
   list2env(defineHabitat(), envir = .shadia)
 
+  
 # Timers and progress -----
   # Start the timer for the simulation
   ptmSim <- proc.time()
@@ -302,8 +303,6 @@ sacoRiverModel <- function(
     list2env(definePassageRates(), envir = .shadia)
     
   # . Upstream passage efficiencies and migration route -----
-    # NOTE: This section is special for the PNR because of multiple routes with
-    # unequal numbers of dams and unequal reach lengths
     environment(annualUpstream) <- .shadia
     list2env(annualUpstream(), envir = .shadia)
     

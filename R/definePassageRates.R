@@ -199,7 +199,6 @@ if(river=='connecticut'){
   )
 }
   
-  
 if(river=='susquehanna'){  
   # Upstream passage rates
   Open <- 1.00
@@ -297,7 +296,6 @@ if(river=='susquehanna'){
     )
   )
 }    
-  
   
 if(river=='saco'){  
   # Upstream passage rates

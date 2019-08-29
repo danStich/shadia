@@ -229,9 +229,6 @@ merrimackRiverModel <- function(
   # For watershed applications of
   # the model, all values need to
   # match
-  # For watershed applications of
-  # the model, all values need to
-  # match
   sampU <- sample(pDraws[[1]], 1)
   pDraws <- lapply(pDraws, 
                     function(x){
@@ -326,8 +323,6 @@ merrimackRiverModel <- function(
     list2env(definePassageRates(), envir = .shadia)
 
   # . Upstream passage efficiencies and migration route -----
-    # NOTE: This section is special for the PNR because of multiple routes with
-    # unequal numbers of dams and unequal reach lengths
     environment(annualUpstream) <- .shadia
     list2env(annualUpstream(), envir = .shadia)
 

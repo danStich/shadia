@@ -1202,10 +1202,10 @@ if(river=='saco'){
   # if (useTictoc) tic("store output")
   
   # Year, fillling pre-allocated vector with this year
-  years[(n + nYears * (k - 1))] <-  n
+  years[(n + nYears * (k - 1))] <- n
   
   # Upstream passage efficiencies, fillling pre-allocated vectors
-  catUp[(n + nYears * (k - 1))] <- cataractUp 
+  catUp[(n + nYears * (k - 1))] <- cataractUp
   sprUp[(n + nYears * (k - 1))] <- springUp
   skeUp[(n + nYears * (k - 1))] <- skeltonUp
   barUp[(n + nYears * (k - 1))] <- barmillsUp

@@ -21,7 +21,6 @@ if (!exists("maxAge")) list2env(setUpData(), envir = .GlobalEnv)
 # Draw passage rates for all dams in this system from a set of pre-defined
 # values
 up <- as.vector(mapply(sample, pDraws, 1))
-#up = rep(1, 7) # Uncomment for perfect passage
 
 # Define the variable 'timely' to determine over what period the time will be
 # expressed as a rate. A value of '1' results in a 24-hr passage rate

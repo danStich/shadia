@@ -152,27 +152,28 @@ damRkms=damRkms
   
   
 if(river=='saco'){
-nRoutes <- 1
-nDams <- 6
-
-# Define number of production units- dams plus two in this system
-nPU <- nDams + 1
-
-# Define maximum rkm for the system.
-maxrkm <- 55
-
-# Define rkms for each of the dams for each migration group
-damRkms <- vector(mode = 'list', length = nRoutes)
-damRkms[[1]] <- c(9,11,27,32,42,44)     # Dam rkms
-
-# Return the list
-return(list(
-  nRoutes=nRoutes,
-  nDams=nDams,
-  nPU=nPU,
-  maxrkm=maxrkm,
-  damRkms=damRkms
-))  
+  
+  nRoutes <- 1
+  nDams <- 6
+  
+  # Define number of production units- dams plus two in this system
+  nPU <- nDams + 1
+  
+  # Define maximum rkm for the system.
+  maxrkm <- 55
+  
+  # Define rkms for each of the dams for each migration group
+  damRkms <- vector(mode = 'list', length = nRoutes)
+  damRkms[[1]] <- c(9,11,27,32,42,44)     # Dam rkms
+  
+  # Return the list
+  return(list(
+    nRoutes=nRoutes,
+    nDams=nDams,
+    nPU=nPU,
+    maxrkm=maxrkm,
+    damRkms=damRkms
+  ))  
 
 }    
   

@@ -4,7 +4,7 @@
 \alias{sacoRiverModel}
 \title{Saco River Model}
 \usage{
-sacoRiverModel(nRuns = 1, nYears = 50, timing = list(1, 1, 1, 1, 1,
+sacoRiverModel(nRuns = 1, nYears = 40, timing = list(1, 1, 1, 1, 1,
   1), upstream = list(cataract = 1, spring = 1, skelton = 1, barmills =
   1, westBuxton = 1, bonnyEagle = 1), downstream = list(cataract = 1,
   spring = 1, barmills = 1, skelton = 1, westBuxton = 1, bonnyEagle = 1),
@@ -91,9 +91,9 @@ The folowing named columns are returned in \code{res}:
 
     \item \code{time_cataract...time_bonnyEagle} Passage timing input by user
 
-    \item \code{cataract_up...bonnyEagle_up} User-specified upstream passage efficiencies
+    \item \code{CataractUp...BonnyEagleD} User-specified upstream passage efficiencies
  
-    \item \code{cataract_down...bonnyEagle_down}  User-specified downstream passage efficiencies
+    \item \code{CataractD...BonnyEagleD}  User-specified downstream passage efficiencies
  
     \item \code{pRepeat_Age1...Age9} Age-specific probability of repeat spawning  
  
