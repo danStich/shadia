@@ -246,3 +246,49 @@
 #' 
 #' @source U.S. Geological Survey
 "tempData_saco"
+
+#' @title Projected sea surface temperatures RCP 4.5
+#' 
+#' @description Projected sea surface temperatures for
+#' the Northeast Continental Shelf Large Marine Ecosystem
+#' (NELME) under RCP 4.5 scenario for years 1981 - 2099.
+#' 
+#' @format A dataframe with 118 obs. of 5 variables:
+#' \describe{
+#'   \item{\code{Year}}{Year for projection}
+#'   
+#'   \item{\code{Scenario}}{Representative climate pathway (RCP) used for projection}
+#'   
+#'   \item{\code{Mean}}{Mean for projection}
+#'
+#'   \item{\code{pct5th}}{5th percentile for projection}
+#'
+#'   \item{\code{pct95th}}{95th percentile for projection}                              
+#' }
+#' 
+#' @source Integrated Systems Ecology Lab, Gulf Of Maine Research Institute
+#' 
+"rcp45_sst"
+
+#' @title Projected sea surface temperatures RCP 4.5
+#' 
+#' @description Projected sea surface temperatures for
+#' the Northeast Continental Shelf Large Marine Ecosystem
+#' (NELME) under RCP 8.5 scenario for years 1981 - 2099.
+#' 
+#' @format A dataframe with 118 obs. of 5 variables:
+#' \describe{
+#'   \item{\code{Year}}{Year for projection}
+#'   
+#'   \item{\code{Scenario}}{Representative climate pathway (RCP) used for projection}
+#'   
+#'   \item{\code{Mean}}{Mean for projection}
+#'
+#'   \item{\code{pct5th}}{5th percentile for projection}
+#'
+#'   \item{\code{pct95th}}{95th percentile for projection}                              
+#' }
+#' 
+#' @source Integrated Systems Ecology Lab, Gulf Of Maine Research Institute
+#' 
+"rcp85_sst"
