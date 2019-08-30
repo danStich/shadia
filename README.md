@@ -31,18 +31,10 @@ Management decisions should not be based on a single model run. The models rely 
 
 ## Directories
 
-`data/`
+`data/` Contains built-in data sets for the package
 
-* Contains built-in data sets for the package
+`man/`  help files and documentation
 
-`man/`
+`R/`    R functions in scripts
 
-* help files and documentation
-
-`R/`
-
-* R functions in scripts
-
-`src/`
-
-* C++ source files written with `Rcpp`
+`src/`  C++ source files written with `Rcpp`
