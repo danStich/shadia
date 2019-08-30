@@ -419,7 +419,15 @@ roe.lw <- roe.lw[is.finite(roe.lw[, 2]),]
 
 # Temperature data for Saco River -----
 # Load the temperature data from Saco River
-tempData_saco2 <- tempData_saco#[tempData_merrimack$year > 2007 & tempData_merrimack$year < 2014 ,]
+tempData_saco2 <- tempData_saco
+
+
+# Only a few years have good enough data for simulating
+# temperatures.
+tempData_saco2 <- subset(
+  tempData_saco2,
+  subset= year %in% c(2010, 2011, 2013)
+  )
 
 # Summarize the temperature by day across years
 mu <- ddply(tempData_saco2,
@@ -442,14 +450,23 @@ hmu <- hmu[, c(3, 2, 1)]
 hmu <- na.omit(hmu)
 
 # Make a regression relating temperature in the 
-# Merrimack to temperature in the Connecticut
-mmr <- mu[paste(mu$year, mu$day) %in%
+# Saco to temperature in the Connecticut
+scr <- mu[paste(mu$year, mu$day) %in%
                       paste(hmu$year, hmu$day),]
 ctr <- hmu[paste(hmu$year, hmu$day) %in% 
                        paste(mu$year, mu$day),]
 # Predict temperature
-calMod <- summary(lm(mmr$val ~ ctr$val))$coefficients
+calMod <- summary(lm(scr$val ~ ctr$val))$coefficients
 hmu$val <- calMod[1, 1] + calMod[2, 1] * hmu$val
+
+# SANITY CHECK FOR TEMPERATURE DATA
+# sort(unique(hmu$year))
+# YEAR = 2011
+# plot(hmu$day[hmu$year==YEAR], 
+#      hmu$val[hmu$year==YEAR],
+#      type = 'l', 
+#      xlim=c(0, 366)
+#      )
 
 return(list(
   maxAge = maxAge,
