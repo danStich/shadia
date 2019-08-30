@@ -1,14 +1,15 @@
-#' Susquehanna River Model
+#' Saco River Model
 #' 
 #' Runs American shad dam passage performance
-#' standard model for the Susquehanna River, USA
+#' standard model for Saco River, Maine,
+#' USA
 #' 
 #' @param nRuns The number of times that the
 #' model will be run.
 #' 
 #' @param nYears The number of years for which
-#' each run will last. The default is 40 years to
-#' match the default FERC license, but can be
+#' each run will last. The default is 40 years
+#' to match default FERC licenses, but can be 
 #' changed.
 #' 
 #' @param timing The amount of time required for
@@ -18,8 +19,7 @@
 #' 
 #' @param upstream A named list of upstream dam
 #' passage efficiencies at each dam in the 
-#' Susquehanna River. Passable dams currently are
-#' not included in the list of values.
+#' Saco River.
 #' 
 #' Users may specify a single value of upstream
 #' passage at each dam, or a vector of upstream
@@ -31,8 +31,7 @@
 #' is supplied for any dam.
 #' 
 #' @param downstream A named list of downstream
-#' dam passage efficiencies at each dam in the 
-#' Susquehanna River. 
+#' dam passage efficiencies at each dam.
 #' 
 #' Users may specify a single value of downstream
 #' passage at each dam, or a vector of downstream
@@ -71,7 +70,8 @@
 #'  
 #' @return Returns a list of two named dataframes.
 #' The first dataframe (\code{res}) contains user-defined
-#' inputs and available model outputs.
+#' inputs and available model outputs. THe second (\code{sens})
+#' contains stochastic variables for sensitivity analysis.
 #'
 #' If run in parallel, returns a list of lists
 #' of dataframes.
@@ -79,20 +79,16 @@
 #' The following named columns are returned in \code{res}:
 #' \itemize{
 #'     \item \code{year} Year of simulation
+#'     \item \code{time_cataract...time_bonnyEagle} Passage timing input by user
+#'     \item \code{CataractUp...BonnyEagleUp} User-specified upstream passage efficiencies
+#'     \item \code{CataractD...BonnyEagleD}  User-specified downstream passage efficiencies
+#'     \item \code{pRepeat_Age1...Age9} Age-specific probability of repeat spawning  
 #'     \item \code{populationSize} Total number of adult spawners returning to the river
-#'     \item \code{N_1A...N_10A} Production unit-specific population size after in-river fishery mortality
-#'     \item \code{conowingo_up...colliersville_up} User-specified upstream passage efficiencies
-#'     \item \code{conowingo_down...colliersville_down}  User-specified downstream passage efficiencies
-#'     \item \code{time_conowingo...time_colliersville} Passage timing input by user
-#'     \item \code{pRepeat_Age1...Age11} Age-specific probability of repeat spawning  
+#'     \item \code{N_I...N_VII} Production unit-specific population size after in-river fishery mortality
 #' }
 #' 
-#' The following named variables are returned in \code{sens}:
+#' The following named columns are returned in \code{sens}:
 #' \itemize{
-#'     \item \code{pJuniataUp} Probability of using Juniata River for upstream migration
-#'     \item \code{pWestBranchUp} Probability of using West Branch for upstream migration
-#'     \item \code{pChemungUp} Probability of using Chemung River for upstream migration
-#'     \item \code{pNorthBranchUp} Probability of using North Branch for upstream migration
 #'     \item \code{S.downstream} Downstream survival per kilometer
 #'     \item \code{S.marine} Marine survival (z, instantaneous)
 #'     \item \code{popStart} Starting population size
@@ -128,71 +124,35 @@
 #'     \item \code{habStoch} Habitat stochasticity
 #' }
 #' 
-#' 
 #' @section 
-#' Production units by migration route:
+#' Production units delineated by main-stem dams:
 #' \itemize{
-#'   \item Juniata River
+#'   \item Saco River
 #'     \itemize{
-#'       \item \code{PU 1A} Downstream of Conowingo
-#'       \item \code{PU 2A} Conowingo to Holtwood
-#'       \item \code{PU 3A} Holtwood to SafeHarbor
-#'       \item \code{PU 4A} SafeHarbor to YorkHaven
-#'       \item \code{PU 5A} YorkHaven  to Sunbury
-#'       \item \code{PU 1B} JuniataRiver to WarriorRidge
-#'     }
-#'   \item West Branch
-#'     \itemize{
-#'       \item \code{PU 1A} Downstream of Conowingo
-#'       \item \code{PU 2A} Conowingo to Holtwood
-#'       \item \code{PU 3A} Holtwood to SafeHarbor
-#'       \item \code{PU 4A} SafeHarbor to YorkHaven
-#'       \item \code{PU 5A} YorkHaven  to Sunbury
-#'       \item \code{PU 1C} Sunbury to Williamsport
-#'       \item \code{PU 2C} Williamsport to LockHaven
-#'       \item \code{PU 3C} LockHaven to Shawville
-#'     }
-#'   \item Chemung River
-#'     \itemize{
-#'       \item \code{PU 1A} Downstream of Conowingo
-#'       \item \code{PU 2A} Conowingo to Holtwood
-#'       \item \code{PU 3A} Holtwood to SafeHarbor
-#'       \item \code{PU 4A} SafeHarbor to YorkHaven
-#'       \item \code{PU 5A} YorkHaven  to Sunbury
-#'       \item \code{PU 6A} Sunbury to NyLine
-#'       \item \code{PU 1D} NyLine to PaLine
-#'       \item \code{PU 2D} Upstream Chase-Hibbard
-#'     }
-#'   \item North Branch
-#'     \itemize{
-#'       \item \code{PU 1A} Downstream of Conowingo
-#'       \item \code{PU 2A} Conowingo to Holtwood
-#'       \item \code{PU 3A} Holtwood to SafeHarbor
-#'       \item \code{PU 4A} SafeHarbor to YorkHaven
-#'       \item \code{PU 5A} YorkHaven to Sunbury
-#'       \item \code{PU 6A} Sunbury to NyLine
-#'       \item \code{PU 7A} NyLine to RockBottom
-#'       \item \code{PU 8A} RockBottom to Unadilla
-#'       \item \code{PU 9A} Unadilla to Colliersville
-#'       \item \code{PU 10A} Colliersville to Cooperstown
-#'   }
-#' }
-#' 
-#' 
-#' @section 
-#' Schematic of production units:
-#' Production units delineated by dams in the watershed. Circles are log 
-#' are log proportional to carrying capacity in each unit.
-#' Black dots indicate no suitable habitat in a unit. 
+#'       \item \code{PU I} Downstream of Cataract Project
+#'       \item \code{PU II} Cataract Project to Springs and Bradbury
+#'       \item \code{PU III} Springs and Bradbury Dam to Skelton
+#'       \item \code{PU IV} Skelton Dam to Bar Mills
+#'       \item \code{PU V} Bar Mills Dam to West Buxton
+#'       \item \code{PU VI} West Buxton Dam to Bonny Eagle
+#'       \item \code{PU VII} Bonny Eagle Dam to Hiram Falls              
+#'    }
+#'  }
 #'  
-#' \if{html}{\figure{susquehanna.png}{Susquehanna River}}
-#' \if{latex}{\figure{susquehanna.png}{options: width=0.5in}}  
-#' 
+# #' @section
+# #' Schematic of production units:
+# #' Production units delineated by dams in the watershed. Circles are log
+# #' proportional to carrying capacity in each unit.
+# #' Black dots indicate no suitable habitat in a unit.
+# #' 
+# #' \if{html}{\figure{saco.png}{Saco River}}
+# #' \if{latex}{\figure{saco.png}{options: width=0.5in}}
+# #'   
 #' @section Warning about serial execution and memory limits:
 #' 
 #' Currently, internal functions rely on \code{list2env} to return
 #' lists to a temporary environment created in the 
-#' \code{susquehannaRiverModel} function. Consequently, lists 
+#' \code{sacoRiverModel} function. Consequently, lists 
 #' that are exported must be limited in size. Therefore, 
 #' users currently need to limit the number of runs per 
 #' call (\code{nRuns} argument) to less than 10 or R will 
@@ -205,36 +165,29 @@
 #' parallel execution as demonstrated using snowfall in the
 #' example below.
 #' 
-#' @example /inst/examples/sf-exampleSSR.R
+#' @example inst/examples/sf-exampleSACO.R
 #' 
 #' @export
-susquehannaRiverModel <- function(
+#' 
+sacoRiverModel <- function(
   nRuns = 1,
-  nYears = 50,
-  timing = list(1,1,1,1,1,1,1,1,1,1),
+  nYears = 40,
+  timing = list(1,1,1,1,1,1),
   upstream = list(
-    conowingo = 1,
-    holtwood = 1,
-    safeHarbor = 1,
-    yorkHaven = 1,
-    sunbury = 1,
-    williamsport = 1,
-    lockhaven = 1,
-    rockbottom = 1,
-    chasehibbard = 1,
-    colliersville = 0
+    cataract = 1,
+    spring = 1,
+    skelton = 1,
+    barmills = 1,
+    westBuxton = 1,
+    bonnyEagle = 1
   ),
   downstream = list(
-    conowingo = 1,
-    holtwood = 1,
-    safeHarbor = 1,
-    yorkHaven = 1,
-    sunbury = 1,
-    williamsport = 1,
-    lockhaven = 1,
-    rockbottom = 1,
-    chasehibbard = 1,    
-    colliersville = 1
+    cataract = 1,
+    spring = 1,
+    barmills = 1,
+    skelton = 1,
+    westBuxton = 1,
+    bonnyEagle = 1
   ),
   inRiverF = 0,
   commercialF = 0,
@@ -245,8 +198,8 @@ susquehannaRiverModel <- function(
   ){
   
 # Error message for passage efficiencies
-  if( (length(upstream)!=10 ) |  (length(downstream)!=10 ) ){ 
-    stop('`upstream` must have 10 elements and `dowsntream` must have 10.')
+  if( (length(upstream)!=6 ) |  (length(downstream)!=6 ) ){ 
+    stop('`upstream` and `downstream` must have 5 elements each')
   }  
   
 # Create package workspace if it does not yet exist  
@@ -254,15 +207,12 @@ susquehannaRiverModel <- function(
     .shadia <- new.env()  
   
 # Assign River
-  river <- 'susquehanna'
+  river <- 'saco'
   
 # Passage variable assignment -----
   pDraws <- upstream
   dDraws <- downstream
   
-  # For watershed applications of
-  # the model, all values need to
-  # match
   # For watershed applications of
   # the model, all values need to
   # match
@@ -287,15 +237,15 @@ susquehannaRiverModel <- function(
   
   if(watershed){
   cat('WARNING: when watershed is set to TRUE,
-    upstream passage rate(s) for Conowingo Dam will
-    be used for all upstream and downstream
-    passage efficiencies.')
+    upstream and downstream passage rate(s)
+    for Cataract will be used at all dams.',
+    '\n','\n', sep='')
   }
   
 # Set parameters -----
   environment(setParameters) <- .shadia
   list2env(setParameters(), envir = .shadia)
-
+  
   
 # Data load and memory pre-allocation -----
   if (.shadia$useTictoc) tic("Running data load...")
@@ -308,13 +258,15 @@ susquehannaRiverModel <- function(
   
   if (.shadia$useTictoc) toc()
 
+  
 # Hydro system configuration -----
   environment(defineHydroSystem) <- .shadia
   list2env(defineHydroSystem(), envir = .shadia)
+  
   environment(defineHabitat) <- .shadia
   list2env(defineHabitat(), envir = .shadia)
 
-
+  
 # Timers and progress -----
   # Start the timer for the simulation
   ptmSim <- proc.time()
@@ -354,19 +306,14 @@ susquehannaRiverModel <- function(
       #if (useTictoc) toc()
     }
 
-      
   # . Dam passage efficiencies -----
     environment(definePassageRates) <- .shadia
     list2env(definePassageRates(), envir = .shadia)
-
     
   # . Upstream passage efficiencies and migration route -----
-    # NOTE: This section is special for the PNR because of multiple routes with
-    # unequal numbers of dams and unequal reach lengths
     environment(annualUpstream) <- .shadia
     list2env(annualUpstream(), envir = .shadia)
-
-
+    
   # . In-river fishing mortality
     # Define in-river fishing mortalities for 
     # each PU in each of the four
@@ -374,13 +321,11 @@ susquehannaRiverModel <- function(
     environment(fwFishingMort) <- .shadia
     list2env(fwFishingMort(), envir = .shadia)
     
-        
 # Starting population structure -----
 # Define starting population structure for each simulation
   environment(startingPop) <- .shadia
   list2env(startingPop(), envir = .shadia)
-  
-    
+
 # Inner loop -----
   # Run sim for nYears
   for (n in 1:nYears) {
@@ -395,16 +340,6 @@ susquehannaRiverModel <- function(
     # legacy effects in naming new objects- this could lead to negative
     # population sizes and the like
     #rm(list = ls(.shadia)[grep(ls(.shadia), pat = '_')])
-
-    # Set passage efficiency at Weldon 
-    # (MattaceunkUp, upEffs[[2]][5] & [[4]][6])
-    # This code takes the timing scenario, 
-    # and says "if the year is less than the
-    # minimum year of passage implementation at 
-    # Weldon, set upstream 
-    # efficiency to zero"
-    environment(weldonScenarios) <- .shadia
-    list2env(weldonScenarios(), envir = .shadia)
     
     # Reset the scalar based on population size
     environment(setScalar) <- .shadia
@@ -413,7 +348,7 @@ susquehannaRiverModel <- function(
     # Scale the population
     environment(scalePop) <- .shadia
     list2env(scalePop(), envir = .shadia)
-
+    
     # If you need to load/reuse inner loop sampling,
     # uncomment/use this stop, then call
     # the inner loop sampling code.
@@ -433,7 +368,7 @@ susquehannaRiverModel <- function(
       #if (useTictoc) toc()
     }
 
-    
+
   # . Process fish and eggs ----
     # Processing of populations generalized and
     # moved into functions. See defineFunctions.R
@@ -462,7 +397,7 @@ susquehannaRiverModel <- function(
     environment(downstreamMigration) <- .shadia
     list2env(downstreamMigration(), envir = .shadia)
 
-    
+  
   # . The next generation -----
     # next year (after applying ocean survival)
     #if (useTictoc) tic("NEXT GENERATION")

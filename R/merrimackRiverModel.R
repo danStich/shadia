@@ -7,9 +7,9 @@
 #' model will be run.
 #'
 #' @param nYears The number of years for which
-#' each run will last. The default is 50 years
-#' to match hydropower license duration in the
-#' Penobscot River.
+#' each run will last. The default is 40 years
+#' to match the default FERC license, but can
+#' be changed.
 #'
 #' @param timing The amount of time required for
 #' upstream passage by individual fish (in days),
@@ -78,24 +78,16 @@
 #' If run in parallel, returns a list of lists
 #' of dataframes.
 #'
-#' The folowing named columns are returned in \code{res}:
+#' The following named columns are returned in \code{res}:
 #' \itemize{
 #'     \item \code{year} Year of simulation
-#'
 #'     \item \code{time_essex...time_hookset} Passage timing input by user
-#'
 #'     \item \code{EssUp...HookUp} User-specified upstream passage efficiencies
-#'
 #'     \item \code{EssD...HookD} User-specified downstream passage efficiencies
-#'
 #'     \item \code{pBypassUp} User-specified probability of using bypass at Pawtucket Dam for upstream migration
-#'     
 #'     \item \code{pBypassD} User-specified probability of using bypass at Pawtucket Dam for downstream migration
-#'
 #'     \item \code{pRepeat_Age1...Age11} Age-specific probability of repeat spawning
-#'
 #'     \item \code{populationSize} Total number of adult spawners returning to the river
-#'
 #'     \item \code{N_I...N_V} Production unit-specific population size after in-river fishery mortality
 #' }
 #'
@@ -153,7 +145,7 @@
 #' @section 
 #' Schematic of production units:
 #' Production units delineated by dams in the watershed. Circles are log 
-#' are log proportional to carrying capacity in each units.
+#' are log proportional to carrying capacity in each unit.
 #' Black dots indicate no suitable habitat in a unit. 
 #'  
 #' \if{html}{\figure{merrimack.png}{Merrimack River}}
@@ -226,9 +218,6 @@ merrimackRiverModel <- function(
   pDraws <- upstream
   dDraws <- downstream
 
-  # For watershed applications of
-  # the model, all values need to
-  # match
   # For watershed applications of
   # the model, all values need to
   # match
@@ -326,8 +315,6 @@ merrimackRiverModel <- function(
     list2env(definePassageRates(), envir = .shadia)
 
   # . Upstream passage efficiencies and migration route -----
-    # NOTE: This section is special for the PNR because of multiple routes with
-    # unequal numbers of dams and unequal reach lengths
     environment(annualUpstream) <- .shadia
     list2env(annualUpstream(), envir = .shadia)
 

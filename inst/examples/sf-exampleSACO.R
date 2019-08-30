@@ -1,4 +1,5 @@
 # Parallel execution on a local cluster
+# -------------------------------------------------------------------------
 \dontrun{
   
 # R snowfall example
@@ -9,9 +10,10 @@
   library(shadia)
 
 # 1. Initialization of snowfall.
+# -----  
 # Initialize parallel mode using sockets and
 # command-line args
-sfInit(parallel=TRUE, cpus=3, type="SOCK")
+  sfInit(parallel=TRUE, cpus=3, type="SOCK")
 
 # Display information about nodes and processes
 # used by this job. This is entirely optional,
@@ -19,24 +21,23 @@ sfInit(parallel=TRUE, cpus=3, type="SOCK")
 # and sfCpus().
 
 # Describe the nodes and cpus:
-cat(paste0('CPU count: ', sfCpus()), fill=TRUE)
+  cat(paste0('CPU count: ', sfCpus()), fill=TRUE)
 
 # Count off each process with anonymous function
-cat('CPU ids: ', unlist(sfClusterCall(function() Sys.getpid())), fill=TRUE)
+  cat('CPU ids: ', unlist(sfClusterCall(function() Sys.getpid())), fill=TRUE)
 
 # 2. Load data. 
-# -----
-data('fish')
-data('arr.B')
-data('arr.R')
-data('b.parms')
-data('r.parms')
-data('tempD')
-data('tempData')
+  data('fish')
+  data('arr.B')
+  data('arr.R')
+  data('b.parms')
+  data('r.parms')
+  data('tempD')
+  data('tempData_saco')
 
 # 3. Define wrapper function, which can be called in parallel.
 #
-#   Runs penobscotRiverModel on each worker
+#   Runs sacoRiverModel() on each worker
 #
 #   Here, workerId just contains the identity of the cpu that perfomed
 #   the work. We do this only to prove we have used all the specified cpus!
@@ -44,47 +45,51 @@ data('tempData')
 #
 #   Note that constructing and returning a list enables the function to
 #   return more than one output.
-
+# -----
 wrapper <- function(idx) {
-
+  
   # Get cpu ids  
-    workerId <- paste(Sys.info()[['nodename']],
-                      Sys.getpid(),
-                      sep='-'
-                      )
+  workerId <- paste(Sys.info()[['nodename']],
+                    Sys.getpid(),
+                    sep='-'
+  )
   
   # Run the model
-  res1 <- penobscotRiverModel(
-    nYears = 50,
+  res1 <- sacoRiverModel <- function(
+    nRuns = 1,
+    nYears = 40,
+    timing = list(1,1,1,1,1,1),
     upstream = list(
-      milford = seq(0, 1, 0.10),
-      howland = seq(0, 1, 0.10),
-      westEnfield = seq(0, 1, 0.10),
-      brownsMill = seq(0, 1, 0.10),
-      moosehead = seq(0, 1, 0.10),
-      guilford = seq(0, 1, 0.10),
-      weldon = seq(0, 1, 0.10)
+      cataract = 1,
+      spring = 1,
+      skelton = 1,
+      barmills = 1,
+      westBuxton = 1,
+      bonnyEagle = 1
     ),
     downstream = list(
-      stillwater = seq(0, 1, 0.10),
-      orono = seq(0, 1, 0.10),
-      milford = seq(0, 1, 0.10),
-      howland = seq(0, 1, 0.10),
-      westEnfield = seq(0, 1, 0.10),
-      brownsMill = seq(0, 1, 0.10),
-      moosehead = seq(0, 1, 0.10),
-      guilford = seq(0, 1, 0.10),
-      weldon = seq(0, 1, 0.10)
-    )
+      cataract = 1,
+      spring = 1,
+      barmills = 1,
+      skelton = 1,
+      westBuxton = 1,
+      bonnyEagle = 1
+    ),
+    inRiverF = 0,
+    commercialF = 0,
+    bycatchF = 0,
+    indirect = 1,
+    latent = 1,
+    watershed = TRUE
   )
   
   # Define the output lists
-      retlist <- list(
-        worker=workerId,
-        sim=res1)       
-      return(retlist)
+  retlist <- list(
+    worker=workerId,
+    sim=res1)       
+  return(retlist)
 }
-
+  
 # 4. Export needed data to workers 
 #    load required packages on workers.
   sfLibrary(shadia)
@@ -107,7 +112,7 @@ wrapper <- function(idx) {
 # 8. Examine the results returned from the cluster:
 
 # 'result' is a list of lists. Save this:
-# save(result, file = "snowfall-result.rda")
+  # save(result, file = "snowfall-result.rda")
 
 # Extract results list from output list
   out <- lapply(result, function(x) x[[c('sim')]])

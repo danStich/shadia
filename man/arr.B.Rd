@@ -3,7 +3,6 @@
 \docType{data}
 \name{arr.B}
 \alias{arr.B}
-\alias{arr.B}
 \title{Arrival regression parameters for bucks}
 \format{A list of 1000 matrices with named dimensions of:
 \describe{

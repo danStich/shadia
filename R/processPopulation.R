@@ -27,7 +27,7 @@ processPopulation <- function(isFemale, isEgg = FALSE) {
     population <- vector(mode = 'list', length = nRoutes)
     
     for(i in 1:nRoutes){
-      population[[i]] <- vector(mode = 'list', length = (nPU[[i]])) # main-to-pisc
+      population[[i]] <- vector(mode = 'list', length = (nPU[[i]]))
       population[[i]] <- assignFishToRoutes(i, get(paste0("PUS_",i), envir = .shadia))
     }
 
