@@ -139,15 +139,15 @@
 #'    }
 #'  }
 #'  
-# #' @section
-# #' Schematic of production units:
-# #' Production units delineated by dams in the watershed. Circles are log
-# #' proportional to carrying capacity in each unit.
-# #' Black dots indicate no suitable habitat in a unit.
-# #' 
-# #' \if{html}{\figure{saco.png}{Saco River}}
-# #' \if{latex}{\figure{saco.png}{options: width=0.5in}}
-# #'   
+#' @section
+#' Schematic of production units:
+#' Production units delineated by dams in the watershed. 
+#' Circles are log proportional to carrying capacity 
+#' in each unit.
+#' 
+#' \if{html}{\figure{saco.png}{Saco River}}
+#' \if{latex}{\figure{saco.png}{options: width=0.5in}}
+#'   
 #' @section Warning about serial execution and memory limits:
 #' 
 #' Currently, internal functions rely on \code{list2env} to return
