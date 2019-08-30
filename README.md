@@ -25,7 +25,7 @@ The models take several (10-30) seconds to run for one iteration on most standar
  
 ## Warning 
 
-Management decisions should not be based on a single model run. The models rely on stochastic inputs for parameterization, as detailed in [Stich et al. (2018)](http://www.nrcresearchpress.com/doi/10.1139/cjfas-2018-0008#.W2SVohRKgeI). As such, any two model runs might result in substantially different predictions, even under the same passage scenario. We recommend at least 100 model runs per scenario to provide a minimal characterization of stochasticity, and a cursory understanding of variability in the response(s) of interest. In these cases, we strongly recommend running the model using the `snowfall` package as demonstrated in the help file for each model, which can be accessed by typing `?...RiverModel` (where '...' is the name of each river in lowercase) in the console and pressing `< Enter >`.
+Management decisions should not be based on a single model run. The models rely on stochastic inputs for parameterization, as detailed in [Stich et al. (2018)](http://www.nrcresearchpress.com/doi/10.1139/cjfas-2018-0008#.W2SVohRKgeI). As such, any two model runs might result in substantially different predictions, even under the same passage scenario. We recommend at least 100 model runs per scenario to provide a minimal characterization of stochasticity, and a cursory understanding of variability in the response(s) of interest. In these cases, we strongly recommend running the model using the `snowfall` package as demonstrated in the help file for each model, which can be accessed by typing `?...RiverModel` (where '`...`' is the name of each river in lowercase) in the console and pressing `< Enter >`.
 
 </br>
 
