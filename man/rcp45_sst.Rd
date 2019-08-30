@@ -10,7 +10,7 @@
   
   \code{Scenario }{Representative climate pathway (RCP) used for projection}
   
-  \code{Mean }{Mean for projection}
+  \code{Mean }{Mean projected temperature (C)}
 
   \code{pct5th }{5th percentile for projection}
 

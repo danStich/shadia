@@ -259,7 +259,7 @@
 #'   
 #'   \code{Scenario }{Representative climate pathway (RCP) used for projection}
 #'   
-#'   \code{Mean }{Mean for projection}
+#'   \code{Mean }{Mean projected temperature (C)}
 #'
 #'   \code{pct5th }{5th percentile for projection}
 #'
@@ -282,7 +282,7 @@
 #'   
 #'   \code{Scenario }{Representative climate pathway (RCP) used for projection}
 #'   
-#'   \code{Mean }{Mean for projection}
+#'   \code{Mean }{Mean projected temperature (C)}
 #'
 #'   \code{pct5th }{5th percentile for projection}
 #'
@@ -292,3 +292,48 @@
 #' @source Integrated Systems Ecology Lab, Gulf Of Maine Research Institute
 #' 
 "rcp85_sst"
+
+#' @title Projected daily river temperatures (RCP4.5) in CT River, USA
+#' 
+#' @description Daily project temperatures in the Connecticut
+#' River, USA for years 1950-2099 under RCP4.5. Three sites
+#' are included based on availbility of time-series used to
+#' construct the projections.
+#' 
+#' @format A dataframe with 54,747 obs. of 4 variables:
+#' \describe{
+#'   \code{Date }{Date for projection}
+#'   
+#'   \code{Haddam }{Daily temperature (C) at Haddam}
+#'   
+#'   \code{Thompsonville }{Daily temperature (C) at Thompsonville}
+#'
+#'   \code{Turners }{Daily temperature (C) at Turners Falls}
+#' }
+#' 
+#' @source Integrated Systems Ecology Lab, Gulf Of Maine Research Institute
+#' 
+"ctr_proj45"
+
+#' @title Projected daily river temperatures (RCP8.5) in CT River, USA
+#' 
+#' @description Daily project temperatures in the Connecticut
+#' River, USA for years 1950-2099 under RCP8.5. Three sites
+#' are included based on availbility of time-series used to
+#' construct the projections.
+#' 
+#' @format A dataframe with 54,747 obs. of 4 variables:
+#' \describe{
+#'   \code{Date }{Date for projection}
+#'   
+#'   \code{Haddam }{Daily temperature (C) at Haddam}
+#'   
+#'   \code{Thompsonville }{Daily temperature (C) at Thompsonville}
+#'
+#'   \code{Turners }{Daily temperature (C) at Turners Falls}
+#' }
+#' 
+#' @source Integrated Systems Ecology Lab, Gulf Of Maine Research Institute
+#' 
+"ctr_proj85"
+
