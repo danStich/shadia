@@ -87,17 +87,11 @@
 #' The folowing named columns are returned in \code{res}:
 #' \itemize{
 #'     \item \code{year} Year of simulation
-#' 
 #'     \item \code{time_milford...time_guilford} Passage timing input by user
-#' 
 #'     \item \code{milford_up...guilford_up} User-specified upstream passage efficiencies
-#'  
 #'     \item \code{stillwater_down...weldon_down}  User-specified downstream passage efficiencies
-#'  
 #'     \item \code{pRepeat_Age1...Age9} Age-specific probability of repeat spawning  
-#'  
 #'     \item \code{populationSize} Total number of adult spawners returning to the river
-#' 
 #'     \item \code{N_pu1A2A...N_pu4B} Production unit-specific population size after in-river fishery mortality
 #' }
 #' 
@@ -143,17 +137,15 @@
 #' 
 #' @section 
 #' Schematic of production units:
-#' Production units delineated by dams in the watershed. Circles are log 
-#' are log proportional to carrying capacity in each units.
-#' Black dots indicate no suitable habitat in a unit. 
+#' Production units delineated by dams in the watershed. 
+#' Circles are log proportional to carrying capacity in 
+#' each unit. Black dots indicate no suitable habitat 
+#' in a unit. 
 #'  
 #' \if{html}{\figure{penobscot.png}{Penobscot River}}
 #' \if{latex}{\figure{penobscot.png}{options: width=0.5in}}  
 #'   
 #' @section Warning about serial execution and memory limits:
-#' Current implementation is based on work
-#' in review, and is thus subject to modification 
-#' without notice. 
 #' 
 #' Currently, internal functions rely on \code{list2env} to return
 #' lists to a temporary environment created in the 

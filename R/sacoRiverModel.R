@@ -8,9 +8,9 @@
 #' model will be run.
 #' 
 #' @param nYears The number of years for which
-#' each run will last. The default is 50 years
-#' to match hydropower license duration in the
-#' Penobscot River.
+#' each run will last. The default is 40 years
+#' to match default FERC licenses, but can be 
+#' changed.
 #' 
 #' @param timing The amount of time required for
 #' upstream passage by individual fish (in days), 
@@ -76,20 +76,14 @@
 #' If run in parallel, returns a list of lists
 #' of dataframes.
 #'
-#' The folowing named columns are returned in \code{res}:
+#' The following named columns are returned in \code{res}:
 #' \itemize{
 #'     \item \code{year} Year of simulation
-#' 
 #'     \item \code{time_cataract...time_bonnyEagle} Passage timing input by user
-#' 
-#'     \item \code{CataractUp...BonnyEagleD} User-specified upstream passage efficiencies
-#'  
+#'     \item \code{CataractUp...BonnyEagleUp} User-specified upstream passage efficiencies
 #'     \item \code{CataractD...BonnyEagleD}  User-specified downstream passage efficiencies
-#'  
 #'     \item \code{pRepeat_Age1...Age9} Age-specific probability of repeat spawning  
-#'  
 #'     \item \code{populationSize} Total number of adult spawners returning to the river
-#' 
 #'     \item \code{N_I...N_VII} Production unit-specific population size after in-river fishery mortality
 #' }
 #' 
@@ -130,19 +124,31 @@
 #'     \item \code{habStoch} Habitat stochasticity
 #' }
 #' 
+#' @section 
+#' Production units delineated by main-stem dams:
+#' \itemize{
+#'   \item Saco River
+#'     \itemize{
+#'       \item \code{PU I} Downstream of Cataract Project
+#'       \item \code{PU II} Cataract Project to Springs and Bradbury
+#'       \item \code{PU III} Springs and Bradbury Dam to Skelton
+#'       \item \code{PU IV} Skelton Dam to Bar Mills
+#'       \item \code{PU V} Bar Mills Dam to West Buxton
+#'       \item \code{PU VI} West Buxton Dam to Bonny Eagle
+#'       \item \code{PU VII} Bonny Eagle Dam to Hiram Falls              
+#'    }
+#'  }
+#'  
 # #' @section
 # #' Schematic of production units:
 # #' Production units delineated by dams in the watershed. Circles are log
-# #' proportional to carrying capacity in each units.
+# #' proportional to carrying capacity in each unit.
 # #' Black dots indicate no suitable habitat in a unit.
 # #' 
-# #' \if{html}{\figure{penobscot.png}{Penobscot River}}
-# #' \if{latex}{\figure{penobscot.png}{options: width=0.5in}}
+# #' \if{html}{\figure{saco.png}{Saco River}}
+# #' \if{latex}{\figure{saco.png}{options: width=0.5in}}
 # #'   
 #' @section Warning about serial execution and memory limits:
-#' Current implementation is based on work
-#' in review, and is thus subject to modification 
-#' without notice. 
 #' 
 #' Currently, internal functions rely on \code{list2env} to return
 #' lists to a temporary environment created in the 
@@ -158,6 +164,8 @@
 #' set of inputs, the recommended approach is to use 
 #' parallel execution as demonstrated using snowfall in the
 #' example below.
+#' 
+#' @example inst/examples/sf-exampleSACO.R
 #' 
 #' @export
 #' 

@@ -83,20 +83,14 @@
 #' If run in parallel, returns a list of lists
 #' of dataframes.
 #'
-#' The folowing named columns are returned in \code{res}:
+#' The following named columns are returned in \code{res}:
 #' \itemize{
 #'     \item \code{year} Year of simulation
-#'
 #'     \item \code{time_holyoke...time_vernon} Passage timing input by user
-#'
 #'     \item \code{HolyokeUp...VernonUp} User-specified upstream passage efficiencies
-#'
 #'     \item \code{HolyokeD...VernonD}  User-specified downstream passage efficiencies
-#'
 #'     \item \code{pRepeat_Age1...Age8} Age-specific probability of repeat spawning
-#'
 #'     \item \code{populationSize} Total number of adult spawners returning to the river
-#'
 #'     \item \code{N_I...N_V} Production unit-specific population size after in-river fishery mortality
 #' }
 #' 
@@ -155,9 +149,10 @@
 #'  
 #' @section 
 #' Schematic of production units:
-#' Production units delineated by dams in the watershed. Circles are log 
-#' are log proportional to carrying capacity in each units.
-#' Black dots indicate no suitable habitat in a unit. 
+#' Production units delineated by dams in the watershed.
+#' Circles are log proportional to carrying capacity in 
+#' each unit. Black dots indicate no suitable habitat 
+#' in a unit. 
 #'  
 #' \if{html}{\figure{connecticut.png}{Connecticut River}}
 #' \if{latex}{\figure{connecticut.png}{options: width=0.5in}}  

@@ -19,8 +19,9 @@ susquehannaRiverModel(nRuns = 1, nYears = 50, timing = list(1, 1, 1,
 model will be run.}
 
 \item{nYears}{The number of years for which
-each run will last. The default is 50 years
-to match common hydropower license duration.}
+each run will last. The default is 40 years to
+match the default FERC license, but can be
+changed.}
 
 \item{timing}{The amount of time required for
 upstream passage by individual fish (in days), 
@@ -55,8 +56,7 @@ are necessary if more than one passage efficiency
 is supplied for any dam.}
 
 \item{inRiverF}{Annual, recreational harvest of 
-American shad downstream of Weldon Dam. 
-Parameterized as an annual rate [0, 1].}
+American shad. Parameterized as an annual rate [0, 1].}
 
 \item{commercialF}{Commercial fishery mortality
 for American shad in marine environment incurred 
@@ -89,20 +89,14 @@ inputs and available model outputs.
 If run in parallel, returns a list of lists
 of dataframes.
 
-The folowing named columns are returned in \code{res}:
+The following named columns are returned in \code{res}:
 \itemize{
     \item \code{year} Year of simulation
-    
     \item \code{populationSize} Total number of adult spawners returning to the river
-    
     \item \code{N_1A...N_10A} Production unit-specific population size after in-river fishery mortality
-
     \item \code{conowingo_up...colliersville_up} User-specified upstream passage efficiencies
- 
     \item \code{conowingo_down...colliersville_down}  User-specified downstream passage efficiencies
-    
     \item \code{time_conowingo...time_colliersville} Passage timing input by user
-    
     \item \code{pRepeat_Age1...Age11} Age-specific probability of repeat spawning  
 }
 
@@ -149,8 +143,7 @@ The following named variables are returned in \code{sens}:
 }
 \description{
 Runs American shad dam passage performance
-standard model for Penobscot River, Maine,
-USA
+standard model for the Susquehanna River, USA
 }
 \section{Production units by migration route}{
 
@@ -205,7 +198,7 @@ USA
 \section{Schematic of production units}{
 
 Production units delineated by dams in the watershed. Circles are log 
-are log proportional to carrying capacity in each units.
+are log proportional to carrying capacity in each unit.
 Black dots indicate no suitable habitat in a unit. 
  
 \if{html}{\figure{susquehanna.png}{Susquehanna River}}
@@ -214,9 +207,6 @@ Black dots indicate no suitable habitat in a unit.
 
 \section{Warning about serial execution and memory limits}{
 
-Current implementation is based on work
-in review, and is thus subject to modification 
-without notice. 
 
 Currently, internal functions rely on \code{list2env} to return
 lists to a temporary environment created in the 
@@ -236,7 +226,6 @@ example below.
 
 \examples{
 # Parallel execution on a local cluster
-# -------------------------------------------------------------------------
 \dontrun{
   
 # R snowfall example
@@ -246,24 +235,22 @@ example below.
   library(shadia)
 
 # 1. Initialization of snowfall.
-# -----  
 # Initialize parallel mode using sockets and
 # command-line args
-sfInit(parallel=TRUE, cpus=3, type="SOCK")
+  sfInit(parallel=TRUE, cpus=3, type="SOCK")
 
 # 2. Load data. 
-# -----
-# data('fish')
-# data('arr.B')
-# data('arr.R')
-# data('b.parms_susquehanna')
-# data('r.parms_susquehanna')
-# data('tempD')
-# data('tempData_susquehanna')
+  data('fish')
+  data('arr.B')
+  data('arr.R')
+  data('b.parms_susquehanna')
+  data('r.parms_susquehanna')
+  data('tempD')
+  data('tempData_susquehanna')
 
 # 3. Define wrapper function, which can be called in parallel.
 #
-#   Runs penobscotRiverModel() on each worker
+#   Runs susquehannaRiverModel() on each worker
 #
 #   Here, workerId just contains the identity of the cpu that perfomed
 #   the work. We do this only to prove we have used all the specified cpus!
@@ -271,13 +258,12 @@ sfInit(parallel=TRUE, cpus=3, type="SOCK")
 #
 #   Note that constructing and returning a list enables the function to
 #   return more than one output.
-# -----
 wrapper <- function(x) {
 
-# Run the model
-res1 <- susquehannaRiverModel()
-
-# Define the output lists
+  # Run the model
+    res1 <- susquehannaRiverModel()
+  
+  # Define the output lists
     retlist <- list(
       sim=res1)       
     return(retlist)
@@ -285,47 +271,41 @@ res1 <- susquehannaRiverModel()
 
 # 4. Export needed data to workers 
 #    load required packages on workers.
-# -----
-sfLibrary(shadia)
+  sfLibrary(shadia)
 
 # 5. Start network random number generator 
 #    (as "sample" uses random numbers).
-# -----
-#sfClusterSetupRNG()
+#    sfClusterSetupRNG()
 
 # 6. Distribute calculation to workers
-# -----
-niterations <- 10
-start <- Sys.time()
+  niterations <- 10
+  start <- Sys.time()
 
-# The magic is in snowfall's sfLapply() function,
-# which sends wrapper() out to the workers:
-result <- sfLapply(1:niterations, wrapper) 
-
-Sys.time()-start
-
+  # Use sfLapply() function to send wrapper() to the workers:
+    result <- sfLapply(1:niterations, wrapper) 
+    
 # 7. Stop snowfall
-# -----
-sfStop()
+  Sys.time()-start  
+  sfStop()
 
 # 8. Examine the results returned from the cluster:
-# -----
 
 # 'result' is a list of lists. Save this:
-save(result, file = "snowfall-result.rda")
+# save(result, file = "snowfall-result.rda")
 
 # Extract results list from output list
-out <- lapply(result, function(x) x[[c('sim')]])
+  out <- lapply(result, function(x) x[[c('sim')]])
 
 # Extract user inputs and population metrics
-res <- lapply(out, function(x) x[[c('res')]])
-resdf <- do.call(rbind, res)
+  res <- lapply(out, function(x) x[[c('res')]])
+  resdf <- do.call(rbind, res)
 
 # Extract sensitivity variables
-sens <- lapply(out, function(x) x[[c('sens')]])
-sensdf <- do.call(rbind, sens)
+  sens <- lapply(out, function(x) x[[c('sens')]])
+  sensdf <- do.call(rbind, sens)
 
-plot(resdf$year, resdf$populationSize)
+# Have a look at result  
+  plot(resdf$year, resdf$populationSize)
 
 }
 }

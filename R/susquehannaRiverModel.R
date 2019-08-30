@@ -1,15 +1,15 @@
 #' Susquehanna River Model
 #' 
 #' Runs American shad dam passage performance
-#' standard model for Penobscot River, Maine,
-#' USA
+#' standard model for the Susquehanna River, USA
 #' 
 #' @param nRuns The number of times that the
 #' model will be run.
 #' 
 #' @param nYears The number of years for which
-#' each run will last. The default is 50 years
-#' to match common hydropower license duration.
+#' each run will last. The default is 40 years to
+#' match the default FERC license, but can be
+#' changed.
 #' 
 #' @param timing The amount of time required for
 #' upstream passage by individual fish (in days), 
@@ -44,8 +44,7 @@
 #' is supplied for any dam.
 #' 
 #' @param inRiverF Annual, recreational harvest of 
-#' American shad downstream of Weldon Dam. 
-#' Parameterized as an annual rate [0, 1].
+#' American shad. Parameterized as an annual rate [0, 1].
 #'
 #' @param commercialF Commercial fishery mortality
 #' for American shad in marine environment incurred 
@@ -77,20 +76,14 @@
 #' If run in parallel, returns a list of lists
 #' of dataframes.
 #'
-#' The folowing named columns are returned in \code{res}:
+#' The following named columns are returned in \code{res}:
 #' \itemize{
 #'     \item \code{year} Year of simulation
-#'     
 #'     \item \code{populationSize} Total number of adult spawners returning to the river
-#'     
 #'     \item \code{N_1A...N_10A} Production unit-specific population size after in-river fishery mortality
-#' 
 #'     \item \code{conowingo_up...colliersville_up} User-specified upstream passage efficiencies
-#'  
 #'     \item \code{conowingo_down...colliersville_down}  User-specified downstream passage efficiencies
-#'     
 #'     \item \code{time_conowingo...time_colliersville} Passage timing input by user
-#'     
 #'     \item \code{pRepeat_Age1...Age11} Age-specific probability of repeat spawning  
 #' }
 #' 
@@ -189,16 +182,13 @@
 #' @section 
 #' Schematic of production units:
 #' Production units delineated by dams in the watershed. Circles are log 
-#' are log proportional to carrying capacity in each units.
+#' are log proportional to carrying capacity in each unit.
 #' Black dots indicate no suitable habitat in a unit. 
 #'  
 #' \if{html}{\figure{susquehanna.png}{Susquehanna River}}
 #' \if{latex}{\figure{susquehanna.png}{options: width=0.5in}}  
 #' 
 #' @section Warning about serial execution and memory limits:
-#' Current implementation is based on work
-#' in review, and is thus subject to modification 
-#' without notice. 
 #' 
 #' Currently, internal functions rely on \code{list2env} to return
 #' lists to a temporary environment created in the 
