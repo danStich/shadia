@@ -6,15 +6,15 @@
 \title{Projected sea surface temperatures RCP 4.5}
 \format{A dataframe with 118 obs. of 5 variables:
 \describe{
-  \item{\code{Year}}{Year for projection}
+  \code{Year }{Year for projection}
   
-  \item{\code{Scenario}}{Representative climate pathway (RCP) used for projection}
+  \code{Scenario }{Representative climate pathway (RCP) used for projection}
   
-  \item{\code{Mean}}{Mean for projection}
+  \code{Mean }{Mean for projection}
 
-  \item{\code{pct5th}}{5th percentile for projection}
+  \code{pct5th }{5th percentile for projection}
 
-  \item{\code{pct95th}}{95th percentile for projection}                              
+  \code{pct95th }{95th percentile for projection}                              
 }}
 \source{
 Integrated Systems Ecology Lab, Gulf Of Maine Research Institute

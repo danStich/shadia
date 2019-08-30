@@ -7,11 +7,11 @@
 Turner's Falls, MA, USA.}
 \format{A data frame with 167,333 obs. of 3 variables
 \describe{
-  \item{\code{val}}{Temperature in degrees celcius}
+  \code{val }{Temperature in degrees celcius}
   
-  \item{\code{year}}{Year of temperature observation}
+  \code{year }{Year of temperature observation}
   
-  \item{\code{day}}{Ordinal date}
+  \code{day }{Ordinal date}
 }}
 \source{
 T. Castro-Santos, U.S. Geological Survey

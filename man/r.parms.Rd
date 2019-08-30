@@ -6,9 +6,9 @@
 \title{von Bertalanffy growth parameters for roes}
 \format{A list of 10000 matrices with named dimensions
 \describe{
-  \item{\code{dim1}}{Sinf, K, t0}
+  \code{dim1 }{Sinf, K, t0}
   
-  \item{\code{dim2}}{Estimate, Std Error, t statistic, and p-value}
+  \code{dim2 }{Estimate, Std Error, t statistic, and p-value}
 }}
 \source{
 Connecticut Department of Energy and Environmental Conservation (2015)

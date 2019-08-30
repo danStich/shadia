@@ -7,9 +7,9 @@
 #' 
 #' @format A list of 1000 matrices with named dimensions of:
 #' \describe{
-#'   \item{\code{dim1}}{Intercept, slope}
+#'   \code{dim1 }{Intercept, slope}
 #'   
-#'   \item{\code{dim2}}{Estimate, Std Error, t statistic, and p-value}
+#'   \code{dim2 }{Estimate, Std Error, t statistic, and p-value}
 #' }
 #' 
 #' @source Connecticut Department of Energy and Environmental Conservation (2015)
@@ -25,9 +25,9 @@
 #' 
 #' @format A list of 1000 matrices with named dimensions
 #' \describe{
-#'   \item{\code{dim1}}{Intercept, slope}
+#'   \code{dim1 }{Intercept, slope}
 #'   
-#'   \item{\code{dim2}}{Estimate, Std Error, t statistic, and p-value}
+#'   \code{dim2 }{Estimate, Std Error, t statistic, and p-value}
 #' }
 #' 
 #' @source Connecticut Department of Energy and Environmental Conservation (2015)
@@ -41,17 +41,17 @@
 #' 
 #' @format A list of 1000 matrices with named dimensions
 #' \describe{
-#'   \item{\code{Sex}}{Fish sex}
+#'   \code{Sex }{Fish sex}
 #'   
-#'   \item{\code{Age}}{Assigned age}
+#'   \code{Age }{Assigned age}
 #'   
-#'   \item{\code{Length}}{Total length, in cm}
+#'   \code{Length }{Total length, in cm}
 #'   
-#'   \item{\code{yearCollected}}{Year during which fish was collected}
+#'   \code{yearCollected }{Year during which fish was collected}
 #'   
-#'   \item{\code{backCalculated}}{Logical indicating whether or not Length observation was back-calculated}
+#'   \code{backCalculated }{Logical indicating whether or not Length observation was back-calculated}
 #'   
-#'   \item{\code{Mass}}{Mass of fish, in g}
+#'   \code{Mass }{Mass of fish, in g}
 #' }
 #' 
 #' @source Connecticut Department of Energy and Environmental Conservation (2015)
@@ -64,19 +64,19 @@
 #' 
 #' @format A data frame with 2919 obs. of 7 variables
 #' \describe{
-#'   \item{\code{staid}}{USGS Station ID}
+#'   \code{staid }{USGS Station ID}
 #'   
-#'   \item{\code{val}}{Temperature in degrees celcius}
+#'   \code{val }{Temperature in degrees celcius}
 #'   
-#'   \item{\code{dates}}{Date of measurement}
+#'   \code{dates }{Date of measurement}
 #'   
-#'   \item{\code{qualcode}}{Qualification code}
+#'   \code{qualcode }{Qualification code}
 #'   
-#'   \item{\code{year}}{Year of temperature observation}
+#'   \code{year }{Year of temperature observation}
 #'   
-#'   \item{\code{day}}{Ordinal date}
+#'   \code{day }{Ordinal date}
 #'   
-#'   \item{\code{ph}}{Photoperiod, in hours}
+#'   \code{ph }{Photoperiod, in hours}
 #' }
 #' 
 #' @source U.S. Geological Survey
@@ -90,17 +90,17 @@
 #' 
 #' @format A data frame with 13265 obs. of 6 variables
 #' \describe{
-#'   \item{\code{staid}}{USGS Station ID}
+#'   \code{staid }{USGS Station ID}
 #'   
-#'   \item{\code{val}}{Temperature in degrees celcius}
+#'   \code{val }{Temperature in degrees celcius}
 #'   
-#'   \item{\code{dates}}{Date of temperature observation}
+#'   \code{dates }{Date of temperature observation}
 #'   
-#'   \item{\code{qualcode}}{Qualification code}
+#'   \code{qualcode }{Qualification code}
 #'   
-#'   \item{\code{year}}{Year of temperature observation}
+#'   \code{year }{Year of temperature observation}
 #'   
-#'   \item{\code{day}}{Ordinal date}
+#'   \code{day }{Ordinal date}
 #' }
 #' 
 #' @source U.S. Geological Survey
@@ -115,17 +115,17 @@
 #' 
 #' @format A data frame with 2194 obs. of 6 variables
 #' \describe{
-#'   \item{\code{staid}}{USGS Station ID}
+#'   \code{staid }{USGS Station ID}
 #'   
-#'   \item{\code{val}}{Temperature in degrees celcius}
+#'   \code{val }{Temperature in degrees celcius}
 #'   
-#'   \item{\code{dates}}{Date of temperature observation}
+#'   \code{dates }{Date of temperature observation}
 #'   
-#'   \item{\code{qualcode}}{Qualification code}
+#'   \code{qualcode }{Qualification code}
 #'   
-#'   \item{\code{year}}{Year of temperature observation}
+#'   \code{year }{Year of temperature observation}
 #'   
-#'   \item{\code{day}}{Ordinal date}
+#'   \code{day }{Ordinal date}
 #' }
 #' 
 #' @source U.S. Geological Survey
@@ -140,9 +140,9 @@
 #' 
 #' @format A list of 10000 matrices with named dimensions
 #' \describe{
-#'   \item{\code{dim1}}{Sinf, K, t0}
+#'   \code{dim1 }{Sinf, K, t0}
 #'   
-#'   \item{\code{dim2}}{Estimate, Std Error, t statistic, and p-value}
+#'   \code{dim2 }{Estimate, Std Error, t statistic, and p-value}
 #' }
 #' 
 #' @source Connecticut Department of Energy and Environmental Conservation (2015)
@@ -159,9 +159,9 @@
 #' 
 #' @format A list of 10000 matrices with named dimensions
 #' \describe{
-#'   \item{\code{dim1}}{Sinf, K, t0}
+#'   \code{dim1 }{Sinf, K, t0}
 #'   
-#'   \item{\code{dim2}}{Estimate, Std Error, t statistic, and p-value}
+#'   \code{dim2 }{Estimate, Std Error, t statistic, and p-value}
 #' }
 #' 
 #' @source U.S. Fish and Wildlife Service (2018)
@@ -177,9 +177,9 @@
 #' 
 #' @format A list of 10000 matrices with named dimensions
 #' \describe{
-#'   \item{\code{dim1}}{Sinf, K, t0}
+#'   \code{dim1 }{Sinf, K, t0}
 #'   
-#'   \item{\code{dim2}}{Estimate, Std Error, t statistic, and p-value}
+#'   \code{dim2 }{Estimate, Std Error, t statistic, and p-value}
 #' }
 #' 
 #' @source Connecticut Department of Energy and Environmental Conservation (2015)
@@ -196,9 +196,9 @@
 #' 
 #' @format A list of 10000 matrices with named dimensions
 #' \describe{
-#'   \item{\code{dim1}}{Sinf, K, t0}
+#'   \code{dim1 }{Sinf, K, t0}
 #'   
-#'   \item{\code{dim2}}{Estimate, Std Error, t statistic, and p-value}
+#'   \code{dim2 }{Estimate, Std Error, t statistic, and p-value}
 #' }
 #' 
 #' @source U.S. Fish and Wildlife Service (2018)
@@ -214,11 +214,11 @@
 #' 
 #' @format A data frame with 167,333 obs. of 3 variables
 #' \describe{
-#'   \item{\code{val}}{Temperature in degrees celcius}
+#'   \code{val }{Temperature in degrees celcius}
 #'   
-#'   \item{\code{year}}{Year of temperature observation}
+#'   \code{year }{Year of temperature observation}
 #'   
-#'   \item{\code{day}}{Ordinal date}
+#'   \code{day }{Ordinal date}
 #' }
 #' 
 #' @source T. Castro-Santos, U.S. Geological Survey
@@ -231,17 +231,17 @@
 #' 
 #' @format A data frame with 3631 observations of 6 variables
 #' \describe{
-#'   \item{\code{staid}}{USGS Station ID}
+#'   \code{staid }{USGS Station ID}
 #'   
-#'   \item{\code{val}}{Temperature in degrees celcius}
+#'   \code{val }{Temperature in degrees celcius}
 #'   
-#'   \item{\code{dates}}{Date of temperature observation}
+#'   \code{dates }{Date of temperature observation}
 #'   
-#'   \item{\code{qualcode}}{Qualification code}
+#'   \code{qualcode }{Qualification code}
 #'   
-#'   \item{\code{year}}{Year of temperature observation}
+#'   \code{year }{Year of temperature observation}
 #'   
-#'   \item{\code{day}}{Ordinal date}
+#'   \code{day }{Ordinal date}
 #' }
 #' 
 #' @source U.S. Geological Survey
@@ -255,15 +255,15 @@
 #' 
 #' @format A dataframe with 118 obs. of 5 variables:
 #' \describe{
-#'   \item{\code{Year}}{Year for projection}
+#'   \code{Year }{Year for projection}
 #'   
-#'   \item{\code{Scenario}}{Representative climate pathway (RCP) used for projection}
+#'   \code{Scenario }{Representative climate pathway (RCP) used for projection}
 #'   
-#'   \item{\code{Mean}}{Mean for projection}
+#'   \code{Mean }{Mean for projection}
 #'
-#'   \item{\code{pct5th}}{5th percentile for projection}
+#'   \code{pct5th }{5th percentile for projection}
 #'
-#'   \item{\code{pct95th}}{95th percentile for projection}                              
+#'   \code{pct95th }{95th percentile for projection}                              
 #' }
 #' 
 #' @source Integrated Systems Ecology Lab, Gulf Of Maine Research Institute
@@ -278,15 +278,15 @@
 #' 
 #' @format A dataframe with 118 obs. of 5 variables:
 #' \describe{
-#'   \item{\code{Year}}{Year for projection}
+#'   \code{Year }{Year for projection}
 #'   
-#'   \item{\code{Scenario}}{Representative climate pathway (RCP) used for projection}
+#'   \code{Scenario }{Representative climate pathway (RCP) used for projection}
 #'   
-#'   \item{\code{Mean}}{Mean for projection}
+#'   \code{Mean }{Mean for projection}
 #'
-#'   \item{\code{pct5th}}{5th percentile for projection}
+#'   \code{pct5th }{5th percentile for projection}
 #'
-#'   \item{\code{pct95th}}{95th percentile for projection}                              
+#'   \code{pct95th }{95th percentile for projection}                              
 #' }
 #' 
 #' @source Integrated Systems Ecology Lab, Gulf Of Maine Research Institute

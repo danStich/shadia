@@ -6,19 +6,19 @@
 \title{Connecticut River temperatures, Stratford, NH, USA}
 \format{A data frame with 2919 obs. of 7 variables
 \describe{
-  \item{\code{staid}}{USGS Station ID}
+  \code{staid }{USGS Station ID}
   
-  \item{\code{val}}{Temperature in degrees celcius}
+  \code{val }{Temperature in degrees celcius}
   
-  \item{\code{dates}}{Date of measurement}
+  \code{dates }{Date of measurement}
   
-  \item{\code{qualcode}}{Qualification code}
+  \code{qualcode }{Qualification code}
   
-  \item{\code{year}}{Year of temperature observation}
+  \code{year }{Year of temperature observation}
   
-  \item{\code{day}}{Ordinal date}
+  \code{day }{Ordinal date}
   
-  \item{\code{ph}}{Photoperiod, in hours}
+  \code{ph }{Photoperiod, in hours}
 }}
 \source{
 U.S. Geological Survey
