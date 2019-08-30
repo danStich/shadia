@@ -97,17 +97,11 @@ of dataframes.
 The folowing named columns are returned in \code{res}:
 \itemize{
     \item \code{year} Year of simulation
-
     \item \code{time_milford...time_guilford} Passage timing input by user
-
     \item \code{milford_up...guilford_up} User-specified upstream passage efficiencies
- 
     \item \code{stillwater_down...weldon_down}  User-specified downstream passage efficiencies
- 
     \item \code{pRepeat_Age1...Age9} Age-specific probability of repeat spawning  
- 
     \item \code{populationSize} Total number of adult spawners returning to the river
-
     \item \code{N_pu1A2A...N_pu4B} Production unit-specific population size after in-river fishery mortality
 }
 
@@ -158,9 +152,10 @@ USA
 }
 \section{Schematic of production units}{
 
-Production units delineated by dams in the watershed. Circles are log 
-are log proportional to carrying capacity in each units.
-Black dots indicate no suitable habitat in a unit. 
+Production units delineated by dams in the watershed. 
+Circles are log proportional to carrying capacity in 
+each unit. Black dots indicate no suitable habitat 
+in a unit. 
  
 \if{html}{\figure{penobscot.png}{Penobscot River}}
 \if{latex}{\figure{penobscot.png}{options: width=0.5in}}
@@ -168,9 +163,6 @@ Black dots indicate no suitable habitat in a unit.
 
 \section{Warning about serial execution and memory limits}{
 
-Current implementation is based on work
-in review, and is thus subject to modification 
-without notice. 
 
 Currently, internal functions rely on \code{list2env} to return
 lists to a temporary environment created in the 
@@ -190,7 +182,6 @@ example below.
 
 \examples{
 # Parallel execution on a local cluster
-# -------------------------------------------------------------------------
 \dontrun{
   
 # R snowfall example
@@ -201,7 +192,6 @@ example below.
   library(shadia)
 
 # 1. Initialization of snowfall.
-# -----  
 # Initialize parallel mode using sockets and
 # command-line args
 sfInit(parallel=TRUE, cpus=3, type="SOCK")
@@ -229,7 +219,7 @@ data('tempData')
 
 # 3. Define wrapper function, which can be called in parallel.
 #
-#   Runs PenobscotRiverModel.R on each worker
+#   Runs penobscotRiverModel on each worker
 #
 #   Here, workerId just contains the identity of the cpu that perfomed
 #   the work. We do this only to prove we have used all the specified cpus!
@@ -237,88 +227,84 @@ data('tempData')
 #
 #   Note that constructing and returning a list enables the function to
 #   return more than one output.
-# -----
+
 wrapper <- function(idx) {
 
-# Get cpu ids  
-  workerId <- paste(Sys.info()[['nodename']],
-                    Sys.getpid(),
-                    sep='-'
-                    )
-
-# Run the model
-res1 <- penobscotRiverModel(nYears = 50,
-                            upstream = list(
-                              milford = seq(0, 1, 0.10),
-                              howland = seq(0, 1, 0.10),
-                              westEnfield = seq(0, 1, 0.10),
-                              brownsMill = seq(0, 1, 0.10),
-                              moosehead = seq(0, 1, 0.10),
-                              guilford = seq(0, 1, 0.10),
-                              weldon = seq(0, 1, 0.10)
-                            ),
-                            downstream = list(
-                              stillwater = seq(0, 1, 0.10),
-                              orono = seq(0, 1, 0.10),
-                              milford = seq(0, 1, 0.10),
-                              howland = seq(0, 1, 0.10),
-                              westEnfield = seq(0, 1, 0.10),
-                              brownsMill = seq(0, 1, 0.10),
-                              moosehead = seq(0, 1, 0.10),
-                              guilford = seq(0, 1, 0.10),
-                              weldon = seq(0, 1, 0.10)
-                            )
-        )
-
-# Define the output lists
-    retlist <- list(
-      worker=workerId,
-      sim=res1)       
-    return(retlist)
+  # Get cpu ids  
+    workerId <- paste(Sys.info()[['nodename']],
+                      Sys.getpid(),
+                      sep='-'
+                      )
+  
+  # Run the model
+  res1 <- penobscotRiverModel(
+    nYears = 50,
+    upstream = list(
+      milford = seq(0, 1, 0.10),
+      howland = seq(0, 1, 0.10),
+      westEnfield = seq(0, 1, 0.10),
+      brownsMill = seq(0, 1, 0.10),
+      moosehead = seq(0, 1, 0.10),
+      guilford = seq(0, 1, 0.10),
+      weldon = seq(0, 1, 0.10)
+    ),
+    downstream = list(
+      stillwater = seq(0, 1, 0.10),
+      orono = seq(0, 1, 0.10),
+      milford = seq(0, 1, 0.10),
+      howland = seq(0, 1, 0.10),
+      westEnfield = seq(0, 1, 0.10),
+      brownsMill = seq(0, 1, 0.10),
+      moosehead = seq(0, 1, 0.10),
+      guilford = seq(0, 1, 0.10),
+      weldon = seq(0, 1, 0.10)
+    )
+  )
+  
+  # Define the output lists
+      retlist <- list(
+        worker=workerId,
+        sim=res1)       
+      return(retlist)
 }
 
 # 4. Export needed data to workers 
 #    load required packages on workers.
-# -----
-sfLibrary(shadia)
+  sfLibrary(shadia)
 
 # 5. Start network random number generator 
 #    (as "sample" uses random numbers).
-# -----
-#sfClusterSetupRNG()
+#    sfClusterSetupRNG()
 
 # 6. Distribute calculation to workers
-# -----
-niterations <- 5
-start <- Sys.time()
+  niterations <- 10
+  start <- Sys.time()
 
-# The magic is in snowfall's sfLapply() function,
-# which sends wrapper() out to the
-# workers:
-result <- sfLapply(1:niterations, wrapper) 
-
-Sys.time()-start
-
+  # Use sfLapply() function to send wrapper() to the workers:
+    result <- sfLapply(1:niterations, wrapper) 
+    
 # 7. Stop snowfall
-# -----
-sfStop()
+  Sys.time()-start  
+  sfStop()
 
 # 8. Examine the results returned from the cluster:
-# -----
 
 # 'result' is a list of lists. Save this:
-save(result, file = "snowfall-result.rda")
+# save(result, file = "snowfall-result.rda")
 
 # Extract results list from output list
-out <- lapply(result, function(x) x[[c('sim')]])
+  out <- lapply(result, function(x) x[[c('sim')]])
 
 # Extract user inputs and population metrics
-res <- lapply(out, function(x) x[[c('res')]])
-resdf <- do.call(rbind, res)
+  res <- lapply(out, function(x) x[[c('res')]])
+  resdf <- do.call(rbind, res)
 
 # Extract sensitivity variables
-sens <- lapply(out, function(x) x[[c('sens')]])
-sensdf <- do.call(rbind, sens)
+  sens <- lapply(out, function(x) x[[c('sens')]])
+  sensdf <- do.call(rbind, sens)
+
+# Have a look at result  
+  plot(resdf$year, resdf$populationSize)
 
 }
 }
