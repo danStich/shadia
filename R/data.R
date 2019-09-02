@@ -309,6 +309,8 @@
 #'   \code{Thompsonville }{Daily temperature (C) at Thompsonville}
 #'
 #'   \code{Turners }{Daily temperature (C) at Turners Falls}
+#'  
+#'   \code{avg}{Average daily temperature across sites}
 #' }
 #' 
 #' @source Integrated Systems Ecology Lab, Gulf Of Maine Research Institute
@@ -331,6 +333,8 @@
 #'   \code{Thompsonville }{Daily temperature (C) at Thompsonville}
 #'
 #'   \code{Turners }{Daily temperature (C) at Turners Falls}
+#'   
+#'   \code{avg}{Average daily temperature across sites}
 #' }
 #' 
 #' @source Integrated Systems Ecology Lab, Gulf Of Maine Research Institute
