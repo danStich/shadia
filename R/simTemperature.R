@@ -4,12 +4,12 @@
 #' temperatures in each river system using historical gauge
 #' data loaded in \code{setUPData}.
 #' 
-#' Not intended to be called directly, but visible 
-#' for transparency.
+#' Not currently used in package.
 #' 
 #' @return A list containing 1) a matrix of projected 
 #' temperatures for the number of years specified (predTemps), 
-#' and 2) a matrix.
+#' and 2) a matrix of accumulated thermal units (ATU) for
+#' corresponding days.
 #' 
 #' @details This function relies on a data set (\code{mu}) containing
 #' daily temperatures (\code{val}), year (\code{year}),
@@ -40,7 +40,7 @@ simTemperature <- function(){
   try(
     {
     # Draw new coeffs from mv normal
-      tcoeffs <- mvrnorm(
+      tcoeffs <- MASS::mvrnorm(
         nYears, mu = tbetas, Sigma = tsig, tol=1e-6
         )
       
@@ -51,7 +51,8 @@ simTemperature <- function(){
         rnorm((length(dates)*length(Year)), 0, 1),
         ncol = nYears, byrow = TRUE)
       
-    # Predict temperature each year from mvnormal
+    # Predict temperature each year from mvnormal using
+    # `tempC`, an Rcpp fun built with package
       predTemps <- exp(tempC(dates, Year, tcoeffs))
    }
   )
