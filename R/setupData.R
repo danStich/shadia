@@ -483,7 +483,7 @@ return(list(
   roe.lw = roe.lw,
   tempData_saco2 = tempData_saco2,
   mu = mu,
-  mmr = mmr,
+  scr = scr,
   ctr = ctr,
   calMod = calMod,
   hmu = hmu
