@@ -210,6 +210,13 @@ penobscotRiverModel <- function(
 # Assign River
   river <- 'penobscot'
   
+# Choose climate scenario
+# Right now, these are set as 'current' in all
+# models except Connecticut River. Hidden from
+# user because we lack projections from other
+# systems.
+  climate <- 'current'  
+  
 # Passage variable assignment -----
   pDraws <- upstream
   dDraws <- downstream

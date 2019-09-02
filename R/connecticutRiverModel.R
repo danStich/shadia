@@ -75,6 +75,11 @@
 #' for upstream and downstream. If watershed = TRUE, then
 #' the first element in lists `upstream` and `downstream`
 #' are recycled for all subsequent dams.
+#' 
+#' @param climate Character string indicating scenario to
+#' be used for temperature projections. Available options
+#' include '\code{current}', '\code{rcp45}', and '\code{rcp85}'.
+#' This argument is only implemented in \code{connecticutRiverModel}.
 #'
 #' @return Returns a list of two named dataframes.
 #' The first dataframe (\code{res}) contains user-defined
@@ -209,15 +214,17 @@ connecticutRiverModel <- function(
   bycatchF = 0,
   indirect = 1,
   latent = 1,
-  watershed = TRUE
+  watershed = TRUE,
+  climate = 'current'
   ){
 
+# Exceptions, errors, and warning messages ----
 # Error message for passage efficiencies
   if( (length(upstream)!=5 ) |  (length(downstream)!=4 ) ){
     stop('`upstream` must have 5 elements 
          and `dowsntream` must have 4.')
   }
-
+  
 # Create package workspace if it does not yet exist
   if(!exists(".shadia", mode="environment"))
     .shadia <- new.env()
@@ -277,13 +284,11 @@ connecticutRiverModel <- function(
 
   if (.shadia$useTictoc) toc()
 
-
 # Hydro system configuration -----
   environment(defineHydroSystem) <- .shadia
   list2env(defineHydroSystem(), envir = .shadia)
   environment(defineHabitat) <- .shadia
   list2env(defineHabitat(), envir = .shadia)
-
 
 # Timers and progress -----
   # Start the timer for the simulation

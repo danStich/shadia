@@ -9,7 +9,8 @@ connecticutRiverModel(nRuns = 1, nYears = 40, timing = list(1, 1, 1,
   = 1, vernon = 1), downstream = list(holyoke = 1, cabot = 1, gatehouse =
   1, vernon = 1), northfield = list(turnersA = 1, turnersJ = 1, vernonA =
   1, vernonJ = 1), pSpillway = 1, inRiverF = 0, commercialF = 0,
-  bycatchF = 0, indirect = 1, latent = 1, watershed = TRUE)
+  bycatchF = 0, indirect = 1, latent = 1, watershed = TRUE,
+  climate = "current")
 }
 \arguments{
 \item{nRuns}{The number of times that the
@@ -84,6 +85,10 @@ to use the same dam passage efficiencies at all dams
 for upstream and downstream. If watershed = TRUE, then
 the first element in lists `upstream` and `downstream`
 are recycled for all subsequent dams.}
+
+\item{climate}{Character string indicating scenario to
+be used for temperature projections. At present, only
+\code{current} is implemented.}
 }
 \value{
 Returns a list of two named dataframes.
