@@ -4,6 +4,36 @@ using namespace Rcpp;
 // This file contains all of the Cpp functions needed for the PNR shad model
 // in an effort to reduce command-line entry for cluster submission
 
+//Calculations for predicting temperature from mvnorm
+//[[Rcpp::export]]
+NumericMatrix tempC(NumericVector days, NumericVector years,
+                    NumericMatrix coeffs){
+
+    int n = days.size();             //Iterator based on number of fish
+    int m = years.size();            //Iterator for number of routes
+    NumericMatrix predTemps(n, m);   //Output container for max rkm of fish
+
+    for(int t=0; t < n; ++t){          //For each day
+        for(int i=0; i < m; ++i){      //In each year
+          predTemps(t, i) = coeffs(i, 0)
+            + (coeffs(i, 1) * days[t])
+            + (coeffs(i, 2) * pow(days[t], 2))
+            + (coeffs(i, 3) * pow(days[t], 3))
+            + (coeffs(i, 4) * pow(days[t], 4))
+            + (coeffs(i, 5) * pow(days[t], 5))
+            + (coeffs(i, 6) * pow(days[t], 6))
+            + (coeffs(i, 7) * pow(days[t], 7))
+            + (coeffs(i, 8) * pow(days[t], 8))
+            + (coeffs(i, 9) * pow(days[t], 9));
+        } //i
+    } //t
+
+    //Return the max rkm for each fish in a vector.
+    return predTemps;
+
+  } //end
+
+
 // Delay header file
 //[[Rcpp::export]]
 List rleC(NumericVector x){

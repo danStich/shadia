@@ -5,6 +5,19 @@
 
 using namespace Rcpp;
 
+// tempC
+NumericMatrix tempC(NumericVector days, NumericVector years, NumericMatrix coeffs);
+RcppExport SEXP _shadia_tempC(SEXP daysSEXP, SEXP yearsSEXP, SEXP coeffsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type days(daysSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type years(yearsSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type coeffs(coeffsSEXP);
+    rcpp_result_gen = Rcpp::wrap(tempC(days, years, coeffs));
+    return rcpp_result_gen;
+END_RCPP
+}
 // rleC
 List rleC(NumericVector x);
 RcppExport SEXP _shadia_rleC(SEXP xSEXP) {
@@ -125,6 +138,7 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_shadia_tempC", (DL_FUNC) &_shadia_tempC, 3},
     {"_shadia_rleC", (DL_FUNC) &_shadia_rleC, 1},
     {"_shadia_delayC", (DL_FUNC) &_shadia_delayC, 2},
     {"_shadia_entryC", (DL_FUNC) &_shadia_entryC, 3},
