@@ -20,11 +20,12 @@ innerLoopSampling <- function(){
   habitat <- addStochList(habitat, habStoch)  
   
 # Simulate daily temperatures ------------------------------
-# Use historical temperature data to predict temperature on each day from a
-# multivariate normal distribution
-# Make an empty matrix to hold daily temperature predictions within each year
-# for annual simulations below
+# Use historical temperature data to predict temperature
+# on each day from a multivariate normal distribution
 
+# Make an empty matrix to hold daily temperature
+# predictions within each year
+# for annual simulations below
 #if (useTictoc) tic("simulate daily temp1: pred NEW")
 pred <- data.frame(matrix(0, nrow = 366, ncol = 2))
 
@@ -57,7 +58,8 @@ for (i in 1:predRowcount) {
 #toc() #("simulate daily temp1: pred")
 rm(muInYear, uniqueMuDay, sigma, predRowcount)
 
-#if (useTictoc) tic("simulate daily temp2: pred merge, ddply, cumsum")
+#if (useTictoc) tic("simulate daily temp2:
+# pred merge, ddply, cumsum")
 pred <- pred [with(pred, order(X2)),]
 pred <- pred[pred[, 2] != 0,]
 pred[, 2] <- round(pred[, 2])
@@ -115,13 +117,14 @@ c_sex <- sort(c_sex)                   # Then fish sex
 # Get entry date for each individual.  We used cumulative frequency distribution
 # to predict average entry date for a given fish conditional on temperature.
 # We will now use this relationship to predict individual
-# fish presence in the river for all 366 days of the year conditional date.
+# fish presence in the river for all 366 days of the year.
 # The actual draws for each fish on each day are occurring in a C++ file
 # (entryC.Cpp) that was sourced on the front-end to speed this up.  Once we have
 # probability of being in the river on a given day, we will use the first date
 # that maximizes probability of success in a random binomial draw for each
 # individual to assign their entry date.
-# Make containers to hold entry date
+
+# Make containers to hold entry date in entryC.
 b.entryDate <- matrix(0, nrow = length(fishAges[c_sex == 0]), ncol = length(b.prob))
 r.entryDate <- matrix(0, nrow = length(fishAges[c_sex == 1]), ncol = length(r.prob))
 #toc()
