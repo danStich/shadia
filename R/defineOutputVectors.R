@@ -502,7 +502,7 @@ if(river=='connecticut'){
   years <- vector(mode = 'numeric', length = nYears * nRuns)
   
   # Empty container to hold Weldon scenario (depricated)
-  scen <- vector(mode = 'numeric', length = nYears * nRuns)
+  climate_scen <- vector(mode = 'character', length = nYears * nRuns)
   
   # Probability of using the spillway passage route for
   # upstream migration
@@ -638,7 +638,7 @@ if(river=='connecticut'){
   return(
     list(
       years = years,
-      scen = scen,
+      climate_scen = climate_scen,
       pSpill = pSpill,
       HolUp = HolUp,
       CabUp = CabUp,

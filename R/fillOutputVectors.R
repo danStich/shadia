@@ -589,6 +589,9 @@ if(river=='connecticut'){
 
   # Year, fillling pre-allocated vector with this year
   years[(n + nYears * (k - 1))] <-  n
+  
+  # Climate scenario
+  climate_scen[(n + nYears * (k - 1))] <-  climate
 
   # Probability of using spillway for migration through TF
   pSpill[(n + nYears * (k - 1))] <- pSpillway
@@ -752,6 +755,7 @@ if(river=='connecticut'){
     scalar = scalar,
     populationSize = populationSize,
     years = years,
+    climate_scen = climate_scen,
     pSpill = pSpill,
     HolUp = HolUp,
     CabUp = CabUp,

@@ -318,6 +318,7 @@ if(river=='connecticut'){
 # Collect inputs and outputs into a single object for file write
 res <- data.frame(
   years,
+  climate = climate_scen,
   times,
   pSpill,
   HolUp,
@@ -349,6 +350,7 @@ res <- data.frame(
 
 names(res)<-c(
   "year",
+  "climate",
   "time_holyoke",
   "time_cabot",
   "time_spillway",

@@ -23,55 +23,9 @@ innerLoopSampling <- function(){
 # Use historical temperature data to predict temperature
 # on each day from a multivariate normal distribution
 
-# Make an empty matrix to hold daily temperature
-# predictions within each year
-# for annual simulations below
-#if (useTictoc) tic("simulate daily temp1: pred NEW")
-pred <- data.frame(matrix(0, nrow = 366, ncol = 2))
-
-# Simulate annual temperature
-Year <- sample(unique(mu$year), 1, replace = TRUE)
-
-# JMS: precalculate before the loop:
-muInYear <-  mu[, 2] == Year
-uniqueMuDay <- unique(mu[, 3])
-sigma <- cor(mu[muInYear, c(1, 3)])
-
-predRowcount <- nrow(pred)
-for (i in 1:predRowcount) {
-  # For each day that year
-  if (i %in% mu[muInYear, 3]) {
-    iIndex <- muInYear & mu[, 3] == uniqueMuDay[i]
-
-    x <- mu[, 1] [iIndex]
-    z <- mu[, 3] [iIndex]
-    pred[i,] <- mvrnorm(1,
-                       mu = c(x, z),
-                       Sigma = sigma,
-                       tol = 1e-6
-                       )
-    pred[i,][pred[i,] < 0] <- 0
-  } else {
-    next
-  }  # Else
-}  # i
-#toc() #("simulate daily temp1: pred")
-rm(muInYear, uniqueMuDay, sigma, predRowcount)
-
-#if (useTictoc) tic("simulate daily temp2:
-# pred merge, ddply, cumsum")
-pred <- pred [with(pred, order(X2)),]
-pred <- pred[pred[, 2] != 0,]
-pred[, 2] <- round(pred[, 2])
-pred <- ddply(pred, ~ X2, summarize, X1 = mean(X1))
-id <- data.frame(seq(1, 366, 1), NA)
-names(id) <- c('X2', 'X1')
-y <- merge(pred, id, by = 'X2', all.y = TRUE)[, c(1, 2)]
-y[1, 2] <- 0
-y[nrow(y), 2] <- 0
-y <- na.spline(y)
-y[y[, 2] < 0, 2] <- 0
-predTemps <- data.frame(y)
+if(climate == 'current'){
+  predTemps <- simTemperature(.shadia$mu)
+} 
 
 # Climate projection scenarios for the Connecticut River
 if(climate == 'rcp45'){
@@ -102,9 +56,9 @@ newTU <- cumsum(predTemps[, 2])
 stoch <- runif(1,-1.96, 1.96)
 # Can come back and delete stoch from usage because...->
 
-# Re-written to use regression params instead of data. These are now
-# in built-in data sets for arrival regressions so that we are not
-# violating data confidentiality agreements for package deployment.
+# Predict arrival probability on a given date using 
+# stored regression coefficients sampled randomly from
+# bootstrapped fits of cumulative arrival by temperature
 res.R <- data.frame(arr.R[[sample(1:length(arr.R), 1)]])
 res.B <- data.frame(arr.B[[sample(1:length(arr.B), 1)]])
 r.prob <- invlogit(res.R[1, 1] + res.R[2, 1] * predTemps[, 2])
@@ -1353,7 +1307,7 @@ if(river=='saco'){
     ppPenalty = ppPenalty,
     pre_spawn_survival_females = pre_spawn_survival_females,
     pre_spawn_survival_males = pre_spawn_survival_males,
-    pred = pred,
+    #pred = pred,
     predTemps = predTemps,
     puNames = puNames,
     puRkm = puRkm,
@@ -1389,8 +1343,8 @@ if(river=='saco'){
     traits_4 = traits_4,
     up_effs = up_effs,
     upstream_path = upstream_path,
-    y = y,
-    Year = Year,
+    #y = y,
+    #Year = Year,
     habStoch = habStoch
     ))
   }
@@ -1462,7 +1416,7 @@ if(river=='saco'){
     ppPenalty = ppPenalty,
     pre_spawn_survival_females = pre_spawn_survival_females,
     pre_spawn_survival_males = pre_spawn_survival_males,
-    pred = pred,
+    #pred = pred,
     predTemps = predTemps,
     puNames = puNames,
     puRkm = puRkm,
@@ -1492,8 +1446,8 @@ if(river=='saco'){
     traits_2 = traits_2,
     up_effs = up_effs,
     upstream_path = upstream_path,
-    y = y,
-    Year = Year,
+    #y = y,
+    #Year = Year,
     habStoch = habStoch
     ))
   }
@@ -1566,7 +1520,7 @@ if(river=='saco'){
     ppPenalty = ppPenalty,
     pre_spawn_survival_females = pre_spawn_survival_females,
     pre_spawn_survival_males = pre_spawn_survival_males,
-    pred = pred,
+    #pred = pred,
     predTemps = predTemps,
     puNames = puNames,
     puRkm = puRkm,
@@ -1596,8 +1550,8 @@ if(river=='saco'){
     traits_2 = traits_2,
     up_effs = up_effs,
     upstream_path = upstream_path,
-    y = y,
-    Year = Year,
+    #y = y,
+    #Year = Year,
     habStoch = habStoch
     ))
   }
@@ -1667,7 +1621,7 @@ if(river=='saco'){
     ppPenalty = ppPenalty,
     pre_spawn_survival_females = pre_spawn_survival_females,
     pre_spawn_survival_males = pre_spawn_survival_males,
-    pred = pred,
+    #pred = pred,
     predTemps = predTemps,
     puNames = puNames,
     puRkm = puRkm,
@@ -1694,8 +1648,8 @@ if(river=='saco'){
     traits_1 = traits_1,
     up_effs = up_effs,
     upstream_path = upstream_path,
-    y = y,
-    Year = Year,
+    #y = y,
+    #Year = Year,
     habStoch = habStoch
     ))
   }
