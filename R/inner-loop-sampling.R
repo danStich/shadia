@@ -73,6 +73,25 @@ y <- na.spline(y)
 y[y[, 2] < 0, 2] <- 0
 predTemps <- data.frame(y)
 
+# Climate projection scenarios for the Connecticut River
+if(climate == 'rcp45'){
+  current_year <- lubridate::year(lubridate::now())
+  proj <- ctr_proj45[lubridate::year(ctr_proj45$Date)==(current_year + (n-1)),]
+  predTemps = data.frame(
+    dates = lubridate::yday(proj[,1]),
+    avg = proj$avg
+  )
+} 
+
+if(climate == 'rcp85'){
+  current_year <- lubridate::year(lubridate::now())
+  proj <- ctr_proj85[lubridate::year(ctr_proj85$Date)==(current_year + (n-1)),]
+  predTemps = data.frame(
+    dates = lubridate::yday(proj[,1]),
+    avg = proj$avg
+  )
+}
+
 # Calculate ATU for each day of simulated temperature data
 newTU <- cumsum(predTemps[, 2])
 #toc() #("simulate daily temp2: pred merge, ddply, cumsum")
@@ -163,7 +182,7 @@ entry[, 200:entryCols] <- 0
 # in case there is only one row left, in which case R tries
 # to default to vector
 if (nrow(entry) > 1) { # we are altering nrow inside the loop...dirty!!
-  entry <- matrix(entry[1:(nrow(entry) - 1),], ncol=366)
+  entry <- matrix(entry[1:(nrow(entry) - 1),], ncol=nrow(predTemps))
 }
 # if we have changed the object above
 entryRowsNew <- nrow(entry)
