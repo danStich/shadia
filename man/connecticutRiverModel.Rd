@@ -87,8 +87,9 @@ the first element in lists `upstream` and `downstream`
 are recycled for all subsequent dams.}
 
 \item{climate}{Character string indicating scenario to
-be used for temperature projections. At present, only
-\code{current} is implemented.}
+be used for temperature projections. Available options
+include '\code{current}', '\code{rcp45}', and '\code{rcp85}'.
+This argument is only implemented in \code{connecticutRiverModel}.}
 }
 \value{
 Returns a list of two named dataframes.
