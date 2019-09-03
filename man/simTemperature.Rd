@@ -16,8 +16,6 @@ corresponding days.
 Internal function used to simulate daily
 temperatures in each river system using historical gauge
 data loaded in \code{setUPData}.
-
-Not currently used in package.
 }
 \details{
 This function relies on a data set (\code{mu}) containing
