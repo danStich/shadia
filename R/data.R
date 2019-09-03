@@ -374,3 +374,29 @@
 #' @source Gilligan, E. (In Prep). MS Biology Thesis, SUNY Oneonta.
 #' 
 "vbgf_agg"
+
+#' @title Female von Bertalanffy growth parameters
+#' 
+#' @description Posterior distributions for parameters of a 
+#' female-only von Bertalanffy growth function for American
+#' shad in the Northeast Continental Shelf Large Marine Ecosystem.
+#' 
+#' @format A list with 7 elements, each of which corresponds to an
+#' estimated parameter in the female-only model described in Gilligan (In prep).
+#' 
+#' @source Gilligan, E. (In Prep). MS Biology Thesis, SUNY Oneonta.
+#' 
+"vbgf_f"
+
+#' @title Male von Bertalanffy growth parameters
+#' 
+#' @description Posterior distributions for parameters of a 
+#' male-only von Bertalanffy growth function for American
+#' shad in the Northeast Continental Shelf Large Marine Ecosystem.
+#' 
+#' @format A list with 7 elements, each of which corresponds to an
+#' estimated parameter in the male-only model described in Gilligan (In prep).
+#' 
+#' @source Gilligan, E. (In Prep). MS Biology Thesis, SUNY Oneonta.
+#' 
+"vbgf_m"
