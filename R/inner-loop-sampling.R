@@ -209,45 +209,22 @@ day <- c(seq(min(c_initial), (max(c_end))))
 #toc()
 
 # SIMULATE FISH CHARACTERISTICS FOR EACH FISH IN EACH YEAR ----------------
-# Get fork length for each individual in each age class of spawning pool
-# Data from each river are subsampled to fit sex-specific growth curves
-# before inclusion and used predict length for roes and bucks. We fit 1,000
-# growth curves for each pop using subsampled data and sample the parameter
-# estimates from sex- and system-specific curves stored in built-in datasets.
-# Penobscot River currently uses data from Connecticut River, and Merrimack
-# and Susquehanna use lengths for juvenile shad in the Connecticut to
-# supplement growth information because juvenile data are lacking for
-# those systems.
-
 #if (useTictoc) tic("simulate fish characteristics")
 
+# Growth parameters
 # Roes
-  # Get the parameters from river-specific rda files. Otherwise, the
-  # default parameter set for the CTR is loaded for each sex.
-  r.pars <- r.parms[[sample(1:length(r.parms), 1)]]
-  if(river=='merrimack'){
-    r.pars <- r.parms_merrimack[[sample(1:length(r.parms_merrimack), 1)]]
-  }
-  if(river=='susquehanna'){
-    r.pars <- r.parms_susquehanna[[sample(1:length(r.parms_susquehanna), 1)]]
-  }
-  r.mat <- r.pars[, 1]
-  # Rename them for ease of use
-  c_linF <- r.mat[1] # L-infinity females
-  c_kF <- r.mat[2]   # Brody growth coeff females
-  c_t0F <- r.mat[3]  # Intercept of VBGM females
+  # Get sex-specific, regional growth parameters
+    environment(simGrowth) <- .shadia
+    r.mat <- simGrowth(female = TRUE)
+  # Rename them for ease of use and readability on output
+    c_linF <- r.mat[1] # L-infinity females
+    c_kF <- r.mat[2]   # Brody growth coeff females
+    c_t0F <- r.mat[3]  # Intercept of VBGM females
 
 # Males
-  # Get the parameters
-    b.pars <- b.parms[[sample(1:length(b.parms), 1)]]
-    if(river=='merrimack'){
-      b.pars <- b.parms_merrimack[[sample(1:length(b.parms_merrimack), 1)]]
-    }
-    if(river=='susquehanna'){
-      b.pars <- b.parms_susquehanna[[sample(1:length(b.parms_susquehanna), 1)]]
-    }  
-    b.mat <- b.pars[, 1]
-  # Rename them for ease of use
+  # Get sex-specific, regional growth parameters
+    b.mat <- simGrowth(female = FALSE)
+  # Rename them for ease of use and readability on output
     c_linM <- b.mat[1] # L-infinity males
     c_kM <- b.mat[2]   # Brody growth coeff males
     c_t0M <- b.mat[3]  # Intercept of VBGM males
@@ -1238,7 +1215,6 @@ if(river=='saco'){
     b.entryDate = b.entryDate,
     b.lw = b.lw,
     b.mat = b.mat,
-    b.pars = b.pars,
     b.prob = b.prob,
     b.res = b.res,
     batch = batch,
@@ -1312,7 +1288,6 @@ if(river=='saco'){
     r.entryDate = r.entryDate,
     r.lw = r.lw,
     r.mat = r.mat,
-    r.pars = r.pars,
     r.prob = r.prob,
     r.res = r.res,
     rkm1 = rkm1,
@@ -1351,7 +1326,6 @@ if(river=='saco'){
     b.entryDate = b.entryDate,
     b.lw = b.lw,
     b.mat = b.mat,
-    b.pars = b.pars,
     b.prob = b.prob,
     b.res = b.res,
     batch = batch,
@@ -1421,7 +1395,6 @@ if(river=='saco'){
     r.entryDate = r.entryDate,
     r.lw = r.lw,
     r.mat = r.mat,
-    r.pars = r.pars,
     r.prob = r.prob,
     r.res = r.res,
     rkm1 = rkm1,
@@ -1454,7 +1427,6 @@ if(river=='saco'){
     b.entryDate = b.entryDate,
     b.lw = b.lw,
     b.mat = b.mat,
-    b.pars = b.pars,
     b.prob = b.prob,
     b.res = b.res,
     batch = batch,
@@ -1525,7 +1497,6 @@ if(river=='saco'){
     r.entryDate = r.entryDate,
     r.lw = r.lw,
     r.mat = r.mat,
-    r.pars = r.pars,
     r.prob = r.prob,
     r.res = r.res,
     rkm1 = rkm1,
@@ -1558,7 +1529,6 @@ if(river=='saco'){
     b.entryDate = b.entryDate,
     b.lw = b.lw,
     b.mat = b.mat,
-    b.pars = b.pars,
     b.prob = b.prob,
     b.res = b.res,
     batch = batch,
@@ -1626,7 +1596,6 @@ if(river=='saco'){
     r.entryDate = r.entryDate,
     r.lw = r.lw,
     r.mat = r.mat,
-    r.pars = r.pars,
     r.prob = r.prob,
     r.res = r.res,
     rkm1 = rkm1,
