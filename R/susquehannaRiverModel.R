@@ -261,7 +261,8 @@ susquehannaRiverModel <- function(
 # models except Connecticut River. Hidden from
 # user because we lack projections from other
 # systems.
-  climate <- 'current'  
+  climate <- 'current'
+  region <- 'Northern Iteroparous'
   
 # Passage variable assignment -----
   pDraws <- upstream

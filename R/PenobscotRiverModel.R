@@ -209,6 +209,7 @@ penobscotRiverModel <- function(
   
 # Assign River
   river <- 'penobscot'
+  region <- 'Northern Iteroparous'
   
 # Choose climate scenario
 # Right now, these are set as 'current' in all

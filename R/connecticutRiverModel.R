@@ -231,6 +231,7 @@ connecticutRiverModel <- function(
 
 # Assign River
   river <- 'connecticut'
+  region <- 'Southern Iteroparous'
 
 # Passage variable assignment -----
   pDraws <- upstream
