@@ -684,7 +684,7 @@ if(river=='connecticut'){
 
   # Population demographics and survival rates
   S.downstream[(n + nYears * (k - 1))] <-  mean(downstreamS)
-  S.marine[(n + nYears * (k - 1))] <-  mean(oceanSurvival)
+  S.marine[(n + nYears * (k - 1))] <-  marineS[1]
   F.inRiver[(n + nYears * (k - 1))] <-  inRiverF
   F.commercial[(n + nYears * (k - 1))] <-  mean(commercialF)
   F.bycatch[(n + nYears * (k - 1))] <-  mean(bycatchF)

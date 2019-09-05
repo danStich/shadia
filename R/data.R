@@ -300,7 +300,7 @@
 #' are included based on availbility of time-series used to
 #' construct the projections.
 #' 
-#' @format A dataframe with 54,747 obs. of 4 variables:
+#' @format A dataframe with 54,747 obs. of 5 variables:
 #' \describe{
 #'   \code{Date }{Date for projection}
 #'   
@@ -324,7 +324,7 @@
 #' are included based on availbility of time-series used to
 #' construct the projections.
 #' 
-#' @format A dataframe with 54,747 obs. of 4 variables:
+#' @format A dataframe with 54,747 obs. of 5 variables:
 #' \describe{
 #'   \code{Date }{Date for projection}
 #'   
@@ -341,3 +341,62 @@
 #' 
 "ctr_proj85"
 
+#' @title Region-system key for von Bertalanffy growth estimates
+#' 
+#' @description A key for matching rivers used in the growth 
+#' analysis for the 2020 ASMFC American shad stock assessment. This is
+#' used to query posterior distributions from von Bertalanffy growth
+#' models used to predict fish length at age and incorporate climate
+#' impacts on growth and mortality.
+#' 
+#' @format A dataframe with 11 obs. of 3 variables:
+#' \describe{
+#'   \code{System }{Stock assessment unit}
+#'   
+#'   \code{Region }{Management region based on life-history strategy}
+#'   
+#'   \code{Thompsonville }{Numeric identifier for region}
+#' }
+#' 
+#' @source Atlantic States Marine Fisheries Commission
+#' 
+"regions"
+
+#' @title Sex-aggregate von Bertalanffy growth parameters
+#' 
+#' @description Posterior distributions for parameters of a 
+#' sex-aggregated von Bertalanffy growth function for American
+#' shad in the Northeast Continental Shelf Large Marine Ecosystem.
+#' 
+#' @format A list with 7 elements, each of which corresponds to an
+#' estimated parameter in the sex-aggregate model described in Gilligan (In prep).
+#' 
+#' @source Gilligan, E. (In Prep). MS Biology Thesis, SUNY Oneonta.
+#' 
+"vbgf_agg"
+
+#' @title Female von Bertalanffy growth parameters
+#' 
+#' @description Posterior distributions for parameters of a 
+#' female-only von Bertalanffy growth function for American
+#' shad in the Northeast Continental Shelf Large Marine Ecosystem.
+#' 
+#' @format A list with 7 elements, each of which corresponds to an
+#' estimated parameter in the female-only model described in Gilligan (In prep).
+#' 
+#' @source Gilligan, E. (In Prep). MS Biology Thesis, SUNY Oneonta.
+#' 
+"vbgf_f"
+
+#' @title Male von Bertalanffy growth parameters
+#' 
+#' @description Posterior distributions for parameters of a 
+#' male-only von Bertalanffy growth function for American
+#' shad in the Northeast Continental Shelf Large Marine Ecosystem.
+#' 
+#' @format A list with 7 elements, each of which corresponds to an
+#' estimated parameter in the male-only model described in Gilligan (In prep).
+#' 
+#' @source Gilligan, E. (In Prep). MS Biology Thesis, SUNY Oneonta.
+#' 
+"vbgf_m"

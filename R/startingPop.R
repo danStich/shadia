@@ -55,6 +55,7 @@ recruitmentPool = recruitmentPool
 ))
 }
 
+  
 if(river=='merrimack'){
 # Assign the starting population based on
 # a seed of age-1 fish and application

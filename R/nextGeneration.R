@@ -11,7 +11,6 @@
 #' 
 #' @export
 #' 
-# Apply Ocean survival rate
 nextGeneration <- function(){
 
   # Define a vector containing total number of spawners returning
@@ -23,7 +22,7 @@ nextGeneration <- function(){
     assign(
       paste('repeatSpawners_', i, sep = ''),
       outMigrants[i] *
-        oceanSurvival[i] *
+        marineS[i] *
         (1 - commercialF[i]) *
         (1 - bycatchF[i])
     )

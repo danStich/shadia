@@ -4,7 +4,7 @@
 \name{ctr_proj45}
 \alias{ctr_proj45}
 \title{Projected daily river temperatures (RCP4.5) in CT River, USA}
-\format{A dataframe with 54,747 obs. of 4 variables:
+\format{A dataframe with 54,747 obs. of 5 variables:
 \describe{
   \code{Date }{Date for projection}
   

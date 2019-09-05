@@ -4,8 +4,6 @@
 #' temperatures in each river system using historical gauge
 #' data loaded in \code{setUPData}.
 #' 
-#' Not currently used in package.
-#' 
 #' @return A list containing 1) a matrix of projected 
 #' temperatures for the number of years specified (predTemps), 
 #' and 2) a matrix of accumulated thermal units (ATU) for

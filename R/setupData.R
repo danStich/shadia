@@ -206,86 +206,86 @@ return(list(
 
   
 if(river=='connecticut'){
+# Fish age and growth data from Connecticut River -----  
 # Maximum age for fish in this population
-maxAge <- 8
+  maxAge <- 8
 
-# Fish age and growth data from Connecticut River -----
 # Using built-in data set `fish`
-names(fish) <- c('sex', 'age', 'fl', 'year', 'backCalculated', 'mass')
-fish <- fish[fish$fl > 10, ]
+  names(fish) <- c('sex', 'age', 'fl', 'year', 'backCalculated', 'mass')
+  fish <- fish[fish$fl > 10, ]
 
 # Make a dataframe of age and growth data just for females
-roes <- fish[fish$sex == 'R',]
+  roes <- fish[fish$sex == 'R',]
 
 # Make an dataframe of age and growth data just for males
-bucks <- fish[fish$sex == 'B',]
+  bucks <- fish[fish$sex == 'B',]
 
 # Correct errors in fish mass & make a separate df for l-w regression due to
 # missing fish masses
-fish$mass <- as.numeric(fish$mass)
-fishw <- fish[!is.na(fish$mass) & fish$mass != 0,]
+  fish$mass <- as.numeric(fish$mass)
+  fishw <- fish[!is.na(fish$mass) & fish$mass != 0,]
 
 # Log transform and data cleaning for l-w regressions
 # Bucks
-b.l <- log(fishw$fl[fishw$sex == 'B'])
-b.w <- log(fishw$mass[fishw$sex == 'B'])
-buck.lw <- na.omit(data.frame(b.l, b.w))
-buck.lw <- buck.lw[is.finite(buck.lw[, 2]),]
+  b.l <- log(fishw$fl[fishw$sex == 'B'])
+  b.w <- log(fishw$mass[fishw$sex == 'B'])
+  buck.lw <- na.omit(data.frame(b.l, b.w))
+  buck.lw <- buck.lw[is.finite(buck.lw[, 2]),]
 
 # Roes
-r.l <- log(fishw$fl[fishw$sex == 'R'])
-r.w <- log(fishw$mass[fishw$sex == 'R'])
-roe.lw <- na.omit(data.frame(r.l, r.w))
-roe.lw <- roe.lw[is.finite(roe.lw[, 2]),]
+  r.l <- log(fishw$fl[fishw$sex == 'R'])
+  r.w <- log(fishw$mass[fishw$sex == 'R'])
+  roe.lw <- na.omit(data.frame(r.l, r.w))
+  roe.lw <- roe.lw[is.finite(roe.lw[, 2]),]
 
 # Temperature data for Connecticut River -----
 # Load temperature data for Turner's Falls
 # during the past 20 years from built-in
 # data set
-tf_temp = tempData_connecticut
-day1 = 60
-day2 = 250
-mu_plot = ddply(tf_temp, .(day, year), summarize, val=mean(val, na.rm=TRUE))
-mu = na.omit(mu_plot)
-mu = mu[ , c(3, 2, 1)]
-counts = c()
-for(i in 1:length(unique(mu[ , 2]))){
-  counts[i]=nrow(mu[mu[,2]==unique(mu[,2])[i], ])
-}
-years = unique(mu[,2])
-mu = mu[mu[ , 2] %in% years[counts>=350], ]
-mu_plot = mu_plot[mu_plot[ , 2] %in% years[counts>=350], ]
+  tf_temp = tempData_connecticut
+  day1 = 60
+  day2 = 250
+  mu_plot = ddply(tf_temp, .(day, year), summarize, val=mean(val, na.rm=TRUE))
+  mu = na.omit(mu_plot)
+  mu = mu[ , c(3, 2, 1)]
+  counts = c()
+  for(i in 1:length(unique(mu[ , 2]))){
+    counts[i]=nrow(mu[mu[,2]==unique(mu[,2])[i], ])
+  }
+  years = unique(mu[,2])
+  mu = mu[mu[ , 2] %in% years[counts>=350], ]
+  mu_plot = mu_plot[mu_plot[ , 2] %in% years[counts>=350], ]
 
 # Load temperature data for Connecticut
 # River in New Hampshire, USA. Estimate
 # daily averages for each day in each year.
-hmu <- ddply(tempD,
-            .(day, year),
-            summarize,
-            val = mean(val, na.rm = TRUE))
+  hmu <- ddply(tempD,
+              .(day, year),
+              summarize,
+              val = mean(val, na.rm = TRUE))
 # Change the orders of the columns to
 # match original data
-hmu <- hmu[, c(3, 2, 1)]
-hmu <- na.omit(hmu)
+  hmu <- hmu[, c(3, 2, 1)]
+  hmu <- na.omit(hmu)
 
 return(list(
-maxAge = maxAge,
-fish = fish,
-roes = roes,
-bucks = bucks,
-b.l = b.l,
-b.w = b.w,
-buck.lw = buck.lw,
-buck.lw = buck.lw,
-r.l = r.l,
-r.w = r.w,
-roe.lw = roe.lw,
-roe.lw = roe.lw,
-mu = mu,
-mu = mu,
-mu_plot = mu_plot,
-hmu = hmu
-))
+  maxAge = maxAge,
+  fish = fish,
+  roes = roes,
+  bucks = bucks,
+  b.l = b.l,
+  b.w = b.w,
+  buck.lw = buck.lw,
+  buck.lw = buck.lw,
+  r.l = r.l,
+  r.w = r.w,
+  roe.lw = roe.lw,
+  roe.lw = roe.lw,
+  mu = mu,
+  mu = mu,
+  mu_plot = mu_plot,
+  hmu = hmu
+  ))
 }
 
 

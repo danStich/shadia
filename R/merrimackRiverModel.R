@@ -213,6 +213,7 @@ merrimackRiverModel <- function(
 
 # Assign River
   river <- 'merrimack'
+  region <- 'Northern Iteroparous'
   
 # Choose climate scenario
 # Right now, these are set as 'current' in all

@@ -208,6 +208,7 @@ sacoRiverModel <- function(
   
 # Assign River
   river <- 'saco'
+  region <- 'Northern Iteroparous'
   
 # Choose climate scenario
 # Right now, these are set as 'current' in all

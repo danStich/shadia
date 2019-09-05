@@ -67,13 +67,13 @@ b.prob <- invlogit(res.B[1, 1] + res.B[2, 1] * predTemps[, 2])
 #toc()
 # ---
 
-# CREATE AGE AND SEX STRUCTURE, DRAW ARRIVAL AND SPAWN DATES --------------
+# CREATE AGE AND SEX STRUCTURE ----
 # Draw sex ratio for the current year
 #if (useTictoc) tic("fish ages1")
 sex_Ratio <- rbeta(1, 100, 100)
 
-# Create an object containing the age of each fish based on the number of fish
-# in each age class
+# Create an object containing the age of each fish
+# based on the number of fish in each age class
 fishAges <- c()
 for (i in 1:length(spawningPool)) {
   fishAges <- append(fishAges, rep(names(spawningPool)[i], spawningPool[i]))
@@ -87,6 +87,8 @@ c_sex <- rbinom(length(fishAges), 1, sex_Ratio)
 c_fishAges <- c_fishAges[order(c_sex)] # First fish ages
 c_sex <- sort(c_sex)                   # Then fish sex
 
+
+# DRAW ARRIVAL AND SPAWNING DATES ----
 # Get entry date for each individual.  We used cumulative frequency distribution
 # to predict average entry date for a given fish conditional on temperature.
 # We will now use this relationship to predict individual
@@ -207,122 +209,91 @@ day <- c(seq(min(c_initial), (max(c_end))))
 #toc()
 
 # SIMULATE FISH CHARACTERISTICS FOR EACH FISH IN EACH YEAR ----------------
-# Get fork length for each individual in each age class of spawning pool
-# Data from each river are subsampled to fit sex-specific growth curves
-# before inclusion and used predict length for roes and bucks. We fit 1,000
-# growth curves for each pop using subsampled data and sample the parameter
-# estimates from sex- and system-specific curves stored in built-in datasets.
-# Penobscot River currently uses data from Connecticut River, and Merrimack
-# and Susquehanna use lengths for juvenile shad in the Connecticut to
-# supplement growth information because juvenile data are lacking for
-# those systems.
-
 #if (useTictoc) tic("simulate fish characteristics")
 
+# Growth parameters
 # Roes
-  # Get the parameters from river-specific rda files. Otherwise, the
-  # default parameter set for the CTR is loaded for each sex.
-  r.pars <- r.parms[[sample(1:length(r.parms), 1)]]
-  if(river=='merrimack'){
-    r.pars <- r.parms_merrimack[[sample(1:length(r.parms_merrimack), 1)]]
-  }
-  if(river=='susquehanna'){
-    r.pars <- r.parms_susquehanna[[sample(1:length(r.parms_susquehanna), 1)]]
-  }
-  r.mat <- r.pars[, 1]
-  # Rename them for ease of use
-  c_linF <- r.mat[1] # L-infinity females
-  c_kF <- r.mat[2]   # Brody growth coeff females
-  c_t0F <- r.mat[3]  # Intercept of VBGM females
+  # Get sex-specific, regional growth parameters
+    environment(simGrowth) <- .shadia
+    r.mat <- simGrowth(female = TRUE)
+  # Rename them for ease of use and readability on output
+    c_linF <- r.mat[1] # L-infinity females
+    c_kF <- r.mat[2]   # Brody growth coeff females
+    c_t0F <- r.mat[3]  # Intercept of VBGM females
 
 # Males
-  # Get the parameters
-  b.pars <- b.parms[[sample(1:length(b.parms), 1)]]
-  if(river=='merrimack'){
-    b.pars <- b.parms_merrimack[[sample(1:length(b.parms_merrimack), 1)]]
-  }
-  if(river=='susquehanna'){
-    b.pars <- b.parms_susquehanna[[sample(1:length(b.parms_susquehanna), 1)]]
-  }  
-  b.mat <- b.pars[, 1]
-  # Rename them for ease of use
-  c_linM <- b.mat[1] # L-infinity males
-  c_kM <- b.mat[2]   # Brody growth coeff males
-  c_t0M <- b.mat[3]  # Intercept of VBGM males
+  # Get sex-specific, regional growth parameters
+    b.mat <- simGrowth(female = FALSE)
+  # Rename them for ease of use and readability on output
+    c_linM <- b.mat[1] # L-infinity males
+    c_kM <- b.mat[2]   # Brody growth coeff males
+    c_t0M <- b.mat[3]  # Intercept of VBGM males
 
 # Create length-weight regressions for males and females from the CTDEEP data
-# Roes
-roelw <- roe.lw[sample(nrow(roe.lw), 200, replace = TRUE),]
-r.lw <- lm(r.w ~ r.l, data = roelw)
-r.res <- data.frame(summary(r.lw)$coefficients[, 1])
-c_femaleLWalpha <- r.res[1, 1]  # Alpha in male l-w relationship
-c_femaleLWbeta <- r.res[2, 1]   # Beta in male l-w relationship
-# Bucks
-bucklw <- buck.lw[sample(nrow(buck.lw), 200, replace = TRUE),]
-b.lw <- lm(b.w ~ b.l, data = bucklw)
-b.res <- data.frame(summary(b.lw)$coefficients[, 1])
-c_maleLWalpha <- b.res[1, 1] # Alpha in male l-w relationship
-c_maleLWbeta <- b.res[2, 1]   # Beta in male l-w relationship
+  # Roes
+    roelw <- roe.lw[sample(nrow(roe.lw), 200, replace = TRUE),]
+    r.lw <- lm(r.w ~ r.l, data = roelw)
+    r.res <- data.frame(summary(r.lw)$coefficients[, 1])
+    c_femaleLWalpha <- r.res[1, 1]  # Alpha in male l-w relationship
+    c_femaleLWbeta <- r.res[2, 1]   # Beta in male l-w relationship
+  # Bucks
+    bucklw <- buck.lw[sample(nrow(buck.lw), 200, replace = TRUE),]
+    b.lw <- lm(b.w ~ b.l, data = bucklw)
+    b.res <- data.frame(summary(b.lw)$coefficients[, 1])
+    c_maleLWalpha <- b.res[1, 1] # Alpha in male l-w relationship
+    c_maleLWbeta <- b.res[2, 1]   # Beta in male l-w relationship
 
 # Calculate length, mass, and movement rates, and fecundity
-# Get columns representing logical for male and female
-c_female <- c_sex
-c_male <- as.numeric(factor(c_sex, levels = c(1, 0))) - 1
-# Calculate length of males
-c_male_lf <- c_male * c_linM * (1 - exp(-c_kM * (c_fishAges - c_t0M)))
-# Calculate length of females
-c_female_lf <- c_female * c_linF * (1 - exp(-c_kF * (c_fishAges - c_t0F)))
-# Calculate mass of males
-c_male_m <- c_male * (c_maleLWalpha + c_maleLWbeta * c_male_lf)
-# Calculate mass of females
-c_female_m <- c_female * (c_femaleLWalpha + c_femaleLWbeta * c_female_lf)
-# Collect fork length and mass into one column each
-c_forkLength <- c_male_lf + c_female_lf
-c_mass <- c_male_m + c_female_m
-# Convert fork length to mm from cm for movement calcs below
-c_forkLength <- c_forkLength * 10
+  # Get columns representing logical for male and female
+    c_female <- c_sex
+    c_male <- as.numeric(factor(c_sex, levels = c(1, 0))) - 1
+  # Calculate length of males
+    c_male_lf <- c_male * c_linM * (1 - exp(-c_kM * (c_fishAges - c_t0M)))
+  # Calculate length of females
+    c_female_lf <- c_female * c_linF * (1 - exp(-c_kF * (c_fishAges - c_t0F)))
+  # Calculate mass of males
+    c_male_m <- c_male * (c_maleLWalpha + c_maleLWbeta * c_male_lf)
+  # Calculate mass of females
+    c_female_m <- c_female * (c_femaleLWalpha + c_femaleLWbeta * c_female_lf)
+  # Collect fork length and mass into one column each
+    c_forkLength <- c_male_lf + c_female_lf
+    c_mass <- c_male_m + c_female_m
+  # Convert fork length to mm from cm for movement calcs below
+    c_forkLength <- c_forkLength * 10
 
 # Calculate movement rates based on Castro-Santos and Letcher (2010)
-# Optimizing ground speed in body lengths per second (BLS)
-sOptim <- runif(length(c_mass), .7, 1.7)
-# Get max daily movement, converting from BLS to km per day
-dMax <- (sOptim * c_forkLength * 86400) / 1e6
-# Movement tortuosity drawn from uniform distribution.  This corresponds to
-# the range used in Castro-Santos and Letcher (2010) but it's just applied
-# as a multiplier
-tort <- runif(length(c_fishAges), 0.2, 1)
-# Now scale by tortuosity and divide by two to restrict movement to day time
-dailyMove <- dMax * tort * mean(photo / 24)
+  # Optimizing ground speed in body lengths per second (BLS)
+    sOptim <- runif(length(c_mass), .7, 1.7)
+  # Get max daily movement, converting from BLS to km per day
+    dMax <- (sOptim * c_forkLength * 86400) / 1e6
+  # Movement tortuosity drawn from uniform distribution.  This corresponds to
+  # the range used in Castro-Santos and Letcher (2010) but it's just applied
+  # as a multiplier
+    tort <- runif(length(c_fishAges), 0.2, 1)
+  # Now scale by tortuosity and divide by two to restrict movement to day time
+    dailyMove <- dMax * tort * mean(photo / 24)
 
 # Calculate fecundity
-# Calculate residence time for each fish based on entry date and exit date
-c_RT <- c_end - c_initial
-c_RT[c_RT < 1] <- 1
-# Get spawning interval for each fish
-c_SI <- rnorm(length(c_fishAges), 2.493, 0.274)
-# Get probability of repeat spawning
-c_repeat <- rbinom(length(c_fishAges), 1, pRepeat[c_fishAges])
-# Get random draws for fecundity based on whether or not fish are repeat
-# spawners.
-c_BF <- vector(mode = 'numeric', length = length(c_repeat))
-c_BF[c_repeat == 0] <- sample(rnegbin(10000, 20000, 10),
-                             length(c_repeat[c_repeat == 0]), replace = TRUE)
-c_BF[c_repeat == 1] <- sample(rnegbin(10000, 30000, 10),
-                             length(c_repeat[c_repeat == 1]), replace = TRUE)
+  # Calculate residence time for each fish based on entry date and exit date
+    c_RT <- c_end - c_initial
+    c_RT[c_RT < 1] <- 1
+  # Get spawning interval for each fish
+    c_SI <- rnorm(length(c_fishAges), 2.493, 0.274)
+  # Get probability of repeat spawning
+    c_repeat <- rbinom(length(c_fishAges), 1, pRepeat[c_fishAges])
+  # Get random draws for fecundity based on whether or not fish are repeat
+  # spawners.
+    c_BF <- vector(mode = 'numeric', length = length(c_repeat))
+    c_BF[c_repeat == 0] <- sample(rnegbin(10000, 20000, 10),
+                                 length(c_repeat[c_repeat == 0]), replace = TRUE)
+    c_BF[c_repeat == 1] <- sample(rnegbin(10000, 30000, 10),
+                                 length(c_repeat[c_repeat == 1]), replace = TRUE)
+  # Calculate realized annual fecundity
+    c_RAF <- c_BF * (c_RT / c_SI)
+  # Multiply by sex variable to set male fecundity to zero
+    c_fecundity <- c_female * c_RAF
 
-# Calculate realized annual fecundity
-#c_RAF = vector(mode = 'numeric', length=length(c_RT))
-#for(i in 1:length(c_RT)){
-#if((c_RT[i]/c_SI[i]) < 10 ) {
-c_RAF <- c_BF * (c_RT / c_SI)
-#} else {
-#c_RAF[i] = c_BF[i] * 10
-#}
-#}
-# Multiply by sex variable to set male fecundity to zero
-c_fecundity <- c_female * c_RAF
-
-# Upstream and downstream migration routes for Penobscot River
+# UPSTREAM MIGRATION ROUTES ----
 if(river=='penobscot'){
   # Assign upstream and downstream migration routes probabilistically conditional
   # on flow or production potential (upstream) and flow (downstream). NOTE: NEED
@@ -391,6 +362,7 @@ if(river=='susquehanna'){
     upstream_path <- rep(1, length(c_fishAges))
   }
 
+# COLLECT L-H PARAMETERS ----
 # Collect life-history parameters into a single matrix for c++ loop
 # NOTE: the source code for the loop was re-written to preclude the need for
 # these matrices. Instead, they are related to the ABM input and output post-
@@ -472,41 +444,41 @@ if(river=='susquehanna'){
 # NOTE: These are divided by 1000 to make the simulations run faster!
 # Everything is scaled up on output
 #if (useTictoc) tic("spawn dynamics variables")
-k_pus <- vector(mode = 'list', length = length(habitat))
-batch <- quantile(rnegbin(1e2, 2.5e4, 10), 0.5)[1]
+  k_pus <- vector(mode = 'list', length = length(habitat))
+  batch <- quantile(rnegbin(1e2, 2.5e4, 10), 0.5)[1]
 
 # Carrying capacity for each migration route 
-for(i in 1:length(k_pus)){
-  k_pus[[i]] <- ((habitat[[i]] / scalar) * sex_Ratio * batch)
-}
-  
-k_pus <- lapply(k_pus, function(x) {
-  x[is.na(x)] = 1
-  x
-})
+  for(i in 1:length(k_pus)){
+    k_pus[[i]] <- ((habitat[[i]] / scalar) * sex_Ratio * batch)
+  }
+    
+  k_pus <- lapply(k_pus, function(x) {
+    x[is.na(x)] = 1
+    x
+  })
 
 # Pre-spawning mortality. Right now, these are drawn independently. Conditional
 # draws may be more appropriate b/c pre-spawn mortality is probably affected by
 # similar factors but may differ in magnitude between males and females.
-pre_spawn_survival_males <- rbeta(1, 1e4, 50)
-pre_spawn_survival_females <- rbeta(1, 1e4, 50)
+  pre_spawn_survival_males <- rbeta(1, 1e4, 50)
+  pre_spawn_survival_females <- rbeta(1, 1e4, 50)
 
 # Post-spawning mortality. Right now, these are drawn independently. Conditional
 # draws may be more appropriate b/c post-spawn mortality is probably affected by
 # similar factors but may differ in magnitude between males and females.
-post_spawn_survival_males <- rbeta(1, 200, 50)
-post_spawn_survival_females <- rbeta(1, 200, 50)
-
-# Ocean survival for each year after the first year for each age class
-# Can be made into age-specific survival. Right now everyone has the same
-# annual survival rate in the ocean.
-oceanSurvival <- rep(rbeta(1, 12, 8), maxAge)
+  post_spawn_survival_males <- rbeta(1, 200, 50)
+  post_spawn_survival_females <- rbeta(1, 200, 50)
 
 # Juvenile mortality rate
 # This really needs some data pretty bad. Right now it is just a draw from a
 # uniform probability distribution that calls it 1 in 100000 to 1 in 1000
-juvenile_survival <- runif(1, 0.0005, 0.00083)
-#toc()
+  juvenile_survival <- runif(1, 0.0005, 0.00083)
+  #toc()
+  
+# Simulate marine S for current year
+  environment(simMarineS) <- .shadia
+  marineS <- rep(simMarineS(), maxAge)
+  
 
 # FISH PASSAGE RATES AT DAMS ----------------------------------------------
 # Convert passage performance standards into rates over time based on passage
@@ -1243,7 +1215,6 @@ if(river=='saco'){
     b.entryDate = b.entryDate,
     b.lw = b.lw,
     b.mat = b.mat,
-    b.pars = b.pars,
     b.prob = b.prob,
     b.res = b.res,
     batch = batch,
@@ -1289,7 +1260,7 @@ if(river=='saco'){
     eFFs = eFFs,
     entry = entry,
     fishAges = fishAges,
-    id = id,
+    #id = id,
     juvenile_survival = juvenile_survival,
     k_pus = k_pus,
     maxR = maxR,
@@ -1300,7 +1271,7 @@ if(river=='saco'){
     moves_4 = moves_4,
     newTU = newTU,
     newTU_2 = newTU_2,
-    oceanSurvival = oceanSurvival,
+    marineS = marineS,
     photo = photo,
     post_spawn_survival_females = post_spawn_survival_females,
     post_spawn_survival_males = post_spawn_survival_males,
@@ -1317,7 +1288,6 @@ if(river=='saco'){
     r.entryDate = r.entryDate,
     r.lw = r.lw,
     r.mat = r.mat,
-    r.pars = r.pars,
     r.prob = r.prob,
     r.res = r.res,
     rkm1 = rkm1,
@@ -1356,7 +1326,6 @@ if(river=='saco'){
     b.entryDate = b.entryDate,
     b.lw = b.lw,
     b.mat = b.mat,
-    b.pars = b.pars,
     b.prob = b.prob,
     b.res = b.res,
     batch = batch,
@@ -1400,7 +1369,7 @@ if(river=='saco'){
     eFFs = eFFs,
     entry = entry,
     fishAges = fishAges,
-    id = id,
+    #id = id,
     juvenile_survival = juvenile_survival,
     k_pus = k_pus,
     maxR = maxR,
@@ -1409,7 +1378,7 @@ if(river=='saco'){
     moves_2 = moves_2,
     newTU = newTU,
     newTU_2 = newTU_2,
-    oceanSurvival = oceanSurvival,
+    marineS = marineS,
     photo = photo,
     post_spawn_survival_females = post_spawn_survival_females,
     post_spawn_survival_males = post_spawn_survival_males,
@@ -1426,7 +1395,6 @@ if(river=='saco'){
     r.entryDate = r.entryDate,
     r.lw = r.lw,
     r.mat = r.mat,
-    r.pars = r.pars,
     r.prob = r.prob,
     r.res = r.res,
     rkm1 = rkm1,
@@ -1459,7 +1427,6 @@ if(river=='saco'){
     b.entryDate = b.entryDate,
     b.lw = b.lw,
     b.mat = b.mat,
-    b.pars = b.pars,
     b.prob = b.prob,
     b.res = b.res,
     batch = batch,
@@ -1503,7 +1470,7 @@ if(river=='saco'){
     eFFs = eFFs,
     entry = entry,
     fishAges = fishAges,
-    id = id,
+    #id = id,
     juvenile_survival = juvenile_survival,
     k_pus = k_pus,
     #maxrkm = maxrkm,
@@ -1513,7 +1480,7 @@ if(river=='saco'){
     moves_2 = moves_2,
     newTU = newTU,
     newTU_2 = newTU_2,
-    oceanSurvival = oceanSurvival,
+    marineS = marineS,
     photo = photo,
     post_spawn_survival_females = post_spawn_survival_females,
     post_spawn_survival_males = post_spawn_survival_males,
@@ -1530,7 +1497,6 @@ if(river=='saco'){
     r.entryDate = r.entryDate,
     r.lw = r.lw,
     r.mat = r.mat,
-    r.pars = r.pars,
     r.prob = r.prob,
     r.res = r.res,
     rkm1 = rkm1,
@@ -1563,7 +1529,6 @@ if(river=='saco'){
     b.entryDate = b.entryDate,
     b.lw = b.lw,
     b.mat = b.mat,
-    b.pars = b.pars,
     b.prob = b.prob,
     b.res = b.res,
     batch = batch,
@@ -1606,7 +1571,7 @@ if(river=='saco'){
     eFFs = eFFs,
     entry = entry,
     fishAges = fishAges,
-    id = id,
+    #id = id,
     juvenile_survival = juvenile_survival,
     k_pus = k_pus,
     maxR = maxR,
@@ -1614,7 +1579,7 @@ if(river=='saco'){
     moves_1 = moves_1,
     newTU = newTU,
     newTU_2 = newTU_2,
-    oceanSurvival = oceanSurvival,
+    marineS = marineS,
     photo = photo,
     post_spawn_survival_females = post_spawn_survival_females,
     post_spawn_survival_males = post_spawn_survival_males,
@@ -1631,7 +1596,6 @@ if(river=='saco'){
     r.entryDate = r.entryDate,
     r.lw = r.lw,
     r.mat = r.mat,
-    r.pars = r.pars,
     r.prob = r.prob,
     r.res = r.res,
     rkm1 = rkm1,
