@@ -204,7 +204,10 @@ day <- c(seq(min(c_initial), (max(c_end))))
   if(river=='saco'){
     photo <- daylength(43.65, day)
   }
-
+  # Kennebec River:
+  if(river=='kennebec'){
+    photo <- daylength(43.65, day)
+  }
 
 #toc()
 
@@ -362,6 +365,12 @@ if(river=='susquehanna'){
     upstream_path <- rep(1, length(c_fishAges))
   }
 
+# Upstream path for kennebec river
+if(river=='kennebec'){
+  upstream_path <- rbinom(length(c_fishAges), 1, p_sebasticook)
+  upstream_path[upstream_path==0] <- 2  
+}
+    
 # COLLECT L-H PARAMETERS ----
 # Collect life-history parameters into a single matrix for c++ loop
 # NOTE: the source code for the loop was re-written to preclude the need for
@@ -404,7 +413,6 @@ if(river=='susquehanna'){
 
   if(river=='merrimack'){
     # Re-organize the data so they match the output of the ABM below
-    # Create a df for traits of Piscataquis River spawners
     traits_1 <- data.frame(traits[upstream_path == 1, , drop = FALSE],
                           upstream_path[upstream_path == 1])
     traits_2 <- data.frame(traits[upstream_path == 2, , drop = FALSE],
@@ -417,7 +425,6 @@ if(river=='susquehanna'){
 
   if(river=='connecticut'){
     # Re-organize the data so they match the output of the ABM below
-    # Create a df for traits of Piscataquis River spawners
     traits_1 <- data.frame(traits[upstream_path == 1, , drop = FALSE],
                           upstream_path[upstream_path == 1])
     traits_2 <- data.frame(traits[upstream_path == 2, , drop = FALSE],
@@ -430,7 +437,6 @@ if(river=='susquehanna'){
 
   if(river=='saco'){
     # Re-organize the data so they match the output of the ABM below
-    # Create a df for traits of Piscataquis River spawners
     traits_1 <- data.frame(traits[upstream_path == 1, , drop = FALSE],
                           upstream_path[upstream_path == 1])
     # Change the name of the last column in each of the dfs so they match
@@ -438,6 +444,18 @@ if(river=='susquehanna'){
     #toc()
   }
 
+  if(river=='kennebec'){
+    # Re-organize the data so they match the output of the ABM below
+    traits_1 <- data.frame(traits[upstream_path == 1, , drop = FALSE],
+                          upstream_path[upstream_path == 1])
+    traits_2 <- data.frame(traits[upstream_path == 2, , drop = FALSE],
+                          upstream_path[upstream_path == 2])    
+    # Change the name of the last column in each of the dfs so they match
+    names(traits_1)[ncol(traits_1)] <- 'upstream_path'
+    names(traits_2)[ncol(traits_2)] <- 'upstream_path'
+    #toc()
+  }  
+  
 # DEFINE VARIABLES FOR SPAWNING DYNAMICS ----------------------------------
 # Carrying capacity for juvs based on potential production of adult shad in each
 # production unit based on values from the 2009 multi-species management plan
@@ -558,6 +576,11 @@ mot <- mean((1 - (newTU - min(newTU)) /
     if(river=='saco'){
       rkm1 <- rep(0, length(c_fishAges))
     }
+    # For kennebec River:
+    if(river=='kennebec'){
+      rkm1 <- rep(30, length(c_fishAges))
+    }
+
     # For all rivers:
     rkm2 <- matrix(0, ncol = length(day), nrow = length(c_fishAges))
 
@@ -717,6 +740,28 @@ if(river=='saco'){
                   c_initial[upstream_path == 1])
 }  
   
+if(river=='kennebec'){
+# Run the ABM for bypass route through Pawtucket
+  moves_1 <- moveC(day,
+                  c_entryDate[upstream_path == 1],
+                  dailyMove[upstream_path == 1],
+                  maxR[upstream_path == 1],
+                  ppPenalty[[1]],
+                  rkm1[upstream_path == 1],
+                  rkm2[upstream_path == 1, , drop = FALSE],
+                  c_initial[upstream_path == 1])
+  # Run the ABM for mainstem route through Pawtucket
+  moves_2 <- moveC(day,
+                  c_entryDate[upstream_path == 2],
+                  dailyMove[upstream_path == 2],
+                  maxR[upstream_path == 2],
+                  ppPenalty[[2]],
+                  rkm1[upstream_path == 2],
+                  rkm2[upstream_path == 2,  , drop = FALSE],
+                  c_initial[upstream_path == 2])
+}  
+  
+  
 # Calculate total run time for ABM
 #timeABM <- proc.time() - ptmABM # Uncomment to time it
 
@@ -735,7 +780,7 @@ if(river=='saco'){
 # migration route for all rivers. 
   delay_1 <- delayC(moves_1, damRkms[[1]][2:nPU[1]])
   # Remaining routes for connecticut River
-  if(river=='connecticut' | river=='merrimack'){
+  if(river=='connecticut' | river=='merrimack' | river=='kennebec'){
   # Calculate delay at each dam for each main-to-Mainstem spawners
   delay_2 <- delayC(moves_2, damRkms[[2]][2:nPU[2]])
   }
@@ -804,6 +849,12 @@ if(river=='saco'){
     colnames(delay_1) <- c('dCataract', 'dSprings', 'dSkelton', 'dBarmills',
                            'dBuxton', 'dBonny')
   }  
+  
+  # Names for delay matrix: kennebec
+  if(river=='kennebec'){
+    colnames(delay_1) <- c('dLockwood', 'dHydrokenn', 'dShawmut', 'dWeston')
+    colnames(delay_2) <- c('dBenton', 'dBurnham')
+  }
   
 # Calculate run time for delay function in C++
   #timeDelay <- proc.time() - ptmDelay
@@ -1204,7 +1255,70 @@ if(river=='saco'){
     sp_1$surv <- rbinom(nrow(sp_1), 1, sp_1$preSpawn * (1 - sp_1$F))
   }  
   
-  
+  # Penobscot River
+  if(river=='kennebec'){
+    # Combine all data for mainstem to piscataquis
+    # Combine all three matrices
+    spawnData_1 <- cbind(traits_1, moves_1[, ncol(moves_1)], delay_1)
+    # Change the name for the final rkm column
+    colnames(spawnData_1)[ncol(spawnData_1) - 3] = 'finalRkm'
+    # Make it into a dataframe for easy manipulation
+    sp_1 <- data.frame(spawnData_1)
+    
+    # Combine all data for main-to-mainstem spawners
+    # Combine all three matrices
+    spawnData_2 <- cbind(traits_2, moves_2[, ncol(moves_2)], delay_2)
+    # Change the name for the final rkm column
+    colnames(spawnData_2)[ncol(spawnData_2) - 2] = 'finalRkm'
+    # Make it into a dataframe for easy manipulation
+    sp_2 <- data.frame(spawnData_2)
+    
+    # Assign each fish to a production unit before they spawn. Do this for
+    # Piscataquis River spawners and Mainstem spawners
+    # First, assign rkms to delineate each of the production units
+    puRkm <- vector(mode = 'list', length = length(nPU))
+    puRkm[[1]] <- c(damRkms[[1]] + 1, (maxrkm[1] + 1))
+    puRkm[[2]] <- c(damRkms[[2]] + 1, (maxrkm[2] + 1))
+    # Create an empty list to hold the pu names for each route
+    rm(list = ls()[grep(ls(), pat = '^mPU_')]) # Remove old counts
+    puNames <- vector(mode = 'list', length = length(nPU))
+    # Dynamically assign pu names based on river kilometers that delineate them
+    for (t in 1:length(puRkm)) {
+      for (i in 1:(length(puRkm[[t]]) - 1)) {
+        assign(paste('PU_', t, '_', i, sep = ''), puRkm[i])
+      }
+      # Collect the names into a list
+      puNames[[t]] <- names(mget(ls(pat = paste(
+        '^PU_', t, sep = ''
+      ))))
+    }
+    # Determine which PU each fish ends up in based on its rkm and assign it.
+    # Uses pre-compiled function 'fishPU' from source files loaded up front.
+    # Mainstem
+    sp_1$pus <- as.character(fishPU(puRkm[[1]], sp_1$finalRkm, puNames[[1]]))
+    # Sebasticook
+    sp_2$pus <- as.character(fishPU(puRkm[[2]], sp_2$finalRkm, puNames[[2]]))
+
+    # Replace the blank PUs for fish that ended head of tide
+    sp_1$pus[sp_1$pus == ""] <- "PU_1_1"
+    sp_2$pus[sp_2$pus == ""] <- "PU_2_1"
+    
+    # Determine the probability that a fish survives to spawn
+    # Pre-spawning mortality by sex
+    sp_1$preSpawn <- sp_1$female * pre_spawn_survival_females +
+      (1 - sp_1$female) * pre_spawn_survival_males
+    sp_2$preSpawn <- sp_2$female * pre_spawn_survival_females +
+      (1 - sp_2$female) * pre_spawn_survival_males
+    
+    # Determine fishing mortality by PU
+    sp_1$F <- inriv[[1]][as.numeric(substrRight(sp_1$pus, 1))]
+    sp_2$F <- inriv[[2]][as.numeric(substrRight(sp_2$pus, 1))]
+    
+    # Apply in-river fishing mortality and prespawn survival
+    sp_1$surv <- rbinom(nrow(sp_1), 1, sp_1$preSpawn * (1 - sp_1$F))
+    sp_2$surv <- rbinom(nrow(sp_2), 1, sp_2$preSpawn * (1 - sp_2$F))
+    #toc()
+  }  
   
   
 # Data return to calling environment
@@ -1320,7 +1434,7 @@ if(river=='saco'){
   }
 
   # Merrimack River:
-  if(river=='merrimack'){
+  if(river=='merrimack' | river=='kennebec'){
     return(list(
     b.entry = b.entry,
     b.entryDate = b.entryDate,
