@@ -164,7 +164,7 @@ if(river=='connecticut'){
   upEffs[[1]][3] <- GatehouseUp
   upEffs[[1]][4] <- VernonUp
 
-  # Route 1- Spillway
+  # Route 2- Spillway
   upEffs[[2]][1] <- HolyokeUp
   upEffs[[2]][2] <- SpillwayUp
   upEffs[[2]][3] <- GatehouseUp
@@ -179,7 +179,7 @@ if(river=='connecticut'){
   times[[1]][3] <- timely[[4]]
   times[[1]][4] <- timely[[5]]
 
-  # Route 1- Spillway route
+  # Route 2- Spillway route
   times[[2]][1] <- timely[[1]]
   times[[2]][2] <- timely[[3]]
   times[[2]][3] <- timely[[4]]
@@ -310,5 +310,38 @@ if(river=='saco'){
   ))  
 }    
   
+if(river=='kennebec'){
+  # Assign efficiencies to the upstream passage groups (pisc or main)
+  upEffs <- vector(mode = 'list', length = nRoutes)
+
+  # Route 1- Mainstem
+  upEffs[[1]][1] <- lockwoodUp
+  upEffs[[1]][2] <- hydrokennUp
+  upEffs[[1]][3] <- shawmutUp
+  upEffs[[1]][4] <- westonUp
+
+  # Route 2- Sebasticook
+  upEffs[[2]][1] <- bentonUp
+  upEffs[[2]][2] <- burnhamUp
+  
+  # Upstream passage times
+  times <- vector(mode = 'list', length = nRoutes)
+
+  # Route 1- Mainstem
+  times[[1]][1] <- timely[[1]]
+  times[[1]][2] <- timely[[2]]
+  times[[1]][3] <- timely[[3]]
+  times[[1]][4] <- timely[[4]]
+  
+  # Route 2- Sebasticook
+  times[[2]][1] <- timely[[5]]
+  times[[2]][2] <- timely[[6]]
+  
+  # Output list
+  return(list(
+    times = times,
+    upEffs = upEffs
+  ))  
+}   
 }  
   

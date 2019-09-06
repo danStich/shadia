@@ -1208,7 +1208,6 @@ if(river=='kennebec'){
   hydUp <- vector(mode = 'numeric', length = nYears * nRuns)
   shaUp <- vector(mode = 'numeric', length = nYears * nRuns)
   wesUp <- vector(mode = 'numeric', length = nYears * nRuns)
-  abeUp <- vector(mode = 'numeric', length = nYears * nRuns)
   benUp <- vector(mode = 'numeric', length = nYears * nRuns)
   burUp <- vector(mode = 'numeric', length = nYears * nRuns)
   
@@ -1217,7 +1216,6 @@ if(river=='kennebec'){
   hydD <- vector(mode = 'numeric', length = nYears * nRuns)
   shaD <- vector(mode = 'numeric', length = nYears * nRuns)
   wesD <- vector(mode = 'numeric', length = nYears * nRuns)
-  abeD <- vector(mode = 'numeric', length = nYears * nRuns)
   benD <- vector(mode = 'numeric', length = nYears * nRuns)
   burD <- vector(mode = 'numeric', length = nYears * nRuns)
   
@@ -1337,14 +1335,12 @@ if(river=='kennebec'){
       hydUp	= hydUp,
       shaUp	= shaUp,
       wesUp	= wesUp,
-      abeUp	= abeUp,
       benUp	= benUp,
       burUp	= burUp,
       locD	= locD,
       hydD	= hydD,
       shaD	= shaD,
       wesD	= wesD,
-      abeD	= abeD,
       benD	= benD,
       burD	= burD,
       indirectM = indirectM,
