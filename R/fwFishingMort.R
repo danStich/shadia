@@ -53,4 +53,12 @@ fwFishingMort <- function(){
     return(list(inriv=inriv))
   }  
   
+  if(river=='kennebec'){  
+    inriv <- vector(mode = 'list', length = nRoutes)
+    inriv[[1]] <- rep(inRiverF, 5)
+    inriv[[2]] <- rep(inRiverF, 3)
+   
+    return(list(inriv=inriv))
+  }  
+  
 }
