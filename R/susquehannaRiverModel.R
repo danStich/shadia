@@ -94,7 +94,7 @@
 #'     \item \code{pChemungUp} Probability of using Chemung River for upstream migration
 #'     \item \code{pNorthBranchUp} Probability of using North Branch for upstream migration
 #'     \item \code{S.downstream} Downstream survival per kilometer
-#'     \item \code{S.marine} Marine survival (z, instantaneous)
+#'     \item \code{S.marine} Marine survival as an annual rate
 #'     \item \code{popStart} Starting population size
 #'     \item \code{p.female} Probability of being female
 #'     \item \code{S.prespawnM} Prespawn survival rate for males
