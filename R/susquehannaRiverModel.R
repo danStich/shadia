@@ -369,8 +369,6 @@ susquehannaRiverModel <- function(
 
     
   # . Upstream passage efficiencies and migration route -----
-    # NOTE: This section is special for the PNR because of multiple routes with
-    # unequal numbers of dams and unequal reach lengths
     environment(annualUpstream) <- .shadia
     list2env(annualUpstream(), envir = .shadia)
 
