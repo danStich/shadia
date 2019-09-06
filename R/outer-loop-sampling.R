@@ -32,8 +32,6 @@ for(i in 1:length(timing)){
 # Define fall back
 fB <- 1.00
 
-# ---
-
 # Downstream passage efficiencies
 # Define downstream passage efficiencies
 d <- as.vector(mapply(sample, dDraws, 1))
@@ -49,11 +47,13 @@ delay <- 1 #rbeta(1, 4e3, 10)
 
 ildProduct <- indirect * latent * delay
 
-jReduction <- 1 #sample(c(.50,.60,.70,.80,.90,1.00), 1, replace =TRUE)
+jReduction <- 1
 
 # Survival rates for various life-history stages
 # Define ocean survival for each age (1-M from Hoenig 1983 in ASMFC 2007
-# stock assessment). ALTERNATIVE: Could use age-variant M.
+# stock assessment). This is now used only to seed the population. All
+# models now use climate-informed mortality estimates for VBGF parameters
+# derived as part of the 2020 ASMFC stock assessment.
 downstreamS <- 1                              # Survival per km (natural)
 oceanSurvival <- rep(rbeta(1, 12, 8), maxAge) # Ocean survival rate
 
@@ -80,8 +80,7 @@ if(river=='penobscot'){
   scenario <- sample(weldon, 1, replace = TRUE)
   # }
   
-  # Draw probability of using the Stillwater Branch. NOTE: NEED TO MAKE THIS
-  # CONDITIONAL ON FLOW.
+  # Draw probability of using the Stillwater Branch. 
   pStillwaterUp <- rbeta(1, 15, 120) # During upstream passage
   pStillwaterD <- rbeta(1, 15, 120)  # During downstream passage
   
@@ -215,6 +214,39 @@ if(river=='saco'){
   # run faster. Output is re-scaled  
   Age1 <- rpois(1, 2e5)
   
+  # Probability of using Sebasticook based on proportion
+  # of habitat with added uncertainty
+  p_sebasticook <- rbeta(1, 25, 100)
+  
+  return(list(
+    up = up,
+    timely = timely,
+    fB = fB,
+    d = d,
+    p_sebasticook = p_sebasticook,
+    indirect = indirect,
+    latent = latent,
+    delay = delay,
+    ildProduct = ildProduct,
+    jReduction = jReduction,
+    downstreamS = downstreamS,
+    oceanSurvival = oceanSurvival,
+    inRiverF = inRiverF,
+    commercialF = commercialF,
+    bycatchF = bycatchF,
+    Age1 = Age1
+  ))
+}
+
+
+if(river=='kennebec'){
+  
+  # Assign the starting population based on a seed of
+  # age-1 fish and application of an ocean survival curve
+  # The population size is scaled to make the models
+  # run faster. Output is re-scaled  
+  Age1 <- rpois(1, 2e5)
+  
   return(list(
     up = up,
     timely = timely,
@@ -233,5 +265,4 @@ if(river=='saco'){
     Age1 = Age1
   ))
 }
-
 }
