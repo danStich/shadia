@@ -724,6 +724,7 @@ if(river=='kennebec'){
   # Collect inputs and outputs into a single object for file write
   res <- data.frame(
     years,
+    pSebasticook = sebasticook,
     timely,
     pDraws,
     dDraws,
@@ -745,6 +746,7 @@ if(river=='kennebec'){
   
   names(res)<-c(
     "year",
+    'pSebasticook',
     paste0('timing_', names(upstream)),
     paste0(names(upstream), '_us'),
     paste0(names(downstream), '_ds'),
@@ -766,7 +768,6 @@ if(river=='kennebec'){
   
   # Collect variables for sensitivity analysis and save them out
   sens = data.frame(
-    pSebasticook = sebasticook,
     S.downstream,
     S.marine,
     popStart,
