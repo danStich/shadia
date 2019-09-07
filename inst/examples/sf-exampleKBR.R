@@ -13,7 +13,7 @@
 # 1. Initialization of snowfall.
 # Initialize parallel mode using sockets and
 # command-line args
-sfInit(parallel=TRUE, cpus=7, type="SOCK")
+sfInit(parallel=TRUE, cpus=3, type="SOCK")
 
 # Display information about nodes and processes
 # used by this job. This is entirely optional,
@@ -122,11 +122,6 @@ wrapper <- function(idx) {
 
 # Have a look at result  
   plotter <- ddply(resdf, 'year', summarize,
-                   mu=mean(populationSize),
-                   lwr=quantile(populationSize, 0.25),
-                   upr=quantile(populationSize, 0.75)
-                   )
-  ggplot(plotter, aes(year, mu))+
-  geom_line(data=plotter)+
-  geom_ribbon(data=plotter,aes(ymin=lwr,ymax=upr),alpha=0.3)
+                   mu=mean(populationSize))
+  plot(plotter$year, plotter$mu, type = 'l')
 }

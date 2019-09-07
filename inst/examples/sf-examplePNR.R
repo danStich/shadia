@@ -7,6 +7,7 @@
   library(snowfall)
   library(rlecuyer)
   library(shadia)
+  library(plyr)
 
 # 1. Initialization of snowfall.
 # Initialize parallel mode using sockets and
@@ -55,27 +56,36 @@ wrapper <- function(idx) {
   
   # Run the model
   res1 <- penobscotRiverModel(
-    nYears = 50,
-    upstream = list(
-      milford = seq(0, 1, 0.10),
-      howland = seq(0, 1, 0.10),
-      westEnfield = seq(0, 1, 0.10),
-      brownsMill = seq(0, 1, 0.10),
-      moosehead = seq(0, 1, 0.10),
-      guilford = seq(0, 1, 0.10),
-      weldon = seq(0, 1, 0.10)
-    ),
-    downstream = list(
-      stillwater = seq(0, 1, 0.10),
-      orono = seq(0, 1, 0.10),
-      milford = seq(0, 1, 0.10),
-      howland = seq(0, 1, 0.10),
-      westEnfield = seq(0, 1, 0.10),
-      brownsMill = seq(0, 1, 0.10),
-      moosehead = seq(0, 1, 0.10),
-      guilford = seq(0, 1, 0.10),
-      weldon = seq(0, 1, 0.10)
-    )
+          nRuns = 1,
+          nYears = 50,
+          timing = list(1,1,1,1,1,1,1),
+          upstream = list(
+            milford = 1,
+            howland = 1,
+            westEnfield = 1,
+            brownsMill = 1,
+            moosehead = 1,
+            guilford = 1,
+            weldon = 1
+          ),
+          downstream = list(
+            stillwater = 1,
+            orono = 1,
+            milford = 1,
+            howland = 1,
+            westEnfield = 1,
+            brownsMill = 1,
+            moosehead = 1,
+            guilford = 1,
+            weldon = 1
+          ),
+          pinHarvest = 0,
+          inRiverF = 0,
+          commercialF = 0,
+          bycatchF = 0,
+          indirect = 1,
+          latent = 1,
+          watershed = TRUE
   )
   
   # Define the output lists
@@ -94,7 +104,7 @@ wrapper <- function(idx) {
 #    sfClusterSetupRNG()
 
 # 6. Distribute calculation to workers
-  niterations <- 10
+  niterations <- 30
   start <- Sys.time()
 
   # Use sfLapply() function to send wrapper() to the workers:
@@ -121,6 +131,8 @@ wrapper <- function(idx) {
   sensdf <- do.call(rbind, sens)
 
 # Have a look at result  
-  plot(resdf$year, resdf$populationSize)
+  plotter <- ddply(resdf, 'year', summarize,
+                   mu=mean(populationSize))
+  plot(plotter$year, plotter$mu, type = 'l')
 
 }
