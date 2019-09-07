@@ -156,13 +156,12 @@
 kennebecRiverModel <- function(
   nRuns = 1,
   nYears = 40,
-  timing = list(1,1,1,1,1,1,1),
+  timing = list(1,1,1,1,1,1),
   upstream = list(
     lockwood = 1,
     hydroken = 1,
     shawmut = 1,
     weston = 1,
-    abenaki = 1,
     benton = 1,
     burnham = 1
   ),
@@ -171,7 +170,6 @@ kennebecRiverModel <- function(
     hydroken = 1,
     shawmut = 1,
     weston = 1,
-    abenaki = 1,
     benton = 1,
     burnham = 1
   ),
@@ -184,8 +182,8 @@ kennebecRiverModel <- function(
   ){
   
 # Error message for passage efficiencies
-  if( (length(upstream)!=7 ) |  (length(downstream)!=7 ) ){ 
-    stop('`upstream` and `dowsntream` must each have 7 elements.')
+  if( (length(upstream)!=6 ) |  (length(downstream)!=6 ) ){ 
+    stop('`upstream` and `dowsntream` must each have 6 elements.')
   }  
   
 # Create package workspace if it does not yet exist  
@@ -275,14 +273,6 @@ kennebecRiverModel <- function(
   }
   
   if (.shadia$useTictoc) tic("total time")
-
-
-  
-#############
-#############
-LEFT OFF HERE
-#############
-#############   
   
   
 # SIMULATION SETTINGS FOR OUTER LOOP -----
@@ -306,13 +296,12 @@ LEFT OFF HERE
       #if (useTictoc) toc()
     }
 
+    
   # . Dam passage efficiencies -----
     environment(definePassageRates) <- .shadia
     list2env(definePassageRates(), envir = .shadia)
     
   # . Upstream passage efficiencies and migration route -----
-    # NOTE: This section is special for the PNR because of multiple routes with
-    # unequal numbers of dams and unequal reach lengths
     environment(annualUpstream) <- .shadia
     list2env(annualUpstream(), envir = .shadia)
     
@@ -337,21 +326,6 @@ LEFT OFF HERE
     .shadia$n <- n
     
     #if (useTictoc) tic(paste("inner loop", n))
-
-    # Remove dynamically named objects from the work space so there are no
-    # legacy effects in naming new objects- this could lead to negative
-    # population sizes and the like
-    #rm(list = ls(.shadia)[grep(ls(.shadia), pat = '_')])
-
-    # Set passage efficiency at Weldon 
-    # (MattaceunkUp, upEffs[[2]][5] & [[4]][6])
-    # This code takes the timing scenario, 
-    # and says "if the year is less than the
-    # minimum year of passage implementation at 
-    # Weldon, set upstream 
-    # efficiency to zero"
-    environment(weldonScenarios) <- .shadia
-    list2env(weldonScenarios(), envir = .shadia)
     
     # Reset the scalar based on population size
     environment(setScalar) <- .shadia
@@ -360,6 +334,7 @@ LEFT OFF HERE
     # Scale the population
     environment(scalePop) <- .shadia
     list2env(scalePop(), envir = .shadia)
+    
     
     # If you need to load/reuse inner loop sampling,
     # uncomment/use this stop, then call
@@ -387,7 +362,8 @@ LEFT OFF HERE
     # JMS Dec 2017
           
     #if (useTictoc) tic("calculate counts in each PU")
-    
+
+        
     # Make matrices to hold fish
     environment(populationMatrices) <- .shadia
     list2env(populationMatrices(), envir = .shadia)
@@ -403,6 +379,17 @@ LEFT OFF HERE
     environment(postSpawnMortality) <- .shadia
     list2env(postSpawnMortality(), envir = .shadia)
 
+    
+    
+  
+#############
+#############
+# LEFT OFF HERE in downstreamMigration
+#   some kind of mismatch between length of sPU and males/females/recruits
+    # SOLVED
+#############
+#############       
+        
     # Define downstream migration survival rate matrices
     # and then apply them to calculate the number of adult
     # and juvenile fish surviving to the ocean.

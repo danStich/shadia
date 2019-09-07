@@ -5,11 +5,11 @@
 \title{Kennebec River Model}
 \usage{
 kennebecRiverModel(nRuns = 1, nYears = 40, timing = list(1, 1, 1, 1,
-  1, 1, 1), upstream = list(lockwood = 1, hydroken = 1, shawmut = 1,
-  weston = 1, abenaki = 1, benton = 1, burnham = 1),
-  downstream = list(lockwood = 1, hydroken = 1, shawmut = 1, weston = 1,
-  abenaki = 1, benton = 1, burnham = 1), inRiverF = 0, commercialF = 0,
-  bycatchF = 0, indirect = 1, latent = 1, watershed = TRUE)
+  1, 1), upstream = list(lockwood = 1, hydroken = 1, shawmut = 1, weston
+  = 1, benton = 1, burnham = 1), downstream = list(lockwood = 1, hydroken
+  = 1, shawmut = 1, weston = 1, benton = 1, burnham = 1), inRiverF = 0,
+  commercialF = 0, bycatchF = 0, indirect = 1, latent = 1,
+  watershed = TRUE)
 }
 \arguments{
 \item{nRuns}{The number of times that the

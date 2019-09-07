@@ -68,7 +68,7 @@ if(river=='penobscot'){
   # age-1 fish and application of an ocean survival curve
   # The population size is scaled to make the models
   # run faster. Output is re-scaled
-  Age1 <- rpois(1, 1e4)
+  Age1 <- rpois(1, 2e5)
   
   # Sustenance harvest by PIN for penobscotRiverModel
   pinHarvest <- pinHarvest                      

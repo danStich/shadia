@@ -1203,22 +1203,6 @@ if(river=='kennebec'){
   # Probability of using Sebasticook
   sebasticook <- vector(mode = 'numeric', length = nYears * nRuns)
   
-  # Upstream passage efficiencies - first three letters each dam
-  locUp <- vector(mode = 'numeric', length = nYears * nRuns)
-  hydUp <- vector(mode = 'numeric', length = nYears * nRuns)
-  shaUp <- vector(mode = 'numeric', length = nYears * nRuns)
-  wesUp <- vector(mode = 'numeric', length = nYears * nRuns)
-  benUp <- vector(mode = 'numeric', length = nYears * nRuns)
-  burUp <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Downstream passage efficiencies - first three letters each dam
-  locD <- vector(mode = 'numeric', length = nYears * nRuns)
-  hydD <- vector(mode = 'numeric', length = nYears * nRuns)
-  shaD <- vector(mode = 'numeric', length = nYears * nRuns)
-  wesD <- vector(mode = 'numeric', length = nYears * nRuns)
-  benD <- vector(mode = 'numeric', length = nYears * nRuns)
-  burD <- vector(mode = 'numeric', length = nYears * nRuns)
-  
   # Timing
   ptime <- vector(mode = 'list', length = nYears * nRuns)
 
@@ -1240,10 +1224,8 @@ if(river=='kennebec'){
   pop3a <- vector(mode = 'numeric', length = nYears * nRuns)
   pop4a <- vector(mode = 'numeric', length = nYears * nRuns)
   pop5a <- vector(mode = 'numeric', length = nYears * nRuns)
-  pop6a <- vector(mode = 'numeric', length = nYears * nRuns)
   pop1b <- vector(mode = 'numeric', length = nYears * nRuns)
   pop2b <- vector(mode = 'numeric', length = nYears * nRuns)
-  pop3b <- vector(mode = 'numeric', length = nYears * nRuns)
   
   # Age-structured spawning population
   spawners <- vector(mode = 'list', length = nYears * nRuns)
@@ -1331,18 +1313,6 @@ if(river=='kennebec'){
     list(
       years = years,
       sebasticook = sebasticook,
-      locUp	= locUp,
-      hydUp	= hydUp,
-      shaUp	= shaUp,
-      wesUp	= wesUp,
-      benUp	= benUp,
-      burUp	= burUp,
-      locD	= locD,
-      hydD	= hydD,
-      shaD	= shaD,
-      wesD	= wesD,
-      benD	= benD,
-      burD	= burD,
       indirectM = indirectM,
       latentM = latentM,
       juvReduction = juvReduction,
@@ -1352,10 +1322,8 @@ if(river=='kennebec'){
       pop3a =	pop3a,
       pop4a =	pop4a,
       pop5a =	pop5a,
-      pop6a =	pop6a,
       pop1b =	pop1b,
       pop2b =	pop2b,
-      pop3b =	pop3b,
       spawners = spawners,
       pRepeats = pRepeats,
       populationSize = populationSize,

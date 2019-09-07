@@ -720,6 +720,94 @@ if(river=='saco'){
   ))	
 }
 
+if(river=='kennebec'){
+  # Collect inputs and outputs into a single object for file write
+  res <- data.frame(
+    years,
+    timely,
+    pDraws,
+    dDraws,
+    F.inRiver,
+    F.commercial,
+    F.bycatch,
+    indirectM,
+    latentM,
+    pRepeats,
+    ceiling(populationSize),
+    ceiling(pop1a),
+    ceiling(pop2a),
+    ceiling(pop3a),
+    ceiling(pop4a),
+    ceiling(pop5a),
+    ceiling(pop1b),    
+    ceiling(pop2b)   
+  )
+  
+  names(res)<-c(
+    "year",
+    paste0('timing_', names(upstream)),
+    paste0(names(upstream), '_us'),
+    paste0(names(downstream), '_ds'),
+    "inriverF",
+    "commercialF",
+    "bycatchF",
+    "indirect",
+    "latent",
+     paste0("pRepeat_Age",seq(1,9)),
+    "populationSize",
+    "N_IA",
+    "N_IIA",
+    "N_IIIA",
+    "N_IVA",
+    "N_VA",
+    "N_IB",
+    "N_IIB"
+  )
+  
+  # Collect variables for sensitivity analysis and save them out
+  sens = data.frame(
+    pSebasticook = sebasticook,
+    S.downstream,
+    S.marine,
+    popStart,
+    p.female,
+    S.prespawnM,
+    S.postspawnM,
+    S.prespawnF,
+    S.postspawnF,
+    S.juvenile,
+    t.stoch,
+    b.Arr,
+    r.Arr,
+    ATUspawn1,
+    ATUspawn2,
+    Dspawn1,
+    Dspawn2,
+    linF,
+    kF,
+    t0F,
+    linM,
+    kM,
+    t0M,
+    b.length,
+    r.length,
+    spawnInt,
+    batchSize,
+    RAF,
+    s.Optim,
+    d.Max,
+    tortuosity,
+    motivation,
+    daily.move,
+    habStoch
+  )
+  
+  return(list(		
+    res	= res,
+    sens = sens
+  ))	
+}
+
 # Write the inputs and outputs to a text file that can be read into R
 # writeData(filename)
   if (.shadia$useTictoc) {

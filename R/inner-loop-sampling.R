@@ -367,7 +367,9 @@ if(river=='susquehanna'){
 
 # Upstream path for kennebec river
 if(river=='kennebec'){
-  upstream_path <- rbinom(length(c_fishAges), 1, p_sebasticook)
+  # Mainstem
+  upstream_path <- rbinom(length(c_fishAges), 1, (1-p_sebasticook))
+  # Sebasticook
   upstream_path[upstream_path==0] <- 2  
 }
     
@@ -1255,13 +1257,13 @@ if(river=='kennebec'){
     sp_1$surv <- rbinom(nrow(sp_1), 1, sp_1$preSpawn * (1 - sp_1$F))
   }  
   
-  # Penobscot River
+  # Kennebec River
   if(river=='kennebec'){
     # Combine all data for mainstem to piscataquis
     # Combine all three matrices
     spawnData_1 <- cbind(traits_1, moves_1[, ncol(moves_1)], delay_1)
     # Change the name for the final rkm column
-    colnames(spawnData_1)[ncol(spawnData_1) - 3] = 'finalRkm'
+    colnames(spawnData_1)[ncol(spawnData_1) - 4] = 'finalRkm'
     # Make it into a dataframe for easy manipulation
     sp_1 <- data.frame(spawnData_1)
     
@@ -1277,8 +1279,8 @@ if(river=='kennebec'){
     # Piscataquis River spawners and Mainstem spawners
     # First, assign rkms to delineate each of the production units
     puRkm <- vector(mode = 'list', length = length(nPU))
-    puRkm[[1]] <- c(damRkms[[1]] + 1, (maxrkm[1] + 1))
-    puRkm[[2]] <- c(damRkms[[2]] + 1, (maxrkm[2] + 1))
+    puRkm[[1]] <- c(0, damRkms[[1]] + 1, (maxrkm[1] + 1))
+    puRkm[[2]] <- c(0, damRkms[[2]] + 1, (maxrkm[2] + 1))
     # Create an empty list to hold the pu names for each route
     rm(list = ls()[grep(ls(), pat = '^mPU_')]) # Remove old counts
     puNames <- vector(mode = 'list', length = length(nPU))
