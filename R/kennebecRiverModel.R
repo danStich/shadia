@@ -77,17 +77,17 @@
 #' The folowing named columns are returned in \code{res}:
 #' \itemize{
 #'     \item \code{year} Year of simulation
-#'     \item \code{time_lockwood...time_burnham} Passage timing input by user
-#'     \item \code{lockwood_up...burnham_up} User-specified upstream passage efficiencies
-#'     \item \code{lockwood_down...burnham_down}  User-specified downstream passage efficiencies
+#'     \item \code{timing_lockwood...timing_burnham} Passage timing input by user
+#'     \item \code{lockwood_us...burnham_us} User-specified upstream passage efficiencies
+#'     \item \code{lockwood_ds...burnham_ds}  User-specified downstream passage efficiencies
 #'     \item \code{pRepeat_Age1...pRepeat_Age9} Age-specific probability of repeat spawning  
 #'     \item \code{populationSize} Total number of adult spawners returning to the river
-#'     \item \code{N_1A...N_3B} Production unit-specific population size after in-river fishery mortality
+#'     \item \code{N_IA...N_IIB} Production unit-specific population size after in-river fishery mortality
+#'     \item \code{pSebasticook} Probability of fish using the Sebasticook River during upstream migration and spawning.
 #' }
 #' 
 #' The following named columns are returned in \code{sens}:
 #' \itemize{
-#'     \item \code{pSebasticook} Probability of fish using the Sebasticook River during upstream migration and spawning.
 #'     \item \code{S.downstream} Downstream survival per kilometer
 #'     \item \code{S.marine} Marine survival as an annual rate
 #'     \item \code{popStart} Starting population size
@@ -123,13 +123,13 @@
 #'     \item \code{habStoch} Habitat stochasticity
 #' }
 #' 
-#' @section 
-#' Schematic of production units:
-#' Production units delineated by dams in the watershed. 
-#' Circles are log proportional to carrying capacity in 
-#' each unit. Black dots indicate no suitable habitat 
-#' in a unit. 
-#'  
+# #' @section 
+# #' Schematic of production units:
+# #' Production units delineated by dams in the watershed. 
+# #' Circles are log proportional to carrying capacity in 
+# #' each unit. Black dots indicate no suitable habitat 
+# #' in a unit. 
+# #'  
 # #' \if{html}{\figure{penobscot.png}{Penobscot River}}
 # #' \if{latex}{\figure{penobscot.png}{options: width=0.5in}}  
 #'   
@@ -150,7 +150,7 @@
 #' parallel execution as demonstrated using the \code{snowfall}
 #' package in the example below.
 #' 
-#' @example /inst/examples/sf-examplePNR.R
+#' @example /inst/examples/sf-exampleKBR.R
 #' 
 #' @export
 kennebecRiverModel <- function(

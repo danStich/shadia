@@ -86,17 +86,17 @@ of dataframes.
 The folowing named columns are returned in \code{res}:
 \itemize{
     \item \code{year} Year of simulation
-    \item \code{time_lockwood...time_burnham} Passage timing input by user
-    \item \code{lockwood_up...burnham_up} User-specified upstream passage efficiencies
-    \item \code{lockwood_down...burnham_down}  User-specified downstream passage efficiencies
+    \item \code{timing_lockwood...timing_burnham} Passage timing input by user
+    \item \code{lockwood_us...burnham_us} User-specified upstream passage efficiencies
+    \item \code{lockwood_ds...burnham_ds}  User-specified downstream passage efficiencies
     \item \code{pRepeat_Age1...pRepeat_Age9} Age-specific probability of repeat spawning  
     \item \code{populationSize} Total number of adult spawners returning to the river
-    \item \code{N_1A...N_3B} Production unit-specific population size after in-river fishery mortality
+    \item \code{N_IA...N_IIB} Production unit-specific population size after in-river fishery mortality
+    \item \code{pSebasticook} Probability of fish using the Sebasticook River during upstream migration and spawning.
 }
 
 The following named columns are returned in \code{sens}:
 \itemize{
-    \item \code{pSebasticook} Probability of fish using the Sebasticook River during upstream migration and spawning.
     \item \code{S.downstream} Downstream survival per kilometer
     \item \code{S.marine} Marine survival as an annual rate
     \item \code{popStart} Starting population size
@@ -137,14 +137,6 @@ Runs American shad dam passage performance
 standard model for Kennebec River, Maine,
 USA
 }
-\section{Schematic of production units}{
-
-Production units delineated by dams in the watershed. 
-Circles are log proportional to carrying capacity in 
-each unit. Black dots indicate no suitable habitat 
-in a unit.
-}
-
 \section{Warning about serial execution and memory limits}{
 
 
@@ -174,11 +166,13 @@ package in the example below.
   library(snowfall)
   library(rlecuyer)
   library(shadia)
+  library(plyr)
+  library(ggplot2)
 
 # 1. Initialization of snowfall.
 # Initialize parallel mode using sockets and
 # command-line args
-sfInit(parallel=TRUE, cpus=3, type="SOCK")
+sfInit(parallel=TRUE, cpus=7, type="SOCK")
 
 # Display information about nodes and processes
 # used by this job. This is entirely optional,
@@ -193,13 +187,7 @@ cat('CPU ids: ', unlist(sfClusterCall(function() Sys.getpid())), fill=TRUE)
 
 # 2. Load data. 
 # -----
-data('fish')
-data('arr.B')
-data('arr.R')
-data('b.parms')
-data('r.parms')
-data('tempD')
-data('tempData')
+data('tempData_kennebec')
 
 # 3. Define wrapper function, which can be called in parallel.
 #
@@ -221,28 +209,32 @@ wrapper <- function(idx) {
                       )
   
   # Run the model
-  res1 <- penobscotRiverModel(
-    nYears = 50,
-    upstream = list(
-      milford = seq(0, 1, 0.10),
-      howland = seq(0, 1, 0.10),
-      westEnfield = seq(0, 1, 0.10),
-      brownsMill = seq(0, 1, 0.10),
-      moosehead = seq(0, 1, 0.10),
-      guilford = seq(0, 1, 0.10),
-      weldon = seq(0, 1, 0.10)
-    ),
-    downstream = list(
-      stillwater = seq(0, 1, 0.10),
-      orono = seq(0, 1, 0.10),
-      milford = seq(0, 1, 0.10),
-      howland = seq(0, 1, 0.10),
-      westEnfield = seq(0, 1, 0.10),
-      brownsMill = seq(0, 1, 0.10),
-      moosehead = seq(0, 1, 0.10),
-      guilford = seq(0, 1, 0.10),
-      weldon = seq(0, 1, 0.10)
-    )
+  res1 <- kennebecRiverModel(
+          nRuns = 1,
+          nYears = 40,
+          timing = list(1,1,1,1,1,1),
+          upstream = list(
+            lockwood = 1,
+            hydroken = 1,
+            shawmut = 1,
+            weston = 1,
+            benton = 1,
+            burnham = 1
+          ),
+          downstream = list(
+            lockwood = 1,
+            hydroken = 1,
+            shawmut = 1,
+            weston = 1,
+            benton = 1,
+            burnham = 1
+          ),
+          inRiverF = 0,
+          commercialF = 0,
+          bycatchF = 0,
+          indirect = 1,
+          latent = 1,
+          watershed = TRUE
   )
   
   # Define the output lists
@@ -288,7 +280,13 @@ wrapper <- function(idx) {
   sensdf <- do.call(rbind, sens)
 
 # Have a look at result  
-  plot(resdf$year, resdf$populationSize)
-
+  plotter <- ddply(resdf, 'year', summarize,
+                   mu=mean(populationSize),
+                   lwr=quantile(populationSize, 0.25),
+                   upr=quantile(populationSize, 0.75)
+                   )
+  ggplot(plotter, aes(year, mu))+
+  geom_line(data=plotter)+
+  geom_ribbon(data=plotter,aes(ymin=lwr,ymax=upr),alpha=0.3)
 }
 }
