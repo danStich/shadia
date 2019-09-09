@@ -137,6 +137,17 @@ Runs American shad dam passage performance
 standard model for Kennebec River, Maine,
 USA
 }
+\section{Schematic of production units}{
+
+Production units delineated by dams in the watershed. 
+Circles are log proportional to carrying capacity in 
+each unit. Black dots indicate no suitable habitat 
+in a unit. 
+ 
+\if{html}{\figure{kennebec.png}{Kennebec River}}
+\if{latex}{\figure{kennebec.png}{options: width=0.5in}}
+}
+
 \section{Warning about serial execution and memory limits}{
 
 
