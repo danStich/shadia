@@ -123,15 +123,15 @@
 #'     \item \code{habStoch} Habitat stochasticity
 #' }
 #' 
-# #' @section 
-# #' Schematic of production units:
-# #' Production units delineated by dams in the watershed. 
-# #' Circles are log proportional to carrying capacity in 
-# #' each unit. Black dots indicate no suitable habitat 
-# #' in a unit. 
-# #'  
-# #' \if{html}{\figure{penobscot.png}{Penobscot River}}
-# #' \if{latex}{\figure{penobscot.png}{options: width=0.5in}}  
+#' @section 
+#' Schematic of production units:
+#' Production units delineated by dams in the watershed. 
+#' Circles are log proportional to carrying capacity in 
+#' each unit. Black dots indicate no suitable habitat 
+#' in a unit. 
+#'  
+#' \if{html}{\figure{kennebec.png}{Kennebec River}}
+#' \if{latex}{\figure{kennebec.png}{options: width=0.5in}}  
 #'   
 #' @section Warning about serial execution and memory limits:
 #' 
