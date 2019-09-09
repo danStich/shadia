@@ -354,6 +354,63 @@ if(river=='saco'){
   )
 }  
   
+if(river=='kennebec'){  
+  # Upstream passage rates
+  Open <- 1.00
+  lockwoodUp <- up[1] * fB
+  hydrokennUp <- up[2] * fB
+  shawmutUp <- up[3] * fB
+  westonUp <- up[4] * fB
+  bentonUp <- up[5] * fB
+  burnhamUp <- up[6] * fB  
+
+  # Downstream passage efficiencies
+  # Define downstream passage efficiencies at each of the dams
+  OpenD <- 1.00
+  lockwoodD <- d[1] * indirect * latent * delay
+  hydrokennD <- d[2] * indirect * latent * delay
+  shawmutD <- d[3] * indirect * latent * delay
+  westonD <- d[4] * indirect * latent * delay
+  bentonD <- d[5] * indirect * latent * delay
+  burnhamD <- d[6] * indirect * latent * delay
+  
+  # Make downstream survival probabilities for juveniles
+  # Unused. Moved to separate calculations in the 
+  # Connecticut River Model. All runs in the Penobscot
+  # River to date have used equal performance standards.
+  # Will update this model to use the same approach.
+  lockwoodDj <- d[1] * indirect * latent * delay
+  hydrokennDj <- d[2] * indirect * latent * delay
+  shawmutDj <- d[3] * indirect * latent * delay
+  westonDj <- d[4] * indirect * latent * delay
+  bentonDj <- d[5] * indirect * latent * delay
+  burnhamDj <- d[6] * indirect * latent * delay
+
+  return(
+    list(
+      Open	=	Open,
+      lockwoodUp	=	lockwoodUp,
+      hydrokennUp	=	hydrokennUp,
+      shawmutUp	=	shawmutUp,
+      westonUp	=	westonUp,
+      bentonUp	=	bentonUp,
+      burnhamUp	=	burnhamUp,
+      OpenD	=	OpenD,
+      lockwoodD	=	lockwoodD,
+      hydrokennD	=	hydrokennD,
+      shawmutD	=	shawmutD,
+      westonD	=	westonD,
+      bentonD	=	bentonD,
+      burnhamD	=	burnhamD,
+      lockwoodDj	=	lockwoodDj,
+      hydrokennDj	=	hydrokennDj,
+      shawmutDj	=	shawmutDj,
+      westonDj	=	westonDj,
+      bentonDj	=	bentonDj,
+      burnhamDj	=	burnhamDj	
+    )
+  )
+} 
   
   
 }  

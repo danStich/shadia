@@ -113,6 +113,8 @@ wrapper <- function(idx) {
   sensdf <- do.call(rbind, sens)
 
 # Have a look at result  
-  plot(resdf$year, resdf$populationSize)
+  plotter <- ddply(resdf, 'year', summarize,
+                   mu=mean(populationSize))
+  plot(plotter$year, plotter$mu, type = 'l')
 
 }

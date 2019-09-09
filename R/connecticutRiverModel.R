@@ -102,7 +102,7 @@
 #' The following named columns are returned in \code{sens}:
 #' \itemize{
 #'     \item \code{S.downstream} Downstream survival per kilometer
-#'     \item \code{S.marine} Marine survival (z, instantaneous)
+#'     \item \code{S.marine} Marine survival as an annual rate
 #'     \item \code{popStart} Starting population size
 #'     \item \code{p.female} Probability of being female
 #'     \item \code{S.prespawnM} Prespawn survival rate for males
@@ -335,8 +335,6 @@ connecticutRiverModel <- function(
     list2env(definePassageRates(), envir = .shadia)
 
   # . Upstream passage efficiencies and migration route -----
-    # NOTE: This section is special for the PNR because of multiple routes with
-    # unequal numbers of dams and unequal reach lengths
     environment(annualUpstream) <- .shadia
     list2env(annualUpstream(), envir = .shadia)
 

@@ -113,7 +113,7 @@ The following named columns are returned in \code{res}:
 The following named columns are returned in \code{sens}:
 \itemize{
     \item \code{S.downstream} Downstream survival per kilometer
-    \item \code{S.marine} Marine survival (z, instantaneous)
+    \item \code{S.marine} Marine survival as an annual rate
     \item \code{popStart} Starting population size
     \item \code{p.female} Probability of being female
     \item \code{S.prespawnM} Prespawn survival rate for males
@@ -211,6 +211,7 @@ example at the bottom of this page.
   library(snowfall)
   library(rlecuyer)
   library(shadia)
+  library(plyr)
 
 # 1. Initialization of snowfall.
 # Initialize parallel mode using sockets
@@ -316,7 +317,9 @@ wrapper <- function(idx) {
   sensdf <- do.call(rbind, sens)
 
 # Have a look at result  
-  plot(resdf$year, resdf$populationSize)
+  plotter <- ddply(resdf, 'year', summarize,
+                   mu=mean(populationSize))
+  plot(plotter$year, plotter$mu, type = 'l')
 
 }
 }

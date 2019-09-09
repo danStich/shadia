@@ -101,7 +101,7 @@
 #'     \item \code{pStillD} Probability of fish using the Stillwater Branch for downstream migration
 #'     \item \code{pPiscUP} Probability of fish using the Piscataquis River during upstream migration
 #'     \item \code{S.downstream} Downstream survival per kilometer
-#'     \item \code{S.marine} Marine survival (z, instantaneous)
+#'     \item \code{S.marine} Marine survival
 #'     \item \code{popStart} Starting population size
 #'     \item \code{p.female} Probability of being female
 #'     \item \code{S.prespawnM} Prespawn survival rate for males

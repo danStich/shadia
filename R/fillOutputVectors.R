@@ -657,7 +657,6 @@ if(river=='connecticut'){
     sum(females2res[[1]][[5]]) +
     sum(males2res[[2]][[5]]) + 
     sum(females2res[[2]][[5]])) * scalar
-  
   # Population size
   populationSize[(n + nYears * (k - 1))] <- 
     popI[(n + nYears * (k - 1))] +
@@ -1448,5 +1447,231 @@ if(river=='saco'){
   ))
 }      
 
+  
+if(river=='kennebec'){ 
+  # Store output in pre-allocated vectors 
+  # if (useTictoc) tic("store output")
+  
+  # Year, fillling pre-allocated vector with this year
+  years[(n + nYears * (k - 1))] <- n
+  
+  # Probability of using sebasticook river
+  sebasticook[(n + nYears * (k - 1))] <- p_sebasticook
+  
+  # Indirect mortality, fillling pre-allocated vector
+  indirectM[(n + nYears * (k - 1))] <-  indirect
+  
+  # Latent estuary mortality, fillling pre-allocated vector
+  latentM[(n + nYears * (k - 1))] <-  latent
+  
+  # Juvenile reduction factor at each dam, fillling pre-allocated vector
+  juvReduction[(n + nYears * (k - 1))] <-  jReduction
+  
+  # Fall back, fillling pre-allocated vector
+  fallback[(n + nYears * (k - 1))] <-  fB
+  
+  # Population downstream of lockwood dam
+  pop1a[(n + nYears * (k - 1))] <-  (
+    sum(males2res[[1]][[1]]) + 
+      sum(females2res[[1]][[1]]) +
+    sum(males2res[[2]][[1]]) + 
+      sum(females2res[[2]][[1]])) * scalar
+  
+  # Population between lockwood and hydro-kennebec
+  pop2a[(n + nYears * (k - 1))] <-  (
+    sum(males2res[[1]][[2]]) + 
+      sum(females2res[[1]][[2]])) * scalar
+  
+  # Population between hydro-kennebec and shawmut
+  pop3a[(n + nYears * (k - 1))] <-  (
+    sum(males2res[[1]][[3]]) + 
+      sum(females2res[[1]][[3]])) * scalar
+  
+  # Population between shawmut and weston,
+  # including Sandy River
+  pop4a[(n + nYears * (k - 1))] <-  (
+    sum(males2res[[1]][[4]]) + 
+      sum(females2res[[1]][[4]])) * scalar
+  
+  # Population between weston and abenaki,
+  # including Sandy River
+  pop5a[(n + nYears * (k - 1))] <-  (
+    sum(males2res[[1]][[5]]) + 
+      sum(females2res[[1]][[5]])) * scalar
+  
+  # Population between benton falls and burnham dam
+  pop1b[(n + nYears * (k - 1))] <-  (
+    sum(males2res[[2]][[2]]) + 
+      sum(females2res[[2]][[2]])) * scalar
+  
+  # Population upstream of burnham dam
+  pop2b[(n + nYears * (k - 1))] <-  (
+    sum(males2res[[2]][[3]]) + 
+      sum(females2res[[2]][[3]])) * scalar
+  
+  # Population size
+  populationSize[(n + nYears * (k - 1))] <- 
+    pop1a[(n + nYears * (k - 1))] +
+    pop2a[(n + nYears * (k - 1))] +
+    pop3a[(n + nYears * (k - 1))] +
+    pop4a[(n + nYears * (k - 1))] +
+    pop5a[(n + nYears * (k - 1))] +
+    pop1b[(n + nYears * (k - 1))] +
+    pop2b[(n + nYears * (k - 1))]
+  
+  # Proportion of repeat spawners at each age
+  pRepeats[[(n + nYears * (k - 1))]] <-  pRepeat
+  
+  # Age-structured repeat spawners
+  spawners[[(n + nYears * (k - 1))]] <-  spawningPool
+  
+  # Reset the scalar based on population size
+  list2env(setScalar(), envir = .shadia)
+  
+  # Scalar variable for computational gains
+  scalarVar[[(n + nYears * (k - 1))]] <-  scalar
+  
+  # Store the inputs for sensitivity analysis
+  # Passage assumptions
+  ptime[[(n + nYears * (k - 1))]] <-  timely
+  
+  # Population demographics and survival rates
+  S.downstream[(n + nYears * (k - 1))] <-  mean(downstreamS)
+  S.marine[(n + nYears * (k - 1))] <-  mean(oceanSurvival)
+  F.inRiver[(n + nYears * (k - 1))] <-  inRiverF
+  F.commercial[(n + nYears * (k - 1))] <-  mean(commercialF)
+  F.bycatch[(n + nYears * (k - 1))] <-  mean(bycatchF)
+  popStart[(n + nYears * (k - 1))] <-  pop
+  p.female[(n + nYears * (k - 1))] <-  sex_Ratio
+  S.prespawnM[(n + nYears * (k - 1))] <-  pre_spawn_survival_males
+  S.postspawnM[(n + nYears * (k - 1))] <-  post_spawn_survival_males
+  S.prespawnF[(n + nYears * (k - 1))] <-  pre_spawn_survival_females
+  S.postspawnF[(n + nYears * (k - 1))] <-  post_spawn_survival_females
+  S.juvenile[(n + nYears * (k - 1))] <-  juvenile_survival
+  
+  # Environmental
+  # Stochasticity
+  t.stoch[(n + nYears * (k - 1))] <-  stoch
+  # Regression relating temperatures in PNR and CTR
+  t.RegrInt[(n + nYears * (k - 1))] <-  calMod[1, 1]
+  t.RegrSlp[(n + nYears * (k - 1))] <-  calMod[2, 1]
+  # Model parameters for sex-specific arrival timing
+  b.ArrRegrInt[(n + nYears * (k - 1))] <-  res.B[1, 1]
+  b.ArrRegrSlp[(n + nYears * (k - 1))] <-  res.B[2, 1]
+  r.ArrRegrInt[(n + nYears * (k - 1))] <-  res.R[1, 1]
+  r.ArrRegrSlp[(n + nYears * (k - 1))] <-  res.R[2, 1]
+  
+  # Individual traits
+  # Entry dates
+  b.Arr[(n + nYears * (k - 1))] <-  mean(c_entryDate[c_sex == 0])
+  r.Arr[(n + nYears * (k - 1))] <-  mean(c_entryDate[c_sex == 1])
+  # Spawning ATU
+  ATUspawn1[(n + nYears * (k - 1))] <-  mean(c_spawnATU1)
+  ATUspawn2[(n + nYears * (k - 1))] <-  mean(c_spawnATU2)
+  # Spawning dates
+  Dspawn1[(n + nYears * (k - 1))] <-  mean(c_initial)
+  Dspawn2[(n + nYears * (k - 1))] <-  mean(c_end)
+  # Length at age
+  # Females
+  linF[(n + nYears * (k - 1))] <-  r.mat[1]
+  kF[(n + nYears * (k - 1))] <-  r.mat[2]
+  t0F[(n + nYears * (k - 1))] <-  r.mat[3]
+  # Males
+  linM[(n + nYears * (k - 1))] <-  b.mat[1]
+  kM[(n + nYears * (k - 1))] <-  b.mat[2]
+  t0M[(n + nYears * (k - 1))] <-  b.mat[3]
+  
+  # Length-weight regression parameters
+  # Female
+  lwF.alpha[(n + nYears * (k - 1))] <-  c_femaleLWalpha
+  lwF.beta[(n + nYears * (k - 1))] <-  c_femaleLWbeta
+  # Male
+  lwM.alpha[(n + nYears * (k - 1))] <-  c_maleLWalpha
+  lwM.beta[(n + nYears * (k - 1))] <-  c_maleLWbeta
+  
+  # Length
+  b.length[(n + nYears * (k - 1))] <-  mean(c_male_lf[c_male_lf!=0])
+  r.length[(n + nYears * (k - 1))] <-  mean(c_female_lf[c_female_lf!=0])
+  
+  # Fecundity
+  spawnInt[(n + nYears * (k - 1))] <-  mean(c_SI)
+  batchSize[(n + nYears * (k - 1))] <-  mean(c_BF)
+  RAF[(n + nYears * (k - 1))] <-  mean(c_RAF)
+  
+  # Movement parameters
+  s.Optim[(n + nYears * (k - 1))] <-  mean(sOptim)
+  d.Max[(n + nYears * (k - 1))] <-  mean(dMax)
+  tortuosity[(n + nYears * (k - 1))] <-  mean(tort)
+  motivation[(n + nYears * (k - 1))] <-  mot
+  daily.move[(n + nYears * (k - 1))] <-  mean(dailyMove)
+  #toc()
+  
+  return(list(
+    scalar = scalar,
+    populationSize = populationSize,
+    years = years,
+    sebasticook = sebasticook,
+    indirectM = indirectM,
+    latentM = latentM,
+    juvReduction = juvReduction,
+    fallback = fallback,
+    pop1a = pop1a,
+    pop2a = pop2a,
+    pop3a = pop3a,
+    pop4a = pop4a,
+    pop5a = pop5a,
+    pop1b = pop1b,
+    pop2b = pop2b,
+    pRepeats = pRepeats,
+    spawners = spawners,
+    scalarVar = scalarVar,
+    ptime = ptime,
+    S.downstream = S.downstream,
+    S.marine = S.marine,
+    F.inRiver = F.inRiver,
+    F.commercial = F.commercial,
+    F.bycatch = F.bycatch,
+    popStart = popStart,
+    p.female = p.female,
+    S.prespawnM = S.prespawnM,
+    S.postspawnM = S.postspawnM,
+    S.prespawnF = S.prespawnF,
+    S.postspawnF = S.postspawnF,
+    S.juvenile = S.juvenile,
+    t.stoch = t.stoch,
+    t.RegrInt = t.RegrInt,
+    t.RegrSlp = t.RegrSlp,
+    b.ArrRegrInt = b.ArrRegrInt,
+    b.ArrRegrSlp = b.ArrRegrSlp,
+    r.ArrRegrInt = r.ArrRegrInt,
+    r.ArrRegrSlp = r.ArrRegrSlp,
+    b.Arr = b.Arr,
+    r.Arr = r.Arr,
+    ATUspawn1 = ATUspawn1,
+    ATUspawn2 = ATUspawn2,
+    Dspawn1 = Dspawn1,
+    Dspawn2 = Dspawn2,
+    linF = linF,
+    kF = kF,
+    t0F = t0F,
+    linM = linM,
+    kM = kM,
+    t0M = t0M,
+    lwF.alpha = lwF.alpha,
+    lwF.beta = lwF.beta,
+    lwM.alpha = lwM.alpha,
+    lwM.beta = lwM.beta,
+    b.length = b.length,
+    r.length = r.length,
+    spawnInt = spawnInt,
+    batchSize = batchSize,
+    RAF = RAF,
+    s.Optim = s.Optim,
+    d.Max = d.Max,
+    tortuosity = tortuosity,
+    motivation = motivation,
+    daily.move = daily.move
+  ))
+}      
 
 }

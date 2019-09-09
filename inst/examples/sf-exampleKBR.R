@@ -8,6 +8,7 @@
   library(rlecuyer)
   library(shadia)
   library(plyr)
+  library(ggplot2)
 
 # 1. Initialization of snowfall.
 # Initialize parallel mode using sockets and
@@ -27,13 +28,7 @@ cat('CPU ids: ', unlist(sfClusterCall(function() Sys.getpid())), fill=TRUE)
 
 # 2. Load data. 
 # -----
-data('fish')
-data('arr.B')
-data('arr.R')
-data('b.parms')
-data('r.parms')
-data('tempD')
-data('tempData')
+data('tempData_kennebec')
 
 # 3. Define wrapper function, which can be called in parallel.
 #
@@ -55,31 +50,26 @@ wrapper <- function(idx) {
                       )
   
   # Run the model
-  res1 <- penobscotRiverModel(
+  res1 <- kennebecRiverModel(
           nRuns = 1,
-          nYears = 50,
-          timing = list(1,1,1,1,1,1,1),
+          nYears = 40,
+          timing = list(1,1,1,1,1,1),
           upstream = list(
-            milford = 1,
-            howland = 1,
-            westEnfield = 1,
-            brownsMill = 1,
-            moosehead = 1,
-            guilford = 1,
-            weldon = 1
+            lockwood = 1,
+            hydroken = 1,
+            shawmut = 1,
+            weston = 1,
+            benton = 1,
+            burnham = 1
           ),
           downstream = list(
-            stillwater = 1,
-            orono = 1,
-            milford = 1,
-            howland = 1,
-            westEnfield = 1,
-            brownsMill = 1,
-            moosehead = 1,
-            guilford = 1,
-            weldon = 1
+            lockwood = 1,
+            hydroken = 1,
+            shawmut = 1,
+            weston = 1,
+            benton = 1,
+            burnham = 1
           ),
-          pinHarvest = 0,
           inRiverF = 0,
           commercialF = 0,
           bycatchF = 0,
@@ -104,7 +94,7 @@ wrapper <- function(idx) {
 #    sfClusterSetupRNG()
 
 # 6. Distribute calculation to workers
-  niterations <- 30
+  niterations <- 10
   start <- Sys.time()
 
   # Use sfLapply() function to send wrapper() to the workers:
@@ -134,5 +124,4 @@ wrapper <- function(idx) {
   plotter <- ddply(resdf, 'year', summarize,
                    mu=mean(populationSize))
   plot(plotter$year, plotter$mu, type = 'l')
-
 }
