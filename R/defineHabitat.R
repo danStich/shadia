@@ -38,11 +38,12 @@ habitat <- vector(mode = 'list', length = nRoutes)
     22591,
     14922
   )
-  habitat[[2]] <- c((22344 + 34868),
-                   (14339 + 34868),
-                   (400560 + 26285 + 12746),
-                   (333196 + 205744),
-                   (204336 + 25773)
+  habitat[[2]] <- c(
+    (22344 + 34868),
+    (14339 + 34868),
+    (400560 + 26285 + 12746),
+    (333196 + 205744),
+    (204336 + 25773)
   )
   habitat[[3]] <- c(
     (22344 + 34868),
@@ -54,36 +55,39 @@ habitat <- vector(mode = 'list', length = nRoutes)
     22591,
     14922
   )
-  habitat[[4]] <- c((22344 + 34868),
-                   (OronoHabitat),
-                   (StillwaterHabitat),
-                   (400560 + 26285 + 12746),
-                   (333196 + 205744),
-                   (204336 + 25773)
+  habitat[[4]] <- c(
+    (22344 + 34868),
+    (OronoHabitat),
+    (StillwaterHabitat),
+    (400560 + 26285 + 12746),
+    (333196 + 205744),
+    (204336 + 25773)
   )
   
-return(list(
-  OronoHabitat=OronoHabitat,
-  StillwaterHabitat=StillwaterHabitat,
-  habitat=habitat
-  ))  
+  return(list(
+    OronoHabitat=OronoHabitat,
+    StillwaterHabitat=StillwaterHabitat,
+    habitat=habitat
+    ))  
 }
   
 if(river=='merrimack'){
   
   habitat <- vector(mode='list', length=nRoutes)
   
-  habitat[[1]] <- c(202782,
-                    92910,
-                    220532,
-                    48000,
-                    182598
+  habitat[[1]] <- c(
+    202782,
+    92910,
+    220532,
+    48000,
+    182598
   )
-  habitat[[2]] <- c(202782,
-                    92910,
-                    220532,
-                    48000,
-                    182598
+  habitat[[2]] <- c(
+    202782,
+    92910,
+    220532,
+    48000,
+    182598
   )
   
   return(list(
@@ -92,27 +96,27 @@ if(river=='merrimack'){
   
 }  
   
-# Connecticut River relies on habitat estimated
-# and production potential of 203 spawners/ha
-# as identified in the Connecticut River
-# Shad Management Plan (2017) for inputs
+
 if(river=='connecticut'){
-
-  habitat <- vector(mode = 'list', length = nRoutes)
-  
-  habitat[[1]] <- c(4825, 1369, 0, 762, 1042)*203
-  habitat[[2]] <- c(4825, 1369, 0, 762, 1042)*203
-  
-  return(list(
-    habitat=habitat
-  ))
+  # Connecticut River relies on habitat estimated
+  # and production potential of 203 spawners/ha
+  # as identified in the Connecticut River
+  # Shad Management Plan (2017) for inputs  
+    habitat <- vector(mode = 'list', length = nRoutes)
+    
+    habitat[[1]] <- c(4825, 1369, 0, 762, 1042)*203
+    habitat[[2]] <- c(4825, 1369, 0, 762, 1042)*203
+    
+    return(list(
+      habitat=habitat
+    ))
 }  
   
   
-# Susquehanna River relies on ha, using same numbers
-# as Connecticut River for the sake of consistency
 if(river=='susquehanna'){
-
+  
+  # Susquehanna River relies on ha, using same numbers
+  # as Connecticut River for the sake of consistency
   habitat <- vector(mode = 'list', length = nRoutes)
   
   habitat[[1]] <- c(0, 0, 0, 1833, 11057, 2018)*203
@@ -125,10 +129,11 @@ if(river=='susquehanna'){
   ))
 }    
   
-# Saco River relies on ha, using same numbers as others
-# for sake of consistency
+
 if(river=='saco'){
   
+  # Saco River relies on ha, using same numbers as others
+  # for sake of consistency  
   habitat <- vector(mode='list', length=nRoutes)
   
   habitat[[1]] <- c(268, 5, 178, 97, 57, 238, 157)*203
@@ -137,6 +142,30 @@ if(river=='saco'){
     habitat=habitat
   ))
   
+} 
+  
+if(river=='kennebec'){
+  
+  habitat <- vector(mode='list', length=nRoutes)
+  
+  habitat[[1]] <- c(
+    686270,
+    0,
+    26150,
+    63276,
+    95287
+  )
+  habitat[[2]] <- c(
+    686270,
+    21536,
+    23746
+  )
+  
+  return(list(
+    habitat=habitat
+  ))
+  
 }    
+  
   
 }  

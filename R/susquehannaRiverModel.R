@@ -94,7 +94,7 @@
 #'     \item \code{pChemungUp} Probability of using Chemung River for upstream migration
 #'     \item \code{pNorthBranchUp} Probability of using North Branch for upstream migration
 #'     \item \code{S.downstream} Downstream survival per kilometer
-#'     \item \code{S.marine} Marine survival (z, instantaneous)
+#'     \item \code{S.marine} Marine survival as an annual rate
 #'     \item \code{popStart} Starting population size
 #'     \item \code{p.female} Probability of being female
 #'     \item \code{S.prespawnM} Prespawn survival rate for males
@@ -369,8 +369,6 @@ susquehannaRiverModel <- function(
 
     
   # . Upstream passage efficiencies and migration route -----
-    # NOTE: This section is special for the PNR because of multiple routes with
-    # unequal numbers of dams and unequal reach lengths
     environment(annualUpstream) <- .shadia
     list2env(annualUpstream(), envir = .shadia)
 
@@ -398,21 +396,6 @@ susquehannaRiverModel <- function(
     .shadia$n <- n
     
     #if (useTictoc) tic(paste("inner loop", n))
-
-    # Remove dynamically named objects from the work space so there are no
-    # legacy effects in naming new objects- this could lead to negative
-    # population sizes and the like
-    #rm(list = ls(.shadia)[grep(ls(.shadia), pat = '_')])
-
-    # Set passage efficiency at Weldon 
-    # (MattaceunkUp, upEffs[[2]][5] & [[4]][6])
-    # This code takes the timing scenario, 
-    # and says "if the year is less than the
-    # minimum year of passage implementation at 
-    # Weldon, set upstream 
-    # efficiency to zero"
-    environment(weldonScenarios) <- .shadia
-    list2env(weldonScenarios(), envir = .shadia)
     
     # Reset the scalar based on population size
     environment(setScalar) <- .shadia
