@@ -211,6 +211,7 @@ example at the bottom of this page.
   library(snowfall)
   library(rlecuyer)
   library(shadia)
+  library(plyr)
 
 # 1. Initialization of snowfall.
 # Initialize parallel mode using sockets
@@ -316,7 +317,9 @@ wrapper <- function(idx) {
   sensdf <- do.call(rbind, sens)
 
 # Have a look at result  
-  plot(resdf$year, resdf$populationSize)
+  plotter <- ddply(resdf, 'year', summarize,
+                   mu=mean(populationSize))
+  plot(plotter$year, plotter$mu, type = 'l')
 
 }
 }
