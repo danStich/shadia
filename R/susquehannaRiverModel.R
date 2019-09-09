@@ -396,21 +396,6 @@ susquehannaRiverModel <- function(
     .shadia$n <- n
     
     #if (useTictoc) tic(paste("inner loop", n))
-
-    # Remove dynamically named objects from the work space so there are no
-    # legacy effects in naming new objects- this could lead to negative
-    # population sizes and the like
-    #rm(list = ls(.shadia)[grep(ls(.shadia), pat = '_')])
-
-    # Set passage efficiency at Weldon 
-    # (MattaceunkUp, upEffs[[2]][5] & [[4]][6])
-    # This code takes the timing scenario, 
-    # and says "if the year is less than the
-    # minimum year of passage implementation at 
-    # Weldon, set upstream 
-    # efficiency to zero"
-    environment(weldonScenarios) <- .shadia
-    list2env(weldonScenarios(), envir = .shadia)
     
     # Reset the scalar based on population size
     environment(setScalar) <- .shadia

@@ -1188,17 +1188,8 @@ if(river=='kennebec'){
     sp_1$F <- inriv[[1]][as.numeric(substrRight(sp_1$pus, 1))]
     sp_2$F <- inriv[[2]][as.numeric(substrRight(sp_2$pus, 1))]
     sp_3$F <- inriv[[3]][as.numeric(substrRight(sp_3$pus, 1))]
-    sp_4$F <- inriv[[4]][as.numeric(substrRight(sp_4$pus, 1))]
-                        #   gsub(
-                        #     x=substrRight(sapply(sp_4$pus[[4]], head, 1), 2),
-                        #     pattern="_", replacement = '')
-                        #   )
-                        # ]
-    ######
-    ### THIS IS WHERE THE ERROR IS OCCURRING (ISSUE #18)
-    ######
-    
-    
+    sp_4$F <- inriv[[4]][as.numeric(substr(sp_4$pus, 6, 7))]
+
     # Apply in-river fishing mortality and prespawn survival
     sp_1$surv <- rbinom(nrow(sp_1), 1, sp_1$preSpawn * (1 - sp_1$F))
     sp_2$surv <- rbinom(nrow(sp_2), 1, sp_2$preSpawn * (1 - sp_2$F))

@@ -491,6 +491,7 @@ return(list(
 
 }
 
+  
 if(river=='kennebec'){
 # Maximum age for fish in this population
 maxAge <- 9
@@ -585,8 +586,7 @@ return(list(
 
 }
   
-  
-  
+
 }  
 
 
