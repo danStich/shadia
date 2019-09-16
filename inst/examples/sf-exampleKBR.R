@@ -8,7 +8,6 @@
   library(rlecuyer)
   library(shadia)
   library(plyr)
-  library(ggplot2)
 
 # 1. Initialization of snowfall.
 # Initialize parallel mode using sockets and
