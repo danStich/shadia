@@ -63,11 +63,11 @@ simMarineS <- function(){
   
 # Predict VBGF parameters from climate and model estimates
   Linf_agg <- exp(vbgf_agg$b0_linf + linfcor + vbgf_agg$bh_linf*scaled.X)
-  K_agg <- exp(vbgf_agg$b0_k + kcor+ vbgf_agg$bh_k*scaled.X)
+  K_agg <- exp(vbgf_agg$b0_k + kcor + vbgf_agg$bh_k*scaled.X)
   t0_agg <- exp(vbgf_agg$b0_t0 + t0cor) - 10
  
 # Estimate natural mortality (instantaneous) from the posterior
-  nM <- 4.118 * K_agg^0.73 * Linf_agg^-0.33  
+  nM <- 4.118 * K_agg^0.73 * (Linf_agg/10)^-0.33  
   
 # Convert to annual rate
   A <- 1 - exp(-nM)
