@@ -99,13 +99,12 @@ if(river=='merrimack'){
 
 if(river=='connecticut'){
   # Connecticut River relies on habitat estimated
-  # and production potential of 203 spawners/ha
-  # as identified in the Connecticut River
-  # Shad Management Plan (2017) for inputs  
+  # production potential of about 100 fish/acre or
+  # 250 fish/ha.
     habitat <- vector(mode = 'list', length = nRoutes)
     
-    habitat[[1]] <- c(4825, 1369, 0, 762, 1042)*203
-    habitat[[2]] <- c(4825, 1369, 0, 762, 1042)*203
+    habitat[[1]] <- c(4825, 1369, 0, 762, 1042)*250
+    habitat[[2]] <- c(4825, 1369, 0, 762, 1042)*250
     
     return(list(
       habitat=habitat
@@ -119,10 +118,10 @@ if(river=='susquehanna'){
   # as Connecticut River for the sake of consistency
   habitat <- vector(mode = 'list', length = nRoutes)
   
-  habitat[[1]] <- c(0, 0, 0, 1833, 11057, 2018)*203
-  habitat[[2]] <- c(0, 0, 0, 1833, 11057, 1489, 1489, 0)*203
-  habitat[[3]] <- c(0, 0, 0, 1833, 11057, 6664, 104, 0)*203
-  habitat[[4]] <- c(0, 0, 0, 1833, 11057, 6664, 1142, 1147, 0, 0)*203  
+  habitat[[1]] <- c(0, 0, 0, 1833, 11057, 2018)*250
+  habitat[[2]] <- c(0, 0, 0, 1833, 11057, 1489, 1489, 0)*250
+  habitat[[3]] <- c(0, 0, 0, 1833, 11057, 6664, 104, 0)*250
+  habitat[[4]] <- c(0, 0, 0, 1833, 11057, 6664, 1142, 1147, 0, 0)*250 
   
   return(list(
     habitat=habitat
@@ -136,7 +135,7 @@ if(river=='saco'){
   # for sake of consistency  
   habitat <- vector(mode='list', length=nRoutes)
   
-  habitat[[1]] <- c(268, 5, 178, 97, 57, 238, 157)*203
+  habitat[[1]] <- c(268, 5, 178, 97, 57, 238, 157)*250
   
   return(list(
     habitat=habitat
