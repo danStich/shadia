@@ -206,7 +206,18 @@ merrimackRiverModel <- function(
   if( (length(upstream)!=5 ) |  (length(downstream)!=5 ) ){
     stop('`upstream` must have 5 elements and `dowsntream` must also have 5.')
   }
-
+  
+# Error message for maximum number of years
+  if(as.numeric(substr(Sys.time(), start=1, stop=4)) + nYears > 2099){
+    stop('
+          
+          Error:
+          The current year plus `nYears`` must not
+          exceed 2099 because the models rely on
+          climate predictions that are limited to
+          that time period.')
+  }
+  
 # Create package workspace if it does not yet exist
   if(!exists(".shadia", mode="environment"))
     .shadia <- new.env()

@@ -181,9 +181,22 @@ kennebecRiverModel <- function(
   watershed = TRUE
   ){
   
+  
 # Error message for passage efficiencies
   if( (length(upstream)!=6 ) |  (length(downstream)!=6 ) ){ 
-    stop('`upstream` and `dowsntream` must each have 6 elements.')
+    stop('
+         `upstream` must each have 6 elements.')
+  }  
+  
+# Error message for maximum number of years
+  if(as.numeric(substr(Sys.time(), start=1, stop=4)) + nYears > 2099){
+    stop('
+          
+          Error:
+          The current year plus `nYears`` must not
+          exceed 2099 because the models rely on
+          climate predictions that are limited to
+          that time period.')
   }  
   
 # Create package workspace if it does not yet exist  
