@@ -55,7 +55,7 @@ jReduction <- 1
 # models now use climate-informed mortality estimates for VBGF parameters
 # derived as part of the 2020 ASMFC stock assessment.
 downstreamS <- 1                              # Survival per km (natural)
-oceanSurvival <- rep(rbeta(1, 12, 8), maxAge) # Ocean survival rate
+oceanSurvival <- rep(rbeta(1, 320, 400), maxAge) # Ocean survival rate
 
 # Fishing mortality rates
 inRiverF <- inRiverF                          # Recreational MORTALITY RATE
