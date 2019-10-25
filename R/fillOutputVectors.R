@@ -260,6 +260,7 @@ return(list(
   scalar = scalar,
   populationSize = populationSize,
   years = years,
+  climate_scen = climate_scen,
   scen = scen,
   OrUp = OrUp,
   StUp = StUp,

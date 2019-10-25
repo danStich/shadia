@@ -42,6 +42,7 @@ if(river=='penobscot'){
 # Collect inputs and outputs into a single object for file write
 res <- data.frame(
   years,
+  climate = climate_scen,
   times,
   #OrUp,
   #StUp,
@@ -84,6 +85,7 @@ res <- data.frame(
 
 names(res)<-c(
   "year",
+  "climate",
   "time_milford",
   "time_howland",
   "time_westenfield",

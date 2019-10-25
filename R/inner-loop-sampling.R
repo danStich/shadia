@@ -36,6 +36,7 @@ if(climate == 'rcp45'){
   }
   if(river=='penobscot'){
     proj <- pnr_proj45[lubridate::year(pnr_proj45$Date)==(current_year + (n-1)),]
+    proj$avg <- proj$Eddington_RCP45_temp    
   }  
   
     predTemps = data.frame(
@@ -52,6 +53,7 @@ if(climate == 'rcp85'){
   }
   if(river=='penobscot'){
     proj <- pnr_proj85[lubridate::year(pnr_proj85$Date)==(current_year + (n-1)),]
+    proj$avg <- proj$Eddington_RCP85_temp
   }  
   
   predTemps = data.frame(
@@ -132,8 +134,8 @@ entryRows <- nrow(b.entry) + nrow(r.entry)
 
 # define size and characteristics of the data frame
 entry <- data.frame(matrix(0,
-                           ncol = entryCols,
-                           nrow = entryRows),
+                    ncol = entryCols,
+                    nrow = entryRows),
                     row.names = NULL,
                     check.names=FALSE,
                     fix.empty.names = TRUE,
