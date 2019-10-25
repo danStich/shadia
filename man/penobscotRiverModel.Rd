@@ -10,7 +10,7 @@ penobscotRiverModel(nRuns = 1, nYears = 50, timing = list(1, 1, 1, 1,
   downstream = list(stillwater = 1, orono = 1, milford = 1, howland = 1,
   westEnfield = 1, brownsMill = 1, moosehead = 1, guilford = 1, weldon =
   1), pinHarvest = 0, inRiverF = 0, commercialF = 0, bycatchF = 0,
-  indirect = 1, latent = 1, watershed = TRUE)
+  indirect = 1, latent = 1, watershed = TRUE, climate = "current")
 }
 \arguments{
 \item{nRuns}{The number of times that the
@@ -85,6 +85,11 @@ to use the same dam passage efficiencies at all dams
 for upstream and downstream. If watershed = TRUE, then
 the first element in lists `upstream` and `downstream`
 are recycled for all subsequent dams.}
+
+\item{climate}{Character string indicating scenario to
+be used for temperature projections. Available options
+include '\code{current}', '\code{rcp45}', and '\code{rcp85}'.
+This argument is only implemented in \code{connecticutRiverModel}.}
 }
 \value{
 Returns a list of two named dataframes.

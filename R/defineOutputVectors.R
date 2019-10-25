@@ -27,6 +27,8 @@ if(river=='penobscot'){
   # Empty container to hold year
   years <- vector(mode = 'numeric', length = nYears * nRuns)
   
+  climate_scen <- vector(mode='character', length = nYears * nRuns)
+  
   # Empty container to hold Weldon scenario (depricated)
   scen <- vector(mode = 'numeric', length = nYears * nRuns)
   
@@ -181,6 +183,7 @@ if(river=='penobscot'){
   return(
     list(
       years = years,
+      climate_scen = climate_scen,
       scen = scen,
       OrUp = OrUp,
       StUp = StUp,

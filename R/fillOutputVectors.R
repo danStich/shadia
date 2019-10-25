@@ -19,6 +19,9 @@ if(river=='penobscot'){
   # Year, fillling pre-allocated vector with this year
   years[(n + nYears * (k - 1))] <-  n
 
+  # Climate scenario
+  climate_scen[(n + nYears * (k - 1))] <-  climate  
+  
   # Scenario for passage timing at Weldon
   scen[(n + nYears * (k - 1))] <-  scenario
 

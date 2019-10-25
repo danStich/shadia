@@ -77,6 +77,12 @@
 #' the first element in lists `upstream` and `downstream`
 #' are recycled for all subsequent dams.
 #'  
+#' @param climate Character string indicating scenario to
+#' be used for temperature projections. Available options
+#' include '\code{current}', '\code{rcp45}', and '\code{rcp85}'.
+#' This argument is only implemented in \code{connecticutRiverModel}.
+#'  
+#'  
 #' @return Returns a list of two named dataframes.
 #' The first dataframe (\code{res}) contains user-defined
 #' inputs and available model outputs.
@@ -195,7 +201,8 @@ penobscotRiverModel <- function(
   bycatchF = 0,
   indirect = 1,
   latent = 1,
-  watershed = TRUE
+  watershed = TRUE,
+  climate = 'current'
   ){
   
 # Error message for passage efficiencies
@@ -221,13 +228,6 @@ penobscotRiverModel <- function(
 # Assign River
   river <- 'penobscot'
   region <- 'Northern Iteroparous'
-  
-# Choose climate scenario
-# Right now, these are set as 'current' in all
-# models except Connecticut River. Hidden from
-# user because we lack projections from other
-# systems.
-  climate <- 'current'  
   
 # Passage variable assignment -----
   pDraws <- upstream

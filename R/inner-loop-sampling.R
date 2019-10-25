@@ -30,8 +30,15 @@ if(climate == 'current'){
 # Climate projection scenarios for the Connecticut River
 if(climate == 'rcp45'){
   current_year <- lubridate::year(lubridate::now())
-  proj <- ctr_proj45[lubridate::year(ctr_proj45$Date)==(current_year + (n-1)),]
-  predTemps = data.frame(
+  
+  if(river=='connecticut'){
+    proj <- ctr_proj45[lubridate::year(ctr_proj45$Date)==(current_year + (n-1)),]
+  }
+  if(river=='penobscot'){
+    proj <- pnr_proj45[lubridate::year(pnr_proj45$Date)==(current_year + (n-1)),]
+  }  
+  
+    predTemps = data.frame(
     dates = lubridate::yday(proj[,1]),
     avg = proj$avg
   )
@@ -39,7 +46,14 @@ if(climate == 'rcp45'){
 
 if(climate == 'rcp85'){
   current_year <- lubridate::year(lubridate::now())
-  proj <- ctr_proj85[lubridate::year(ctr_proj85$Date)==(current_year + (n-1)),]
+  
+  if(river=='connecticut'){
+    proj <- ctr_proj85[lubridate::year(ctr_proj85$Date)==(current_year + (n-1)),]
+  }
+  if(river=='penobscot'){
+    proj <- pnr_proj85[lubridate::year(pnr_proj85$Date)==(current_year + (n-1)),]
+  }  
+  
   predTemps = data.frame(
     dates = lubridate::yday(proj[,1]),
     avg = proj$avg
