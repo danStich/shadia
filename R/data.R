@@ -386,6 +386,43 @@
 #' 
 "ctr_proj85"
 
+
+#' @title Projected daily river temperatures (RCP4.5) in 
+#' Penobscot River, USA
+#' 
+#' @description Daily project temperatures in the Penobscot
+#' River, USA for years 1950-2099 under RCP4.5 based on 
+#' historical temperatures from the USGS gauge at Eddington.
+#' 
+#' @format A dataframe with 54,787 obs. of 5 variables:
+#' \describe{
+#'   \code{Date }{Date for projection}
+#'   
+#'   \code{Eddington_RCP45_temp }{Daily temperature (C) at Eddington}
+#' }
+#' 
+#' @source Integrated Systems Ecology Lab, Gulf Of Maine Research Institute
+#' 
+"pnr_proj45"
+
+#' @title Projected daily river temperatures (RCP8.5) in 
+#' Penobscot River, USA
+#' 
+#' @description Daily project temperatures in the Penobscot
+#' River, USA for years 1950-2099 under RCP8.5 based on 
+#' historical temperatures from the USGS gauge at Eddington.
+#' 
+#' @format A dataframe with 54,787 obs. of 5 variables:
+#' \describe{
+#'   \code{Date }{Date for projection}
+#'   
+#'   \code{Eddington_RCP85_temp }{Daily temperature (C) at Eddington}
+#' }
+#' 
+#' @source Integrated Systems Ecology Lab, Gulf Of Maine Research Institute
+#' 
+"pnr_proj85"
+
 #' @title Region-system key for von Bertalanffy growth estimates
 #' 
 #' @description A key for matching rivers used in the growth 
