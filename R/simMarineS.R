@@ -51,7 +51,12 @@ simMarineS <- function(){
   # attr(,"scaled:scale")
   # [1] 0.6402722
 
-  if(climate=='current' | climate=='rcp85'){  
+  if(climate=='current'){
+    X <- rcp85_sst$Mean[rcp85_sst$Year == lubridate::year(Sys.time())]
+    scaled.X <- as.vector(scale(X, center = 12.63291, scale = 0.6402722))    
+  }
+  
+  if(climate=='rcp85'){  
     X <- rcp85_sst$Mean[rcp85_sst$Year == current_year]
     scaled.X <- as.vector(scale(X, center = 12.63291, scale = 0.6402722))
   }
