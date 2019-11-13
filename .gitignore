@@ -23,3 +23,6 @@ ssr-result.rda
 sf-exampleKBR-tester.R
 sf-exampleSACO-tester.R
 snowfall-result.rda
+.Rbuildignore
+src-i386
+src-x64
