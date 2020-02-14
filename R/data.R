@@ -292,13 +292,12 @@
 #' @source Maine Department of Marine Resources
 "tempData_kennebec"
 
-#' @title Kennebec River Temperatures
+#' @title Hudson River Temperatures
 #' 
-#' @description Temperature data from 
-#' various monitoring sites in the 
-#' Kennebec River, Maine, USA.
+#' @description Temperature data from the Hudson River near
+#' Albany, NY, USA (USGS Gage ID 01359139).
 #' 
-#' @format A data frame with 5884 observations of 5 variables
+#' @format A data frame with 4782 observations of 6 variables
 #' \describe{
 #'   \code{staid }{Site ID in watershed}
 #'   

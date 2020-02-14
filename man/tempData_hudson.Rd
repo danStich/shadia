@@ -3,8 +3,8 @@
 \docType{data}
 \name{tempData_hudson}
 \alias{tempData_hudson}
-\title{Kennebec River Temperatures}
-\format{A data frame with 5884 observations of 5 variables
+\title{Hudson River Temperatures}
+\format{A data frame with 4782 observations of 6 variables
 \describe{
   \code{staid }{Site ID in watershed}
   
@@ -25,8 +25,7 @@ U.S. Geological Survey
 tempData_hudson
 }
 \description{
-Temperature data from 
-various monitoring sites in the 
-Kennebec River, Maine, USA.
+Temperature data from the Hudson River near
+Albany, NY, USA (USGS Gage ID 01359139).
 }
 \keyword{datasets}
