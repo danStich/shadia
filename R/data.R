@@ -292,6 +292,30 @@
 #' @source Maine Department of Marine Resources
 "tempData_kennebec"
 
+#' @title Kennebec River Temperatures
+#' 
+#' @description Temperature data from 
+#' various monitoring sites in the 
+#' Kennebec River, Maine, USA.
+#' 
+#' @format A data frame with 5884 observations of 5 variables
+#' \describe{
+#'   \code{staid }{Site ID in watershed}
+#'   
+#'   \code{val }{Temperature in degrees celcius}
+#'   
+#'   \code{dates }{Date of temperature observation}
+#'   
+#'   \code{qualcode }{Quality control code}
+#'   
+#'   \code{day }{Ordinal date}
+#'   
+#'   \code{year }{Year of temperature observation}
+#' }
+#' 
+#' @source U.S. Geological Survey
+"tempData_hudson"
+
 #' @title Projected sea surface temperatures RCP 4.5
 #' 
 #' @description Projected sea surface temperatures for
