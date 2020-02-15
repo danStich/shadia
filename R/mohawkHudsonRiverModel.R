@@ -1,8 +1,8 @@
-#' Kennebec River Model
+#' Mohawk-Hudson River Model
 #' 
 #' Runs American shad dam passage performance
-#' standard model for Kennebec River, Maine,
-#' USA
+#' standard model for Mohawk and Hudson rivers, NY,
+#' USA.
 #' 
 #' @param nRuns The number of times that the
 #' model will be run.
@@ -19,8 +19,8 @@
 #' 
 #' @param upstream A named list of upstream dam
 #' passage efficiencies at each dam in the 
-#' Kennebec River and its largest tributary, the 
-#' Sebasticook River.
+#' Hudson River and its largest tributary, the 
+#' Mohawk River.
 #' 
 #' Users may specify a single value of upstream
 #' passage at each dam, or a vector of upstream
@@ -29,14 +29,15 @@
 #' randomly sampled during each model run 
 #' (not each year). Therefore, multiple model runs
 #' are necessary if more than one passage efficiency
-#' is supplied for any dam.As a rough rule of thumb
+#' is supplied for any dam. As a rough rule of thumb
 #' we advise a minimum of 100 runs per combination of
 #' management parameters (upstream timing and passage,
 #' and downstream survival through dams).
 #' 
 #' @param downstream A named list of downstream
 #' dam passage efficiencies at each dam in the 
-#' Kennebec and Sebasticook rivers. 
+#' Mohawk and Hudson rivers including
+#' navigational locks. 
 #' 
 #' See note in \code{upstream}.
 #' 
@@ -62,13 +63,15 @@
 #' 
 #' @param watershed A logical indicating whether or not
 #' to use the same dam passage efficiencies at all dams
-#' for upstream and downstream. If watershed = TRUE, then
-#' the first element in lists `upstream` and `downstream`
+#' for upstream and downstream. If \code{watershed = TRUE}, then
+#' the first element in lists \code{upstream} and \code{downstream}
 #' are recycled for all subsequent dams.
 #'  
 #' @return Returns a list of two named dataframes.
 #' The first dataframe (\code{res}) contains user-defined
-#' inputs and available model outputs.
+#' inputs and available model outputs. The second dataframe
+#' (\code{sens}) contains stochastic model inputs based on
+#' empirical data and/or expert opinion.
 #'
 #' If run in parallel, returns a list of lists
 #' of dataframes.
@@ -77,12 +80,12 @@
 #' \itemize{
 #'     \item \code{year} Year of simulation
 #'     \item \code{timing_lockwood...timing_burnham} Passage timing input by user
-#'     \item \code{lockwood_us...burnham_us} User-specified upstream passage efficiencies
-#'     \item \code{lockwood_ds...burnham_ds}  User-specified downstream passage efficiencies
+#'     \item \code{federal_us...E20_us} User-specified upstream passage efficiencies
+#'     \item \code{federal_ds...E20_ds}  User-specified downstream passage efficiencies
 #'     \item \code{pRepeat_Age1...pRepeat_Age9} Age-specific probability of repeat spawning  
 #'     \item \code{populationSize} Total number of adult spawners returning to the river
-#'     \item \code{N_IA...N_IIB} Production unit-specific population size after in-river fishery mortality
-#'     \item \code{pSebasticook} Probability of fish using the Sebasticook River during upstream migration and spawning.
+#'     \item \code{N_IA...N_XIXB} Production unit-specific population size after in-river fishery mortality
+#'     \item \code{pMohawk} Probability of fish using the Mohawk River during upstream migration and spawning.
 #' }
 #' 
 #' The following named columns are returned in \code{sens}:
@@ -129,14 +132,14 @@
 #' each unit. Black dots indicate no suitable habitat 
 #' in a unit. 
 #'  
-#' \if{html}{\figure{kennebec.png}{Kennebec River}}
-#' \if{latex}{\figure{kennebec.png}{options: width=0.5in}}  
-#'   
+# \if{html}{\figure{kennebec.png}{Kennebec River}}
+# \if{latex}{\figure{kennebec.png}{options: width=0.5in}}
+
 #' @section Warning about serial execution and memory limits:
 #' 
 #' Currently, internal functions rely on \code{list2env} to return
 #' lists to a temporary environment created in the 
-#' \code{kennebecRiverModel} function. Consequently, lists 
+#' \code{mohawkHudsonRiverModel} function. Consequently, lists 
 #' that are exported must be limited in size. Therefore, 
 #' users currently need to limit the number of runs per 
 #' call (\code{nRuns} argument) to less than 10 or R will 
@@ -147,30 +150,32 @@
 #' In order to achieve a desired number of runs for a given
 #' set of inputs, the recommended approach is to use 
 #' parallel execution as demonstrated using the \code{snowfall}
-#' package in the example below.
+#' package in the \href{https://shadia-ui.github.io/examples.html}{website examples}.
 #' 
-#' @example /inst/examples/sf-exampleKBR.R
+# #' @example /inst/examples/sf-exampleKBR.R
 #' 
 #' @export
-kennebecRiverModel <- function(
+mohawkHudsonRiverModel <- function(
+  species = 'shad',
+  pMohawk = .5,
   nRuns = 1,
   nYears = 40,
-  timing = list(1,1,1,1,1,1),
+  timing = rep(1, 27),
   upstream = list(
-    lockwood = 1,
-    hydroken = 1,
-    shawmut = 1,
-    weston = 1,
-    benton = 1,
-    burnham = 1
+    federal = 1,
+    C01 = 1, C02 = 1, C03 = 1, C04 = 1, C05 = 1, C06 = 1,
+    E02 = 1, E03 = 1, E04 = 1, E05 = 1, E06 = 1,
+    E07 = 1, E08 = 1, E09 = 1, E10 = 1, E11 = 1, E12 = 1,
+    E13 = 1, E14 = 1, E15 = 1, E16 = 1, E17 = 1, E18 = 1,
+    E19 = 1, E20 = 1
   ),
   downstream = list(
-    lockwood = 1,
-    hydroken = 1,
-    shawmut = 1,
-    weston = 1,
-    benton = 1,
-    burnham = 1
+    federal = 1,
+    C01 = 1, C02 = 1, C03 = 1, C04 = 1, C05 = 1, C06 = 1,
+    E02 = 1, E03 = 1, E04 = 1, E05 = 1, E06 = 1,
+    E07 = 1, E08 = 1, E09 = 1, E10 = 1, E11 = 1, E12 = 1,
+    E13 = 1, E14 = 1, E15 = 1, E16 = 1, E17 = 1, E18 = 1,
+    E19 = 1, E20 = 1
   ),
   inRiverF = 0,
   commercialF = 0,
@@ -182,9 +187,9 @@ kennebecRiverModel <- function(
   
   
 # Error message for passage efficiencies
-  if( (length(upstream)!=6 ) |  (length(downstream)!=6 ) ){ 
+  if( (length(upstream)!=26 ) |  (length(downstream)!=26 ) ){ 
     stop('
-         `upstream` must each have 6 elements.')
+         `upstream` must each have 26 elements.')
   }  
   
 # Error message for maximum number of years
@@ -203,7 +208,7 @@ kennebecRiverModel <- function(
     .shadia <- new.env()  
   
 # Assign River
-  river <- 'kennebec'
+  river <- 'hudson'
   region <- 'Northern Iteroparous'
   
 # Choose climate scenario
@@ -242,7 +247,7 @@ kennebecRiverModel <- function(
   if(watershed){
   cat('WARNING: when watershed is set to TRUE,
     upstream and downstream passage rate(s) for
-    Lockwood Dam will be used at all dams in the
+    Federal Dam will be used at all dams in the
     watershed.', '\n', '\n')
   }
   

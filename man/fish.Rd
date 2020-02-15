@@ -4,7 +4,7 @@
 \name{fish}
 \alias{fish}
 \title{Growth data for Connecticut River American shad}
-\format{A list of 1000 matrices with named dimensions
+\format{A dataframe with 19,946 observatoins of 6 variables
 \describe{
   \code{Sex }{Fish sex}
   

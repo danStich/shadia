@@ -80,6 +80,8 @@ additionalEggsProcessing <- function(fec){
     #toc()
   }  
   
+  
+  
   if(river=='connecticut'){
     # Calculate total number of eggs in each PU
     fec2 <- vector(mode = 'list', length = length(fec))

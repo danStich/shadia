@@ -266,5 +266,73 @@ if(river=='kennebec'){
     )
   )
 }    
+ 
+if(river=='hudson'){
+  # Assign the starting population based on
+  # a seed of age-1 fish and application
+  # of an ocean survival curve. The population
+  # size is scaled to make the models run faster.
+  # Output is re-scaled
   
+  # Original number of Age 1 individuals in the population
+  # JMS: moved to outer-loop-sampling.R
+  
+  # Original number of individuals (calculated from ocean survival) per age
+    for (i in 2:maxAge) {
+    assign(paste('Age', i, sep = ''),
+           Age1 * (cumprod(oceanSurvival[2:i - 1]))[i - 1],
+           envir = .shadia)
+    }
+    
+  # Collect age classes in a vector
+    pop <- mget(ls(pat = "^Age", envir = .shadia), envir = .shadia)
+    pop <- pop[order(sapply(pop,head,1), decreasing=T)]
+  
+  # Define probability of recruitment to spawn (NYSDEC, unpublished)
+   spawnRecruit <- c(
+      0,
+      0.000482393,
+      0.034249879,
+      0.328750603,
+      0.816690786,
+      0.983839846,
+      0.999276411,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+    )
+  
+  # Initial probalities of repeat spawning- will be derived in annual loop
+    pRepeat <- c(
+      0,
+      0,
+      0,
+      0,
+      0,
+      0.103896104,
+      0.285003111,
+      0.620954003,
+      0.900369004,
+      0.984848485,
+      1,
+      1,
+      1
+    )
+  # Define spawning population and recruitment pool
+    spawningPool <- unlist(pop) * spawnRecruit
+    recruitmentPool <- unlist(pop) - unlist(pop) * spawnRecruit
+  
+  return(list(
+    pop = unlist(pop),
+    spawnRecruit = spawnRecruit,
+    pRepeat = pRepeat,
+    spawningPool = spawningPool,
+    recruitmentPool = recruitmentPool  
+    )
+  )
+}    
+   
 }

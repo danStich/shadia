@@ -1381,4 +1381,233 @@ if(river=='kennebec'){
     )
   )
 }      
+  
+if(river=='hudson'){  
+  # if (useTictoc | useProgress) {
+  #   print(paste('nRuns = ',nRuns))
+  #   print(paste('nYears = ',nYears))
+  # }
+  
+  # Define empty vectors to hold results for outer loop
+    
+  # Empty container to hold year
+  years <- vector(mode = 'numeric', length = nYears * nRuns)
+  
+  # Probability of using Mohawk
+  mohawk <- vector(mode = 'numeric', length = nYears * nRuns)
+  
+  # Timing
+  ptime <- vector(mode = 'list', length = nYears * nRuns)
+
+  # Indirect mortality during downstream passage
+  indirectM <- vector(mode = 'numeric', length = nYears * nRuns)
+  
+  # Latent estuary mortality during downstream passage
+  latentM <- vector(mode = 'numeric', length = nYears * nRuns)
+  
+  # Juvenile survival reduction at each dam during downstream passage
+  juvReduction <- vector(mode = 'numeric', length = nYears * nRuns)
+  
+  # Fall-back during upstream passage
+  fallback <- vector(mode = 'numeric', length = nYears * nRuns)
+  
+  # Population abundance in each production unit
+  pop01a <- vector(mode = 'numeric', length = nYears * nRuns)
+  pop02a <- vector(mode = 'numeric', length = nYears * nRuns)
+  pop03a <- vector(mode = 'numeric', length = nYears * nRuns)
+  pop04a <- vector(mode = 'numeric', length = nYears * nRuns)
+  pop05a <- vector(mode = 'numeric', length = nYears * nRuns)
+  pop06a <- vector(mode = 'numeric', length = nYears * nRuns)
+  pop07a <- vector(mode = 'numeric', length = nYears * nRuns)
+  pop08a <- vector(mode = 'numeric', length = nYears * nRuns)
+  pop02b <- vector(mode = 'numeric', length = nYears * nRuns)
+  pop03b <- vector(mode = 'numeric', length = nYears * nRuns)
+  pop04b <- vector(mode = 'numeric', length = nYears * nRuns)
+  pop05b <- vector(mode = 'numeric', length = nYears * nRuns)
+  pop06b <- vector(mode = 'numeric', length = nYears * nRuns)
+  pop07b <- vector(mode = 'numeric', length = nYears * nRuns)
+  pop08b <- vector(mode = 'numeric', length = nYears * nRuns)
+  pop09b <- vector(mode = 'numeric', length = nYears * nRuns)
+  pop10b <- vector(mode = 'numeric', length = nYears * nRuns)
+  pop11b <- vector(mode = 'numeric', length = nYears * nRuns)
+  pop12b <- vector(mode = 'numeric', length = nYears * nRuns)
+  pop13b <- vector(mode = 'numeric', length = nYears * nRuns)
+  pop14b <- vector(mode = 'numeric', length = nYears * nRuns)
+  pop15b <- vector(mode = 'numeric', length = nYears * nRuns)
+  pop16b <- vector(mode = 'numeric', length = nYears * nRuns)
+  pop17b <- vector(mode = 'numeric', length = nYears * nRuns)
+  pop18b <- vector(mode = 'numeric', length = nYears * nRuns)
+  pop19b <- vector(mode = 'numeric', length = nYears * nRuns)
+
+  # Age-structured spawning population
+  spawners <- vector(mode = 'list', length = nYears * nRuns)
+  
+  # Proportion of repeat spawners in each age class
+  pRepeats <- vector(mode = 'list', length = nYears * nRuns)
+  
+  # Catchment-wide population abundance
+  populationSize <- vector(mode = 'numeric', length = nYears * nRuns)
+  
+  # Store the scale
+  scalarVar <- vector(mode = 'numeric', length = nYears * nRuns)
+  
+  # Population demographics
+  S.downstream <- vector(mode = 'numeric', length = nYears * nRuns)
+  S.marine <- vector(mode = 'numeric', length = nYears * nRuns)
+  F.inRiver <- vector(mode = 'numeric', length = nYears * nRuns)
+  F.commercial <- vector(mode = 'numeric', length = nYears * nRuns)
+  F.bycatch <- vector(mode = 'numeric', length = nYears * nRuns)
+  popStart <- vector(mode = 'numeric', length = nYears * nRuns)
+  p.female <- vector(mode = 'numeric', length = nYears * nRuns)
+  S.prespawnM <- vector(mode = 'numeric', length = nYears * nRuns)
+  S.postspawnM <- vector(mode = 'numeric', length = nYears * nRuns)
+  S.prespawnF <- vector(mode = 'numeric', length = nYears * nRuns)
+  S.postspawnF <- vector(mode = 'numeric', length = nYears * nRuns)
+  S.juvenile <- vector(mode = 'numeric', length = nYears * nRuns)
+  
+  # Environmental
+  # Stochasticity
+  t.stoch <- vector(mode = 'numeric', length = nYears * nRuns)
+  # Regression relating temperatures in PNR and CTR
+  t.RegrInt <- vector(mode = 'numeric', length = nYears * nRuns)
+  t.RegrSlp <- vector(mode = 'numeric', length = nYears * nRuns)
+  # Model parameters for sex-specific arrival timing
+  b.ArrRegrInt <- vector(mode = 'numeric', length = nYears * nRuns)
+  b.ArrRegrSlp <- vector(mode = 'numeric', length = nYears * nRuns)
+  r.ArrRegrInt <- vector(mode = 'numeric', length = nYears * nRuns)
+  r.ArrRegrSlp <- vector(mode = 'numeric', length = nYears * nRuns)
+  
+  # Individual traits
+  # Entry dates
+  b.Arr <- vector(mode = 'numeric', length = nYears * nRuns)
+  r.Arr <- vector(mode = 'numeric', length = nYears * nRuns)
+  # Spawning ATU
+  ATUspawn1 <- vector(mode = 'numeric', length = nYears * nRuns)
+  ATUspawn2 <- vector(mode = 'numeric', length = nYears * nRuns)
+  # Spawning dates
+  Dspawn1 <- vector(mode = 'numeric', length = nYears * nRuns)
+  Dspawn2 <- vector(mode = 'numeric', length = nYears * nRuns)
+  # Length at age
+  # Females
+  linF <- vector(mode = 'numeric', length = nYears * nRuns)
+  kF <- vector(mode = 'numeric', length = nYears * nRuns)
+  t0F <- vector(mode = 'numeric', length = nYears * nRuns)
+  # Males
+  linM <- vector(mode = 'numeric', length = nYears * nRuns)
+  kM <- vector(mode = 'numeric', length = nYears * nRuns)
+  t0M <- vector(mode = 'numeric', length = nYears * nRuns)
+  
+  # Length-weight regression parameters
+  # Female
+  lwF.alpha <- vector(mode = 'numeric', length = nYears * nRuns)
+  lwF.beta <- vector(mode = 'numeric', length = nYears * nRuns)
+  # Male
+  lwM.alpha <- vector(mode = 'numeric', length = nYears * nRuns)
+  lwM.beta <- vector(mode = 'numeric', length = nYears * nRuns)
+  
+  # Lengths and mass
+  b.length <- vector(mode = 'numeric', length = nYears * nRuns)
+  r.length <- vector(mode = 'numeric', length = nYears * nRuns)
+  
+  # Fecundity
+  spawnInt <- vector(mode = 'numeric', length = nYears * nRuns)
+  batchSize <- vector(mode = 'numeric', length = nYears * nRuns)
+  RAF <- vector(mode = 'numeric', length = nYears * nRuns)
+  
+  # Movement parameters
+  s.Optim <- vector(mode = 'numeric', length = nYears * nRuns)
+  d.Max <- vector(mode = 'numeric', length = nYears * nRuns)
+  tortuosity <- vector(mode = 'numeric', length = nYears * nRuns)
+  motivation <- vector(mode = 'numeric', length = nYears * nRuns)
+  daily.move <- vector(mode = 'numeric', length = nYears * nRuns)
+
+  return(
+    list(
+      years = years,
+      mohawk = mohawk,
+      indirectM = indirectM,
+      latentM = latentM,
+      juvReduction = juvReduction,
+      fallback = fallback,
+      pop01a = pop01a,
+      pop02a = pop02a,
+      pop03a = pop03a,
+      pop04a = pop04a,
+      pop05a = pop05a,
+      pop06a = pop06a,
+      pop07a = pop07a,
+      pop08a = pop08a,
+      pop02b = pop02b,
+      pop03b = pop03b,
+      pop04b = pop04b,
+      pop05b = pop05b,
+      pop06b = pop06b,
+      pop07b = pop07b,
+      pop08b = pop08b,
+      pop09b = pop09b,
+      pop10b = pop10b,
+      pop11b = pop11b,
+      pop12b = pop12b,
+      pop13b = pop13b,
+      pop14b = pop14b,
+      pop15b = pop15b,
+      pop16b = pop16b,
+      pop17b = pop17b,
+      pop18b = pop18b,
+      pop19b = pop19b,
+      spawners = spawners,
+      pRepeats = pRepeats,
+      populationSize = populationSize,
+      scalarVar = scalarVar,
+      ptime = ptime,
+      S.downstream = S.downstream,
+      S.marine = S.marine,
+      F.inRiver = F.inRiver,
+      F.commercial = F.commercial,
+      F.bycatch = F.bycatch,
+      popStart = popStart,
+      p.female = p.female,
+      p.female = p.female,
+      S.prespawnM = S.prespawnM,
+      S.postspawnM = S.postspawnM,
+      S.prespawnF = S.prespawnF,
+      S.postspawnF = S.postspawnF,
+      S.juvenile = S.juvenile,
+      t.RegrInt = t.RegrInt,
+      t.RegrSlp = t.RegrSlp,
+      t.stoch = t.stoch,
+      b.ArrRegrInt = b.ArrRegrInt,
+      b.ArrRegrSlp = b.ArrRegrSlp,
+      r.ArrRegrInt = r.ArrRegrInt,
+      r.ArrRegrSlp = r.ArrRegrSlp,
+      b.Arr = b.Arr,
+      r.Arr = r.Arr,
+      ATUspawn1 = ATUspawn1,
+      ATUspawn2 = ATUspawn2,
+      Dspawn1 = Dspawn1,
+      Dspawn2 = Dspawn2,
+      linF = linF,
+      kF = kF,
+      t0F = t0F,
+      linM = linM,
+      kM = kM,
+      t0M = t0M,
+      lwF.alpha = lwF.alpha,
+      lwF.beta = lwF.beta,
+      lwM.alpha = lwM.alpha,
+      lwM.beta = lwM.beta,
+      b.length = b.length,
+      r.length = r.length,
+      spawnInt = spawnInt,
+      batchSize = batchSize,
+      RAF = RAF,
+      s.Optim = s.Optim,
+      d.Max = d.Max,
+      tortuosity = tortuosity,
+      motivation = motivation,
+      daily.move = daily.move
+    )
+  )
+}      
+  
 }
