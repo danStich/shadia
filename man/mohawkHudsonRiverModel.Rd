@@ -4,16 +4,15 @@
 \alias{mohawkHudsonRiverModel}
 \title{Mohawk-Hudson River Model}
 \usage{
-mohawkHudsonRiverModel(species = "shad", nRuns = 1, nYears = 40,
-  timing = list(1, 1, 1, 1, 1, 1), upstream = list(federal = 1, C1 = 1,
-  C2 = 1, C3 = 1, C4 = 1, C5 = 1, C6 = 1, C7 = 1, C8 = 1, C9 = 1, C10 = 1,
-  C11 = 1, C12 = 1, E1 = 1, E2 = 1, E3 = 1, E4 = 1, E5 = 1, E6 = 1, E7 = 1,
-  E8 = 1, E9 = 1, E10 = 1, E11 = 1, E12 = 1, E13 = 1, E14 = 1, E15 = 1, E16
-  = 1, E17 = 1, E18 = 1, E19 = 1, E20 = 1), downstream = list(federal =
-  1, C1 = 1, C2 = 1, C3 = 1, C4 = 1, C5 = 1, C6 = 1, C7 = 1, C8 = 1, C9 =
-  1, C10 = 1, C11 = 1, C12 = 1, E1 = 1, E2 = 1, E3 = 1, E4 = 1, E5 = 1, E6
-  = 1, E7 = 1, E8 = 1, E9 = 1, E10 = 1, E11 = 1, E12 = 1, E13 = 1, E14 = 1,
-  E15 = 1, E16 = 1, E17 = 1, E18 = 1, E19 = 1, E20 = 1), inRiverF = 0,
+mohawkHudsonRiverModel(species = "shad", pMohawk = 0.5, nRuns = 1,
+  nYears = 40, timing = rep(1, 26), upstream = list(federal = 1, C01
+  = 1, C02 = 1, C03 = 1, C04 = 1, C05 = 1, C06 = 1, E02 = 1, E03 = 1, E04 =
+  1, E05 = 1, E06 = 1, E07 = 1, E08 = 1, E09 = 1, E10 = 1, E11 = 1, E12 =
+  1, E13 = 1, E14 = 1, E15 = 1, E16 = 1, E17 = 1, E18 = 1, E19 = 1, E20 =
+  1), downstream = list(federal = 1, C01 = 1, C02 = 1, C03 = 1, C04 = 1,
+  C05 = 1, C06 = 1, E02 = 1, E03 = 1, E04 = 1, E05 = 1, E06 = 1, E07 = 1,
+  E08 = 1, E09 = 1, E10 = 1, E11 = 1, E12 = 1, E13 = 1, E14 = 1, E15 = 1,
+  E16 = 1, E17 = 1, E18 = 1, E19 = 1, E20 = 1), inRiverF = 0,
   commercialF = 0, bycatchF = 0, indirect = 1, latent = 1,
   watershed = TRUE)
 }
