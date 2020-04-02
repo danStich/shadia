@@ -205,5 +205,33 @@ if(river=='kennebec'){
   ))    
 }   
   
+if(river=='hudson'){
+  # Number of routes
+  # Route 1 is upper hudson
+  # Route 2 is mohawk
+  nRoutes <- 2
+  nDams <- c(7, 20)
+  
+  # Define number of production units- dams plus one in this system
+  nPU <- nDams + 1
+  
+  # Define maximum rkm for the system.
+  maxrkm <- c(305, 411)
+  
+  # Define rkms for each of the dams for each migration route
+  damRkms <- vector(mode = 'list', length = nRoutes)
+  damRkms[[1]] <- c(240,249,255,259,263,287,292) # Route 1
+  damRkms[[2]] <- c(240,240,241,242,243,244,261,279,
+                    287,296,303,310,326,338,344,354,
+                    367,374,393,410) # Route 2
+  
+  return(list(
+    nRoutes=nRoutes,
+    nDams=nDams,
+    nPU=nPU,
+    maxrkm=maxrkm,
+    damRkms=damRkms
+  ))    
+}    
 }
 

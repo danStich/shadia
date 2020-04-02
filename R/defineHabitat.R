@@ -70,7 +70,8 @@ habitat <- vector(mode = 'list', length = nRoutes)
     habitat=habitat
     ))  
 }
-  
+ 
+   
 if(river=='merrimack'){
   
   habitat <- vector(mode='list', length=nRoutes)
@@ -143,6 +144,7 @@ if(river=='saco'){
   
 } 
   
+  
 if(river=='kennebec'){
   
   habitat <- vector(mode='list', length=nRoutes)
@@ -165,6 +167,24 @@ if(river=='kennebec'){
   ))
   
 }    
+  
+if(river=='hudson'){
+  
+  habitat <- vector(mode='list', length=nRoutes)
+  
+  habitat[[1]] <- c(14436,650,400,286,260,1500,2750,230)*100
+
+  habitat[[2]] <- c(14436,
+    0,0,0,0,0,1903.45,1072.14,336.87,
+    438.13,378.19,443.83,613.74,445.27,
+    182.16,388.19,236.5,149.87,344.77,
+    260.99,267.72)*100
+  
+  return(list(
+    habitat=habitat
+  ))
+  
+}   
   
   
 }  
