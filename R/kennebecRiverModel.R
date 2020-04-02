@@ -36,8 +36,7 @@
 #' 
 #' @param downstream A named list of downstream
 #' dam passage efficiencies at each dam in the 
-#' Penobscot River (including Orono and Stillwater
-#' dams). 
+#' Kennebec and Sebasticook rivers. 
 #' 
 #' See note in \code{upstream}.
 #' 

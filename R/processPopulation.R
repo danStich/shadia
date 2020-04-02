@@ -45,5 +45,5 @@ processPopulation <- function(isFemale, isEgg = FALSE) {
         fec_Max <- additionalEggsProcessing(population)
         return(fec_Max)
       }
-  
-}    
+
+}

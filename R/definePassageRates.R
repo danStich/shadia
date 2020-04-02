@@ -412,5 +412,132 @@ if(river=='kennebec'){
   )
 } 
   
+if(river=='hudson'){  
+  # Upstream passage rates
+  Open <- 1.00
+  federalUp <- up[1] * fB
+  for(i in 1:length(grep('C', names(upstream)))){
+    assign(paste0(names(upstream)[i+1],"Up"), up[i+1]*fB)
+  }
   
+  for(i in 1:length(grep('E', names(upstream)))){
+    assign(paste0(names(upstream)[i+7],"Up"), up[i+7]*fB)
+  }
+  
+  # Downstream passage efficiencies
+  # Define downstream passage efficiencies at each of the dams
+  other <- indirect * latent * delay
+  OpenD <- 1.00
+  federalD <- d[1] * other
+  for(i in 1:length(grep('C', names(downstream)))){
+    assign(paste0(names(downstream)[i+1],"D"), d[i+1]*other)
+  }
+  
+  for(i in 1:length(grep('E', names(downstream)))){
+    assign(paste0(names(downstream)[i+7],"D"), d[i+7]*other)
+  }  
+  
+  # Make downstream survival probabilities for juveniles
+  # Unused. Moved to separate calculations in the 
+  # Connecticut River Model. All runs in the Penobscot
+  # River to date have used equal performance standards.
+  # Will update this model to use the same approach.
+  OpenDj <- 1.00
+  federalDj <- d[1] * other
+  for(i in 1:length(grep('C', names(downstream)))){
+    assign(paste0(names(downstream)[i+1],"Dj"), d[i+1]*other)
+  }
+  
+  for(i in 1:length(grep('E', names(downstream)))){
+    assign(paste0(names(downstream)[i+7],"Dj"), d[i+7]*other)
+  }    
+
+
+  return(
+    list(
+    Open = Open,
+    federalUp = federalUp,
+    C01Up = C01Up,
+    C02Up = C02Up,
+    C03Up = C03Up,
+    C04Up = C04Up,
+    C05Up = C05Up,
+    C06Up = C06Up,
+    E02Up = E02Up,
+    E03Up = E03Up,
+    E04Up = E04Up,
+    E05Up = E05Up,
+    E06Up = E06Up,
+    E07Up = E07Up,
+    E08Up = E08Up,
+    E09Up = E09Up,
+    E10Up = E10Up,
+    E11Up = E11Up,
+    E12Up = E12Up,
+    E13Up = E13Up,
+    E14Up = E14Up,
+    E15Up = E15Up,
+    E16Up = E16Up,
+    E17Up = E17Up,
+    E18Up = E18Up,
+    E19Up = E19Up,
+    E20Up = E20Up,
+    OpenD = OpenD,
+    federalD = federalD,
+    C01D = C01D,
+    C02D = C02D,
+    C03D = C03D,
+    C04D = C04D,
+    C05D = C05D,
+    C06D = C06D,
+    E02D = E02D,
+    E03D = E03D,
+    E04D = E04D,
+    E05D = E05D,
+    E06D = E06D,
+    E07D = E07D,
+    E08D = E08D,
+    E09D = E09D,
+    E10D = E10D,
+    E11D = E11D,
+    E12D = E12D,
+    E13D = E13D,
+    E14D = E14D,
+    E15D = E15D,
+    E16D = E16D,
+    E17D = E17D,
+    E18D = E18D,
+    E19D = E19D,
+    E20D = E20D,
+    OpenDj = OpenDj,
+    federalDj = federalDj,
+    C01Dj = C01Dj,
+    C02Dj = C02Dj,
+    C03Dj = C03Dj,
+    C04Dj = C04Dj,
+    C05Dj = C05Dj,
+    C06Dj = C06Dj,
+    E02Dj = E02Dj,
+    E03Dj = E03Dj,
+    E04Dj = E04Dj,
+    E05Dj = E05Dj,
+    E06Dj = E06Dj,
+    E07Dj = E07Dj,
+    E08Dj = E08Dj,
+    E09Dj = E09Dj,
+    E10Dj = E10Dj,
+    E11Dj = E11Dj,
+    E12Dj = E12Dj,
+    E13Dj = E13Dj,
+    E14Dj = E14Dj,
+    E15Dj = E15Dj,
+    E16Dj = E16Dj,
+    E17Dj = E17Dj,
+    E18Dj = E18Dj,
+    E19Dj = E19Dj,
+    E20Dj = E20Dj
+    )
+  )
+} 
+    
 }  

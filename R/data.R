@@ -32,14 +32,14 @@
 #' 
 #' @source Connecticut Department of Energy and Environmental Conservation (2015)
 #' 
-"arr.B"
+"arr.R"
 
 #' @title Growth data for Connecticut River American shad
 #' 
 #' @description Growth data for spawning American shad
 #' in the Connecticut River, CT, USA.
 #' 
-#' @format A list of 1000 matrices with named dimensions
+#' @format A dataframe with 19,946 observatoins of 6 variables
 #' \describe{
 #'   \code{Sex }{Fish sex}
 #'   
@@ -57,6 +57,25 @@
 #' @source Connecticut Department of Energy and Environmental Conservation (2015)
 #' 
 "fish"
+
+#' @title Length and mass of Hudson River American shad
+#' 
+#' @description Length and mass of spawning American shad
+#' collected in the Hudson River, USA.
+#' 
+#' @format A dataframe with 26,564 observations of 4 variables
+#' \describe{
+#'   \code{samp_date }{Date fish was collected}
+#'   
+#'   \code{Length }{Fork length, in mm}
+#'   
+#'   \code{mass }{Mass of fish in grams}
+#'   
+#'   \code{sex }{Sex of fish, `B` is buck (male) and `R`is roe (female)}
+#' }
+#' 
+#' @source New York State Department of Environmental Conservation
+"hudson_shad"
 
 #' @title Connecticut River temperatures, Stratford, NH, USA
 #' 
@@ -291,6 +310,29 @@
 #' 
 #' @source Maine Department of Marine Resources
 "tempData_kennebec"
+
+#' @title Hudson River Temperatures
+#' 
+#' @description Temperature data from 
+#' USGS gage 01359139 monitoring sites in the 
+#' Hudson River, NY, USA.
+#' 
+#' @format A data frame with 4787 observations of 5 variables
+#' \describe{
+#'   \code{staid }{Site ID in watershed}
+#'   
+#'   \code{val }{Temperature in degrees celcius}
+#'   
+#'   \code{year }{Year of temperature observation}
+#'
+#'   \code{dates }{Date of temperature observation}
+#'   
+#'   \code{day }{Ordinal date}
+#'   
+#' }
+#' 
+#' @source Maine Department of Marine Resources
+"tempData_hudson"
 
 #' @title Projected sea surface temperatures RCP 4.5
 #' 

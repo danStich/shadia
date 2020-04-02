@@ -351,7 +351,6 @@ return(list(
 ))
 }  
   
-  
 if(river=='merrimack'){ 
   # Store output in pre-allocated vectors 
   # if (useTictoc) tic("store output")
@@ -584,7 +583,6 @@ return(list(
   ))
 }    
 
-  
 if(river=='connecticut'){ 
   # Store output in pre-allocated vectors 
   # if (useTictoc) tic("store output")
@@ -831,7 +829,6 @@ if(river=='connecticut'){
     daily.move = daily.move
   ))
 }    
-  
   
 if(river=='susquehanna'){ 
   # Store output in pre-allocated vectors 
@@ -1203,7 +1200,6 @@ return(list(
   ))
 }    
   
-  
 if(river=='saco'){ 
   # Store output in pre-allocated vectors 
   # if (useTictoc) tic("store output")
@@ -1451,7 +1447,6 @@ if(river=='saco'){
   ))
 }      
 
-  
 if(river=='kennebec'){ 
   # Store output in pre-allocated vectors 
   # if (useTictoc) tic("store output")
@@ -1678,4 +1673,377 @@ if(river=='kennebec'){
   ))
 }      
 
+if(river=='hudson'){ 
+  # Store output in pre-allocated vectors 
+  # if (useTictoc) tic("store output")
+  
+  # Year, fillling pre-allocated vector with this year
+  years[(n + nYears * (k - 1))] <- n
+  
+  # Probability of using sebasticook river
+  mohawk[(n + nYears * (k - 1))] <- pMohawk
+  
+  # Indirect mortality, fillling pre-allocated vector
+  indirectM[(n + nYears * (k - 1))] <-  indirect
+  
+  # Latent estuary mortality, fillling pre-allocated vector
+  latentM[(n + nYears * (k - 1))] <-  latent
+  
+  # Juvenile reduction factor at each dam, fillling pre-allocated vector
+  juvReduction[(n + nYears * (k - 1))] <-  jReduction
+  
+  # Fall back, fillling pre-allocated vector
+  fallback[(n + nYears * (k - 1))] <-  fB
+  
+  # Population downstream of Troy Federal Dam
+  pop01a[(n + nYears * (k - 1))] <-  (
+    sum(males2res[[1]][[1]]) + 
+      sum(females2res[[1]][[1]]) +
+    sum(males2res[[2]][[1]]) + 
+      sum(females2res[[2]][[1]])) * scalar
+  
+  # Population sizes for Upper Hudson (Champlain Canal)
+    # Federal - C1
+    pop02a[(n + nYears * (k - 1))] <-  (
+      sum(males2res[[1]][[2]]) + 
+        sum(females2res[[1]][[2]])) * scalar
+    
+    # C1-C2
+    pop03a[(n + nYears * (k - 1))] <-  (
+      sum(males2res[[1]][[3]]) + 
+        sum(females2res[[1]][[3]])) * scalar
+    
+    # C2-C3
+    pop04a[(n + nYears * (k - 1))] <-  (
+      sum(males2res[[1]][[4]]) + 
+        sum(females2res[[1]][[4]])) * scalar
+    
+    # C3-C4
+    pop05a[(n + nYears * (k - 1))] <-  (
+      sum(males2res[[1]][[5]]) + 
+        sum(females2res[[1]][[5]])) * scalar
+    
+    # C4-C5
+    pop06a[(n + nYears * (k - 1))] <-  (
+      sum(males2res[[1]][[6]]) + 
+        sum(females2res[[1]][[6]])) * scalar
+    
+    # C5-C6
+    pop07a[(n + nYears * (k - 1))] <-  (
+      sum(males2res[[1]][[7]]) + 
+        sum(females2res[[1]][[7]])) * scalar
+    
+    # C6-Hudson Falls
+    pop08a[(n + nYears * (k - 1))] <-  (
+      sum(males2res[[1]][[8]]) + 
+        sum(females2res[[1]][[8]])) * scalar
+      
+  # Population sizes for Mohawk River
+    # Troy - E2
+    pop02b[(n + nYears * (k - 1))] <-  (
+      sum(males2res[[2]][[2]]) + 
+        sum(females2res[[2]][[2]])) * scalar 
+    
+    # E2-E3
+    pop03b[(n + nYears * (k - 1))] <-  (
+      sum(males2res[[2]][[3]]) + 
+        sum(females2res[[2]][[3]])) * scalar  
+    
+    # E3-E4
+    pop04b[(n + nYears * (k - 1))] <-  (
+      sum(males2res[[2]][[4]]) + 
+        sum(females2res[[2]][[4]])) * scalar 
+    
+    # E4-E5
+    pop05b[(n + nYears * (k - 1))] <-  (
+      sum(males2res[[2]][[5]]) + 
+        sum(females2res[[2]][[5]])) * scalar  
+    
+    # E5-E6
+    pop06b[(n + nYears * (k - 1))] <-  (
+      sum(males2res[[2]][[6]]) + 
+        sum(females2res[[2]][[6]])) * scalar 
+    
+    # E6-E7
+    pop07b[(n + nYears * (k - 1))] <-  (
+      sum(males2res[[2]][[7]]) + 
+        sum(females2res[[2]][[7]])) * scalar 
+    
+    # E7-E8
+    pop08b[(n + nYears * (k - 1))] <-  (
+      sum(males2res[[2]][[8]]) + 
+        sum(females2res[[2]][[8]])) * scalar
+    
+    # E8-E9
+    pop09b[(n + nYears * (k - 1))] <-  (
+      sum(males2res[[2]][[9]]) + 
+        sum(females2res[[2]][[9]])) * scalar 
+    
+    # E9-E10
+    pop10b[(n + nYears * (k - 1))] <-  (
+      sum(males2res[[2]][[10]]) + 
+        sum(females2res[[2]][[10]])) * scalar 
+    
+    # E10-E11
+    pop11b[(n + nYears * (k - 1))] <-  (
+      sum(males2res[[2]][[11]]) + 
+        sum(females2res[[2]][[11]])) * scalar 
+    
+    # E11-E12
+    pop12b[(n + nYears * (k - 1))] <-  (
+      sum(males2res[[2]][[12]]) + 
+        sum(females2res[[2]][[12]])) * scalar
+    
+    # E12-E13
+    pop13b[(n + nYears * (k - 1))] <-  (
+      sum(males2res[[2]][[13]]) + 
+        sum(females2res[[2]][[13]])) * scalar 
+    
+    # E13-E14
+    pop14b[(n + nYears * (k - 1))] <-  (
+      sum(males2res[[2]][[14]]) + 
+        sum(females2res[[2]][[14]])) * scalar
+    
+    # E14-E15
+    pop15b[(n + nYears * (k - 1))] <-  (
+      sum(males2res[[2]][[15]]) + 
+        sum(females2res[[2]][[15]])) * scalar
+    
+    # E15-E16
+    pop16b[(n + nYears * (k - 1))] <-  (
+      sum(males2res[[2]][[16]]) + 
+        sum(females2res[[2]][[16]])) * scalar
+    
+    # E16-E17
+    pop17b[(n + nYears * (k - 1))] <-  (
+      sum(males2res[[2]][[17]]) + 
+        sum(females2res[[2]][[17]])) * scalar
+    
+    # E17-E18
+    pop18b[(n + nYears * (k - 1))] <-  (
+      sum(males2res[[2]][[18]]) + 
+        sum(females2res[[2]][[18]])) * scalar
+    
+    # E18-E19
+    pop19b[(n + nYears * (k - 1))] <-  (
+      sum(males2res[[2]][[19]]) + 
+        sum(females2res[[2]][[19]])) * scalar 
+    
+    # E19-E20
+    pop20b[(n + nYears * (k - 1))] <-  (
+      sum(males2res[[2]][[20]]) + 
+        sum(females2res[[2]][[20]])) * scalar  
+    
+    # E20-Rome
+    pop21b[(n + nYears * (k - 1))] <-  (
+      sum(males2res[[2]][[21]]) + 
+        sum(females2res[[2]][[21]])) * scalar       
+                                                                 
+  # Population size
+  populationSize[(n + nYears * (k - 1))] <- 
+    pop01a[(n + nYears * (k - 1))] +
+    pop02a[(n + nYears * (k - 1))] +
+    pop03a[(n + nYears * (k - 1))] +
+    pop04a[(n + nYears * (k - 1))] +
+    pop05a[(n + nYears * (k - 1))] +
+    pop06a[(n + nYears * (k - 1))] +
+    pop07a[(n + nYears * (k - 1))] +
+    pop08a[(n + nYears * (k - 1))] +
+    pop02b[(n + nYears * (k - 1))] +
+    pop03b[(n + nYears * (k - 1))] +
+    pop04b[(n + nYears * (k - 1))] +
+    pop05b[(n + nYears * (k - 1))] +
+    pop06b[(n + nYears * (k - 1))] +
+    pop07b[(n + nYears * (k - 1))] +
+    pop08b[(n + nYears * (k - 1))] +
+    pop09b[(n + nYears * (k - 1))] +    
+    pop10b[(n + nYears * (k - 1))] +
+    pop11b[(n + nYears * (k - 1))] +
+    pop12b[(n + nYears * (k - 1))] +
+    pop13b[(n + nYears * (k - 1))] +
+    pop14b[(n + nYears * (k - 1))] +
+    pop15b[(n + nYears * (k - 1))] +
+    pop16b[(n + nYears * (k - 1))] +
+    pop17b[(n + nYears * (k - 1))] +
+    pop18b[(n + nYears * (k - 1))] +
+    pop19b[(n + nYears * (k - 1))] +  
+    pop20b[(n + nYears * (k - 1))] +
+    pop21b[(n + nYears * (k - 1))]    
+    
+  # Proportion of repeat spawners at each age
+  pRepeats[[(n + nYears * (k - 1))]] <-  pRepeat
+  
+  # Age-structured repeat spawners
+  spawners[[(n + nYears * (k - 1))]] <-  spawningPool
+  
+  # Reset the scalar based on population size
+  list2env(setScalar(), envir = .shadia)
+  
+  # Scalar variable for computational gains
+  scalarVar[[(n + nYears * (k - 1))]] <-  scalar
+  
+  # Store the inputs for sensitivity analysis
+  # Passage assumptions
+  ptime[[(n + nYears * (k - 1))]] <-  timely
+  
+  # Population demographics and survival rates
+  S.downstream[(n + nYears * (k - 1))] <-  mean(downstreamS)
+  S.marine[(n + nYears * (k - 1))] <-  marineS[1]
+  F.inRiver[(n + nYears * (k - 1))] <-  inRiverF
+  F.commercial[(n + nYears * (k - 1))] <-  mean(commercialF)
+  F.bycatch[(n + nYears * (k - 1))] <-  mean(bycatchF)
+  popStart[(n + nYears * (k - 1))] <-  pop
+  p.female[(n + nYears * (k - 1))] <-  sex_Ratio
+  S.prespawnM[(n + nYears * (k - 1))] <-  pre_spawn_survival_males
+  S.postspawnM[(n + nYears * (k - 1))] <-  post_spawn_survival_males
+  S.prespawnF[(n + nYears * (k - 1))] <-  pre_spawn_survival_females
+  S.postspawnF[(n + nYears * (k - 1))] <-  post_spawn_survival_females
+  S.juvenile[(n + nYears * (k - 1))] <-  juvenile_survival
+  
+  # Environmental
+  # Stochasticity
+  t.stoch[(n + nYears * (k - 1))] <-  stoch
+  # Regression relating temperatures in PNR and CTR
+  t.RegrInt[(n + nYears * (k - 1))] <-  calMod[1, 1]
+  t.RegrSlp[(n + nYears * (k - 1))] <-  calMod[2, 1]
+  # Model parameters for sex-specific arrival timing
+  b.ArrRegrInt[(n + nYears * (k - 1))] <-  res.B[1, 1]
+  b.ArrRegrSlp[(n + nYears * (k - 1))] <-  res.B[2, 1]
+  r.ArrRegrInt[(n + nYears * (k - 1))] <-  res.R[1, 1]
+  r.ArrRegrSlp[(n + nYears * (k - 1))] <-  res.R[2, 1]
+  
+  # Individual traits
+  # Entry dates
+  b.Arr[(n + nYears * (k - 1))] <-  mean(c_entryDate[c_sex == 0])
+  r.Arr[(n + nYears * (k - 1))] <-  mean(c_entryDate[c_sex == 1])
+  # Spawning ATU
+  ATUspawn1[(n + nYears * (k - 1))] <-  mean(c_spawnATU1)
+  ATUspawn2[(n + nYears * (k - 1))] <-  mean(c_spawnATU2)
+  # Spawning dates
+  Dspawn1[(n + nYears * (k - 1))] <-  mean(c_initial)
+  Dspawn2[(n + nYears * (k - 1))] <-  mean(c_end)
+  # Length at age
+  # Females
+  linF[(n + nYears * (k - 1))] <-  r.mat[1]
+  kF[(n + nYears * (k - 1))] <-  r.mat[2]
+  t0F[(n + nYears * (k - 1))] <-  r.mat[3]
+  # Males
+  linM[(n + nYears * (k - 1))] <-  b.mat[1]
+  kM[(n + nYears * (k - 1))] <-  b.mat[2]
+  t0M[(n + nYears * (k - 1))] <-  b.mat[3]
+  
+  # Length-weight regression parameters
+  # Female
+  lwF.alpha[(n + nYears * (k - 1))] <-  c_femaleLWalpha
+  lwF.beta[(n + nYears * (k - 1))] <-  c_femaleLWbeta
+  # Male
+  lwM.alpha[(n + nYears * (k - 1))] <-  c_maleLWalpha
+  lwM.beta[(n + nYears * (k - 1))] <-  c_maleLWbeta
+  
+  # Length
+  b.length[(n + nYears * (k - 1))] <-  mean(c_male_lf[c_male_lf!=0])
+  r.length[(n + nYears * (k - 1))] <-  mean(c_female_lf[c_female_lf!=0])
+  
+  # Fecundity
+  spawnInt[(n + nYears * (k - 1))] <-  mean(c_SI)
+  batchSize[(n + nYears * (k - 1))] <-  mean(c_BF)
+  RAF[(n + nYears * (k - 1))] <-  mean(c_RAF)
+  
+  # Movement parameters
+  s.Optim[(n + nYears * (k - 1))] <-  mean(sOptim)
+  d.Max[(n + nYears * (k - 1))] <-  mean(dMax)
+  tortuosity[(n + nYears * (k - 1))] <-  mean(tort)
+  motivation[(n + nYears * (k - 1))] <-  mot
+  daily.move[(n + nYears * (k - 1))] <-  mean(dailyMove)
+  #toc()
+  
+  return(list(
+    scalar = scalar,
+    populationSize = populationSize,
+    years = years,
+    mohawk = mohawk,
+    indirectM = indirectM,
+    latentM = latentM,
+    juvReduction = juvReduction,
+    fallback = fallback,
+    pop01a = pop01a,
+    pop02a = pop02a,
+    pop03a = pop03a,
+    pop04a = pop04a,
+    pop05a = pop05a,
+    pop06a = pop06a,
+    pop07a = pop07a,
+    pop08a = pop08a,
+    pop02b = pop02b,
+    pop03b = pop03b,
+    pop04b = pop04b,
+    pop05b = pop05b,
+    pop06b = pop06b,
+    pop07b = pop07b,
+    pop08b = pop08b,
+    pop09b = pop09b,    
+    pop10b = pop10b,
+    pop11b = pop11b,
+    pop12b = pop12b,
+    pop13b = pop13b,
+    pop14b = pop14b,
+    pop15b = pop15b,
+    pop16b = pop16b,
+    pop17b = pop17b,
+    pop18b = pop18b,
+    pop19b = pop19b,
+    pop20b = pop20b,
+    pop21b = pop21b,    
+    pRepeats = pRepeats,
+    spawners = spawners,
+    scalarVar = scalarVar,
+    ptime = ptime,
+    S.downstream = S.downstream,
+    S.marine = S.marine,
+    F.inRiver = F.inRiver,
+    F.commercial = F.commercial,
+    F.bycatch = F.bycatch,
+    popStart = popStart,
+    p.female = p.female,
+    S.prespawnM = S.prespawnM,
+    S.postspawnM = S.postspawnM,
+    S.prespawnF = S.prespawnF,
+    S.postspawnF = S.postspawnF,
+    S.juvenile = S.juvenile,
+    t.stoch = t.stoch,
+    t.RegrInt = t.RegrInt,
+    t.RegrSlp = t.RegrSlp,
+    b.ArrRegrInt = b.ArrRegrInt,
+    b.ArrRegrSlp = b.ArrRegrSlp,
+    r.ArrRegrInt = r.ArrRegrInt,
+    r.ArrRegrSlp = r.ArrRegrSlp,
+    b.Arr = b.Arr,
+    r.Arr = r.Arr,
+    ATUspawn1 = ATUspawn1,
+    ATUspawn2 = ATUspawn2,
+    Dspawn1 = Dspawn1,
+    Dspawn2 = Dspawn2,
+    linF = linF,
+    kF = kF,
+    t0F = t0F,
+    linM = linM,
+    kM = kM,
+    t0M = t0M,
+    lwF.alpha = lwF.alpha,
+    lwF.beta = lwF.beta,
+    lwM.alpha = lwM.alpha,
+    lwM.beta = lwM.beta,
+    b.length = b.length,
+    r.length = r.length,
+    spawnInt = spawnInt,
+    batchSize = batchSize,
+    RAF = RAF,
+    s.Optim = s.Optim,
+    d.Max = d.Max,
+    tortuosity = tortuosity,
+    motivation = motivation,
+    daily.move = daily.move
+  ))
+}  
+  
 }
