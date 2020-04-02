@@ -331,7 +331,7 @@
 #'   
 #' }
 #' 
-#' @source Maine Department of Marine Resources
+#' @source US Geological Survey
 "tempData_hudson"
 
 #' @title Projected sea surface temperatures RCP 4.5

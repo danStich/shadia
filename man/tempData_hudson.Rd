@@ -18,7 +18,7 @@
   
 }}
 \source{
-Maine Department of Marine Resources
+US Geological Survey
 }
 \usage{
 tempData_hudson
