@@ -230,7 +230,6 @@ return(
 
 }
 
-  
 if(river=='merrimack'){
   # Derive downstream passage efficiencies for each group of spawners in each PU.
   # This uses the starting position of the fish, and then incorporates cumulative
@@ -416,7 +415,6 @@ if(river=='connecticut'){
   )  
 }  
 
-  
 if(river=='susquehanna'){
   # Derive downstream passage efficiencies for each group of spawners in each PU.
   # This uses the starting position of the fish, and then incorporates cumulative
@@ -730,11 +728,12 @@ if(river=='kennebec'){
       
   # Calculate the number of recruits reaching the ocean
     recruitsOut <- vector(mode = 'list', length = length(recruits))
-    # Mainstem-to-piscataquis spawners
+    # Mainstem
     recruitsOut <- vector(mode = 'list', length = length(recruits))
     for (i in 1:length(sPU)) {
       recruitsOut[[1]][[i]] <- mapply("*", recruits[[1]], sPUj)
     }
+    # Sebasticook
     for (i in 1:length(sPU_seb)) {
       recruitsOut[[2]][[i]] <- mapply("*", recruits[[2]], sPU_sebj)
     }    
@@ -757,5 +756,140 @@ if(river=='kennebec'){
     )
   )  
 }
+
+if(river=='hudson'){
+  # Derive downstream passage efficiencies for each group of spawners in each PU.
+  # This uses the starting position of the fish, and then incorporates cumulative
+  # dam passage efficiencies from the starting PU to the ocean.
   
+  # Upper Hudson
+    sPU <- c()
+    sPU[[1]] <- downstreamS ^ puRkm[[1]][1]
+    sPU[[2]] <- sPU[[1]] * federalD * (downstreamS ^ puRkm[[1]][2])
+    sPU[[3]] <- sPU[[2]] * C01D * (downstreamS ^ puRkm[[1]][3])
+    sPU[[4]] <- sPU[[3]] * C02D * (downstreamS ^ puRkm[[1]][4])
+    sPU[[5]] <- sPU[[4]] * C03D * (downstreamS ^ puRkm[[1]][5])
+    sPU[[6]] <- sPU[[5]] * C04D * (downstreamS ^ puRkm[[1]][6])
+    sPU[[7]] <- sPU[[6]] * C05D * (downstreamS ^ puRkm[[1]][7])
+    sPU[[8]] <- sPU[[7]] * C06D * (downstreamS ^ puRkm[[1]][8])
+        
+  # Mohawk
+    sPU_moh <- c()
+    sPU_moh[[1]] <- downstreamS ^ puRkm[[2]][1]
+    sPU_moh[[2]] <- sPU_moh[[1]] * federalD * (downstreamS ^ puRkm[[2]][2])
+    sPU_moh[[3]] <- sPU_moh[[2]] * E02D * (downstreamS ^ puRkm[[2]][3])
+    sPU_moh[[4]] <- sPU_moh[[3]] * E03D * (downstreamS ^ puRkm[[2]][4])
+    sPU_moh[[5]] <- sPU_moh[[4]] * E04D * (downstreamS ^ puRkm[[2]][5])
+    sPU_moh[[6]] <- sPU_moh[[5]] * E05D * (downstreamS ^ puRkm[[2]][6])
+    sPU_moh[[7]] <- sPU_moh[[6]] * E06D * (downstreamS ^ puRkm[[2]][7])
+    sPU_moh[[8]] <- sPU_moh[[7]] * E07D * (downstreamS ^ puRkm[[2]][8])
+    sPU_moh[[9]] <- sPU_moh[[8]] * E08D * (downstreamS ^ puRkm[[2]][9])
+    sPU_moh[[10]] <- sPU_moh[[9]] * E09D * (downstreamS ^ puRkm[[2]][10])
+    sPU_moh[[11]] <- sPU_moh[[10]] * E10D * (downstreamS ^ puRkm[[2]][11])
+    sPU_moh[[12]] <- sPU_moh[[11]] * E11D * (downstreamS ^ puRkm[[2]][12])
+    sPU_moh[[13]] <- sPU_moh[[12]] * E12D * (downstreamS ^ puRkm[[2]][13])
+    sPU_moh[[14]] <- sPU_moh[[13]] * E13D * (downstreamS ^ puRkm[[2]][14])    
+    sPU_moh[[15]] <- sPU_moh[[14]] * E14D * (downstreamS ^ puRkm[[2]][15])
+    sPU_moh[[16]] <- sPU_moh[[15]] * E15D * (downstreamS ^ puRkm[[2]][16])        
+    sPU_moh[[17]] <- sPU_moh[[16]] * E16D * (downstreamS ^ puRkm[[2]][17])        
+    sPU_moh[[18]] <- sPU_moh[[17]] * E17D * (downstreamS ^ puRkm[[2]][18])    
+    sPU_moh[[19]] <- sPU_moh[[18]] * E18D * (downstreamS ^ puRkm[[2]][19])
+    sPU_moh[[20]] <- sPU_moh[[19]] * E19D * (downstreamS ^ puRkm[[2]][20])
+    sPU_moh[[21]] <- sPU_moh[[20]] * E20D * (downstreamS ^ puRkm[[2]][21])
+    
+  # Derive downstream passage efficiencies for each group of juveniles in each PU.
+  # This uses the starting position of the fish, and then incorporates cumulative
+  # dam passage efficiencies from the starting PU to the ocean.
+  # Upper Hudson
+    sPUj <- c()
+    sPUj[[1]] <- downstreamS ^ puRkm[[1]][1]
+    sPUj[[2]] <- sPUj[[1]] * federalDj * (downstreamS ^ puRkm[[1]][2])
+    sPUj[[3]] <- sPUj[[2]] * C01Dj * (downstreamS ^ puRkm[[1]][3])
+    sPUj[[4]] <- sPUj[[3]] * C02Dj * (downstreamS ^ puRkm[[1]][4])
+    sPUj[[5]] <- sPUj[[4]] * C03Dj * (downstreamS ^ puRkm[[1]][5])
+    sPUj[[6]] <- sPUj[[5]] * C04Dj * (downstreamS ^ puRkm[[1]][6])
+    sPUj[[7]] <- sPUj[[6]] * C05Dj * (downstreamS ^ puRkm[[1]][7])
+    sPUj[[8]] <- sPUj[[7]] * C06Dj * (downstreamS ^ puRkm[[1]][8])
+    
+    # Bypass at Pawtucket
+    sPU_mohj <- c()
+    sPU_mohj[[1]] <- downstreamS ^ puRkm[[2]][1]
+    sPU_mohj[[2]] <- sPU_mohj[[1]] * federalDj * (downstreamS ^ puRkm[[2]][2])
+    sPU_mohj[[3]] <- sPU_mohj[[2]] * E02Dj * (downstreamS ^ puRkm[[2]][3])
+    sPU_mohj[[4]] <- sPU_mohj[[3]] * E03Dj * (downstreamS ^ puRkm[[2]][4])
+    sPU_mohj[[5]] <- sPU_mohj[[4]] * E04Dj * (downstreamS ^ puRkm[[2]][5])
+    sPU_mohj[[6]] <- sPU_mohj[[5]] * E05Dj * (downstreamS ^ puRkm[[2]][6])
+    sPU_mohj[[7]] <- sPU_mohj[[6]] * E06Dj * (downstreamS ^ puRkm[[2]][7])
+    sPU_mohj[[8]] <- sPU_mohj[[7]] * E07Dj * (downstreamS ^ puRkm[[2]][8])
+    sPU_mohj[[9]] <- sPU_mohj[[8]] * E08Dj * (downstreamS ^ puRkm[[2]][9])
+    sPU_mohj[[10]] <- sPU_mohj[[9]] * E09Dj * (downstreamS ^ puRkm[[2]][10])
+    sPU_mohj[[11]] <- sPU_mohj[[10]] * E10Dj * (downstreamS ^ puRkm[[2]][11])
+    sPU_mohj[[12]] <- sPU_mohj[[11]] * E11Dj * (downstreamS ^ puRkm[[2]][12])
+    sPU_mohj[[13]] <- sPU_mohj[[12]] * E12Dj * (downstreamS ^ puRkm[[2]][13])
+    sPU_mohj[[14]] <- sPU_mohj[[13]] * E13Dj * (downstreamS ^ puRkm[[2]][14])    
+    sPU_mohj[[15]] <- sPU_mohj[[14]] * E14Dj * (downstreamS ^ puRkm[[2]][15])
+    sPU_mohj[[16]] <- sPU_mohj[[15]] * E15Dj * (downstreamS ^ puRkm[[2]][16])        
+    sPU_mohj[[17]] <- sPU_mohj[[16]] * E16Dj * (downstreamS ^ puRkm[[2]][17])        
+    sPU_mohj[[18]] <- sPU_mohj[[17]] * E17Dj * (downstreamS ^ puRkm[[2]][18])        
+    sPU_mohj[[19]] <- sPU_mohj[[18]] * E18Dj * (downstreamS ^ puRkm[[2]][19])
+    sPU_mohj[[20]] <- sPU_mohj[[19]] * E19Dj * (downstreamS ^ puRkm[[2]][20])
+    sPU_mohj[[21]] <- sPU_mohj[[20]] * E20Dj * (downstreamS ^ puRkm[[2]][21])
+    
+  # Calculate number of males reaching the mouth of the river after spawn from
+  # each PU
+    malesOut <- vector(mode = 'list', length = length(males))
+    for (i in 1:length(sPU)) {
+      malesOut[[1]][[i]] <- mapply("*", males[[1]], sPU)[, i]
+    }
+    for (i in 1:length(sPU_moh)) {
+      malesOut[[2]][[i]] <- mapply("*", males[[2]], sPU_moh)[, i]
+    }    
+    # Sum number of males in each age from all PUs reaching river mouth
+      malesOut <- apply(data.frame(malesOut[[1]]), 1, sum) +
+        apply(data.frame(malesOut[[2]]), 1, sum)
+      
+  # Calculate number of females reaching the mouth of the river after spawn from
+  # each PU
+    femalesOut <- vector(mode = 'list', length = length(females))
+    for (i in 1:length(sPU)) {
+      femalesOut[[1]][[i]] <- mapply("*", females[[1]], sPU)[, i]
+    }
+    for (i in 1:length(sPU_moh)) {
+      femalesOut[[2]][[i]] <- mapply("*", females[[2]], sPU_moh)[, i]
+    }    
+    # Sum number of females in each age from all PUs reaching river mouth
+      femalesOut <- apply(data.frame(femalesOut[[1]]), 1, sum) +
+        apply(data.frame(femalesOut[[2]]), 1, sum)
+      
+  # Calculate the number of recruits reaching the ocean
+    recruitsOut <- vector(mode = 'list', length = length(recruits))
+    # Upper Hudson
+    recruitsOut <- vector(mode = 'list', length = length(recruits))
+    for (i in 1:length(sPU)) {
+      recruitsOut[[1]][[i]] <- mapply("*", recruits[[1]], sPUj)
+    }
+    # Mohawk River
+    for (i in 1:length(sPU_moh)) {
+      recruitsOut[[2]][[i]] <- mapply("*", recruits[[2]], sPU_mohj)
+    }    
+    # Sum number of recruits in each age from all PUs reaching river mouth
+    recruitsOut <- sum(unlist(recruitsOut))
+  
+  # Sum total number of out migrants
+  outMigrants <- femalesOut + malesOut
+  
+  return(
+    list(
+      sPU = sPU,
+      sPj = sPUj,
+      sPU_moh = sPU_moh,
+      sPU_mohj = sPU_mohj,      
+      malesOut = malesOut,
+      femalesOut = femalesOut,
+      recruitsOut = recruitsOut,
+      outMigrants = outMigrants
+    )
+  )  
+}  
+    
 }

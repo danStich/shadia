@@ -350,11 +350,11 @@ if(river=='hudson'){
 
   upEffs[[1]][1] <- federalUp
   for(i in 1:length(grep('C', names(upstream)))){
-    upEffs[[1]][i] <- unlist(mget(paste0(names(upstream)[i+1],"Up"), .shadia))
+    upEffs[[1]][i+1] <- unlist(mget(paste0(names(upstream)[i+1],"Up"), .shadia))
   }
   upEffs[[2]][1] <- federalUp
   for(i in 1:length(grep('E', names(upstream)))){
-    upEffs[[2]][i] <- unlist(mget(paste0(names(upstream)[i+1],"Up"), .shadia))
+    upEffs[[2]][i+1] <- unlist(mget(paste0(names(upstream)[i+7],"Up"), .shadia))
   }  
   
   
@@ -364,12 +364,13 @@ if(river=='hudson'){
   # Route 1- Upper Hudson
   times[[1]][1] <- timely[[1]]
   for(i in 1:length(grep('C', names(upstream)))){
-    times[[1]][i] <- timely[[i+1]]
+    times[[1]][i+1] <- timely[[i+1]]
   }
 
   # Route 2- Mohawk River
+  times[[2]][1] <- timely[[1]]
   for(i in 1:length(grep('E', names(upstream)))){
-    times[[2]][i] <- timely[[i+7]]
+    times[[2]][i+1] <- timely[[i+7]]
   }
   
   # Output list

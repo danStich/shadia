@@ -155,12 +155,13 @@
 # #' @example /inst/examples/sf-exampleKBR.R
 #' 
 #' @export
+#' 
 mohawkHudsonRiverModel <- function(
   species = 'shad',
   pMohawk = .5,
   nRuns = 1,
   nYears = 40,
-  timing = rep(1, 27),
+  timing = rep(1, 26),
   upstream = list(
     federal = 1,
     C01 = 1, C02 = 1, C03 = 1, C04 = 1, C05 = 1, C06 = 1,
@@ -395,17 +396,6 @@ mohawkHudsonRiverModel <- function(
     # Post-spawning mortality
     environment(postSpawnMortality) <- .shadia
     list2env(postSpawnMortality(), envir = .shadia)
-
-    
-    
-  
-#############
-#############
-# LEFT OFF HERE in downstreamMigration
-#   some kind of mismatch between length of sPU and males/females/recruits
-    # SOLVED
-#############
-#############       
         
     # Define downstream migration survival rate matrices
     # and then apply them to calculate the number of adult

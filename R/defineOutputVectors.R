@@ -1438,7 +1438,9 @@ if(river=='hudson'){
   pop17b <- vector(mode = 'numeric', length = nYears * nRuns)
   pop18b <- vector(mode = 'numeric', length = nYears * nRuns)
   pop19b <- vector(mode = 'numeric', length = nYears * nRuns)
-
+  pop20b <- vector(mode = 'numeric', length = nYears * nRuns)
+  pop21b <- vector(mode = 'numeric', length = nYears * nRuns)
+  
   # Age-structured spawning population
   spawners <- vector(mode = 'list', length = nYears * nRuns)
   
@@ -1555,6 +1557,8 @@ if(river=='hudson'){
       pop17b = pop17b,
       pop18b = pop18b,
       pop19b = pop19b,
+      pop20b = pop20b,
+      pop21b = pop21b,      
       spawners = spawners,
       pRepeats = pRepeats,
       populationSize = populationSize,

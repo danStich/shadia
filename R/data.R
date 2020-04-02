@@ -311,6 +311,29 @@
 #' @source Maine Department of Marine Resources
 "tempData_kennebec"
 
+#' @title Hudson River Temperatures
+#' 
+#' @description Temperature data from 
+#' USGS gage 01359139 monitoring sites in the 
+#' Hudson River, NY, USA.
+#' 
+#' @format A data frame with 4787 observations of 5 variables
+#' \describe{
+#'   \code{staid }{Site ID in watershed}
+#'   
+#'   \code{val }{Temperature in degrees celcius}
+#'   
+#'   \code{year }{Year of temperature observation}
+#'
+#'   \code{dates }{Date of temperature observation}
+#'   
+#'   \code{day }{Ordinal date}
+#'   
+#' }
+#' 
+#' @source Maine Department of Marine Resources
+"tempData_hudson"
+
 #' @title Projected sea surface temperatures RCP 4.5
 #' 
 #' @description Projected sea surface temperatures for
