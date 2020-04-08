@@ -314,7 +314,7 @@
 #' @title Hudson River Temperatures
 #' 
 #' @description Temperature data from 
-#' USGS gage 01359139 monitoring sites in the 
+#' USGS gage 01359139 in the 
 #' Hudson River, NY, USA.
 #' 
 #' @format A data frame with 4787 observations of 5 variables
