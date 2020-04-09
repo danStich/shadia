@@ -1680,7 +1680,7 @@ if(river=='hudson'){
   # Year, fillling pre-allocated vector with this year
   years[(n + nYears * (k - 1))] <- n
   
-  # Probability of using sebasticook river
+  # Probability of using Mohawk
   mohawk[(n + nYears * (k - 1))] <- pMohawk
   
   # Indirect mortality, fillling pre-allocated vector
@@ -1838,7 +1838,7 @@ if(river=='hudson'){
     pop21b[(n + nYears * (k - 1))] <-  (
       sum(males2res[[2]][[21]]) + 
         sum(females2res[[2]][[21]])) * scalar       
-                                                                 
+    
   # Population size
   populationSize[(n + nYears * (k - 1))] <- 
     pop01a[(n + nYears * (k - 1))] +
