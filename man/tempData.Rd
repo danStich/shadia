@@ -5,7 +5,8 @@
 \alias{tempData}
 \title{Penobscot River temperatures, 
 Eddington, ME, USA}
-\format{A data frame with 13265 obs. of 6 variables
+\format{
+A data frame with 13265 obs. of 6 variables
 \describe{
   \code{staid }{USGS Station ID}
   
@@ -18,7 +19,8 @@ Eddington, ME, USA}
   \code{year }{Year of temperature observation}
   
   \code{day }{Ordinal date}
-}}
+}
+}
 \source{
 U.S. Geological Survey
 }

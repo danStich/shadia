@@ -3,7 +3,6 @@
 \docType{package}
 \name{shadia}
 \alias{shadia}
-\alias{shadia-package}
 \title{shadia: American shad dam passage performance standard models for R}
 \description{
 The shadia package provides an interface for running

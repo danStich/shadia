@@ -4,8 +4,10 @@
 \name{vbgf_f}
 \alias{vbgf_f}
 \title{Female von Bertalanffy growth parameters}
-\format{A list with 7 elements, each of which corresponds to an
-estimated parameter in the female-only model described in Gilligan (In prep).}
+\format{
+A list with 7 elements, each of which corresponds to an
+estimated parameter in the female-only model described in Gilligan (In prep).
+}
 \source{
 Gilligan, E. (In Prep). MS Biology Thesis, SUNY Oneonta.
 }

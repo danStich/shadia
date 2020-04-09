@@ -4,7 +4,8 @@
 \name{tempData_hudson}
 \alias{tempData_hudson}
 \title{Hudson River Temperatures}
-\format{A data frame with 4787 observations of 5 variables
+\format{
+A data frame with 4787 observations of 5 variables
 \describe{
   \code{staid }{Site ID in watershed}
   
@@ -16,7 +17,8 @@
   
   \code{day }{Ordinal date}
   
-}}
+}
+}
 \source{
 US Geological Survey
 }
@@ -25,7 +27,7 @@ tempData_hudson
 }
 \description{
 Temperature data from 
-USGS gage 01359139 monitoring sites in the 
+USGS gage 01359139 in the 
 Hudson River, NY, USA.
 }
 \keyword{datasets}

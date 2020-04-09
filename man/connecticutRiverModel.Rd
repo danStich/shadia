@@ -4,13 +4,22 @@
 \alias{connecticutRiverModel}
 \title{Connecticut River Model}
 \usage{
-connecticutRiverModel(nRuns = 1, nYears = 40, timing = list(1, 1, 1,
-  1, 1), upstream = list(holyoke = 1, cabot = 1, spillway = 1, gatehouse
-  = 1, vernon = 1), downstream = list(holyoke = 1, cabot = 1, gatehouse =
-  1, vernon = 1), northfield = list(turnersA = 1, turnersJ = 1, vernonA =
-  1, vernonJ = 1), pSpillway = 1, inRiverF = 0, commercialF = 0,
-  bycatchF = 0, indirect = 1, latent = 1, watershed = TRUE,
-  climate = "current")
+connecticutRiverModel(
+  nRuns = 1,
+  nYears = 40,
+  timing = list(1, 1, 1, 1, 1),
+  upstream = list(holyoke = 1, cabot = 1, spillway = 1, gatehouse = 1, vernon = 1),
+  downstream = list(holyoke = 1, cabot = 1, gatehouse = 1, vernon = 1),
+  northfield = list(turnersA = 1, turnersJ = 1, vernonA = 1, vernonJ = 1),
+  pSpillway = 1,
+  inRiverF = 0,
+  commercialF = 0,
+  bycatchF = 0,
+  indirect = 1,
+  latent = 1,
+  watershed = TRUE,
+  climate = "current"
+)
 }
 \arguments{
 \item{nRuns}{The number of times that the
