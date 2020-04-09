@@ -282,7 +282,8 @@ day <- c(seq(min(c_initial), (max(c_end))))
     c_forkLength <- c_male_lf + c_female_lf
     c_mass <- c_male_m + c_female_m
   # Convert fork length to mm from cm for movement calcs below
-    c_forkLength <- c_forkLength * 10
+  # if data are stored in cm
+    c_forkLength[c_forkLength < 10] <- c_forkLength[c_forkLength < 10] * 10
 
 # Calculate movement rates based on Castro-Santos and Letcher (2010)
   # Optimizing ground speed in body lengths per second (BLS)
@@ -808,7 +809,7 @@ if(river=='kennebec'){
 }  
   
 if(river=='hudson'){
-# Run the ABM for bypass route through Pawtucket
+# Run the ABM for upper hudson route
   moves_1 <- moveC(day,
                   c_entryDate[upstream_path == 1],
                   dailyMove[upstream_path == 1],
@@ -817,7 +818,7 @@ if(river=='hudson'){
                   rkm1[upstream_path == 1],
                   rkm2[upstream_path == 1, , drop = FALSE],
                   c_initial[upstream_path == 1])
-  # Run the ABM for mainstem route through Pawtucket
+  # Run the ABM for mohawk route
   moves_2 <- moveC(day,
                   c_entryDate[upstream_path == 2],
                   dailyMove[upstream_path == 2],
@@ -1777,7 +1778,7 @@ if(river=='hudson'){
     ))
   }
 
-  # Merrimack River:
+  # Saco River:
   if(river=='saco'){
     return(list(
     b.entry = b.entry,
