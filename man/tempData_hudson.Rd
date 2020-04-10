@@ -4,13 +4,29 @@
 \name{tempData_hudson}
 \alias{tempData_hudson}
 \title{Hudson River Temperatures}
+<<<<<<< HEAD
+\format{A data frame with 4782 observations of 6 variables
+=======
 \format{
 A data frame with 4787 observations of 5 variables
+>>>>>>> 5da56734417b015744e396aa23cdcb08af293179
 \describe{
   \code{staid }{Site ID in watershed}
   
   \code{val }{Temperature in degrees celcius}
   
+<<<<<<< HEAD
+  \code{dates }{Date of temperature observation}
+  
+  \code{qualcode }{Quality control code}
+  
+  \code{day }{Ordinal date}
+  
+  \code{year }{Year of temperature observation}
+}}
+\source{
+U.S. Geological Survey
+=======
   \code{year }{Year of temperature observation}
 
   \code{dates }{Date of temperature observation}
@@ -21,13 +37,19 @@ A data frame with 4787 observations of 5 variables
 }
 \source{
 US Geological Survey
+>>>>>>> 5da56734417b015744e396aa23cdcb08af293179
 }
 \usage{
 tempData_hudson
 }
 \description{
+<<<<<<< HEAD
+Temperature data from the Hudson River near
+Albany, NY, USA (USGS Gage ID 01359139).
+=======
 Temperature data from 
 USGS gage 01359139 in the 
 Hudson River, NY, USA.
+>>>>>>> 5da56734417b015744e396aa23cdcb08af293179
 }
 \keyword{datasets}
