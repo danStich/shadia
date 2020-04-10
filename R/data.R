@@ -313,35 +313,16 @@
 
 #' @title Hudson River Temperatures
 #' 
-<<<<<<< HEAD
-#' @description Temperature data from the Hudson River near
-#' Albany, NY, USA (USGS Gage ID 01359139).
-#' 
-#' @format A data frame with 4782 observations of 6 variables
-=======
 #' @description Temperature data from 
 #' USGS gage 01359139 in the 
 #' Hudson River, NY, USA.
 #' 
 #' @format A data frame with 4787 observations of 5 variables
->>>>>>> 5da56734417b015744e396aa23cdcb08af293179
 #' \describe{
 #'   \code{staid }{Site ID in watershed}
 #'   
 #'   \code{val }{Temperature in degrees celcius}
 #'   
-<<<<<<< HEAD
-#'   \code{dates }{Date of temperature observation}
-#'   
-#'   \code{qualcode }{Quality control code}
-#'   
-#'   \code{day }{Ordinal date}
-#'   
-#'   \code{year }{Year of temperature observation}
-#' }
-#' 
-#' @source U.S. Geological Survey
-=======
 #'   \code{year }{Year of temperature observation}
 #'
 #'   \code{dates }{Date of temperature observation}
@@ -351,7 +332,6 @@
 #' }
 #' 
 #' @source US Geological Survey
->>>>>>> 5da56734417b015744e396aa23cdcb08af293179
 "tempData_hudson"
 
 #' @title Projected sea surface temperatures RCP 4.5
