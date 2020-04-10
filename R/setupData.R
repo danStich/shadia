@@ -493,99 +493,184 @@ return(list(
 
   
 if(river=='kennebec'){
-# Maximum age for fish in this population
-maxAge <- 9
-
-# Fish length-weight regression from Connecticut River -----
-# Using built-in data set `fish`
-names(fish) <- c('sex', 'age', 'fl', 'year', 'backCalculated', 'mass')
-fish <- fish[fish$fl > 10, ]
-
-# Make a dataframe of age and growth data just for females
-roes <- fish[fish$sex == 'R',]
-
-# Make an dataframe of age and growth data just for males
-bucks <- fish[fish$sex == 'B',]
-
-# Correct errors in fish mass & make a separate df for l-w regression due to
-# missing fish masses
-fish$mass <- as.numeric(fish$mass)
-fishw <- fish[!is.na(fish$mass) & fish$mass != 0,]
-
-# Log transform and data cleaning for l-w regressions
-# Bucks
-b.l <- log(fishw$fl[fishw$sex == 'B'])
-b.w <- log(fishw$mass[fishw$sex == 'B'])
-buck.lw <- na.omit(data.frame(b.l, b.w))
-buck.lw <- buck.lw[is.finite(buck.lw[, 2]),]
-
-# Roes
-r.l <- log(fishw$fl[fishw$sex == 'R'])
-r.w <- log(fishw$mass[fishw$sex == 'R'])
-roe.lw <- na.omit(data.frame(r.l, r.w))
-roe.lw <- roe.lw[is.finite(roe.lw[, 2]),]
-
-# Temperature data for Kennebec River -----
-# Load the temperature data from Saco River
-# Summarize the temperature by day across years
-mu <- ddply(tempData_kennebec,
-           .(day, year),
-           summarize,
-           val = mean(val, na.rm = TRUE))
-
-mu <- na.omit(mu)
-
-# Read in temperature data for Connecticut River in NH (tempD)
-# Summarize the temperature by day across years
-hmu <- ddply(tempD,
-            .(day, year),
-            summarize,
-            val = mean(val, na.rm = TRUE))
-# Change the orders of the columns to match original data
-hmu <- hmu[, c(3, 2, 1)]
-hmu <- na.omit(hmu)
-
-# Make a regression relating temperature in the 
-# Saco to temperature in the Connecticut
-kbr <- mu[paste(mu$year, mu$day) %in%
-                      paste(hmu$year, hmu$day),]
-ctr <- hmu[paste(hmu$year, hmu$day) %in% 
-                       paste(mu$year, mu$day),]
-# Predict temperature
-calMod <- summary(lm(kbr$val ~ ctr$val))$coefficients
-hmu$val <- calMod[1, 1] + calMod[2, 1] * hmu$val
-
-# SANITY CHECK FOR TEMPERATURE DATA
-# sort(unique(hmu$year))
-# YEAR = 2008
-# plot(hmu$day[hmu$year==YEAR],
-#      hmu$val[hmu$year==YEAR],
-#      type = 'l',
-#      xlim=c(0, 366)
-#      )
-
-return(list(
-  maxAge = maxAge,
-  fish = fish,
-  roes = roes,
-  bucks = bucks,
-  b.l = b.l,
-  b.w = b.w,
-  buck.lw = buck.lw,
-  buck.lw = buck.lw,
-  r.l = r.l,
-  r.w = r.w,
-  roe.lw = roe.lw,
-  roe.lw = roe.lw,
-  mu = mu,
-  kbr = kbr,
-  ctr = ctr,
-  calMod = calMod,
-  hmu = hmu
-))
+  # Maximum age for fish in this population
+  maxAge <- 9
+  
+  # Fish length-weight regression from Connecticut River -----
+  # Using built-in data set `fish`
+  names(fish) <- c('sex', 'age', 'fl', 'year', 'backCalculated', 'mass')
+  fish <- fish[fish$fl > 10, ]
+  
+  # Make a dataframe of age and growth data just for females
+  roes <- fish[fish$sex == 'R',]
+  
+  # Make an dataframe of age and growth data just for males
+  bucks <- fish[fish$sex == 'B',]
+  
+  # Correct errors in fish mass & make a separate df for l-w regression due to
+  # missing fish masses
+  fish$mass <- as.numeric(fish$mass)
+  fishw <- fish[!is.na(fish$mass) & fish$mass != 0,]
+  
+  # Log transform and data cleaning for l-w regressions
+  # Bucks
+  b.l <- log(fishw$fl[fishw$sex == 'B'])
+  b.w <- log(fishw$mass[fishw$sex == 'B'])
+  buck.lw <- na.omit(data.frame(b.l, b.w))
+  buck.lw <- buck.lw[is.finite(buck.lw[, 2]),]
+  
+  # Roes
+  r.l <- log(fishw$fl[fishw$sex == 'R'])
+  r.w <- log(fishw$mass[fishw$sex == 'R'])
+  roe.lw <- na.omit(data.frame(r.l, r.w))
+  roe.lw <- roe.lw[is.finite(roe.lw[, 2]),]
+  
+  # Temperature data for Kennebec River -----
+  # Load the temperature data from Saco River
+  # Summarize the temperature by day across years
+  mu <- ddply(tempData_kennebec,
+             .(day, year),
+             summarize,
+             val = mean(val, na.rm = TRUE))
+  
+  mu <- na.omit(mu)
+  
+  # Read in temperature data for Connecticut River in NH (tempD)
+  # Summarize the temperature by day across years
+  hmu <- ddply(tempD,
+              .(day, year),
+              summarize,
+              val = mean(val, na.rm = TRUE))
+  # Change the orders of the columns to match original data
+  hmu <- hmu[, c(3, 2, 1)]
+  hmu <- na.omit(hmu)
+  
+  # Make a regression relating temperature in the 
+  # Kennebec to temperature in the Connecticut
+  kbr <- mu[paste(mu$year, mu$day) %in%
+                        paste(hmu$year, hmu$day),]
+  ctr <- hmu[paste(hmu$year, hmu$day) %in% 
+                         paste(mu$year, mu$day),]
+  # Predict temperature
+  calMod <- summary(lm(kbr$val ~ ctr$val))$coefficients
+  hmu$val <- calMod[1, 1] + calMod[2, 1] * hmu$val
+  
+  # SANITY CHECK FOR TEMPERATURE DATA
+  # sort(unique(hmu$year))
+  # YEAR = 2008
+  # plot(hmu$day[hmu$year==YEAR],
+  #      hmu$val[hmu$year==YEAR],
+  #      type = 'l',
+  #      xlim=c(0, 366)
+  #      )
+  
+  return(list(
+    maxAge = maxAge,
+    fish = fish,
+    roes = roes,
+    bucks = bucks,
+    b.l = b.l,
+    b.w = b.w,
+    buck.lw = buck.lw,
+    buck.lw = buck.lw,
+    r.l = r.l,
+    r.w = r.w,
+    roe.lw = roe.lw,
+    roe.lw = roe.lw,
+    mu = mu,
+    kbr = kbr,
+    ctr = ctr,
+    calMod = calMod,
+    hmu = hmu
+  ))
 
 }
+
+if(river=='hudson'){
+  # Maximum age for fish in this population
+  maxAge <- 13
   
+  # Length-at-age data from the Hudson River -----
+  
+  if(species == 'shad'){
+    # Use built-in data set from the Hudson River
+      
+    # Log transform and data cleaning for l-w regressions
+    # Bucks
+    b.l <- log(hudson_shad$fl[hudson_shad$sex == 'B'])
+    b.w <- log(hudson_shad$mass[hudson_shad$sex == 'B'])
+    buck.lw <- na.omit(data.frame(b.l, b.w))
+    buck.lw <- buck.lw[is.finite(buck.lw[, 2]),]
+    
+    # Roes
+    r.l <- log(hudson_shad$fl[hudson_shad$sex == 'R'])
+    r.w <- log(hudson_shad$mass[hudson_shad$sex == 'R'])
+    roe.lw <- na.omit(data.frame(r.l, r.w))
+    roe.lw <- roe.lw[is.finite(roe.lw[, 2]),]
+  }
+  
+  # Temperature data for Merrimack River -----
+  # Load the MHR temperature data from
+  # years 2007-2020 in the built-in dataset
+  tempData_hudson2 <- tempData_hudson
+  
+  # Summarize the temperature by day across years
+  mu <- ddply(tempData_hudson2,
+             .(day, year),
+             summarize,
+             val = mean(val, na.rm = TRUE))
+  
+  # Change the orders of the column to match original data
+  mu <- mu[, c(3, 2, 1)]
+  mu <- na.omit(mu)
+  
+  # Read in temperature data for Connecticut River in NH (tempD)
+  # Summarize the temperature by day across years
+  hmu <- ddply(tempD,
+              .(day, year),
+              summarize,
+              val = mean(val, na.rm = TRUE))
+  # Change the orders of the columns to match original data
+  hmu <- hmu[, c(3, 2, 1)]
+  hmu <- na.omit(hmu)
+  
+  # Make a regression relating temperature in the 
+  # Hudson to temperature in the Connecticut
+  mhr <- mu[paste(mu$year, mu$day) %in%
+                        paste(hmu$year, hmu$day),]
+  ctr <- hmu[paste(hmu$year, hmu$day) %in% 
+                         paste(mu$year, mu$day),]
+  # Predict temperature
+  calMod <- summary(lm(mhr$val ~ ctr$val))$coefficients
+  hmu$val <- calMod[1, 1] + calMod[2, 1] * hmu$val
+  
+  # SANITY CHECK FOR TEMPERATURE DATA
+  # sort(unique(hmu$year))
+  # YEAR = 2008
+  # plot(hmu$day[hmu$year==YEAR],
+  #      hmu$val[hmu$year==YEAR],
+  #      type = 'l',
+  #      xlim=c(0, 366)
+  #      )
+  
+  return(list(
+    maxAge = maxAge,
+    b.l = b.l,
+    b.w = b.w,
+    buck.lw = buck.lw,
+    buck.lw = buck.lw,
+    r.l = r.l,
+    r.w = r.w,
+    roe.lw = roe.lw,
+    roe.lw = roe.lw,
+    tempData_hudson2 = tempData_hudson2,
+    mu = mu,
+    mhr = mhr,
+    ctr = ctr,
+    calMod = calMod,
+    hmu = hmu
+  ))
+}      
 
 }  
 

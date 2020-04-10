@@ -342,6 +342,43 @@ if(river=='kennebec'){
     times = times,
     upEffs = upEffs
   ))  
+} 
+  
+if(river=='hudson'){
+  # Assign efficiencies to the upstream passage groups (pisc or main)
+  upEffs <- vector(mode = 'list', length = nRoutes)
+
+  upEffs[[1]][1] <- federalUp
+  for(i in 1:length(grep('C', names(upstream)))){
+    upEffs[[1]][i+1] <- unlist(mget(paste0(names(upstream)[i+1],"Up"), .shadia))
+  }
+  upEffs[[2]][1] <- federalUp
+  for(i in 1:length(grep('E', names(upstream)))){
+    upEffs[[2]][i+1] <- unlist(mget(paste0(names(upstream)[i+7],"Up"), .shadia))
+  }  
+  
+  
+  # Upstream passage times
+  times <- vector(mode = 'list', length = nRoutes)
+
+  # Route 1- Upper Hudson
+  times[[1]][1] <- timely[[1]]
+  for(i in 1:length(grep('C', names(upstream)))){
+    times[[1]][i+1] <- timely[[i+1]]
+  }
+
+  # Route 2- Mohawk River
+  times[[2]][1] <- timely[[1]]
+  for(i in 1:length(grep('E', names(upstream)))){
+    times[[2]][i+1] <- timely[[i+7]]
+  }
+  
+  # Output list
+  return(list(
+    times = times,
+    upEffs = upEffs
+  ))  
 }   
+  
 }  
   

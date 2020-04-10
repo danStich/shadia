@@ -811,6 +811,137 @@ if(river=='kennebec'){
   ))	
 }
 
+if(river=='hudson'){
+  # Collect inputs and outputs into a single object for file write
+  res <- data.frame(
+    years,
+    pMohawk = mohawk,
+    timely,
+    pDraws,
+    dDraws,
+    F.inRiver,
+    F.commercial,
+    F.bycatch,
+    indirectM,
+    latentM,
+    pRepeats,
+    ceiling(populationSize),
+    ceiling(pop01a),
+    ceiling(pop02a),
+    ceiling(pop03a),
+    ceiling(pop04a),
+    ceiling(pop05a),
+    ceiling(pop06a),    
+    ceiling(pop07a),
+    ceiling(pop08a),
+    ceiling(pop02b),
+    ceiling(pop03b),
+    ceiling(pop04b),
+    ceiling(pop05b),
+    ceiling(pop06b),    
+    ceiling(pop07b),
+    ceiling(pop08b), 
+    ceiling(pop09b),
+    ceiling(pop10b),     
+    ceiling(pop11b),   
+    ceiling(pop12b),
+    ceiling(pop13b),
+    ceiling(pop14b),
+    ceiling(pop15b),
+    ceiling(pop16b),    
+    ceiling(pop17b),
+    ceiling(pop18b),  
+    ceiling(pop19b),
+    ceiling(pop20b),  
+    ceiling(pop21b)    
+  )
+  
+  names(res)<-c(
+    "year",
+    'pMohawk',
+    paste0('timing_', names(upstream)),
+    paste0(names(upstream), '_us'),
+    paste0(names(downstream), '_ds'),
+    "inriverF",
+    "commercialF",
+    "bycatchF",
+    "indirect",
+    "latent",
+     paste0("pRepeat_Age",seq(1, maxAge)),
+    "populationSize",
+    "N_1a",
+    "N_2a",
+    "N_3a",
+    "N_4a",
+    "N_5a",
+    "N_6a",
+    "N_7a",
+    "N_8a",
+    "N_2b",
+    "N_3b",
+    "N_4b",
+    "N_5b",
+    "N_6b",
+    "N_7b",
+    "N_8b",    
+    "N_9b",
+    "N_10b",
+    "N_11b",
+    "N_12b",
+    "N_13b",
+    "N_14b",
+    "N_15b",     
+    "N_16b",
+    "N_17b",
+    "N_18b",
+    "N_19b",
+    "N_20b",
+    "N_21b"     
+  )
+  
+  # Collect variables for sensitivity analysis and save them out
+  sens = data.frame(
+    S.downstream,
+    S.marine,
+    popStart,
+    p.female,
+    S.prespawnM,
+    S.postspawnM,
+    S.prespawnF,
+    S.postspawnF,
+    S.juvenile,
+    t.stoch,
+    b.Arr,
+    r.Arr,
+    ATUspawn1,
+    ATUspawn2,
+    Dspawn1,
+    Dspawn2,
+    linF,
+    kF,
+    t0F,
+    linM,
+    kM,
+    t0M,
+    b.length,
+    r.length,
+    spawnInt,
+    batchSize,
+    RAF,
+    s.Optim,
+    d.Max,
+    tortuosity,
+    motivation,
+    daily.move,
+    habStoch
+  )
+  
+  return(list(		
+    res	= res,
+    sens = sens
+  ))	
+}
+
 # Write the inputs and outputs to a text file that can be read into R
 # writeData(filename)
   if (.shadia$useTictoc) {

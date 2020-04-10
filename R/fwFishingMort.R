@@ -61,4 +61,12 @@ fwFishingMort <- function(){
     return(list(inriv=inriv))
   }  
   
+    if(river=='hudson'){  
+    inriv <- vector(mode = 'list', length = nRoutes)
+    inriv[[1]] <- rep(inRiverF, nPU[1])
+    inriv[[2]] <- rep(inRiverF, nPU[2])
+   
+    return(list(inriv=inriv))
+  }  
+  
 }

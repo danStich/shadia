@@ -4,7 +4,8 @@
 \name{fish}
 \alias{fish}
 \title{Growth data for Connecticut River American shad}
-\format{A list of 1000 matrices with named dimensions
+\format{
+A dataframe with 19,946 observatoins of 6 variables
 \describe{
   \code{Sex }{Fish sex}
   
@@ -17,7 +18,8 @@
   \code{backCalculated }{Logical indicating whether or not Length observation was back-calculated}
   
   \code{Mass }{Mass of fish, in g}
-}}
+}
+}
 \source{
 Connecticut Department of Energy and Environmental Conservation (2015)
 }

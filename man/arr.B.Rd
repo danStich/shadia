@@ -4,31 +4,24 @@
 \name{arr.B}
 \alias{arr.B}
 \title{Arrival regression parameters for bucks}
-\format{A list of 1000 matrices with named dimensions of:
+\format{
+A list of 1000 matrices with named dimensions of:
 \describe{
   \code{dim1 }{Intercept, slope}
   
   \code{dim2 }{Estimate, Std Error, t statistic, and p-value}
-}}
+}
+}
 \source{
-Connecticut Department of Energy and Environmental Conservation (2015)
-
 Connecticut Department of Energy and Environmental Conservation (2015)
 }
 \usage{
-arr.B
-
 arr.B
 }
 \description{
 Bootstrapped regression parameters for
 a quasibinomial logistic regression used to predict
 arrival timing of male American shad in the Connecticut
-River, CT, USA by accumulated thermal units (ATU).
-
-Bootstrapped regression parameters for
-a quasibinomial logistic regression used to predict
-arrival timing of female American shad in the Connecticut
 River, CT, USA by accumulated thermal units (ATU).
 }
 \keyword{datasets}
