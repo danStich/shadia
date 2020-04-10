@@ -220,10 +220,10 @@ if(river=='hudson'){
   
   # Define rkms for each of the dams for each migration route
   damRkms <- vector(mode = 'list', length = nRoutes)
-  damRkms[[1]] <- c(240,249,255,259,263,287,292) # Route 1
-  damRkms[[2]] <- c(240,240,241,242,243,244,261,279,
-                    287,296,303,310,326,338,344,354,
-                    367,374,393,410) # Route 2
+  damRkms[[1]] <- c(246,255,261,265,268,293,298) # Route 1
+  damRkms[[2]] <- c(246,247,248,249,250,251,252,270,
+                    287,295,305,312,319,335,340,362,
+                    369,374,393,410) # Route 2
   
   return(list(
     nRoutes=nRoutes,

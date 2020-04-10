@@ -71,7 +71,6 @@ habitat <- vector(mode = 'list', length = nRoutes)
     ))  
 }
  
-   
 if(river=='merrimack'){
   
   habitat <- vector(mode='list', length=nRoutes)
@@ -172,13 +171,21 @@ if(river=='hudson'){
   
   habitat <- vector(mode='list', length=nRoutes)
   
-  habitat[[1]] <- c(14436,650,400,286,260,1500,2750,230)*100
+  # Habitat downstream of Federal Dam is discounted as follows:
+  # 1_Total starting size of 14436 acres downstream of
+  #   Federal Dam (Zydlewski et al., In prep)
+  # 2_About 60% of that river length is
+  #   brackish or salt water(Kingston, roughly - about 145/246 rkm) 
+  # 3_An additional 1420 ha of habitat (3583 acres) has been
+  #   lost to dredge-and-fill operations (NYSDEC 2010) 
+  #   https://www.dec.ny.gov/docs/remediation_hudson_pdf/shadrecoveryplan.pdf
+  habitat[[1]] <- c(14436*0.40-3583,650,400,286,260,1500,275,36)*100
 
-  habitat[[2]] <- c(14436,
-    0,0,0,0,0,1903.45,1072.14,336.87,
-    438.13,378.19,443.83,613.74,445.27,
-    182.16,388.19,236.5,149.87,344.77,
-    260.99,267.72)*100
+  habitat[[2]] <- c(14436*0.40-3583,
+    0,0,0,0,0,1903,1072,337,
+    438,378,443,613,445,
+    182,388,237,150,345,
+    261,268)*100
   
   return(list(
     habitat=habitat

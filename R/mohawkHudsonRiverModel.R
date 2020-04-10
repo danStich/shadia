@@ -210,7 +210,7 @@ mohawkHudsonRiverModel <- function(
   
 # Assign River
   river <- 'hudson'
-  region <- 'Northern Iteroparous'
+  region <- 'Southern Iteroparous'
   
 # Choose climate scenario
 # Right now, these are set as 'current' in all

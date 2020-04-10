@@ -1540,7 +1540,7 @@ if(river=='kennebec'){
   F.inRiver[(n + nYears * (k - 1))] <-  inRiverF
   F.commercial[(n + nYears * (k - 1))] <-  mean(commercialF)
   F.bycatch[(n + nYears * (k - 1))] <-  mean(bycatchF)
-  popStart[(n + nYears * (k - 1))] <-  pop
+  popStart[(n + nYears * (k - 1))] <-  pop[1]
   p.female[(n + nYears * (k - 1))] <-  sex_Ratio
   S.prespawnM[(n + nYears * (k - 1))] <-  pre_spawn_survival_males
   S.postspawnM[(n + nYears * (k - 1))] <-  post_spawn_survival_males

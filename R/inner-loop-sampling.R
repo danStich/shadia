@@ -625,7 +625,7 @@ mot <- mean((1 - (newTU - min(newTU)) /
     }
     # For Hudson River:
     if(river=='hudson'){
-      rkm1 <- rep(0, length(c_fishAges))
+      rkm1 <- rep(145, length(c_fishAges))
     }
 
     # For all rivers:

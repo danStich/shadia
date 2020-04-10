@@ -33,8 +33,7 @@ nextGeneration <- function(){
   # Assign names for each age class
   names(repeats) <- names(femalesOut)
 
-  # Calculate numbers in the recruitment pool for next year, this number includes
-  # the
+  # Calculate numbers in the recruitment pool for next year
   # Apply marine survival rate to fish waiting in the ocean
   nextRecruits <- c(recruitsOut,
                    recruitmentPool[1:(length(recruitmentPool) - 1)]) *
