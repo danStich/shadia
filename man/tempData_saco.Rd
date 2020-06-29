@@ -6,26 +6,25 @@
 \title{Saco River at River Street in Bartlett, NH}
 \format{A data frame with 3631 observations of 6 variables
 \describe{
-  \code{staid }{USGS Station ID}
-  
-  \code{val }{Temperature in degrees celcius}
+  \code{staid }{Station ID}
   
   \code{dates }{Date of temperature observation}
-  
-  \code{qualcode }{Qualification code}
   
   \code{year }{Year of temperature observation}
   
   \code{day }{Ordinal date}
+  
+  \code{val }{Temperature in degrees celcius}
+  
 }}
 \source{
-U.S. Geological Survey
+U.S. Geological Survey, SHEDS Stream Temperature Database
 }
 \usage{
 tempData_saco
 }
 \description{
 Temperature data for 
-the Saco River at Bartlett, NH
+the Saco River at various locations in watershed
 }
 \keyword{datasets}
