@@ -4,7 +4,7 @@
 \name{tempData_kennebec}
 \alias{tempData_kennebec}
 \title{Kennebec River Temperatures}
-\format{A data frame with 20808 observations of 5 variables
+\format{A data frame with 362168 observations of 5 variables
 \describe{
   \code{staid }{Site ID in watershed}
   
