@@ -269,24 +269,23 @@
 #' @title Saco River at River Street in Bartlett, NH
 #' 
 #' @description Temperature data for 
-#' the Saco River at Bartlett, NH
+#' the Saco River at various locations in watershed
 #' 
 #' @format A data frame with 3631 observations of 6 variables
 #' \describe{
-#'   \code{staid }{USGS Station ID}
-#'   
-#'   \code{val }{Temperature in degrees celcius}
+#'   \code{staid }{Station ID}
 #'   
 #'   \code{dates }{Date of temperature observation}
-#'   
-#'   \code{qualcode }{Qualification code}
 #'   
 #'   \code{year }{Year of temperature observation}
 #'   
 #'   \code{day }{Ordinal date}
+#'   
+#'   \code{val }{Temperature in degrees celcius}
+#'   
 #' }
 #' 
-#' @source U.S. Geological Survey
+#' @source U.S. Geological Survey, SHEDS Stream Temperature Database
 "tempData_saco"
 
 #' @title Kennebec River Temperatures
@@ -295,7 +294,7 @@
 #' various monitoring sites in the 
 #' Kennebec River, Maine, USA.
 #' 
-#' @format A data frame with 20808 observations of 5 variables
+#' @format A data frame with 362168 observations of 5 variables
 #' \describe{
 #'   \code{staid }{Site ID in watershed}
 #'   
