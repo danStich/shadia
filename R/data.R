@@ -295,7 +295,7 @@
 #' various monitoring sites in the 
 #' Kennebec River, Maine, USA.
 #' 
-#' @format A data frame with 5884 observations of 5 variables
+#' @format A data frame with 20808 observations of 5 variables
 #' \describe{
 #'   \code{staid }{Site ID in watershed}
 #'   
@@ -308,7 +308,7 @@
 #'   \code{val }{Bottom temperature in degrees celcius}
 #' }
 #' 
-#' @source Maine Department of Marine Resources
+#' @source Maine Department of Marine Resources, SHEDS Stream Temperature Database
 "tempData_kennebec"
 
 #' @title Hudson River Temperatures
