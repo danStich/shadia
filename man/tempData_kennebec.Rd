@@ -4,8 +4,7 @@
 \name{tempData_kennebec}
 \alias{tempData_kennebec}
 \title{Kennebec River Temperatures}
-\format{
-A data frame with 5884 observations of 5 variables
+\format{A data frame with 20808 observations of 5 variables
 \describe{
   \code{staid }{Site ID in watershed}
   
@@ -16,10 +15,9 @@ A data frame with 5884 observations of 5 variables
   \code{day }{Ordinal date}
   
   \code{val }{Bottom temperature in degrees celcius}
-}
-}
+}}
 \source{
-Maine Department of Marine Resources
+Maine Department of Marine Resources, SHEDS Stream Temperature Database
 }
 \usage{
 tempData_kennebec

@@ -4,8 +4,7 @@
 \name{ctr_proj85}
 \alias{ctr_proj85}
 \title{Projected daily river temperatures (RCP8.5) in CT River, USA}
-\format{
-A dataframe with 54,747 obs. of 5 variables:
+\format{A dataframe with 54,747 obs. of 5 variables:
 \describe{
   \code{Date }{Date for projection}
   
@@ -16,8 +15,7 @@ A dataframe with 54,747 obs. of 5 variables:
   \code{Turners }{Daily temperature (C) at Turners Falls}
   
   \code{avg}{Average daily temperature across sites}
-}
-}
+}}
 \source{
 Integrated Systems Ecology Lab, Gulf Of Maine Research Institute
 }

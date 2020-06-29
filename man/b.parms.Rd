@@ -4,14 +4,12 @@
 \name{b.parms}
 \alias{b.parms}
 \title{von Bertalanffy growth parameters for bucks}
-\format{
-A list of 10000 matrices with named dimensions
+\format{A list of 10000 matrices with named dimensions
 \describe{
   \code{dim1 }{Sinf, K, t0}
   
   \code{dim2 }{Estimate, Std Error, t statistic, and p-value}
-}
-}
+}}
 \source{
 Connecticut Department of Energy and Environmental Conservation (2015)
 }

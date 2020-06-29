@@ -4,14 +4,12 @@
 \name{arr.B}
 \alias{arr.B}
 \title{Arrival regression parameters for bucks}
-\format{
-A list of 1000 matrices with named dimensions of:
+\format{A list of 1000 matrices with named dimensions of:
 \describe{
   \code{dim1 }{Intercept, slope}
   
   \code{dim2 }{Estimate, Std Error, t statistic, and p-value}
-}
-}
+}}
 \source{
 Connecticut Department of Energy and Environmental Conservation (2015)
 }

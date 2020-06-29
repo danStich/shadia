@@ -4,8 +4,7 @@
 \name{tempD}
 \alias{tempD}
 \title{Connecticut River temperatures, Stratford, NH, USA}
-\format{
-A data frame with 2919 obs. of 7 variables
+\format{A data frame with 2919 obs. of 7 variables
 \describe{
   \code{staid }{USGS Station ID}
   
@@ -20,8 +19,7 @@ A data frame with 2919 obs. of 7 variables
   \code{day }{Ordinal date}
   
   \code{ph }{Photoperiod, in hours}
-}
-}
+}}
 \source{
 U.S. Geological Survey
 }

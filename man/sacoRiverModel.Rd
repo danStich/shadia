@@ -4,21 +4,12 @@
 \alias{sacoRiverModel}
 \title{Saco River Model}
 \usage{
-sacoRiverModel(
-  nRuns = 1,
-  nYears = 40,
-  timing = list(1, 1, 1, 1, 1, 1),
-  upstream = list(cataract = 1, spring = 1, skelton = 1, barmills = 1, westBuxton = 1,
-    bonnyEagle = 1),
-  downstream = list(cataract = 1, spring = 1, barmills = 1, skelton = 1, westBuxton =
-    1, bonnyEagle = 1),
-  inRiverF = 0,
-  commercialF = 0,
-  bycatchF = 0,
-  indirect = 1,
-  latent = 1,
-  watershed = TRUE
-)
+sacoRiverModel(nRuns = 1, nYears = 40, timing = list(1, 1, 1, 1, 1,
+  1), upstream = list(cataract = 1, spring = 1, skelton = 1, barmills =
+  1, westBuxton = 1, bonnyEagle = 1), downstream = list(cataract = 1,
+  spring = 1, barmills = 1, skelton = 1, westBuxton = 1, bonnyEagle = 1),
+  inRiverF = 0, commercialF = 0, bycatchF = 0, indirect = 1,
+  latent = 1, watershed = TRUE)
 }
 \arguments{
 \item{nRuns}{The number of times that the

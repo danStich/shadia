@@ -4,8 +4,7 @@
 \name{tempData_susquehanna}
 \alias{tempData_susquehanna}
 \title{Saco River at River Street in Bartlett, NH}
-\format{
-A data frame with 1816 observations of 6 variables
+\format{A data frame with 1816 observations of 6 variables
 \describe{
   \code{staid }{USGS Station ID}
   
@@ -18,8 +17,7 @@ A data frame with 1816 observations of 6 variables
   \code{year }{Year of temperature observation}
   
   \code{day }{Ordinal date}
-}
-}
+}}
 \source{
 U.S. Geological Survey
 }

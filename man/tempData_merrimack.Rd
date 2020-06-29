@@ -5,8 +5,7 @@
 \alias{tempData_merrimack}
 \title{South Branch Piscataqoug River near
  Goffstown, NH, USA}
-\format{
-A data frame with 2194 obs. of 6 variables
+\format{A data frame with 2194 obs. of 6 variables
 \describe{
   \code{staid }{USGS Station ID}
   
@@ -19,8 +18,7 @@ A data frame with 2194 obs. of 6 variables
   \code{year }{Year of temperature observation}
   
   \code{day }{Ordinal date}
-}
-}
+}}
 \source{
 U.S. Geological Survey
 }

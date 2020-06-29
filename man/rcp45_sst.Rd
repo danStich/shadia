@@ -4,8 +4,7 @@
 \name{rcp45_sst}
 \alias{rcp45_sst}
 \title{Projected sea surface temperatures RCP 4.5}
-\format{
-A dataframe with 118 obs. of 5 variables:
+\format{A dataframe with 118 obs. of 5 variables:
 \describe{
   \code{Year }{Year for projection}
   
@@ -16,8 +15,7 @@ A dataframe with 118 obs. of 5 variables:
   \code{pct5th }{5th percentile for projection}
 
   \code{pct95th }{95th percentile for projection}                              
-}
-}
+}}
 \source{
 Integrated Systems Ecology Lab, Gulf Of Maine Research Institute
 }

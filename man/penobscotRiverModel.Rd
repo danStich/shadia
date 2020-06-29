@@ -4,23 +4,13 @@
 \alias{penobscotRiverModel}
 \title{Penobscot River Model}
 \usage{
-penobscotRiverModel(
-  nRuns = 1,
-  nYears = 50,
-  timing = list(1, 1, 1, 1, 1, 1, 1),
-  upstream = list(milford = 1, howland = 1, westEnfield = 1, brownsMill = 1, moosehead
-    = 1, guilford = 1, weldon = 1),
-  downstream = list(stillwater = 1, orono = 1, milford = 1, howland = 1, westEnfield =
-    1, brownsMill = 1, moosehead = 1, guilford = 1, weldon = 1),
-  pinHarvest = 0,
-  inRiverF = 0,
-  commercialF = 0,
-  bycatchF = 0,
-  indirect = 1,
-  latent = 1,
-  watershed = TRUE,
-  climate = "current"
-)
+penobscotRiverModel(nRuns = 1, nYears = 50, timing = list(1, 1, 1, 1,
+  1, 1, 1), upstream = list(milford = 1, howland = 1, westEnfield = 1,
+  brownsMill = 1, moosehead = 1, guilford = 1, weldon = 1),
+  downstream = list(stillwater = 1, orono = 1, milford = 1, howland = 1,
+  westEnfield = 1, brownsMill = 1, moosehead = 1, guilford = 1, weldon =
+  1), pinHarvest = 0, inRiverF = 0, commercialF = 0, bycatchF = 0,
+  indirect = 1, latent = 1, watershed = TRUE, climate = "current")
 }
 \arguments{
 \item{nRuns}{The number of times that the

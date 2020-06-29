@@ -4,8 +4,7 @@
 \name{hudson_shad}
 \alias{hudson_shad}
 \title{Length and mass of Hudson River American shad}
-\format{
-A dataframe with 26,564 observations of 4 variables
+\format{A dataframe with 26,564 observations of 4 variables
 \describe{
   \code{samp_date }{Date fish was collected}
   
@@ -14,8 +13,7 @@ A dataframe with 26,564 observations of 4 variables
   \code{mass }{Mass of fish in grams}
   
   \code{sex }{Sex of fish, `B` is buck (male) and `R`is roe (female)}
-}
-}
+}}
 \source{
 New York State Department of Environmental Conservation
 }
