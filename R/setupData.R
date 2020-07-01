@@ -587,12 +587,14 @@ if(river=='kennebec'){
 }
 
 if(river=='hudson'){
-  # Maximum age for fish in this population
-  maxAge <- 13
+
   
-  # Length-at-age data from the Hudson River -----
+  # Length-weight data from the Hudson River -----
   
   if(species == 'shad'){
+    # Maximum age for fish in this population
+    maxAge <- 13    
+    
     # Use built-in data set from the Hudson River
       
     # Log transform and data cleaning for l-w regressions
@@ -609,7 +611,25 @@ if(river=='hudson'){
     roe.lw <- roe.lw[is.finite(roe.lw[, 2]),]
   }
   
-  # Temperature data for Merrimack River -----
+  if(species == 'blueback'){
+    # Use built-in data set from the Hudson River
+    maxAge <- 12
+      
+    # Log transform and data cleaning for l-w regressions
+    # Bucks
+    b.l <- log(hudson_blueback$fl[hudson_blueback$sex == 1])
+    b.w <- log(hudson_blueback$wt[hudson_blueback$sex == 1])
+    buck.lw <- na.omit(data.frame(b.l, b.w))
+    buck.lw <- buck.lw[is.finite(buck.lw[, 2]),]
+    
+    # Roes
+    r.l <- log(hudson_blueback$fl[hudson_blueback$sex == 2])
+    r.w <- log(hudson_blueback$wt[hudson_blueback$sex == 2])
+    roe.lw <- na.omit(data.frame(r.l, r.w))
+    roe.lw <- roe.lw[is.finite(roe.lw[, 2]),]
+  }  
+  
+  # Temperature data for Hudson River -----
   # Load the MHR temperature data from
   # years 2007-2020 in the built-in dataset
   tempData_hudson2 <- tempData_hudson

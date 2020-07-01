@@ -308,14 +308,28 @@ day <- c(seq(min(c_initial), (max(c_end))))
   # Get random draws for fecundity based on whether or not fish are repeat
   # spawners.
     c_BF <- vector(mode = 'numeric', length = length(c_repeat))
+    
+  # American shad batch fecundity
+  # Hyle et al. (2014), McBride et al. (2016)
+    if(species=='shad'){
     c_BF[c_repeat == 0] <- sample(rnegbin(10000, 20000, 10),
                                  length(c_repeat[c_repeat == 0]), replace = TRUE)
     c_BF[c_repeat == 1] <- sample(rnegbin(10000, 30000, 10),
                                  length(c_repeat[c_repeat == 1]), replace = TRUE)
+    }
+    
+  # Blueback herring batch fecundity
+  # Limburg and Blackburn (2003) report to NYSDEC
+    if(species=='blueback'){
+      c_BF <- sd(MASS::rnegbin(length(c_fishAges), 75500, 8))
+    }  
+    
   # Calculate realized annual fecundity
     c_RAF <- c_BF * (c_RT / c_SI)
+    
   # Multiply by sex variable to set male fecundity to zero
     c_fecundity <- c_female * c_RAF
+    
 
 # UPSTREAM MIGRATION ROUTES ----
 if(river=='penobscot'){
@@ -394,7 +408,7 @@ if(river=='kennebec'){
   upstream_path[upstream_path==0] <- 2  
 }
     
-# Upstream path for kennebec river
+# Upstream path for hudson-mohawk rivers
 if(river=='hudson'){
   # Upper Hudson
   upstream_path <- rbinom(length(c_fishAges), 1, (1-pMohawk))
@@ -923,7 +937,7 @@ if(river=='hudson'){
     colnames(delay_2) <- c('dBenton', 'dBurnham')
   }
 
-  # Names for delay matrix: kennebec
+  # Names for delay matrix: hudson-mohawk
   if(river=='hudson'){
     colnames(delay_1) <- c(
       'dfederal',
@@ -1390,18 +1404,16 @@ if(river=='hudson'){
     #toc()
   }  
   
-
   # Hudson River
   if(river=='hudson'){
-    # Combine all data for mainstem to piscataquis
-    # Combine all three matrices
+    # Combine all data for route 1
     spawnData_1 <- cbind(traits_1, moves_1[, ncol(moves_1)], delay_1)
     # Change the name for the final rkm column
     colnames(spawnData_1)[ncol(spawnData_1) - nDams[1]] = 'finalRkm'
     # Make it into a dataframe for easy manipulation
     sp_1 <- data.frame(spawnData_1)
     
-    # Combine all data for main-to-mainstem spawners
+    # Combine all data for route 2
     # Combine all three matrices
     spawnData_2 <- cbind(traits_2, moves_2[, ncol(moves_2)], delay_2)
     # Change the name for the final rkm column
@@ -1409,8 +1421,7 @@ if(river=='hudson'){
     # Make it into a dataframe for easy manipulation
     sp_2 <- data.frame(spawnData_2)
     
-    # Assign each fish to a production unit before they spawn. Do this for
-    # Piscataquis River spawners and Mainstem spawners
+    # Assign each fish to a production unit before they spawn.
     # First, assign rkms to delineate each of the production units
     puRkm <- vector(mode = 'list', length = length(nPU))
     puRkm[[1]] <- c(0, damRkms[[1]] + 1, (maxrkm[1] + 1))

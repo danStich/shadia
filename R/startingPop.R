@@ -288,39 +288,77 @@ if(river=='hudson'){
     pop <- mget(ls(pat = "^Age", envir = .shadia), envir = .shadia)
     pop <- pop[order(sapply(pop,head,1), decreasing=T)]
   
-  # Define probability of recruitment to spawn (NYSDEC, unpublished)
-   spawnRecruit <- c(
-      0,
-      0.000482393,
-      0.034249879,
-      0.328750603,
-      0.816690786,
-      0.983839846,
-      0.999276411,
-      1,
-      1,
-      1,
-      1,
-      1,
-      1
-    )
+  # Species-specific vital rates  
+    if(species=='shad'){  
+      # Define probability of recruitment to spawn (NYSDEC, unpublished)
+       spawnRecruit <- c(
+          0,
+          0.000482393,
+          0.034249879,
+          0.328750603,
+          0.816690786,
+          0.983839846,
+          0.999276411,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        )
+    
+      # Initial probalities of repeat spawning- will be derived in annual loop
+        pRepeat <- c(
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.103896104,
+          0.285003111,
+          0.620954003,
+          0.900369004,
+          0.984848485,
+          1,
+          1,
+          1
+        )
+    }
+    
+  if(species=='blueback'){  
+    # Define probability of recruitment to spawn (NYSDEC, unpublished)
+      spawnRecruit <- c(
+        0,
+        0.009009009,
+        0.48048048,
+        0.903903904,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      )
   
-  # Initial probalities of repeat spawning- will be derived in annual loop
-    pRepeat <- c(
-      0,
-      0,
-      0,
-      0,
-      0,
-      0.103896104,
-      0.285003111,
-      0.620954003,
-      0.900369004,
-      0.984848485,
-      1,
-      1,
-      1
-    )
+    # Initial probalities of repeat spawning- will be derived in annual loop
+      pRepeat <- c(
+        0,        
+        0,
+        0.004424779,
+        0.208121827,
+        0.674074074,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      )
+  }
+    
   # Define spawning population and recruitment pool
     spawningPool <- unlist(pop) * spawnRecruit
     recruitmentPool <- unlist(pop) - unlist(pop) * spawnRecruit

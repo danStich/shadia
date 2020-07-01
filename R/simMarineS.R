@@ -29,48 +29,66 @@ simMarineS <- function(){
   numregion <-  unique(regions$num[regions$Region==region])
   
 # Sex-aggregate VBGF mort estimates ----
-# Load vbgf posteriors
-  data("vbgf_agg")
-
-# Define current year for scenarios
-  current_year <- lubridate::year(Sys.time()) + (n-1)
+# American shad  
+  if(species=='shad'){
+    
+  # Load vbgf posteriors
+    data("vbgf_agg")
   
-# Get regional means for vbgf parameters, and combine with
-# sst to predict growth parameters conditional on temperature
+  # Define current year for scenarios
+    current_year <- lubridate::year(Sys.time()) + (n-1)
+    
+  # Get regional means for vbgf parameters, and combine with
+  # sst to predict growth parameters conditional on temperature
+    
+  # Extract population-level posteriors from model object
+    linfcor <- apply(vbgf_agg$mu_beta_cor[,1,c(regions$num==numregion)], 1, mean)
+    kcor <- apply(vbgf_agg$mu_beta_cor[,2,c(regions$num==numregion)], 1, mean)
+    t0cor <- apply(vbgf_agg$mu_beta_cor[,3,c(regions$num==numregion)], 1, mean)
+    
+  # Get annual temperature from built-in data sets
+  # of climate projections (sst)
+  # Scale using mean and sd of sst in observed data  
+    # attr(,"scaled:center")
+    # [1] 12.63291
+    # attr(,"scaled:scale")
+    # [1] 0.6402722
   
-# Extract population-level posteriors from model object
-  linfcor <- apply(vbgf_agg$mu_beta_cor[,1,c(regions$num==numregion)], 1, mean)
-  kcor <- apply(vbgf_agg$mu_beta_cor[,2,c(regions$num==numregion)], 1, mean)
-  t0cor <- apply(vbgf_agg$mu_beta_cor[,3,c(regions$num==numregion)], 1, mean)
+    if(climate=='current'){
+      X <- rcp85_sst$Mean[rcp85_sst$Year == lubridate::year(Sys.time())]
+      scaled.X <- as.vector(scale(X, center = 12.63291, scale = 0.6402722))    
+    }
+    
+    if(climate=='rcp85'){  
+      X <- rcp85_sst$Mean[rcp85_sst$Year == current_year]
+      scaled.X <- as.vector(scale(X, center = 12.63291, scale = 0.6402722))
+    }
   
-# Get annual temperature from built-in data sets
-# of climate projections (sst)
-# Scale using mean and sd of sst in observed data  
-  # attr(,"scaled:center")
-  # [1] 12.63291
-  # attr(,"scaled:scale")
-  # [1] 0.6402722
-
-  if(climate=='current'){
-    X <- rcp85_sst$Mean[rcp85_sst$Year == lubridate::year(Sys.time())]
-    scaled.X <- as.vector(scale(X, center = 12.63291, scale = 0.6402722))    
-  }
-  
-  if(climate=='rcp85'){  
-    X <- rcp85_sst$Mean[rcp85_sst$Year == current_year]
-    scaled.X <- as.vector(scale(X, center = 12.63291, scale = 0.6402722))
-  }
-
-  if(climate=='rcp45'){  
-    X <- rcp45_sst$Mean[rcp45_sst$Year == current_year]
-    scaled.X <- as.vector(scale(X, center = 12.63291, scale = 0.6402722))
-  }    
-  
-# Predict VBGF parameters from climate and model estimates
-  Linf_agg <- exp(vbgf_agg$b0_linf + linfcor + vbgf_agg$bh_linf*scaled.X)
-  K_agg <- exp(vbgf_agg$b0_k + kcor + vbgf_agg$bh_k*scaled.X)
-  t0_agg <- exp(vbgf_agg$b0_t0 + t0cor) - 10
+    if(climate=='rcp45'){  
+      X <- rcp45_sst$Mean[rcp45_sst$Year == current_year]
+      scaled.X <- as.vector(scale(X, center = 12.63291, scale = 0.6402722))
+    }    
+    
+  # Predict VBGF parameters from climate and model estimates
+    Linf_agg <- exp(vbgf_agg$b0_linf + linfcor + vbgf_agg$bh_linf*scaled.X)
+    K_agg <- exp(vbgf_agg$b0_k + kcor + vbgf_agg$bh_k*scaled.X)
+    t0_agg <- exp(vbgf_agg$b0_t0 + t0cor) - 10
  
+  }
+  
+  # Blueback herring
+    if(species=='blueback'){
+    
+    # Load vbgf posteriors
+      data("vbgf_hudson_agg")    
+      
+    # Predict VBGF parameters from model estimates
+      Linf_agg <- exp(vbgf_hudson_agg$b0_linf)
+      K_agg <- exp(vbgf_hudson_agg$b0_k)
+      t0_agg <- exp(vbgf_hudson_agg$b0_t0) - 10      
+    
+    }
+  
 # Estimate natural mortality (instantaneous) from the posterior
   nM <- 4.118 * K_agg^0.73 * (Linf_agg/10)^-0.33  
   
