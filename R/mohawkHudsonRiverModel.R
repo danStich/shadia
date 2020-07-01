@@ -79,7 +79,7 @@
 #' The folowing named columns are returned in \code{res}:
 #' \itemize{
 #'     \item \code{year} Year of simulation
-#'     \item \code{timing_lockwood...timing_burnham} Passage timing input by user
+#'     \item \code{timing} Passage timing input by user. Must be same length as \code{upstream}.
 #'     \item \code{federal_us...E20_us} User-specified upstream passage efficiencies
 #'     \item \code{federal_ds...E20_ds}  User-specified downstream passage efficiencies
 #'     \item \code{pRepeat_Age1...pRepeat_Age9} Age-specific probability of repeat spawning  
