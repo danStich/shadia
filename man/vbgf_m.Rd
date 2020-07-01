@@ -3,7 +3,8 @@
 \docType{data}
 \name{vbgf_m}
 \alias{vbgf_m}
-\title{Male von Bertalanffy growth parameters}
+\title{Male von Bertalanffy growth parameters for
+American shad}
 \format{A list with 7 elements, each of which corresponds to an
 estimated parameter in the male-only model described in Gilligan (In prep).}
 \source{

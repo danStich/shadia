@@ -77,6 +77,31 @@
 #' @source New York State Department of Environmental Conservation
 "hudson_shad"
 
+#' @title Length and mass of Hudson River American shad
+#' 
+#' @description Length and mass of spawning American shad
+#' collected in the Hudson River, USA.
+#' 
+#' @format A dataframe with 2,485 observations of 19 variables
+#' \describe{
+#'   \code{species }{NYSDEC species code}
+#'   
+#'   \code{samp_date }{Date fish was collected}
+#'   
+#'   \code{fl }{Fork length, in mm}
+#'   
+#'   \code{wt }{Mass of fish in grams}
+#'   
+#'   \code{sex }{Sex of fish, `B` is buck (male) and `R`is roe (female)}
+#'   
+#'   \code{age }{Age of fish in years}
+#'   
+#' }
+#' 
+#' @source New York State Department of Environmental Conservation
+"hudson_blueback"
+
+
 #' @title Connecticut River temperatures, Stratford, NH, USA
 #' 
 #' @description Temperature data from Stratford, NH, USA.
@@ -485,7 +510,8 @@
 #' 
 "regions"
 
-#' @title Sex-aggregate von Bertalanffy growth parameters
+#' @title Sex-aggregate von Bertalanffy growth parameters for
+#' American shad
 #' 
 #' @description Posterior distributions for parameters of a 
 #' sex-aggregated von Bertalanffy growth function for American
@@ -498,7 +524,8 @@
 #' 
 "vbgf_agg"
 
-#' @title Female von Bertalanffy growth parameters
+#' @title Female von Bertalanffy growth parameters for
+#' American shad
 #' 
 #' @description Posterior distributions for parameters of a 
 #' female-only von Bertalanffy growth function for American
@@ -511,7 +538,8 @@
 #' 
 "vbgf_f"
 
-#' @title Male von Bertalanffy growth parameters
+#' @title Male von Bertalanffy growth parameters for
+#' American shad
 #' 
 #' @description Posterior distributions for parameters of a 
 #' male-only von Bertalanffy growth function for American
@@ -523,3 +551,45 @@
 #' @source Gilligan, E. (In Prep). MS Biology Thesis, SUNY Oneonta.
 #' 
 "vbgf_m"
+
+#' @title Sex-aggregate von Bertalanffy growth parameters for
+#' blueback herring in the Hudson River
+#' 
+#' @description Posterior distributions for parameters of a 
+#' sex-aggregated von Bertalanffy growth function for blueback herring
+#' in the Hudson River, NY, USA.
+#'  
+#' @format A list with 3 elements, each of which corresponds to an
+#' estimated parameter in the model (Linf, K, t0).
+#' 
+#' @source New York State Department of Environmental Conservation, unpublished data
+#' 
+"vbgf_hudson_agg"
+
+#' @title Female von Bertalanffy growth parameters for
+#' blueback herring in the Hudson River
+#' 
+#' @description Posterior distributions for parameters of a 
+#' female-only von Bertalanffy growth function for blueback herring
+#' in the Hudson River, NY, USA.
+#' 
+#' @format A list with 3 elements, each of which corresponds to an
+#' estimated parameter in the model (Linf, K, t0).
+#' 
+#' @source New York State Department of Environmental Conservation, unpublished data
+#' 
+"vbgf_hudson_f"
+
+#' @title Female von Bertalanffy growth parameters for
+#' blueback herring in the Hudson River
+#' 
+#' @description Posterior distributions for parameters of a 
+#' male-only von Bertalanffy growth function for blueback herring
+#' in the Hudson River, NY, USA.
+#' 
+#' @format A list with 3 elements, each of which corresponds to an
+#' estimated parameter in the model (Linf, K, t0).
+#' 
+#' @source New York State Department of Environmental Conservation, unpublished data
+#' 
+"vbgf_hudson_m"
