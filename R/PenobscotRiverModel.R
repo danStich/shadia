@@ -7,6 +7,10 @@
 #' @param nRuns The number of times that the
 #' model will be run.
 #' 
+#' @param species Species for which the model will be
+#' run. Current options include \code{'shad'} and
+#' \code{'blueback'}. 
+#' 
 #' @param nYears The number of years for which
 #' each run will last. The default is 50 years
 #' to match hydropower license duration in the
@@ -173,6 +177,7 @@
 #' @export
 penobscotRiverModel <- function(
   nRuns = 1,
+  species = 'shad',
   nYears = 50,
   timing = list(1,1,1,1,1,1,1),
   upstream = list(

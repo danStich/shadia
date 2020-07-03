@@ -7,6 +7,10 @@
 #' @param nRuns The number of times that the
 #' model will be run.
 #' 
+#' @param species Species for which the model will be
+#' run. Current options include \code{'shad'} and
+#' \code{'blueback'}.
+#' 
 #' @param nYears The number of years for which
 #' each run will last. The default is 40 years
 #' to match default FERC license duration.
@@ -154,6 +158,7 @@
 #' @export
 kennebecRiverModel <- function(
   nRuns = 1,
+  species = 'shad',
   nYears = 40,
   timing = list(1,1,1,1,1,1),
   upstream = list(
