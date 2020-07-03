@@ -4,7 +4,8 @@
 \name{tempData_saco}
 \alias{tempData_saco}
 \title{Saco River at River Street in Bartlett, NH}
-\format{A data frame with 3631 observations of 6 variables
+\format{
+A data frame with 3631 observations of 6 variables
 \describe{
   \code{staid }{Station ID}
   
@@ -16,7 +17,8 @@
   
   \code{val }{Temperature in degrees celcius}
   
-}}
+}
+}
 \source{
 U.S. Geological Survey, SHEDS Stream Temperature Database
 }

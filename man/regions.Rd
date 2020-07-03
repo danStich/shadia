@@ -4,14 +4,16 @@
 \name{regions}
 \alias{regions}
 \title{Region-system key for von Bertalanffy growth estimates}
-\format{A dataframe with 11 obs. of 3 variables:
+\format{
+A dataframe with 11 obs. of 3 variables:
 \describe{
   \code{System }{Stock assessment unit}
   
   \code{Region }{Management region based on life-history strategy}
   
   \code{Thompsonville }{Numeric identifier for region}
-}}
+}
+}
 \source{
 Atlantic States Marine Fisheries Commission
 }

@@ -4,19 +4,32 @@
 \alias{susquehannaRiverModel}
 \title{Susquehanna River Model}
 \usage{
-susquehannaRiverModel(nRuns = 1, nYears = 50, timing = list(1, 1, 1,
-  1, 1, 1, 1, 1, 1, 1), upstream = list(conowingo = 1, holtwood = 1,
-  safeHarbor = 1, yorkHaven = 1, sunbury = 1, williamsport = 1, lockhaven =
-  1, rockbottom = 1, chasehibbard = 1, colliersville = 0),
-  downstream = list(conowingo = 1, holtwood = 1, safeHarbor = 1,
-  yorkHaven = 1, sunbury = 1, williamsport = 1, lockhaven = 1, rockbottom =
-  1, chasehibbard = 1, colliersville = 1), inRiverF = 0,
-  commercialF = 0, bycatchF = 0, indirect = 1, latent = 1,
-  watershed = TRUE)
+susquehannaRiverModel(
+  nRuns = 1,
+  species = "shad",
+  nYears = 50,
+  timing = list(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+  upstream = list(conowingo = 1, holtwood = 1, safeHarbor = 1, yorkHaven = 1, sunbury =
+    1, williamsport = 1, lockhaven = 1, rockbottom = 1, chasehibbard = 1, colliersville =
+    0),
+  downstream = list(conowingo = 1, holtwood = 1, safeHarbor = 1, yorkHaven = 1, sunbury
+    = 1, williamsport = 1, lockhaven = 1, rockbottom = 1, chasehibbard = 1, colliersville
+    = 1),
+  inRiverF = 0,
+  commercialF = 0,
+  bycatchF = 0,
+  indirect = 1,
+  latent = 1,
+  watershed = TRUE
+)
 }
 \arguments{
 \item{nRuns}{The number of times that the
 model will be run.}
+
+\item{species}{Species for which the model will be
+run. Current options include \code{'shad'} and
+\code{'blueback'}.}
 
 \item{nYears}{The number of years for which
 each run will last. The default is 40 years to

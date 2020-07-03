@@ -5,8 +5,10 @@
 \alias{vbgf_hudson_m}
 \title{Female von Bertalanffy growth parameters for
 blueback herring in the Hudson River}
-\format{A list with 3 elements, each of which corresponds to an
-estimated parameter in the model (Linf, K, t0).}
+\format{
+A list with 3 elements, each of which corresponds to an
+estimated parameter in the model (Linf, K, t0).
+}
 \source{
 New York State Department of Environmental Conservation, unpublished data
 }

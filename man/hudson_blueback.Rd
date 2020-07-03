@@ -4,7 +4,8 @@
 \name{hudson_blueback}
 \alias{hudson_blueback}
 \title{Length and mass of Hudson River American shad}
-\format{A dataframe with 2,485 observations of 19 variables
+\format{
+A dataframe with 2,485 observations of 19 variables
 \describe{
   \code{species }{NYSDEC species code}
   
@@ -18,7 +19,8 @@
   
   \code{age }{Age of fish in years}
   
-}}
+}
+}
 \source{
 New York State Department of Environmental Conservation
 }

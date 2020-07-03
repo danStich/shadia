@@ -5,12 +5,14 @@
 \alias{pnr_proj45}
 \title{Projected daily river temperatures (RCP4.5) in 
 Penobscot River, USA}
-\format{A dataframe with 54,787 obs. of 5 variables:
+\format{
+A dataframe with 54,787 obs. of 5 variables:
 \describe{
   \code{Date }{Date for projection}
   
   \code{Eddington_RCP45_temp }{Daily temperature (C) at Eddington}
-}}
+}
+}
 \source{
 Integrated Systems Ecology Lab, Gulf Of Maine Research Institute
 }

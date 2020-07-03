@@ -4,16 +4,30 @@
 \alias{kennebecRiverModel}
 \title{Kennebec River Model}
 \usage{
-kennebecRiverModel(nRuns = 1, nYears = 40, timing = list(1, 1, 1, 1,
-  1, 1), upstream = list(lockwood = 1, hydroken = 1, shawmut = 1, weston
-  = 1, benton = 1, burnham = 1), downstream = list(lockwood = 1, hydroken
-  = 1, shawmut = 1, weston = 1, benton = 1, burnham = 1), inRiverF = 0,
-  commercialF = 0, bycatchF = 0, indirect = 1, latent = 1,
-  watershed = TRUE)
+kennebecRiverModel(
+  nRuns = 1,
+  species = "shad",
+  nYears = 40,
+  timing = list(1, 1, 1, 1, 1, 1),
+  upstream = list(lockwood = 1, hydroken = 1, shawmut = 1, weston = 1, benton = 1,
+    burnham = 1),
+  downstream = list(lockwood = 1, hydroken = 1, shawmut = 1, weston = 1, benton = 1,
+    burnham = 1),
+  inRiverF = 0,
+  commercialF = 0,
+  bycatchF = 0,
+  indirect = 1,
+  latent = 1,
+  watershed = TRUE
+)
 }
 \arguments{
 \item{nRuns}{The number of times that the
 model will be run.}
+
+\item{species}{Species for which the model will be
+run. Current options include \code{'shad'} and
+\code{'blueback'}.}
 
 \item{nYears}{The number of years for which
 each run will last. The default is 40 years

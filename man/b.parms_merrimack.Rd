@@ -4,12 +4,14 @@
 \name{b.parms_merrimack}
 \alias{b.parms_merrimack}
 \title{von Bertalanffy growth parameters for roes}
-\format{A list of 10000 matrices with named dimensions
+\format{
+A list of 10000 matrices with named dimensions
 \describe{
   \code{dim1 }{Sinf, K, t0}
   
   \code{dim2 }{Estimate, Std Error, t statistic, and p-value}
-}}
+}
+}
 \source{
 U.S. Fish and Wildlife Service (2018)
 }
