@@ -18,7 +18,8 @@ sacoRiverModel(
   bycatchF = 0,
   indirect = 1,
   latent = 1,
-  watershed = TRUE
+  watershed = TRUE,
+  k_method = "cumulative"
 )
 }
 \arguments{
@@ -89,6 +90,13 @@ to use the same dam passage efficiencies at all dams
 for upstream and downstream. If watershed = TRUE, then
 the first element in lists `upstream` and `downstream`
 are recycled for all subsequent dams.}
+
+\item{k_method}{Method used to impose carrying capacity. The 
+default, 'cumulative' assumes that carrying capacity is based on 
+all available habitat across all occupied production units. The 
+alternative, 'discrete' assumes that carrying capacity is applied
+within discrete production units based on the numbers, and was the
+method used in Stich et al. (2019).}
 }
 \value{
 Returns a list of two named dataframes.

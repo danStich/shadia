@@ -37,13 +37,28 @@ additionalEggsProcessing <- function(fec){
     
     # Apply carrying capacity limitation to each production unit based
     # on habitat availability
+    if(k_method == 'discrete'){
     fec_Max <- vector(mode = 'list', length = length(fec))
-    for (i in 1:length(fec2)) {
-      for (j in 1:length(fec2[[i]])) {
-        if (fec2[[i]][j] > k_pus[[i]][j]) {
-          fec_Max[[i]][j] = k_pus[[i]][j]
-        } else {
-          fec_Max[[i]][j] = fec2[[i]][j]
+      for (i in 1:length(fec2)) {
+        for (j in 1:length(fec2[[i]])) {
+          if (fec2[[i]][j] > k_pus[[i]][j]) {
+            fec_Max[[i]][j] = k_pus[[i]][j]
+          } else {
+            fec_Max[[i]][j] = fec2[[i]][j]
+          }
+        }
+      }
+    }
+    
+    if(k_method == 'cumulative'){
+    fec_Max <- vector(mode = 'list', length = length(fec))
+      for (i in 1:length(fec2)) {
+        for (j in 1:length(fec2[[i]])) {
+          if (sum(fec2[[i]]) > sum(k_pus[[i]][2:length(fec2[[i]])!=0])) {
+            fec_Max[[i]][j] = fec2[[i]][j]*(sum(k_pus[[i]][1:length(fec2[[i]])!=0])/sum(fec2[[i]]))
+          } else {
+            fec_Max[[i]][j] = fec2[[i]][j]
+          }
         }
       }
     }
@@ -66,13 +81,30 @@ additionalEggsProcessing <- function(fec){
 
     # Apply carrying capacity limitation to each production unit based
     # on habitat availability
+    # Apply carrying capacity limitation to each production unit based
+    # on habitat availability
+    if(k_method == 'discrete'){
     fec_Max <- vector(mode = 'list', length = length(fec))
-    for (i in 1:length(fec2)) {
-      for (j in 1:length(fec2[[i]])) {
-        if (fec2[[i]][j] > k_pus[[i]][j]) {
-          fec_Max[[i]][j] = k_pus[[i]][j]
-        } else {
-          fec_Max[[i]][j] = fec2[[i]][j]
+      for (i in 1:length(fec2)) {
+        for (j in 1:length(fec2[[i]])) {
+          if (fec2[[i]][j] > k_pus[[i]][j]) {
+            fec_Max[[i]][j] = k_pus[[i]][j]
+          } else {
+            fec_Max[[i]][j] = fec2[[i]][j]
+          }
+        }
+      }
+    }
+    
+    if(k_method == 'cumulative'){
+    fec_Max <- vector(mode = 'list', length = length(fec))
+      for (i in 1:length(fec2)) {
+        for (j in 1:length(fec2[[i]])) {
+          if (sum(fec2[[i]]) > sum(k_pus[[i]][2:length(fec2[[i]])!=0])) {
+            fec_Max[[i]][j] = fec2[[i]][j]*(sum(k_pus[[i]][1:length(fec2[[i]])!=0])/sum(fec2[[i]]))
+          } else {
+            fec_Max[[i]][j] = fec2[[i]][j]
+          }
         }
       }
     }
@@ -99,16 +131,32 @@ additionalEggsProcessing <- function(fec){
     
     # Apply carrying capacity limitation to each production unit based
     # on habitat availability
+    if(k_method == 'discrete'){
     fec_Max <- vector(mode = 'list', length = length(fec))
-    for (i in 1:length(fec2)) {
-      for (j in 1:length(fec2[[i]])) {
-        if (fec2[[i]][j] > k_pus[[i]][j]) {
-          fec_Max[[i]][j] = k_pus[[i]][j]
-        } else {
-          fec_Max[[i]][j] = fec2[[i]][j]
+      for (i in 1:length(fec2)) {
+        for (j in 1:length(fec2[[i]])) {
+          if (fec2[[i]][j] > k_pus[[i]][j]) {
+            fec_Max[[i]][j] = k_pus[[i]][j]
+          } else {
+            fec_Max[[i]][j] = fec2[[i]][j]
+          }
         }
       }
     }
+    
+    if(k_method == 'cumulative'){
+    fec_Max <- vector(mode = 'list', length = length(fec))
+      for (i in 1:length(fec2)) {
+        for (j in 1:length(fec2[[i]])) {
+          if (sum(fec2[[i]]) > sum(k_pus[[i]][2:length(fec2[[i]])!=0])) {
+            fec_Max[[i]][j] = fec2[[i]][j]*(sum(k_pus[[i]][1:length(fec2[[i]])!=0])/sum(fec2[[i]]))
+          } else {
+            fec_Max[[i]][j] = fec2[[i]][j]
+          }
+        }
+      }
+    }
+    
     return(fec_Max)
     #toc()
   }  
@@ -137,13 +185,28 @@ additionalEggsProcessing <- function(fec){
     
     # Apply carrying capacity limitation to each production unit based
     # on habitat availability
+    if(k_method == 'discrete'){
     fec_Max <- vector(mode = 'list', length = length(fec))
-    for (i in 1:length(fec2)) {
-      for (j in 1:length(fec2[[i]])) {
-        if (fec2[[i]][j] > k_pus[[i]][j]) {
-          fec_Max[[i]][j] = k_pus[[i]][j]
-        } else {
-          fec_Max[[i]][j] = fec2[[i]][j]
+      for (i in 1:length(fec2)) {
+        for (j in 1:length(fec2[[i]])) {
+          if (fec2[[i]][j] > k_pus[[i]][j]) {
+            fec_Max[[i]][j] = k_pus[[i]][j]
+          } else {
+            fec_Max[[i]][j] = fec2[[i]][j]
+          }
+        }
+      }
+    }
+    
+    if(k_method == 'cumulative'){
+    fec_Max <- vector(mode = 'list', length = length(fec))
+      for (i in 1:length(fec2)) {
+        for (j in 1:length(fec2[[i]])) {
+          if (sum(fec2[[i]]) > sum(k_pus[[i]][2:length(fec2[[i]])!=0])) {
+            fec_Max[[i]][j] = fec2[[i]][j]*(sum(k_pus[[i]][1:length(fec2[[i]])!=0])/sum(fec2[[i]]))
+          } else {
+            fec_Max[[i]][j] = fec2[[i]][j]
+          }
         }
       }
     }
@@ -160,13 +223,28 @@ additionalEggsProcessing <- function(fec){
 
     # Apply carrying capacity limitation to each production unit based
     # on habitat availability
+    if(k_method == 'discrete'){
     fec_Max <- vector(mode = 'list', length = length(fec))
-    for (i in 1:length(fec2)) {
-      for (j in 1:length(fec2[[i]])) {
-        if (fec2[[i]][j] > k_pus[[i]][j]) {
-          fec_Max[[i]][j] = k_pus[[i]][j]
-        } else {
-          fec_Max[[i]][j] = fec2[[i]][j]
+      for (i in 1:length(fec2)) {
+        for (j in 1:length(fec2[[i]])) {
+          if (fec2[[i]][j] > k_pus[[i]][j]) {
+            fec_Max[[i]][j] = k_pus[[i]][j]
+          } else {
+            fec_Max[[i]][j] = fec2[[i]][j]
+          }
+        }
+      }
+    }
+    
+    if(k_method == 'cumulative'){
+    fec_Max <- vector(mode = 'list', length = length(fec))
+      for (i in 1:length(fec2)) {
+        for (j in 1:length(fec2[[i]])) {
+          if (sum(fec2[[i]]) > sum(k_pus[[i]][2:length(fec2[[i]])!=0])) {
+            fec_Max[[i]][j] = fec2[[i]][j]*(sum(k_pus[[i]][1:length(fec2[[i]])!=0])/sum(fec2[[i]]))
+          } else {
+            fec_Max[[i]][j] = fec2[[i]][j]
+          }
         }
       }
     }
@@ -186,13 +264,28 @@ additionalEggsProcessing <- function(fec){
 
     # Apply carrying capacity limitation to each production unit based
     # on habitat availability
+    if(k_method == 'discrete'){
     fec_Max <- vector(mode = 'list', length = length(fec))
-    for (i in 1:length(fec2)) {
-      for (j in 1:length(fec2[[i]])) {
-        if (fec2[[i]][j] > k_pus[[i]][j]) {
-          fec_Max[[i]][j] = k_pus[[i]][j]
-        } else {
-          fec_Max[[i]][j] = fec2[[i]][j]
+      for (i in 1:length(fec2)) {
+        for (j in 1:length(fec2[[i]])) {
+          if (fec2[[i]][j] > k_pus[[i]][j]) {
+            fec_Max[[i]][j] = k_pus[[i]][j]
+          } else {
+            fec_Max[[i]][j] = fec2[[i]][j]
+          }
+        }
+      }
+    }
+    
+    if(k_method == 'cumulative'){
+    fec_Max <- vector(mode = 'list', length = length(fec))
+      for (i in 1:length(fec2)) {
+        for (j in 1:length(fec2[[i]])) {
+          if (sum(fec2[[i]]) > sum(k_pus[[i]][2:length(fec2[[i]])!=0])) {
+            fec_Max[[i]][j] = fec2[[i]][j]*(sum(k_pus[[i]][1:length(fec2[[i]])!=0])/sum(fec2[[i]]))
+          } else {
+            fec_Max[[i]][j] = fec2[[i]][j]
+          }
         }
       }
     }
@@ -212,16 +305,32 @@ additionalEggsProcessing <- function(fec){
 
     # Apply carrying capacity limitation to each production unit based
     # on habitat availability
+    if(k_method == 'discrete'){
     fec_Max <- vector(mode = 'list', length = length(fec))
-    for (i in 1:length(fec2)) {
-      for (j in 1:length(fec2[[i]])) {
-        if (fec2[[i]][j] > k_pus[[i]][j]) {
-          fec_Max[[i]][j] = k_pus[[i]][j]
-        } else {
-          fec_Max[[i]][j] = fec2[[i]][j]
+      for (i in 1:length(fec2)) {
+        for (j in 1:length(fec2[[i]])) {
+          if (fec2[[i]][j] > k_pus[[i]][j]) {
+            fec_Max[[i]][j] = k_pus[[i]][j]
+          } else {
+            fec_Max[[i]][j] = fec2[[i]][j]
+          }
         }
       }
     }
+    
+    if(k_method == 'cumulative'){
+    fec_Max <- vector(mode = 'list', length = length(fec))
+      for (i in 1:length(fec2)) {
+        for (j in 1:length(fec2[[i]])) {
+          if (sum(fec2[[i]]) > sum(k_pus[[i]][2:length(fec2[[i]])!=0])) {
+            fec_Max[[i]][j] = fec2[[i]][j]*(sum(k_pus[[i]][1:length(fec2[[i]])!=0])/sum(fec2[[i]]))
+          } else {
+            fec_Max[[i]][j] = fec2[[i]][j]
+          }
+        }
+      }
+    }
+    
     return(fec_Max)
     #toc()
   }       

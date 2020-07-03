@@ -84,7 +84,16 @@
 #' be used for temperature projections. Available options
 #' include '\code{current}', '\code{rcp45}', and '\code{rcp85}'.
 #' This argument is only implemented in \code{connecticutRiverModel}.
-#'
+#' If \code{species == blueback} then `climate` must be set to 
+#' `current`.
+#'  
+#' @param k_method Method used to impose carrying capacity. The 
+#' default, 'cumulative' assumes that carrying capacity is based on 
+#' all available habitat across all occupied production units. The 
+#' alternative, 'discrete' assumes that carrying capacity is applied
+#' within discrete production units based on the numbers, and was the
+#' method used in Stich et al. (2019).  
+#'  
 #' @return Returns a list of two named dataframes.
 #' The first dataframe (\code{res}) contains user-defined
 #' inputs and available model outputs.
@@ -220,7 +229,8 @@ connecticutRiverModel <- function(
   indirect = 1,
   latent = 1,
   watershed = TRUE,
-  climate = 'current'
+  climate = 'current',
+  k_method = 'cumulative'
   ){
 
 # Exceptions, errors, and warning messages ----

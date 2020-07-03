@@ -73,6 +73,13 @@
 #' the first element in lists `upstream` and `downstream`
 #' are recycled for all subsequent dams.
 #'  
+#' @param k_method Method used to impose carrying capacity. The 
+#' default, 'cumulative' assumes that carrying capacity is based on 
+#' all available habitat across all occupied production units. The 
+#' alternative, 'discrete' assumes that carrying capacity is applied
+#' within discrete production units based on the numbers, and was the
+#' method used in Stich et al. (2019).  
+#'  
 #' @return Returns a list of two named dataframes.
 #' The first dataframe (\code{res}) contains user-defined
 #' inputs and available model outputs.
@@ -246,7 +253,8 @@ susquehannaRiverModel <- function(
   bycatchF = 0,
   indirect = 1,
   latent = 1,
-  watershed = TRUE
+  watershed = TRUE,
+  k_method = 'cumulative'
   ){
   
 # Error message for passage efficiencies
