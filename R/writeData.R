@@ -42,6 +42,7 @@ if(river=='penobscot'){
 # Collect inputs and outputs into a single object for file write
 res <- data.frame(
   years,
+  species = species_out,
   climate = climate_scen,
   times,
   #OrUp,
@@ -85,6 +86,7 @@ res <- data.frame(
 
 names(res)<-c(
   "year",
+  "species",
   "climate",
   "time_milford",
   "time_howland",
@@ -203,6 +205,7 @@ if(river=='merrimack'){
 # Collect inputs and outputs into a single object for file write
 res <- data.frame(
   years,
+  species = species_out,
   times,
   EssUp,
   PawBUp,  
@@ -232,6 +235,7 @@ res <- data.frame(
 
 names(res)<-c(
   "year",
+  "species",
   "time_essex",
   "time_pawBypass",
   "time_pawtucket",
@@ -320,6 +324,7 @@ if(river=='connecticut'){
 # Collect inputs and outputs into a single object for file write
 res <- data.frame(
   years,
+  species = species_out,
   climate = climate_scen,
   times,
   pSpill,
@@ -352,6 +357,7 @@ res <- data.frame(
 
 names(res)<-c(
   "year",
+  "species",
   "climate",
   "time_holyoke",
   "time_cabot",
@@ -440,7 +446,8 @@ return(list(
 if(river=='susquehanna'){
 # Collect inputs and outputs into a single object for file write
 res <- data.frame(
-  years = years,  
+  years = years, 
+  species = species_out,
   populationSize = populationSize,
   LowPop = LowPop,
   ConPop = ConPop,
@@ -490,6 +497,7 @@ res <- data.frame(
 
 names(res)<-c(
   'year',
+  'species',
   'populationSize',
   'N_1A',
   'N_2A',
@@ -606,6 +614,7 @@ if(river=='saco'){
   # Collect inputs and outputs into a single object for file write
   res <- data.frame(
     years,
+    species = species_out,
     times,
     cataractUp,
     springUp,  
@@ -637,6 +646,7 @@ if(river=='saco'){
   
   names(res)<-c(
     "year",
+    "species",
     "time_Cataract",
     "time_SpringsBradbury",
     "time_Skelton",
@@ -726,6 +736,7 @@ if(river=='kennebec'){
   # Collect inputs and outputs into a single object for file write
   res <- data.frame(
     years,
+    species = species_out,
     pSebasticook = sebasticook,
     timely,
     pDraws,
@@ -748,6 +759,7 @@ if(river=='kennebec'){
   
   names(res)<-c(
     "year",
+    'species',
     'pSebasticook',
     paste0('timing_', names(upstream)),
     paste0(names(upstream), '_us'),
@@ -815,6 +827,7 @@ if(river=='hudson'){
   # Collect inputs and outputs into a single object for file write
   res <- data.frame(
     years,
+    species,
     pMohawk = mohawk,
     timely,
     pDraws,
@@ -858,6 +871,7 @@ if(river=='hudson'){
   
   names(res)<-c(
     "year",
+    'species',
     'pMohawk',
     paste0('timing_', names(upstream)),
     paste0(names(upstream), '_us'),
