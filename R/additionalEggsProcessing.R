@@ -50,20 +50,32 @@ additionalEggsProcessing <- function(fec){
       }
     }
     
-    if(k_method == 'cumulative'){
+  if(k_method == 'cumulative'){
+        
+    k_pus[[2]][c(1:3)] <- 0
+    k_pus[[3]][c(1:2, 4:8)] <- 0
+    k_pus[[4]][1:6] <- 0
+
     fec_Max <- vector(mode = 'list', length = length(fec))
-      for (i in 1:length(fec2)) {
-        for (j in 1:length(fec2[[i]])) {
-          if (sum(fec2[[i]]) > sum(k_pus[[i]][2:length(fec2[[i]])!=0])) {
-            fec_Max[[i]][j] = fec2[[i]][j]*(sum(k_pus[[i]][1:length(fec2[[i]])!=0])/sum(fec2[[i]]))
-          } else {
-            fec_Max[[i]][j] = fec2[[i]][j]
-          }
+    
+    for (i in 1:length(fec2)) {
+      for (j in 1:length(fec2[[i]])) {
+      
+        if (sum(fec2[[i]]) > sum(k_pus[[i]][fec2[[i]]!=0])) {
+          
+          fec_Max[[i]][j] = fec2[[i]][j]*(sum(k_pus[[i]][fec2[[i]]!=0])/
+                                            sum(fec2[[i]]))
+          
+        } else {
+          
+          fec_Max[[i]][j] = fec2[[i]][j]
+          
         }
       }
     }
-    return(fec_Max)
-    #toc()
+  }
+  return(fec_Max)
+  #toc()
   }  
   
   if(river=='merrimack'){
@@ -97,13 +109,23 @@ additionalEggsProcessing <- function(fec){
     }
     
     if(k_method == 'cumulative'){
-    fec_Max <- vector(mode = 'list', length = length(fec))
+      
+      k_pus[[2]][1:4] <- 0
+  
+      fec_Max <- vector(mode = 'list', length = length(fec))
+      
       for (i in 1:length(fec2)) {
         for (j in 1:length(fec2[[i]])) {
-          if (sum(fec2[[i]]) > sum(k_pus[[i]][2:length(fec2[[i]])!=0])) {
-            fec_Max[[i]][j] = fec2[[i]][j]*(sum(k_pus[[i]][1:length(fec2[[i]])!=0])/sum(fec2[[i]]))
+        
+          if (sum(fec2[[i]]) > sum(k_pus[[i]][fec2[[i]]!=0])) {
+            
+            fec_Max[[i]][j] = fec2[[i]][j]*(sum(k_pus[[i]][fec2[[i]]!=0])/
+                                              sum(fec2[[i]]))
+            
           } else {
+            
             fec_Max[[i]][j] = fec2[[i]][j]
+            
           }
         }
       }
@@ -145,13 +167,23 @@ additionalEggsProcessing <- function(fec){
     }
     
     if(k_method == 'cumulative'){
-    fec_Max <- vector(mode = 'list', length = length(fec))
+      
+      k_pus[[2]][1:5] <- 0
+  
+      fec_Max <- vector(mode = 'list', length = length(fec))
+      
       for (i in 1:length(fec2)) {
         for (j in 1:length(fec2[[i]])) {
-          if (sum(fec2[[i]]) > sum(k_pus[[i]][2:length(fec2[[i]])!=0])) {
-            fec_Max[[i]][j] = fec2[[i]][j]*(sum(k_pus[[i]][1:length(fec2[[i]])!=0])/sum(fec2[[i]]))
+        
+          if (sum(fec2[[i]]) > sum(k_pus[[i]][fec2[[i]]!=0])) {
+            
+            fec_Max[[i]][j] = fec2[[i]][j]*(sum(k_pus[[i]][fec2[[i]]!=0])/
+                                              sum(fec2[[i]]))
+            
           } else {
+            
             fec_Max[[i]][j] = fec2[[i]][j]
+            
           }
         }
       }
@@ -199,13 +231,26 @@ additionalEggsProcessing <- function(fec){
     }
     
     if(k_method == 'cumulative'){
-    fec_Max <- vector(mode = 'list', length = length(fec))
+      
+      k_pus[[2]][1:5] <- 0
+      k_pus[[3]][1:5] <- 0
+      k_pus[[3]][6] <- k_pus[[3]][6] + k_pus[[4]][6]
+      k_pus[[4]][1:6] <- 0
+  
+      fec_Max <- vector(mode = 'list', length = length(fec))
+      
       for (i in 1:length(fec2)) {
         for (j in 1:length(fec2[[i]])) {
-          if (sum(fec2[[i]]) > sum(k_pus[[i]][2:length(fec2[[i]])!=0])) {
-            fec_Max[[i]][j] = fec2[[i]][j]*(sum(k_pus[[i]][1:length(fec2[[i]])!=0])/sum(fec2[[i]]))
+        
+          if (sum(fec2[[i]]) > sum(k_pus[[i]][fec2[[i]]!=0])) {
+            
+            fec_Max[[i]][j] = fec2[[i]][j]*(sum(k_pus[[i]][fec2[[i]]!=0])/
+                                              sum(fec2[[i]]))
+            
           } else {
+            
             fec_Max[[i]][j] = fec2[[i]][j]
+            
           }
         }
       }
@@ -237,13 +282,23 @@ additionalEggsProcessing <- function(fec){
     }
     
     if(k_method == 'cumulative'){
-    fec_Max <- vector(mode = 'list', length = length(fec))
+      
+      # k_pus[[2]][1] <- 0
+  
+      fec_Max <- vector(mode = 'list', length = length(fec))
+      
       for (i in 1:length(fec2)) {
         for (j in 1:length(fec2[[i]])) {
-          if (sum(fec2[[i]]) > sum(k_pus[[i]][2:length(fec2[[i]])!=0])) {
-            fec_Max[[i]][j] = fec2[[i]][j]*(sum(k_pus[[i]][1:length(fec2[[i]])!=0])/sum(fec2[[i]]))
+        
+          if (sum(fec2[[i]]) > sum(k_pus[[i]][fec2[[i]]!=0])) {
+            
+            fec_Max[[i]][j] = fec2[[i]][j]*(sum(k_pus[[i]][fec2[[i]]!=0])/
+                                              sum(fec2[[i]]))
+            
           } else {
+            
             fec_Max[[i]][j] = fec2[[i]][j]
+            
           }
         }
       }
@@ -278,13 +333,23 @@ additionalEggsProcessing <- function(fec){
     }
     
     if(k_method == 'cumulative'){
-    fec_Max <- vector(mode = 'list', length = length(fec))
+      
+      k_pus[[2]][1] <- 0
+  
+      fec_Max <- vector(mode = 'list', length = length(fec))
+      
       for (i in 1:length(fec2)) {
         for (j in 1:length(fec2[[i]])) {
-          if (sum(fec2[[i]]) > sum(k_pus[[i]][2:length(fec2[[i]])!=0])) {
-            fec_Max[[i]][j] = fec2[[i]][j]*(sum(k_pus[[i]][1:length(fec2[[i]])!=0])/sum(fec2[[i]]))
+        
+          if (sum(fec2[[i]]) > sum(k_pus[[i]][fec2[[i]]!=0])) {
+            
+            fec_Max[[i]][j] = fec2[[i]][j]*(sum(k_pus[[i]][fec2[[i]]!=0])/
+                                              sum(fec2[[i]]))
+            
           } else {
+            
             fec_Max[[i]][j] = fec2[[i]][j]
+            
           }
         }
       }
@@ -319,13 +384,23 @@ additionalEggsProcessing <- function(fec){
     }
     
     if(k_method == 'cumulative'){
-    fec_Max <- vector(mode = 'list', length = length(fec))
+      
+      k_pus[[2]][1] <- 0
+  
+      fec_Max <- vector(mode = 'list', length = length(fec))
+      
       for (i in 1:length(fec2)) {
         for (j in 1:length(fec2[[i]])) {
-          if (sum(fec2[[i]]) > sum(k_pus[[i]][2:length(fec2[[i]])!=0])) {
-            fec_Max[[i]][j] = fec2[[i]][j]*(sum(k_pus[[i]][1:length(fec2[[i]])!=0])/sum(fec2[[i]]))
+        
+          if (sum(fec2[[i]]) > sum(k_pus[[i]][fec2[[i]]!=0])) {
+            
+            fec_Max[[i]][j] = fec2[[i]][j]*(sum(k_pus[[i]][fec2[[i]]!=0])/
+                                              sum(fec2[[i]]))
+            
           } else {
+            
             fec_Max[[i]][j] = fec2[[i]][j]
+            
           }
         }
       }
