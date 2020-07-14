@@ -42,7 +42,7 @@ if(river=='penobscot'){
 # Collect inputs and outputs into a single object for file write
 res <- data.frame(
   years,
-  species = species_out,
+  species,
   climate = climate_scen,
   times,
   #OrUp,
@@ -205,7 +205,7 @@ if(river=='merrimack'){
 # Collect inputs and outputs into a single object for file write
 res <- data.frame(
   years,
-  species = species_out,
+  species,
   times,
   EssUp,
   PawBUp,  
@@ -324,7 +324,7 @@ if(river=='connecticut'){
 # Collect inputs and outputs into a single object for file write
 res <- data.frame(
   years,
-  species = species_out,
+  species,
   climate = climate_scen,
   times,
   pSpill,
@@ -447,7 +447,7 @@ if(river=='susquehanna'){
 # Collect inputs and outputs into a single object for file write
 res <- data.frame(
   years = years, 
-  species = species_out,
+  species,
   populationSize = populationSize,
   LowPop = LowPop,
   ConPop = ConPop,
@@ -614,7 +614,7 @@ if(river=='saco'){
   # Collect inputs and outputs into a single object for file write
   res <- data.frame(
     years,
-    species = species_out,
+    species,
     times,
     cataractUp,
     springUp,  
@@ -736,7 +736,7 @@ if(river=='kennebec'){
   # Collect inputs and outputs into a single object for file write
   res <- data.frame(
     years,
-    species = species_out,
+    species,
     pSebasticook = sebasticook,
     timely,
     pDraws,
