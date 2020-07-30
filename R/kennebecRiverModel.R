@@ -15,6 +15,11 @@
 #' each run will last. The default is 40 years
 #' to match default FERC license duration.
 #' 
+#' @param p_sebasticook Probability of using the
+#' Sebasticook River for migration. Default is
+#' based on proportional distribution of habitat
+#' in each route.
+#' 
 #' @param timing The amount of time required for
 #' upstream passage by individual fish (in days), 
 #' where the default (1) indicates a 24-h dam
@@ -167,6 +172,7 @@ kennebecRiverModel <- function(
   nRuns = 1,
   species = 'shad',
   nYears = 40,
+  p_sebasticook = rbeta(1, 25, 100),
   timing = list(1,1,1,1,1,1),
   upstream = list(
     lockwood = 1,

@@ -810,7 +810,7 @@ if(river=='kennebec'){
                   ppPenalty[[1]],
                   rkm1[upstream_path == 1],
                   rkm2[upstream_path == 1, , drop = FALSE],
-                  c_initial[upstream_path == 1])
+                  c_end[upstream_path == 1])
   # Run the ABM for mainstem route through Pawtucket
   moves_2 <- moveC(day,
                   c_entryDate[upstream_path == 2],
@@ -819,7 +819,7 @@ if(river=='kennebec'){
                   ppPenalty[[2]],
                   rkm1[upstream_path == 2],
                   rkm2[upstream_path == 2,  , drop = FALSE],
-                  c_initial[upstream_path == 2])
+                  c_end[upstream_path == 2])
 }  
   
 if(river=='hudson'){

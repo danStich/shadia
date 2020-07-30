@@ -242,16 +242,11 @@ if(river=='kennebec'){
   # run faster. Output is re-scaled  
   Age1 <- rpois(1, 2e5)
   
-  # Probability of using Sebasticook based on proportion
-  # of habitat with added uncertainty
-  p_sebasticook <- rbeta(1, 25, 100)
-  
   return(list(
     up = up,
     timely = timely,
     fB = fB,
     d = d,
-    p_sebasticook = p_sebasticook,
     indirect = indirect,
     latent = latent,
     delay = delay,
