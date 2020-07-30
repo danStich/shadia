@@ -149,17 +149,17 @@ if(river=='kennebec'){
   habitat <- vector(mode='list', length=nRoutes)
   
   habitat[[1]] <- c(
-    686270,
-    0,
-    26150,
-    63276,
-    95287
-  )
+    523, # Downstream of Lockwood
+    0,   # Lockwood to Hydro Kennebec
+    211, # Hydro Kennebec to Shawmut
+    512, # Shawmut to Weston
+    415  # Weston to Abanaki
+  )*250
   habitat[[2]] <- c(
-    686270,
-    21536,
-    23746
-  )
+    523, # Downstream of Lockwood 
+    361, # Confluence to Benton Falls
+    119  # Upstream of Benton Falls
+  )*250
   
   return(list(
     habitat=habitat
