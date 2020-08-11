@@ -8,6 +8,7 @@ kennebecRiverModel(
   nRuns = 1,
   species = "shad",
   nYears = 40,
+  p_sebasticook = rbeta(1, 25, 100),
   timing = list(1, 1, 1, 1, 1, 1),
   upstream = list(lockwood = 1, hydroken = 1, shawmut = 1, weston = 1, benton = 1,
     burnham = 1),
@@ -33,6 +34,11 @@ run. Current options include \code{'shad'} and
 \item{nYears}{The number of years for which
 each run will last. The default is 40 years
 to match default FERC license duration.}
+
+\item{p_sebasticook}{Probability of using the
+Sebasticook River for migration. Default is
+based on proportional distribution of habitat
+in each route.}
 
 \item{timing}{The amount of time required for
 upstream passage by individual fish (in days), 

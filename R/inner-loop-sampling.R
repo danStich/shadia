@@ -625,7 +625,7 @@ mot <- mean((1 - (newTU - min(newTU)) /
     if(river=='connecticut'){
       rkm1 <- rep(90, length(c_fishAges))
     }
-    # For Connecticut River:
+    # For Susquehanna River:
     if(river=='susquehanna'){
       rkm1 <- rep(0, length(c_fishAges))
     }
@@ -831,7 +831,7 @@ if(river=='hudson'){
                   ppPenalty[[1]],
                   rkm1[upstream_path == 1],
                   rkm2[upstream_path == 1, , drop = FALSE],
-                  c_initial[upstream_path == 1])
+                  c_end[upstream_path == 1])
   # Run the ABM for mohawk route
   moves_2 <- moveC(day,
                   c_entryDate[upstream_path == 2],
@@ -840,7 +840,7 @@ if(river=='hudson'){
                   ppPenalty[[2]],
                   rkm1[upstream_path == 2],
                   rkm2[upstream_path == 2,  , drop = FALSE],
-                  c_initial[upstream_path == 2])
+                  c_end[upstream_path == 2])
 }  
   
 # Calculate total run time for ABM

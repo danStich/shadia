@@ -161,11 +161,21 @@ if(river=='kennebec'){
     119  # Upstream of Benton Falls
   )*250
   
+  # Bluebacks moving to 500 fish per ha. Based on 
+  # G. Wippelhauser pers. comm. and S. Lindwell pers. comm (MEDMR)
+  if(species=='blueback'){
+    
+    # Multiply by 484 and divide out the original 150
+    habitat <- lapply(habitat, function(x) x*484/250)
+    
+  }
+  
   return(list(
     habitat=habitat
   ))
   
 }    
+  
   
 if(river=='hudson'){
   
