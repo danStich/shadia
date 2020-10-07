@@ -35,9 +35,8 @@ nextGeneration <- function(){
 
   # Calculate numbers in the recruitment pool for next year
   # Apply marine survival rate to fish waiting in the ocean
-  nextRecruits <- c(recruitsOut,
-                   recruitmentPool[1:(length(recruitmentPool) - 1)]) *
-                   marineS * (1 - commercialF[i]) * (1 - bycatchF[i])
+  nextRecruits <- c(recruitsOut, recruitmentPool[1:(maxAge-1)]) *
+                   marineS * (1 - commercialF) * (1 - bycatchF)
   # Assign names for each age class
   names(nextRecruits) <- names (recruitmentPool)
 

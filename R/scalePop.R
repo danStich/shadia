@@ -12,15 +12,15 @@
 #' 
 #' @export
 #' 
-scalePop <- function() {
+scalePop <- function(pop, spawningPool, recruitmentPool, scalar) {
     pop = unlist(pop) / scalar
     spawningPool = spawningPool / scalar
     recruitmentPool = recruitmentPool / scalar
  
   return(list(
-    pop = pop,
-    spawningPool = spawningPool,
-    recruitmentPool = recruitmentPool
+    pop,
+    spawningPool,
+    recruitmentPool
   ))  
        
 }

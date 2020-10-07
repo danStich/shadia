@@ -82,13 +82,13 @@ invlogit <- function(x) {
 #' 
 #' @examples 
 #' 
-#' x <- list(
-#'   first = runif(10, 1, 10)
-#'   second = runif(10, 10, 20)
-#' )
-#' 
-#' addStochList(x, runif(1, 0, 1))
-#' 
+# x <- list(
+#   runif(10, 1, 10),
+#   runif(10, 10, 20)
+# )
+# 
+# addStochList(x, runif(1, 0, 1))
+
 #' @export
 #' 
 addStochList <- function(x, stoch){

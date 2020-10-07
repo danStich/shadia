@@ -21,16 +21,16 @@ createPUMatrix <- function(isFemale, pu, isEgg=FALSE){
   
   if (!isEgg) {
     # for males and females
-    d_pu  <- ddply(spawnProb[spawnProb$female == isFemale, ],
-                   .(fishAges, pus),
-                   summarise,
-                   gender = sum(surv)) 
+    d_pu <- spawnProb %>% 
+      filter(female == isFemale) %>%
+      group_by(fishAges, pus) %>%
+      summarize(gender = sum(surv), .groups = "keep")
+
   } else {
     # for eggs
-    d_pu <- ddply(spawnProb,
-                  .(fishAges, pus),
-                  summarise,
-                  gender = sum(fecundity * surv)) 
+    d_pu <- spawnProb %>% 
+      group_by(fishAges, pus) %>%
+      summarize(gender = sum(fecundity * surv), .groups = "keep")
   }
   
   if (nrow(d_pu) == 0) {

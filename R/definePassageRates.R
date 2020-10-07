@@ -15,22 +15,22 @@
 #' @export
 #' 
 
-definePassageRates <- function(){
+definePassageRates <- function(river){
 
 if(river=='penobscot'){  
   # Upstream passage rates
   Open <- 1.00
-  Confluence <- 1.00 * fB
-  OronoUp <- 1 * fB             # Orono upstream passage
+  Confluence <- 1.00
+  OronoUp <- 1             # Orono upstream passage
   StillwaterUp <- 1             # Stillwater upstream passage
   GilmanUp <- 1                 # Gilman Falls upstream passage
-  MilfordUp <- up[1] * fB       # Milford upstream passage
-  HowlandUp <- up[2] * fB       # Howland upstream passage
-  WestEnfieldUp <- up[3] * fB   # West Enfield upstream passage
-  BrownsMillUp <- up[4] * fB    # Browns Mill upstream passage
-  MooseheadUp <- up[5] * fB     # Moosehead (Dover) passage
-  GuilfordUp <- up[6] * fB      # Guilford Passage
-  MattaceunkUp <- up[7] * fB    # Mattaceunk (Weldon) passage
+  MilfordUp <- up[1]       # Milford upstream passage
+  HowlandUp <- up[2]       # Howland upstream passage
+  WestEnfieldUp <- up[3]   # West Enfield upstream passage
+  BrownsMillUp <- up[4]    # Browns Mill upstream passage
+  MooseheadUp <- up[5]     # Moosehead (Dover) passage
+  GuilfordUp <- up[6]      # Guilford Passage
+  MattaceunkUp <- up[7]    # Mattaceunk (Weldon) passage
 
   # Downstream passage efficiencies
   # Define downstream passage efficiencies at each of the dams
@@ -104,11 +104,11 @@ if(river=='penobscot'){
 if(river=='merrimack'){  
   # Upstream passage rates
   Open <- 1.00
-  EssexUp <- up[1] * fB
-  PawtucketBypassUp <- up[2] * fB
-  PawtucketUp <- up[3] * fB
-  AmoskeagUp <- up[4] * fB
-  HooksetUp <- up[5] * fB
+  EssexUp <- up[1]
+  PawtucketBypassUp <- up[2]
+  PawtucketUp <- up[3]
+  AmoskeagUp <- up[4]
+  HooksetUp <- up[5]
 
   # Downstream passage efficiencies
   # Define downstream passage efficiencies at each of the dams
@@ -155,11 +155,11 @@ if(river=='merrimack'){
 if(river=='connecticut'){  
   # Upstream passage rates
   Open <- 1.00
-  HolyokeUp <- up[1] * fB
-  CabotUp <- up[2] * fB
-  SpillwayUp <- up[3] * fB
-  GatehouseUp <- up[4] * fB
-  VernonUp <- up[4] * fB
+  HolyokeUp <- up[1]
+  CabotUp <- up[2]
+  SpillwayUp <- up[3]
+  GatehouseUp <- up[4]
+  VernonUp <- up[4]
   
   # Downstream passage efficiencies
   # Define downstream passage efficiencies at each of the dams
@@ -202,19 +202,19 @@ if(river=='connecticut'){
 if(river=='susquehanna'){  
   # Upstream passage rates
   Open <- 1.00
-  ConowingoUp <- up[1] * fB
+  ConowingoUp <- up[1]
   HoltwoodUp <- up[2]
-  SafeHarborUp <- up[3] * fB
-  YorkHavenUp <- up[4] * fB
+  SafeHarborUp <- up[3]
+  YorkHavenUp <- up[4]
   junConfluenceUp <- 1
-  SunburyUp <- up[5] * fB
-  WilliamsportUp <- up[6] * fB
-  LockHavenUp <- up[7] * fB
+  SunburyUp <- up[5]
+  WilliamsportUp <- up[6]
+  LockHavenUp <- up[7]
   NyUp <- 1
-  ChaseHibbardUp <- up[8] * fB
-  RockBottomUp <- up[9] * fB
+  ChaseHibbardUp <- up[8]
+  RockBottomUp <- up[9]
   UnadillaReachUp <- 1
-  ColliersvilleUp <- up[10] * fB
+  ColliersvilleUp <- up[10]
 
   # Downstream passage efficiencies
   ConowingoD <- d[1] * indirect * latent * delay
@@ -231,7 +231,7 @@ if(river=='susquehanna'){
   UnadillaReachD <- 1
   ColliersvilleD <- d[10] * indirect * latent * delay
 
-  # Make downstream survival probabilities for juveniles
+  # Make downstream survival probabilities for juveniles.
   # Unused. Moved to separate calculations in the 
   # Connecticut River Model. All runs in the Penobscot
   # River to date have used equal performance standards.
@@ -300,12 +300,12 @@ if(river=='susquehanna'){
 if(river=='saco'){  
   # Upstream passage rates
   Open <- 1.00
-  cataractUp <- up[1] * fB
-  springUp <- up[2] * fB
-  skeltonUp <- up[3] * fB
-  barmillsUp <- up[4] * fB
-  buxtonUp <- up[5] * fB
-  bonnyUp <- up[6] * fB
+  cataractUp <- up[1]
+  springUp <- up[2]
+  skeltonUp <- up[3]
+  barmillsUp <- up[4]
+  buxtonUp <- up[5]
+  bonnyUp <- up[6]
 
   # Downstream passage efficiencies
   # Define downstream passage efficiencies at each of the dams
@@ -357,12 +357,12 @@ if(river=='saco'){
 if(river=='kennebec'){  
   # Upstream passage rates
   Open <- 1.00
-  lockwoodUp <- up[1] * fB
-  hydrokennUp <- up[2] * fB
-  shawmutUp <- up[3] * fB
-  westonUp <- up[4] * fB
-  bentonUp <- up[5] * fB
-  burnhamUp <- up[6] * fB  
+  lockwoodUp <- up[1]
+  hydrokennUp <- up[2]
+  shawmutUp <- up[3]
+  westonUp <- up[4]
+  bentonUp <- up[5]
+  burnhamUp <- up[6]  
 
   # Downstream passage efficiencies
   # Define downstream passage efficiencies at each of the dams
@@ -415,7 +415,7 @@ if(river=='kennebec'){
 if(river=='hudson'){  
   # Upstream passage rates
   Open <- 1.00
-  federalUp <- up[1] * fB
+  federalUp <- up[1]
   for(i in 1:length(grep('C', names(upstream)))){
     assign(paste0(names(upstream)[i+1],"Up"), up[i+1]*fB)
   }

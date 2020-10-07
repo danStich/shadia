@@ -18,21 +18,17 @@
 writeData <- function(){
 
 # DATA WRITE ----
-# Post-simulation data manipulation
-if (.shadia$useTictoc) {
-  tic("data write")
-}
 
 # Unlist and stack proportion of repeat spawners in each age for writing
 pRepeats <- do.call("rbind", lapply(pRepeats, unlist))
-colnames(pRepeats) <- paste('pRepeat_', colnames(pRepeats), sep = '')
+colnames(pRepeats) <- paste('pRepeat_', seq(1,maxAge, 1), sep = '')
 
 # Unlist and stack upstream passage times
 times <- do.call("rbind", lapply(ptime, unlist))
 colnames(times) <- paste('timing_', 1:length(timely), sep = '')
 
 # Unlist and stack age-structured spawning population into a useable output
-spawners <- do.call("rbind", lapply(spawners, unlist))
+spawners <- do.call("rbind", lapply(spawningPool, unlist))
 colnames(spawners) <- paste(colnames(spawners), 'N', sep = '_')
 
 # Rescale population size based on reduction factor at start of script
@@ -550,17 +546,8 @@ names(res)<-c(
   "bycatchF",
   "indirect",
   "latent",
-  "pRepeat_Age1",
-  "pRepeat_Age2",
-  "pRepeat_Age3",
-  "pRepeat_Age4",
-  "pRepeat_Age5",
-  "pRepeat_Age6",
-  "pRepeat_Age7",
-  "pRepeat_Age8",
-  "pRepeat_Age9",
-  "pRepeat_Age10",
-  "pRepeat_Age11"
+  paste0("pRepeat_Age",seq(1, maxAge))
+
 )
 
 # Collect variables for sensitivity analysis and save them out
@@ -578,7 +565,6 @@ sens = data.frame(
   S.prespawnF = S.prespawnF,
   S.postspawnF = S.postspawnF,
   S.juvenile = S.juvenile,
-  t.stoch = t.stoch,
   b.Arr = b.Arr,
   r.Arr = r.Arr,
   ATUspawn1 = ATUspawn1,
@@ -955,11 +941,5 @@ if(river=='hudson'){
     sens = sens
   ))	
 }
-
-# Write the inputs and outputs to a text file that can be read into R
-# writeData(filename)
-  if (.shadia$useTictoc) {
-    toc() #("data write")
-  }
 
 }

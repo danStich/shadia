@@ -155,7 +155,7 @@ NumericMatrix entryC(NumericVector entry_prob,
     int n = entry_prob.size();
 
     for(int i = 0; i < n; i++){
-            entryDate(_, i) = rbinom(x, 15, entry_prob[i]);
+            entryDate(_, i) = rbinom(x, 10, entry_prob[i]);
     }
 
     return entryDate;

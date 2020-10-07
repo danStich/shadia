@@ -21,7 +21,7 @@
 #' 
 #' @export
 
-annualUpstream <- function(){
+annualUpstream <- function(river, damRkms){
   
 if(river=='penobscot'){
   # Assign efficiencies to the upstream passage groups (pisc or main)

@@ -4,7 +4,7 @@
 \alias{simGrowth}
 \title{Simulate growth parameters}
 \usage{
-simGrowth(female = TRUE)
+simGrowth(region, female = TRUE)
 }
 \value{
 A numeric vector of length 1 containing one sample

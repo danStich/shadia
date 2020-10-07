@@ -191,8 +191,8 @@ if(river=='penobscot'){
   F.inRiver[(n + nYears * (k - 1))] <-  inRiverF
   F.commercial[(n + nYears * (k - 1))] <-  mean(commercialF)
   F.bycatch[(n + nYears * (k - 1))] <-  mean(bycatchF)
-  popStart[(n + nYears * (k - 1))] <-  pop
-  p.female[(n + nYears * (k - 1))] <-  sex_Ratio
+  popStart[(n + nYears * (k - 1))] <-  n_adults
+  p.female[(n + nYears * (k - 1))] <-  sexRatio
   S.prespawnM[(n + nYears * (k - 1))] <-  pre_spawn_survival_males
   S.postspawnM[(n + nYears * (k - 1))] <-  post_spawn_survival_males
   S.prespawnF[(n + nYears * (k - 1))] <-  pre_spawn_survival_females
@@ -443,8 +443,8 @@ if(river=='merrimack'){
   F.inRiver[(n + nYears * (k - 1))] <-  inRiverF
   F.commercial[(n + nYears * (k - 1))] <-  mean(commercialF)
   F.bycatch[(n + nYears * (k - 1))] <-  mean(bycatchF)
-  popStart[(n + nYears * (k - 1))] <-  pop
-  p.female[(n + nYears * (k - 1))] <-  sex_Ratio
+  popStart[(n + nYears * (k - 1))] <-  n_adults
+  p.female[(n + nYears * (k - 1))] <-  sexRatio
   S.prespawnM[(n + nYears * (k - 1))] <-  pre_spawn_survival_males
   S.postspawnM[(n + nYears * (k - 1))] <-  post_spawn_survival_males
   S.prespawnF[(n + nYears * (k - 1))] <-  pre_spawn_survival_females
@@ -689,8 +689,8 @@ if(river=='connecticut'){
   F.inRiver[(n + nYears * (k - 1))] <-  inRiverF
   F.commercial[(n + nYears * (k - 1))] <-  mean(commercialF)
   F.bycatch[(n + nYears * (k - 1))] <-  mean(bycatchF)
-  popStart[(n + nYears * (k - 1))] <-  pop
-  p.female[(n + nYears * (k - 1))] <-  sex_Ratio
+  popStart[(n + nYears * (k - 1))] <-  n_adults
+  p.female[(n + nYears * (k - 1))] <-  sexRatio
   S.prespawnM[(n + nYears * (k - 1))] <-  pre_spawn_survival_males
   S.postspawnM[(n + nYears * (k - 1))] <-  post_spawn_survival_males
   S.prespawnF[(n + nYears * (k - 1))] <-  pre_spawn_survival_females
@@ -832,7 +832,6 @@ if(river=='connecticut'){
   
 if(river=='susquehanna'){ 
   # Store output in pre-allocated vectors 
-  # if (useTictoc) tic("store output")
 
   # Year, fillling pre-allocated vector with this year
   years[(n + nYears * (k - 1))] <-  n
@@ -849,7 +848,7 @@ if(river=='susquehanna'){
   RockUp[(n + nYears * (k - 1))] <- RockBottomUp
   CollUp[(n + nYears * (k - 1))] <- ColliersvilleUp
   
-  # Downstream passage efficiencies, fillling pre-allocated vectors
+  # Downstream passage efficiency, filing pre-allocated vectors
   ConD[(n + nYears * (k - 1))] <- ConowingoD 
   HoltD[(n + nYears * (k - 1))] <- HoltwoodD
   SafeD[(n + nYears * (k - 1))] <- SafeHarborD
@@ -872,12 +871,6 @@ if(river=='susquehanna'){
 
   # Latent estuary mortality, fillling pre-allocated vector
   latentM[(n + nYears * (k - 1))] <- latent
-
-  # Juvenile reduction factor at each dam, fillling pre-allocated vector
-  juvReduction[(n + nYears * (k - 1))] <- jReduction
-
-  # Fall back, fillling pre-allocated vector
-  fallback[(n + nYears * (k - 1))] <-  fB
 
   # Population abundance in each PU
   # Abundance downstream of conowingo
@@ -1020,10 +1013,10 @@ if(river=='susquehanna'){
   spawners[[(n + nYears * (k - 1))]] <-  spawningPool
 
   # Reset the scalar based on population size
-  list2env(setScalar(), envir = .shadia)
+  .shadia$scalar <- setScalar(.shadia$spawningPool)
 
   # Scalar variable for computational gains
-  scalarVar[[(n + nYears * (k - 1))]] <-  scalar
+  scalarVar[[(n + nYears * (k - 1))]] <-  .shadia$scalar
 
   # Store the inputs for sensitivity analysis
   # Passage assumptions
@@ -1035,20 +1028,14 @@ if(river=='susquehanna'){
   F.inRiver[(n + nYears * (k - 1))] <-  inRiverF
   F.commercial[(n + nYears * (k - 1))] <-  mean(commercialF)
   F.bycatch[(n + nYears * (k - 1))] <-  mean(bycatchF)
-  popStart[(n + nYears * (k - 1))] <-  pop
-  p.female[(n + nYears * (k - 1))] <-  sex_Ratio
+  popStart[(n + nYears * (k - 1))] <-  n_adults
+  p.female[(n + nYears * (k - 1))] <-  sexRatio
   S.prespawnM[(n + nYears * (k - 1))] <-  pre_spawn_survival_males
   S.postspawnM[(n + nYears * (k - 1))] <-  post_spawn_survival_males
   S.prespawnF[(n + nYears * (k - 1))] <-  pre_spawn_survival_females
   S.postspawnF[(n + nYears * (k - 1))] <-  post_spawn_survival_females
   S.juvenile[(n + nYears * (k - 1))] <-  juvenile_survival
 
-  # Environmental
-  # Stochasticity
-  t.stoch[(n + nYears * (k - 1))] <-  stoch
-  # Regression relating temperatures in PNR and CTR
-  t.RegrInt[(n + nYears * (k - 1))] <-  calMod[1, 1]
-  t.RegrSlp[(n + nYears * (k - 1))] <-  calMod[2, 1]
   # Model parameters for sex-specific arrival timing
   b.ArrRegrInt[(n + nYears * (k - 1))] <-  res.B[1, 1]
   b.ArrRegrSlp[(n + nYears * (k - 1))] <-  res.B[2, 1]
@@ -1075,14 +1062,6 @@ if(river=='susquehanna'){
   kM[(n + nYears * (k - 1))] <-  b.mat[2]
   t0M[(n + nYears * (k - 1))] <-  b.mat[3]
 
-  # Length-weight regression parameters
-  # Female
-  lwF.alpha[(n + nYears * (k - 1))] <-  c_femaleLWalpha
-  lwF.beta[(n + nYears * (k - 1))] <-  c_femaleLWbeta
-  # Male
-  lwM.alpha[(n + nYears * (k - 1))] <-  c_maleLWalpha
-  lwM.beta[(n + nYears * (k - 1))] <-  c_maleLWbeta
-
   # Length
   b.length[(n + nYears * (k - 1))] <-  mean(c_male_lf[c_male_lf!=0])
   r.length[(n + nYears * (k - 1))] <-  mean(c_female_lf[c_female_lf!=0])
@@ -1098,7 +1077,6 @@ if(river=='susquehanna'){
   tortuosity[(n + nYears * (k - 1))] <-  mean(tort)
   motivation[(n + nYears * (k - 1))] <-  mot
   daily.move[(n + nYears * (k - 1))] <-  mean(dailyMove)
-  #toc()
 
 return(list(
   scalar = scalar,
@@ -1146,8 +1124,6 @@ return(list(
   pNorthBranchUp = pNorthBranchUp,
   indirectM = indirectM,
   latentM = latentM,
-  juvReduction = juvReduction,
-  fallback = fallback,
   pRepeats = pRepeats,
   spawners = spawners,
   scalarVar = scalarVar,
@@ -1164,7 +1140,6 @@ return(list(
   S.prespawnF = S.prespawnF,
   S.postspawnF = S.postspawnF,
   S.juvenile = S.juvenile,
-  t.stoch = t.stoch,
   t.RegrInt = t.RegrInt,
   t.RegrSlp = t.RegrSlp,
   b.ArrRegrInt = b.ArrRegrInt,
@@ -1183,10 +1158,6 @@ return(list(
   linM = linM,
   kM = kM,
   t0M = t0M,
-  lwF.alpha = lwF.alpha,
-  lwF.beta = lwF.beta,
-  lwM.alpha = lwM.alpha,
-  lwM.beta = lwM.beta,
   b.length = b.length,
   r.length = r.length,
   spawnInt = spawnInt,
@@ -1303,8 +1274,8 @@ if(river=='saco'){
   F.inRiver[(n + nYears * (k - 1))] <-  inRiverF
   F.commercial[(n + nYears * (k - 1))] <-  mean(commercialF)
   F.bycatch[(n + nYears * (k - 1))] <-  mean(bycatchF)
-  popStart[(n + nYears * (k - 1))] <-  pop
-  p.female[(n + nYears * (k - 1))] <-  sex_Ratio
+  popStart[(n + nYears * (k - 1))] <-  n_adults
+  p.female[(n + nYears * (k - 1))] <-  sexRatio
   S.prespawnM[(n + nYears * (k - 1))] <-  pre_spawn_survival_males
   S.postspawnM[(n + nYears * (k - 1))] <-  post_spawn_survival_males
   S.prespawnF[(n + nYears * (k - 1))] <-  pre_spawn_survival_females
@@ -1540,8 +1511,8 @@ if(river=='kennebec'){
   F.inRiver[(n + nYears * (k - 1))] <-  inRiverF
   F.commercial[(n + nYears * (k - 1))] <-  mean(commercialF)
   F.bycatch[(n + nYears * (k - 1))] <-  mean(bycatchF)
-  popStart[(n + nYears * (k - 1))] <-  pop[1]
-  p.female[(n + nYears * (k - 1))] <-  sex_Ratio
+  popStart[(n + nYears * (k - 1))] <-  n_adults
+  p.female[(n + nYears * (k - 1))] <-  sexRatio
   S.prespawnM[(n + nYears * (k - 1))] <-  pre_spawn_survival_males
   S.postspawnM[(n + nYears * (k - 1))] <-  post_spawn_survival_males
   S.prespawnF[(n + nYears * (k - 1))] <-  pre_spawn_survival_females
@@ -1892,8 +1863,8 @@ if(river=='hudson'){
   F.inRiver[(n + nYears * (k - 1))] <-  inRiverF
   F.commercial[(n + nYears * (k - 1))] <-  mean(commercialF)
   F.bycatch[(n + nYears * (k - 1))] <-  mean(bycatchF)
-  popStart[(n + nYears * (k - 1))] <-  pop
-  p.female[(n + nYears * (k - 1))] <-  sex_Ratio
+  popStart[(n + nYears * (k - 1))] <-  n_adults
+  p.female[(n + nYears * (k - 1))] <-  sexRatio
   S.prespawnM[(n + nYears * (k - 1))] <-  pre_spawn_survival_males
   S.postspawnM[(n + nYears * (k - 1))] <-  post_spawn_survival_males
   S.prespawnF[(n + nYears * (k - 1))] <-  pre_spawn_survival_females

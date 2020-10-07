@@ -4,7 +4,7 @@
 \alias{definePassageRates}
 \title{Assign upstream and downstream passage efficiencies}
 \usage{
-definePassageRates()
+definePassageRates(river)
 }
 \value{
 A list of upstream and downstream dam passage

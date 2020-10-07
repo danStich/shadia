@@ -10,8 +10,11 @@
 #' @section Functions called directly:
 #'   \describe{
 #'     \code{\link{connecticutRiverModel}} \cr
+#'     \code{\link{kennebecRiverModel}} \cr
 #'     \code{\link{merrimackRiverModel}} \cr
+#'     \code{\link{mohawkHudsonRiverModel}} \cr
 #'     \code{\link{penobscotRiverModel}} \cr
+#'     \code{\link{sacoRiverModel}} \cr
 #'     \code{\link{susquehannaRiverModel}} \cr
 #'     \code{\link{addStochList}} \cr
 #'     \code{\link{CI}} \cr
@@ -62,13 +65,12 @@
 #' 
 #' @importFrom graphics abline lines par plot
 #' @importFrom stats aggregate nls quantile runif var
-#' @importFrom utils write.table
 #' @importFrom geosphere daylength
 #' @importFrom lubridate year yday
-#' @importFrom plyr ddply . summarize summarise
 #' @importFrom MASS mvrnorm rnegbin
 #' @importFrom zoo na.spline
-#' @importFrom fishmethods growth
+#' @importFrom magrittr %>%
+#' @importFrom dplyr summarize group_by filter
 #' @import Rcpp
 #' 
 #' @useDynLib shadia

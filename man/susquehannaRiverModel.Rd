@@ -8,19 +8,23 @@ susquehannaRiverModel(
   nRuns = 1,
   species = "shad",
   nYears = 50,
+  n_adults = 10000,
   timing = list(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
   upstream = list(conowingo = 1, holtwood = 1, safeHarbor = 1, yorkHaven = 1, sunbury =
     1, williamsport = 1, lockhaven = 1, rockbottom = 1, chasehibbard = 1, colliersville =
-    0),
+    1),
   downstream = list(conowingo = 1, holtwood = 1, safeHarbor = 1, yorkHaven = 1, sunbury
     = 1, williamsport = 1, lockhaven = 1, rockbottom = 1, chasehibbard = 1, colliersville
     = 1),
+  downstream_juv = list(conowingo = 1, holtwood = 1, safeHarbor = 1, yorkHaven = 1,
+    sunbury = 1, williamsport = 1, lockhaven = 1, rockbottom = 1, chasehibbard = 1,
+    colliersville = 1),
   inRiverF = 0,
   commercialF = 0,
   bycatchF = 0,
   indirect = 1,
   latent = 1,
-  watershed = TRUE,
+  watershed = FALSE,
   k_method = "cumulative"
 )
 }
@@ -36,6 +40,9 @@ run. Current options include \code{'shad'} and
 each run will last. The default is 40 years to
 match the default FERC license, but can be
 changed.}
+
+\item{n_adults}{Number of starting adults in 
+population based on American shad demographics.}
 
 \item{timing}{The amount of time required for
 upstream passage by individual fish (in days), 

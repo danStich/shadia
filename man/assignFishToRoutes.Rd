@@ -4,10 +4,12 @@
 \alias{assignFishToRoutes}
 \title{Assign fish to routes}
 \usage{
-assignFishToRoutes(puNum, PUS)
+assignFishToRoutes(river, c_fishAges)
 }
 \description{
-Generically generate individual x_PUS_n,
-for fish gender and PU number. Not intended to be called
-directly. Visible for the sake of model transparency.
+River-specific assignment to migration routes for
+individual fish.
+
+Internal function used inside inner-loop-sampling, but stored in
+a separate file to make code easier to work with.
 }

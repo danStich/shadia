@@ -9,79 +9,100 @@
 #' 
 #' @export 
 #' 
-innerLoopSampling <- function(habitat){
+innerLoopSampling <- function(){
 
-  
-  
 # Habitat stochasticity -----
 # Add stochasticity to habitat per PU
-habStoch <- runif(1, 0.95, 1.05)  
+  habStoch <- runif(1, 0.95, 1.05)  
   
 # Add stochastic noise to habitat variable
 # to assess sensitivity and account for 
 # fluctuations
-habitat <- addStochList(habitat, habStoch)  
+  habitat <- addStochList(habitat, habStoch)  
   
-
-
-# Daily in-river climate data ----
+# Daily temperatures ------------------------------
 # Use historical temperature data to predict temperature
-# on each day from a multivariate normal distribution
-predTemps <- simDailyTemperatures(mu, climate, river, current_year, n)
+# on each day from a multivariate normal distribution or extract
+# from river-specific climate projections:
+predTemps <- simDailyTemperatures(mu, climate = climate, river = river)  
 
 # Calculate ATU for each day of simulated temperature data
 newTU <- cumsum(predTemps[, 2])
 
+# Draw probability of arrival from
+# regression between catch and temperature in 
+# Connecticut River ---------
 
-# Create fish ----
-# Draw sex ratio for the current year
-  sexRatio <- rbeta(1, 100, 100)
+# Predict arrival probability on a given date using 
+# stored regression coefficients sampled randomly from
+# bootstrapped fits of cumulative arrival by temperature
+res.R <- data.frame(arr.R[[sample(1:length(arr.R), 1)]])
+res.B <- data.frame(arr.B[[sample(1:length(arr.B), 1)]])
+r.prob <- invlogit(res.R[1, 1] + res.R[2, 1] * predTemps[,2])
+b.prob <- invlogit(res.B[1, 1] + res.B[2, 1] * predTemps[,2])
 
-# Create an object containing the age of individual fish
-# based on the number of fish in each age class and build
-age_df <- cbind(spawningPool, seq(1,length(spawningPool),1))
-c_fishAges <- do.call("c", (mapply(rep, c(age_df[, 2]), age_df[, 1])))
+
+# CREATE AGE AND SEX STRUCTURE ----
+
+# Create an object containing the age of each fish
+# based on the number of fish in each age class
+fishAges <- c()
+for (i in 1:length(spawningPool)) {
+  fishAges <- append(fishAges, rep(names(spawningPool)[i], spawningPool[i]))
+}
+c_fishAges <- as.numeric(substr(fishAges, start = 4, stop = nchar(fishAges)))
 
 # Assign fish gender using sex ratio drawn above, females are 1
-c_sex <- rbinom(length(c_fishAges), 1, sexRatio)
+c_sex <- rbinom(length(fishAges), 1, sex_Ratio)
 
 # Need to sort by sex to get sex-specific arrival date efficiently
 c_fishAges <- c_fishAges[order(c_sex)] # First fish ages
 c_sex <- sort(c_sex)                   # Then fish sex
 
-
-# Entry dates ----
+# DRAW ARRIVAL AND SPAWNING DATES ----
 # Get entry date for each individual.  We used cumulative frequency distribution
 # to predict average entry date for a given fish conditional on temperature.
 # We will now use this relationship to predict individual
 # fish presence in the river for all 366 days of the year.
 # The actual draws for each fish on each day are occurring in a C++ file
-# (src/entryC.Cpp) to speed this up.  Once we have
+# (entryC.Cpp) that was sourced on the front-end to speed this up.  Once we have
 # probability of being in the river on a given day, we will use the first date
 # that maximizes probability of success in a random binomial draw for each
-# individual to assign their entry date. We use a size of 15 for this
-# draw to avoid spurious arrivals in January in northeast rivers.
-
-# Predict arrival probability on a given date using 
-# stored regression coefficients sampled randomly from
-# bootstrapped fits of cumulative arrival in the CTR by 
-# as a function of temperature
-res.R <- data.frame(arr.R[[sample(1:length(arr.R), 1)]])
-res.B <- data.frame(arr.B[[sample(1:length(arr.B), 1)]])
-r.prob <- invlogit(res.R[1, 1] + res.R[2, 1] * predTemps[, 2])
-b.prob <- invlogit(res.B[1, 1] + res.B[2, 1] * predTemps[, 2])
+# individual to assign their entry date.
 
 # Make containers to hold entry date in entryC.
-b.entryDate <- matrix(0, nrow = length(c_fishAges[c_sex == 0]), ncol = length(b.prob))
-r.entryDate <- matrix(0, nrow = length(c_fishAges[c_sex == 1]), ncol = length(r.prob))
+b.entryDate <- matrix(0, nrow = length(fishAges[c_sex == 0]), ncol = length(b.prob))
+r.entryDate <- matrix(0, nrow = length(fishAges[c_sex == 1]), ncol = length(r.prob))
 #toc()
 
-b.entry <- entryC(b.prob, b.entryDate, length(c_fishAges[c_sex == 0]))
-r.entry <- entryC(r.prob, r.entryDate, length(c_fishAges[c_sex == 1]))
+#if (useTictoc) tic("fish ages2: C++ function, entryC")
+b.entry <- entryC(b.prob, b.entryDate, length(fishAges[c_sex == 0]))
+r.entry <- entryC(r.prob, r.entryDate, length(fishAges[c_sex == 1]))
+#toc()
+
+# Combine male and female spawners into one matrix
+#if (useTictoc) tic("fish ages3: combine into one matrix NEW")
+
+# JMS: initialize/preallocate: get row and col counts
+entryCols <- ncol(b.entry) # same for r.entry col count
+entryRows <- nrow(b.entry) + nrow(r.entry)
+
+# define size and characteristics of the data frame
+entry <- data.frame(matrix(0,
+                    ncol = entryCols,
+                    nrow = entryRows),
+                    row.names = NULL,
+                    check.names=FALSE,
+                    fix.empty.names = TRUE,
+                    stringsAsFactors = FALSE)
 
 # We initialize with drop = FALSE just in case there are
 # no individuals left
 entry <- rbind(b.entry, r.entry, drop = FALSE)
+
+# Note that we need to cut out some of the wilder predictions.
+entry[, 1:60] <- 0
+entry[, 200:entryCols] <- 0
 
 # Remove last row to undo effect of drop=FALSE above if
 # there are any individuals left. Need to cast as a matrix
@@ -95,23 +116,29 @@ entryRowsNew <- nrow(entry)
 
 # Added conditional in vector pre-allocation below.
 # We do a check to see if there are any fish left.
-c_entryDate <- vector(mode = 'numeric', length = max(1, entryRowsNew, na.rm=T))
-c_entryDate <- apply(
-  entry, 1, function(x){min(which(x == max(x, na.rm = TRUE)))} 
-  )
+c_entryDate <- vector(mode = 'numeric', length = max(1,entryRowsNew, na.rm=T))
+for (i in 1:length(c_entryDate)) {
+  c_entryDate[i] <- which(entry[i,] == max(entry[i,], na.rm = TRUE))[1]
+}
+rm(entryRowsNew, entryCols, entryRows)
 
+#toc() # combine into one matrix
 
-# Spawning dates ----
-# Draw initial and terminal spawning dates based on daily temperature
-# Randomly draw ATU for initiation (1) and termination (2) of spawning for each
+# Draw terminal spawning ATU from a truncated normal distribution based on
+# mean and standard deviaion of mean and standard deviation of ATU at which
+# minimum of 50% of the population has entered the river based on our GLM in the
+# previous sections.  We use a truncated normal to prevent fish spawning before
+# they ever arrive.  These data match pretty well to the results of Hyle et al.
+# (2014), but our standard deviation naturally is larger.
+# Draw initial and terminal spawning dates based on temperatures at Turner's
+# Falls.
+# Randomly draw ATU for initation (1) and termination (2) of spawning for each
 c_spawnATU1 <- rnorm(length(c_entryDate), 150, 15)
 c_spawnATU2 <- rnorm(length(c_entryDate), 500, 15)
-
 # Determine on which day the threshold ATU for each individual is reached
 # Pre-allocate vectors
 c_initial <- vector(mode = 'numeric', length = length(c_entryDate))
 c_end <- vector(mode = 'numeric', length = length(c_entryDate))
-
 # Now get initial and end dates based on ATU calculated from temperature sim
 for (i in 1:length(c_entryDate)) {
   # Initiation of spawn
@@ -127,31 +154,74 @@ for (i in 1:length(c_entryDate)) {
 # Define the day of the year as an ordinal date
 day <- c(seq(min(c_initial), (max(c_end))))
 
-# Photoperiod
-photo <- getPhotoperiod(river, day)
+# Calculate photoperiod based on latitude and day
+  # Penobscot River:
+  if(river=='penobscot'){
+    photo <- daylength(44.39, day)
+  }
+  # Merrimack River:
+  if(river=='merrimack'){
+    photo <- daylength(42.65, day)
+  }
+  # Connecticut River:
+  if(river=='connecticut'){
+    photo <- daylength(42.09, day)
+  }
+  # Susquehanna River:
+  if(river=='susquehanna'){
+    photo <- daylength(40.88, day)
+  }
+  # Saco River:
+  if(river=='saco'){
+    photo <- daylength(43.65, day)
+  }
+  # Kennebec River:
+  if(river=='kennebec'){
+    photo <- daylength(43.65, day)
+  }
+  # Mohawk and Hudson rivers:
+  if(river=='hudson'){
+    photo <- daylength(42.7511, day)
+  }
 
-# Fish characteristics ----
+#toc()
+
+# SIMULATE FISH CHARACTERISTICS FOR EACH FISH IN EACH YEAR ----------------
+#if (useTictoc) tic("simulate fish characteristics")
+
 # Growth parameters
-  # Roes
+# Roes
   # Get sex-specific, regional growth parameters
     environment(simGrowth) <- .shadia
-    r.mat <- simGrowth(region, female = TRUE)
-    
+    r.mat <- simGrowth(female = TRUE)
   # Rename them for ease of use and readability on output
     c_linF <- r.mat[1] # L-infinity females
     c_kF <- r.mat[2]   # Brody growth coeff females
     c_t0F <- r.mat[3]  # Intercept of VBGM females
 
-  # Males
+# Males
   # Get sex-specific, regional growth parameters
-    b.mat <- simGrowth(region, female = FALSE)
-    
+    b.mat <- simGrowth(female = FALSE)
   # Rename them for ease of use and readability on output
     c_linM <- b.mat[1] # L-infinity males
     c_kM <- b.mat[2]   # Brody growth coeff males
     c_t0M <- b.mat[3]  # Intercept of VBGM males
 
-# Length
+# Create length-weight regressions for males and females from the CTDEEP data
+  # Roes
+    roelw <- roe.lw[sample(nrow(roe.lw), 200, replace = TRUE),]
+    r.lw <- lm(r.w ~ r.l, data = roelw)
+    r.res <- data.frame(summary(r.lw)$coefficients[, 1])
+    c_femaleLWalpha <- r.res[1, 1]  # Alpha in male l-w relationship
+    c_femaleLWbeta <- r.res[2, 1]   # Beta in male l-w relationship
+  # Bucks
+    bucklw <- buck.lw[sample(nrow(buck.lw), 200, replace = TRUE),]
+    b.lw <- lm(b.w ~ b.l, data = bucklw)
+    b.res <- data.frame(summary(b.lw)$coefficients[, 1])
+    c_maleLWalpha <- b.res[1, 1] # Alpha in male l-w relationship
+    c_maleLWbeta <- b.res[2, 1]   # Beta in male l-w relationship
+
+# Calculate length, mass, and movement rates, and fecundity
   # Get columns representing logical for male and female
     c_female <- c_sex
     c_male <- as.numeric(factor(c_sex, levels = c(1, 0))) - 1
@@ -160,15 +230,27 @@ photo <- getPhotoperiod(river, day)
   # Calculate length of females
     c_female_lf <- c_female * c_linF * (1 - exp(-c_kF * (c_fishAges - c_t0F)))
   # Calculate mass of males
-    c_male_m <- c_male * (m_lw_params$alpha + m_lw_params$beta * c_male_lf)
+    c_male_m <- c_male * (c_maleLWalpha + c_maleLWbeta * c_male_lf)
   # Calculate mass of females
-    c_female_m <- c_female * (f_lw_params$alpha + f_lw_params$beta * c_female_lf)
+    c_female_m <- c_female * (c_femaleLWalpha + c_femaleLWbeta * c_female_lf)
   # Collect fork length and mass into one column each
     c_forkLength <- c_male_lf + c_female_lf
     c_mass <- c_male_m + c_female_m
   # Convert fork length to mm from cm for movement calcs below
   # if data are stored in cm
     c_forkLength[c_forkLength < 10] <- c_forkLength[c_forkLength < 10] * 10
+
+# Calculate movement rates based on Castro-Santos and Letcher (2010)
+  # Optimizing ground speed in body lengths per second (BLS)
+    sOptim <- runif(length(c_mass), .7, 1.7)
+  # Get max daily movement, converting from BLS to km per day
+    dMax <- (sOptim * c_forkLength * 86400) / 1e6
+  # Movement tortuosity drawn from uniform distribution.  This corresponds to
+  # the range used in Castro-Santos and Letcher (2010) but it's just applied
+  # as a multiplier
+    tort <- runif(length(c_fishAges), 0.2, 1)
+  # Now scale by tortuosity and divide by two to restrict movement to day time
+    dailyMove <- dMax * tort * mean(photo / 24)
 
 # Calculate fecundity
   # Calculate residence time for each fish based on entry date and exit date
@@ -182,17 +264,13 @@ photo <- getPhotoperiod(river, day)
   # spawners.
     c_BF <- vector(mode = 'numeric', length = length(c_repeat))
     
-  # American shad batch fecundity from Hyle et al. (2014), McBride et al. (2016)
+  # American shad batch fecundity
+  # Hyle et al. (2014), McBride et al. (2016)
     if(species=='shad'){
-      c_BF[c_repeat == 0] <- sample(
-        MASS::rnegbin(10000, 20000, 10),
-        length(c_repeat[c_repeat == 0]),
-        replace = TRUE)
-      
-      c_BF[c_repeat == 1] <- sample(
-        MASS::rnegbin(10000, 30000, 10),
-        length(c_repeat[c_repeat == 1]),
-        replace = TRUE)
+    c_BF[c_repeat == 0] <- sample(rnegbin(10000, 20000, 10),
+                                 length(c_repeat[c_repeat == 0]), replace = TRUE)
+    c_BF[c_repeat == 1] <- sample(rnegbin(10000, 30000, 10),
+                                 length(c_repeat[c_repeat == 1]), replace = TRUE)
     }
     
   # Blueback herring batch fecundity
@@ -207,22 +285,91 @@ photo <- getPhotoperiod(river, day)
   # Multiply by sex variable to set male fecundity to zero
     c_fecundity <- c_female * c_RAF
     
-# Calculate movement rates based on Castro-Santos and Letcher (2010)
-  # Optimizing ground speed in body lengths per second (BLS)
-    sOptim <- runif(length(c_mass), .7, 1.7)
-  # Get max daily movement, converting from BLS to km per day
-    dMax <- (sOptim * c_forkLength * 86400) / 1e6
-  # Movement tortuosity drawn from uniform distribution.  This corresponds to
-  # the range used in Castro-Santos and Letcher (2010) but it's just applied
-  # as a multiplier
-    tort <- runif(length(c_fishAges), 0.2, 1)
-  # Now scale by tortuosity and divide by two to restrict movement to day time
-    dailyMove <- dMax * tort * mean(photo / 24)
 
-    
 # UPSTREAM MIGRATION ROUTES ----
-environment(assignFishToRoutes) <- .shadia
-upstream_path <- assignFishToRoutes(river = .shadia$river, c_fishAges = c_fishAges)
+if(river=='penobscot'){
+  # Assign upstream and downstream migration routes probabilistically conditional
+  # on flow or production potential (upstream) and flow (downstream). NOTE: NEED
+  # TO ADD IN THE FLOW DATA AND CONDITIONAL RELATIONSHIPS FOR THESE PROBABILITY
+  # DISTRIBUTIONS
+  # Draw upstream migration path based on flow or else proportional production
+  # using a random draw from a multinomial distribution with two outcomes
+  #if (useTictoc) tic("upstream migration routes")
+  upstream_path <- rmultinom(
+    n = length(c_fishAges),
+    size = 1,
+    prob = c(
+      pMainUp * pPiscUp,
+      pMainUp * pMainstemUp,
+      pStillwaterUp * pPiscUp,
+      pStillwaterUp * pMainstemUp
+    )
+  )
+  upstream_path[2,][upstream_path[2,] > 0] <- 2
+  upstream_path[3,][upstream_path[3,] > 0] <- 3
+  upstream_path[4,][upstream_path[4,] > 0] <- 4
+  
+  # A '1' is Piscataquis, and a '2' is mainstem
+  upstream_path <- upstreamPathC(upstream_path)
+}
+
+# Upstream path for merrimack river
+if(river=='merrimack'){
+  upstream_path <- rbinom(length(c_fishAges), 1, pBypassUp)
+  upstream_path[upstream_path==0] <- 2  
+}
+
+if(river=='connecticut'){
+# Upstream path for connecticut river.
+# Draw migration path based on user-specified value 
+# of pSpill (probability of using spillway for 
+# upstream migration)
+  upstream_path <- rbinom(length(fishAges), 1, pSpillway)
+  upstream_path[upstream_path==0] <- 2
+}
+  
+if(river=='susquehanna'){
+# Upstream path for susquehanna river.
+# Draw migration path based on proportional
+# distribution of habitat in each route used 
+# for upstream migration)
+  upstream_path <- rmultinom(
+    n = length(c_fishAges),
+    size = 1,
+    prob = c(
+      p_JuniataUp,
+      p_WestBranchUp,
+      p_ChemungUp,
+      p_NorthBranchUp
+    )
+  )
+  upstream_path[2,][upstream_path[2,] > 0] <- 2
+  upstream_path[3,][upstream_path[3,] > 0] <- 3
+  upstream_path[4,][upstream_path[4,] > 0] <- 4
+  
+  upstream_path <- upstreamPathC(upstream_path)
+}
+
+# Upstream path for Saco river
+  if(river=='saco'){
+    upstream_path <- rep(1, length(c_fishAges))
+  }
+
+# Upstream path for kennebec river
+if(river=='kennebec'){
+  # Mainstem
+  upstream_path <- rbinom(length(c_fishAges), 1, (1-p_sebasticook))
+  # Sebasticook
+  upstream_path[upstream_path==0] <- 2  
+}
+    
+# Upstream path for hudson-mohawk rivers
+if(river=='hudson'){
+  # Upper Hudson
+  upstream_path <- rbinom(length(c_fishAges), 1, (1-pMohawk))
+  # Mohawk River
+  upstream_path[upstream_path==0] <- 2  
+}    
     
     
 # COLLECT L-H PARAMETERS ----
@@ -321,8 +468,7 @@ upstream_path <- assignFishToRoutes(river = .shadia$river, c_fishAges = c_fishAg
     names(traits_2)[ncol(traits_2)] <- 'upstream_path'
     #toc()
   }     
-  
-# Draw carrying capacity ----
+# DEFINE VARIABLES FOR SPAWNING DYNAMICS ----------------------------------
 # Carrying capacity for juvs based on potential production of adult shad in each
 # production unit based on values from the 2009 multi-species management plan
 # NOTE: These are divided by 1000 to make the simulations run faster!
@@ -333,7 +479,7 @@ upstream_path <- assignFishToRoutes(river = .shadia$river, c_fishAges = c_fishAg
 
 # Carrying capacity for each migration route 
   for(i in 1:length(k_pus)){
-    k_pus[[i]] <- ((habitat[[i]] / scalar) * sexRatio * batch)
+    k_pus[[i]] <- ((habitat[[i]] / scalar) * sex_Ratio * batch)
   }
     
   k_pus <- lapply(k_pus, function(x) {
@@ -341,8 +487,6 @@ upstream_path <- assignFishToRoutes(river = .shadia$river, c_fishAges = c_fishAg
     x
   })
 
-  
-# Mortality rates ---- 
 # Pre-spawning mortality. Right now, these are drawn independently. Conditional
 # draws may be more appropriate b/c pre-spawn mortality is probably affected by
 # similar factors but may differ in magnitude between males and females.
@@ -365,11 +509,11 @@ upstream_path <- assignFishToRoutes(river = .shadia$river, c_fishAges = c_fishAg
   environment(simMarineS) <- .shadia
   marineS <- rep(simMarineS(), maxAge)
   
-  
 
-# Time-based upstream passage at dams ----
-# Convert passage performance standards into rates 
-# over time based on passage efficiency and timely
+# FISH PASSAGE RATES AT DAMS ----------------------------------------------
+# Convert passage performance standards into rates over time based on passage
+# efficiency and timely
+#if (useTictoc) tic("passage rates at dams")
 up_effs <- mapply('+', upEffs, 1, SIMPLIFY = FALSE)
 for(i in 1:length(up_effs)){
   up_effs[[i]] <- mapply('^', up_effs[[i]], (1 / times[[i]]))
@@ -388,58 +532,98 @@ for(i in 1:length(eFFs)){
   eFFs[[i]][damRkms[[i]]] <- up_effs[[i]] # Dam-specific efficiencies group 1
 }
 
+#toc()
 
-
-# Seasonal changes in migration ----
+# UPSTREAM MIGRATION FOR EACH FISH IN EACH YEAR ---------------------------
 # Make the adult fish move upstream through space and time. The functions used
 # in this section call a collection of C++ and header files that were sourced
-# the front-end of this r script. 
-
-# Add in a motivation penalty based on photoperiod. Fish are assumed to most
+# the front-end of this r script. # Add in a motivation penalty based on photoperiod. Fish are assumed to most
 # motivated at the peak of the run. Makes a passage efficiency for each
 # rkm on each day.
 
 # Make a list of empty matrices to hold the results
 ppPenalty <- vector(mode = 'list', length = length(eFFs))
-  
   # Fill in the first element of the list for all rivers
   for(i in 1:length(ppPenalty)){
     ppPenalty[[i]] <-  matrix(0 , length(photo), maxrkm[i])
   }
 
 # Multiply passage efficiency by the penalty for each day
+  #if (useTictoc) {
+  #  tic("C++ function, motivationPenaltyC")
+  #}
   newTU_2 <- newTU[min(c_entryDate):max(c_end)]
-  
   # Fill in the first element of the list for all rivers
   for(i in 1:length(ppPenalty)){
-    ppPenalty[[i]] <-  motivationPenaltyC(eFFs[[i]], newTU_2, ppPenalty[[i]])
+  ppPenalty[[i]] <-  motivationPenaltyC(eFFs[[i]], newTU_2, ppPenalty[[i]])
   }
+  #toc() # C++ function, motivationPenaltyC
 
 # Track the mean motivational penalty for the spawning season
 # to be used in sensitivity analyses
 mot <- mean((1 - (newTU - min(newTU)) /
-        (max(newTU) - min(newTU)))[min(c_entryDate):max(c_end)])
+              (max(newTU) - min(newTU)))[min(c_entryDate):max(c_end)])
 
-
-# Containers for individual-based migration model ----
 # Pre-allocate vectors and matrices for agent-based migration model
-# These need to be river-specific. For the Penobscot River, this can
+# These need to be RIVER SPECIFIC. For the Penobscot River, this can
 # be done in bulk for both Piscataquis River spawners and Mainstem spawners
 # because we use vectorization to select the appropriate elements later on.
-rkm1 <- get_rkm1('susquehanna', c_fishAges)
+  # For Penobscot River:
+    if(river=='penobscot'){
+      rkm1 <- rep(41, length(c_fishAges))
+    }
+    # For Merrimack River:
+    if(river=='merrimack'){
+      rkm1 <- rep(35, length(c_fishAges))
+    }
+    # For Connecticut River:
+    if(river=='connecticut'){
+      rkm1 <- rep(90, length(c_fishAges))
+    }
+    # For Susquehanna River:
+    if(river=='susquehanna'){
+      rkm1 <- rep(0, length(c_fishAges))
+    }
+    # For Saco River:
+    if(river=='saco'){
+      rkm1 <- rep(0, length(c_fishAges))
+    }
+    # For kennebec River:
+    if(river=='kennebec'){
+      rkm1 <- rep(30, length(c_fishAges))
+    }
+    # For Hudson River:
+    if(river=='hudson'){
+      rkm1 <- rep(145, length(c_fishAges))
+    }
 
-# For all rivers:
-rkm2 <- matrix(0, ncol = length(day), nrow = length(c_fishAges))
+    # For all rivers:
+    rkm2 <- matrix(0, ncol = length(day), nrow = length(c_fishAges))
 
 # Get max rkm for each fish. Rivers with one passage route skip
 # the C++ function because all fish have same max RKM.
-# Create a vector of potential routes
-routes <- seq(1, nRoutes, 1)
-maxR <- maxrkmC(c_fishAges, maxrkm, upstream_path, routes)
-
+  # Create a vector of potential routes
+  routes <- seq(1, nRoutes, 1)
+  # Run the markmC C++ function to get max rkm for each fish given route
+  #if (useTictoc) {
+    #tic("C++ function, maxrkmC")
+  #}
+  # if(nRoutes==1){
+  #   max <- maxrkm
+  #   } else {
+  maxR <- maxrkmC(c_fishAges, maxrkm, upstream_path, routes)
+  #}
+  #toc()
   
+# Run the upstream migration model and get results
+# Run the agent-based model for upstream migration
+# Get start time for running ABM function in C++
+# ptmABM <- proc.time() # Uncomment to time it
+  #c_mid <- round(rowMeans(cbind(c_initial, c_end)))
   
-# Individual-based migration model ----
+#if (useTictoc) {
+#  tic("C++ ABM function, moveC")
+#}
 if(river=='penobscot'){
 # Run the ABM for main-to-piscataquis spawners
   moves_1 <- moveC(day,
@@ -614,11 +798,22 @@ if(river=='hudson'){
                   c_end[upstream_path == 2])
 }  
   
-### DSS: WANT TO COMMENT OUT BECAUSE THIS IS
-###      STILL UNUSED AND IT IS A BIG 
-###      LIFT IN TERMS OF MEMORY/TIME!
-# Calculate delay at each dam for each fish in the first
-# migration route for all rivers.
+# Calculate total run time for ABM
+#timeABM <- proc.time() - ptmABM # Uncomment to time it
+
+#toc() # C++ ABM function, moveC
+
+# Calculate delay for each fish in each migration route
+# Start timing the delay function in C++
+
+#if (useTictoc) {
+#  tic("C++ delay function, delayC")
+#}
+
+#ptmDelay  <- proc.time() # Uncomment to time it
+
+# Calculate delay at each dam for each fish in the first 
+# migration route for all rivers. 
   delay_1 <- delayC(moves_1, damRkms[[1]][2:nPU[1]])
   # Remaining routes for connecticut River
   if(river=='connecticut' | river=='merrimack' | river=='kennebec' | river=='hudson'){
@@ -659,7 +854,7 @@ if(river=='hudson'){
     colnames(delay_1) <- c('dEssex', 'dPawtucket', 'dAmoskeag', 'dHookset')
     colnames(delay_2) <- c('dEssex', 'dPawtucket', 'dAmoskeag', 'dHookset')
   }
-
+  
   # Names for delay matrix: connecticut
   if(river=='connecticut'){
     colnames(delay_1) <- c('dHolyoke', 'dCabot', 'dGatehouse', 'dVernon')
@@ -684,13 +879,13 @@ if(river=='hudson'){
                            'dYorkHaven', 'dSunbury', 'dNyLine',
                            'dRockBottom', 'dUnadilla', 'dColliersville')
   }
-
+  
   # Names for delay matrix: merrimack
   if(river=='saco'){
     colnames(delay_1) <- c('dCataract', 'dSprings', 'dSkelton', 'dBarmills',
                            'dBuxton', 'dBonny')
-  }
-
+  }  
+  
   # Names for delay matrix: kennebec
   if(river=='kennebec'){
     colnames(delay_1) <- c('dLockwood', 'dHydrokenn', 'dShawmut', 'dWeston')
@@ -706,14 +901,18 @@ if(river=='hudson'){
     colnames(delay_2) <- c(
       'dfederal',
       paste0( 'd', names(upstream)[grep('E', names(upstream))] )
-      )
+      )  
   }
   
+# Calculate run time for delay function in C++
+  #timeDelay <- proc.time() - ptmDelay
+  #toc() # C++ delay function, delayC
 
-# Annual spawning dynamics ----
+# SPAWNING DYNAMICS FOR EACH YEAR WITH ANNUAL VARIABILITY -----------------
 # Combine the data for each fish stored in traits with the final rkm of that
 # fish and the delay experienced by each fish at each dam for each of the
 # upstream passage routes
+#if (useTictoc) tic("SPAWNING DYNAMICS FOR EACH YEAR WITH ANNUAL VARIABILITY")
 
   # Penobscot River
   if(river=='penobscot'){
@@ -1236,9 +1435,12 @@ if(river=='hudson'){
     return(list(
     b.entry = b.entry,
     b.entryDate = b.entryDate,
+    b.lw = b.lw,
     b.mat = b.mat,
     b.prob = b.prob,
+    b.res = b.res,
     batch = batch,
+    bucklw = bucklw,
     c_BF = c_BF,
     c_end = c_end,
     c_entryDate = c_entryDate,
@@ -1246,6 +1448,8 @@ if(river=='hudson'){
     c_female = c_female,
     c_female_lf = c_female_lf,
     c_female_m = c_female_m,
+    c_femaleLWalpha = c_femaleLWalpha,
+    c_femaleLWbeta = c_femaleLWbeta,
     c_fishAges = c_fishAges,
     c_forkLength = c_forkLength,
     c_initial = c_initial,
@@ -1256,6 +1460,8 @@ if(river=='hudson'){
     c_male = c_male,
     c_male_lf = c_male_lf,
     c_male_m = c_male_m,
+    c_maleLWalpha = c_maleLWalpha,
+    c_maleLWbeta = c_maleLWbeta,
     c_mass = c_mass,
     c_RAF = c_RAF,
     c_repeat = c_repeat,
@@ -1275,6 +1481,8 @@ if(river=='hudson'){
     dMax = dMax,
     eFFs = eFFs,
     entry = entry,
+    fishAges = fishAges,
+    #id = id,
     juvenile_survival = juvenile_survival,
     k_pus = k_pus,
     maxR = maxR,
@@ -1292,6 +1500,7 @@ if(river=='hudson'){
     ppPenalty = ppPenalty,
     pre_spawn_survival_females = pre_spawn_survival_females,
     pre_spawn_survival_males = pre_spawn_survival_males,
+    #pred = pred,
     predTemps = predTemps,
     puNames = puNames,
     puRkm = puRkm,
@@ -1299,12 +1508,15 @@ if(river=='hudson'){
     res.R = res.R,
     r.entry = r.entry,
     r.entryDate = r.entryDate,
+    r.lw = r.lw,
     r.mat = r.mat,
     r.prob = r.prob,
+    r.res = r.res,
     rkm1 = rkm1,
     rkm2 = rkm2,
+    roelw = roelw,
     routes = routes,
-    sexRatio = sexRatio,
+    sex_Ratio = sex_Ratio,
     sOptim = sOptim,
     sp_1 = sp_1,
     sp_2 = sp_2,
@@ -1314,6 +1526,7 @@ if(river=='hudson'){
     spawnData_2 = spawnData_2,
     spawnData_3 = spawnData_3,
     spawnData_4 = spawnData_4,
+    stoch = stoch,
     tort = tort,
     traits = traits,
     traits_1 = traits_1,
@@ -1410,7 +1623,7 @@ if(river=='hudson'){
     rkm2 = rkm2,
     roelw = roelw,
     routes = routes,
-    sexRatio = sexRatio,
+    sex_Ratio = sex_Ratio,
     sOptim = sOptim,
     sp_1 = sp_1,
     sp_2 = sp_2,
@@ -1512,7 +1725,7 @@ if(river=='hudson'){
     rkm2 = rkm2,
     roelw = roelw,
     routes = routes,
-    sexRatio = sexRatio,
+    sex_Ratio = sex_Ratio,
     sOptim = sOptim,
     sp_1 = sp_1,
     sp_2 = sp_2,
@@ -1611,7 +1824,7 @@ if(river=='hudson'){
     rkm2 = rkm2,
     roelw = roelw,
     routes = routes,
-    sexRatio = sexRatio,
+    sex_Ratio = sex_Ratio,
     sOptim = sOptim,
     sp_1 = sp_1,
     spawnData_1 = spawnData_1,

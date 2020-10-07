@@ -9,7 +9,7 @@
 #' 
 #' @export
 #' 
-fwFishingMort <- function(){
+fwFishingMort <- function(inRiverF, river){
 
   if(river=='penobscot'){  
     inriv <- vector(mode = 'list', length = nRoutes)
@@ -43,7 +43,7 @@ fwFishingMort <- function(){
     inriv[[3]] <- rep(inRiverF, 8)
     inriv[[4]] <- rep(inRiverF, 10)    
     
-    return(list(inriv=inriv))
+    return(inriv=inriv)
   }  
   
   if(river=='saco'){  
@@ -66,7 +66,7 @@ fwFishingMort <- function(){
     inriv[[1]] <- rep(inRiverF, nPU[1])
     inriv[[2]] <- rep(inRiverF, nPU[2])
    
-    return(list(inriv=inriv))
+    return(inriv)
   }  
   
 }

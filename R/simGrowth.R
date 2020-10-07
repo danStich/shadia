@@ -19,7 +19,7 @@
 #' 
 #' @export
 #' 
-simGrowth <- function(female=TRUE){
+simGrowth <- function(region, female=TRUE){
 
 if(species=='shad'){  
   # Load system-region key
@@ -31,9 +31,9 @@ if(species=='shad'){
   # Sex-specific VBGF estimates ----
   # Load vbgf posteriors from built-in R datasets in shadia
     if(female){
-      pars <- vbgf_f
+      pars <- shadia::vbgf_f
     } else {
-      pars <- vbgf_m
+      pars <- shadia::vbgf_m
     }
     
   # Define current year for scenarios

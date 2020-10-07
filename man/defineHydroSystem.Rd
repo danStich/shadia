@@ -4,7 +4,7 @@
 \alias{defineHydroSystem}
 \title{Definition of hydro system}
 \usage{
-defineHydroSystem()
+defineHydroSystem(river)
 }
 \value{
 A list of values related to the hydro system, 

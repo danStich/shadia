@@ -4,7 +4,7 @@
 \alias{startingPop}
 \title{Create starting population}
 \usage{
-startingPop()
+startingPop(river)
 }
 \value{
 A list containing the initial population size,

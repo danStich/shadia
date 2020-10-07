@@ -15,8 +15,7 @@
 #'
 #' @export
 #'
-defineHydroSystem <- function(){
-  
+defineHydroSystem <- function(river){
   
 if(river=='penobscot'){  
   # For the Penobscot, there are two potential
@@ -141,13 +140,16 @@ if(river=='susquehanna'){
   damRkms[[3]] <- c(16, 39, 50, 90, 204, 472, 511)         
   damRkms[[4]] <- c(16, 39, 50, 90, 204, 472, 545, 645, 692)
   
-  return(list(
-  nRoutes=nRoutes,
-  nDams=nDams,
-  nPU=nPU,
-  maxrkm=maxrkm,
-  damRkms=damRkms
-  ))
+  hydro_out <- list(
+    nRoutes = nRoutes,
+    nDams = nDams,
+    nPU = nPU,
+    maxrkm = maxrkm,
+    damRkms = damRkms
+  )
+  
+  return(hydro_out)
+  
 }
   
   

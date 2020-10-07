@@ -4,7 +4,7 @@
 \alias{setScalar}
 \title{Set population scalar}
 \usage{
-setScalar()
+setScalar(spawningPool)
 }
 \description{
 Internal function for setting the

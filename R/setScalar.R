@@ -11,7 +11,7 @@
 #' @export
 #' 
 # Function to set population scalar
-setScalar <- function(){
+setScalar <- function(spawningPool){
     # if (sum(spawningPool) < 1e3) {
     #   scalar = 1
     # }
@@ -28,6 +28,6 @@ setScalar <- function(){
       scalar = 10000
     }
  
-return(list(scalar=scalar))
+return(scalar)
   
 }  

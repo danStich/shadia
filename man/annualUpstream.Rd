@@ -4,7 +4,7 @@
 \alias{annualUpstream}
 \title{Annual upstream migration parameters}
 \usage{
-annualUpstream()
+annualUpstream(river, damRkms)
 }
 \arguments{
 \item{NULL}{}

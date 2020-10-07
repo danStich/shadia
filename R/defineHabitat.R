@@ -22,7 +22,7 @@
 #' 
 #' @export
 #' 
-defineHabitat <- function(){
+defineHabitat <- function(river, nRoutes){
 
 if(river=='penobscot'){
 habitat <- vector(mode = 'list', length = nRoutes)
@@ -123,9 +123,9 @@ if(river=='susquehanna'){
   habitat[[3]] <- c(0, 0, 0, 1833, 11057, 6664, 104, 0)*250
   habitat[[4]] <- c(0, 0, 0, 1833, 11057, 6664, 1142, 1147, 0, 0)*250 
   
-  return(list(
-    habitat=habitat
-  ))
+  return(
+    habitat
+  )
 }    
   
 

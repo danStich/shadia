@@ -13,7 +13,7 @@
 #' 
 processPopulation <- function(isFemale, isEgg = FALSE) {
   environment(createPUMatrix) <- .shadia
-  environment(assignFishToRoutes) <- .shadia
+  environment(assignFishToPU) <- .shadia
   environment(additionalEggsProcessing) <- .shadia
   
     # uses generalized function for creating PU matrix
@@ -28,7 +28,7 @@ processPopulation <- function(isFemale, isEgg = FALSE) {
     
     for(i in 1:nRoutes){
       population[[i]] <- vector(mode = 'list', length = (nPU[[i]]))
-      population[[i]] <- assignFishToRoutes(i, get(paste0("PUS_",i), envir = .shadia))
+      population[[i]] <- assignFishToPU(i, get(paste0("PUS_",i), envir = .shadia))
     }
 
       # Remove NA values and replace with zeroes because
