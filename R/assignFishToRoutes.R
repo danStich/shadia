@@ -41,7 +41,7 @@ assignFishToRoutes <- function(river, c_fishAges) {
   }
   
   if(river=='connecticut'){
-    upstream_path <- rbinom(length(fishAges), 1, pSpillway) # Spillway
+    upstream_path <- rbinom(length(c_fishAges), 1, pSpillway) # Spillway
     upstream_path[upstream_path==0] <- 2
   }
     
