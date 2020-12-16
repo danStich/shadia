@@ -50,6 +50,10 @@
 #' are necessary if more than one passage efficiency
 #' is supplied for any dam.
 #' 
+#' @param downstream_juv A named list of downstream
+#' dam passage efficiencies at each dam in the 
+#' Susquehanna River for juveniles. 
+#' 
 #' @param inRiverF Annual, recreational harvest of 
 #' American shad. Parameterized as an annual rate [0, 1].
 #'
@@ -116,7 +120,6 @@
 #'     \item \code{S.prespawnF} Postspawn survival rate for males
 #'     \item \code{S.postspawnF} Postspawn survival rate for males
 #'     \item \code{S.juvenile} Hatch to out-migrant survival rate
-#'     \item \code{t.stoch} Temperature stochasticity parameter
 #'     \item \code{b.Arr} Mean arrival date for males
 #'     \item \code{r.Arr} Mean arrival date for females
 #'     \item \code{ATUspawn1} Accumulated thermal units at initiation of spawn
@@ -227,7 +230,7 @@ susquehannaRiverModel <- function(
   species = 'shad',
   nYears = 50,
   n_adults = 1e4,
-  timing = list(1,1,1,1,1,1,1,1,1,1),
+  timing = c(1,1,1,1,1,1,1,1,1,1),
   upstream = list(
     conowingo = 1,
     holtwood = 1,
@@ -274,28 +277,40 @@ susquehannaRiverModel <- function(
   ){
   
 # Error message for passage efficiencies
-  if( (length(upstream)!=10 ) |  (length(downstream)!=10 ) ){ 
-    stop('`upstream` must have 10 elements and `dowsntream` must have 10.')
-  }  
+if( (length(upstream)!=10 ) |  (length(downstream)!=10 ) ){ 
+  stop('`upstream` must have 10 elements and `dowsntream` must have 10.')
+}  
   
 # Error message for maximum number of years
-  if(as.numeric(substr(Sys.time(), start=1, stop=4)) + nYears > 2099){
-    stop('
-          
-          Error:
-          The current year plus nYears must not
-          exceed 2099 because the models rely on
-          climate predictions that are limited to
-          that time period.')
-  }
+if(as.numeric(substr(Sys.time(), start=1, stop=4)) + nYears > 2099){
+  stop('
+        
+        Error:
+        The current year plus nYears must not
+        exceed 2099 because the models rely on
+        climate predictions that are limited to
+        that time period.')
+}
     
-
+# Warning message about watershed settings and
+# implications
+if(watershed){
+cat('WARNING: when watershed is set to TRUE,
+  upstream passage rate(s) for Conowingo Dam will
+  be used for all upstream and downstream
+  passage efficiencies.')
+}
+  
+  
 # Set internal variables ----
 # Create hidden workspace
   .shadia <- new.env()  
   
 # Unlist function args to internal environment
   list2env(mget(names(formals(susquehannaRiverModel))), envir=.shadia)  
+  
+# Assign species
+  .shadia$species <- species
   
 # Assign River
   .shadia$river <- 'susquehanna'
@@ -323,10 +338,12 @@ susquehannaRiverModel <- function(
   ### DSS: would like to re-write this all
   pDraws <- upstream
   dDraws <- downstream
+  djDraws <- downstream_juv
   
   # For watershed applications of
   # the model, all values need to
   # match
+  # Adult upstream
   sampU <- sample(pDraws[[1]], 1)
   pDraws <- lapply(pDraws, 
                     function(x){
@@ -337,6 +354,7 @@ susquehannaRiverModel <- function(
                       }
                     )
   .shadia$up <- as.vector(mapply(sample, pDraws, 1))
+  # Adult downstream
   sampD <- sample(dDraws[[1]], 1)
   dDraws <- lapply(dDraws, 
                     function(x){
@@ -347,26 +365,27 @@ susquehannaRiverModel <- function(
                       }
                     )
   .shadia$d <- as.vector(mapply(sample, dDraws, 1))
-  
-  timely <- vector(mode='list', length=length(timing))
-  for(i in 1:length(timing)){
-    timely[[i]] <- sample(timing[[i]], 1)
-  }
+  # Juvenile downstream
+  sampDj <- sample(djDraws[[1]], 1)
+  dDjraws <- lapply(djDraws, 
+                    function(x){
+                      if(watershed){
+                        x <- sampDj}
+                      else
+                        {x <- x}
+                      }
+                    )
+  .shadia$dj <- as.vector(mapply(sample, djDraws, 1))  
+  # Upstream timing
+  timely <- timing
 
   # Survival reduction due to delay in project head ponds
   delay <- 1
 
-  # Warning message about watershed settings and
-  # implications
-  if(watershed){
-  cat('WARNING: when watershed is set to TRUE,
-    upstream passage rate(s) for Conowingo Dam will
-    be used for all upstream and downstream
-    passage efficiencies.')
-  }
 
+
+  
 # Memory pre-allocation and data load -----
-
   # Pre-allocate output vectors
   environment(defineOutputVectors) <- .shadia
   list2env(defineOutputVectors(), envir = .shadia)
@@ -374,7 +393,12 @@ susquehannaRiverModel <- function(
 # Time-invariant system-specific data ----
 
   # Maximum age
-  .shadia$maxAge <- getMaxAge(region = .shadia$region)
+  if(.shadia$species == "shad"){
+    .shadia$maxAge <- getMaxAge(region = .shadia$region)
+  }
+  if(.shadia$species == "blueback"){
+    .shadia$maxAge <- 12
+  }
   
   # Assign the starting population based on a seed of
   # age-1 fish and application of an ocean survival curve
@@ -388,15 +412,26 @@ susquehannaRiverModel <- function(
   
   # Define probability of recruitment to spawn
   # using regional estimates from ASMFC (2020)
-  .shadia$spawnRecruit <- getMaturity(region = .shadia$region)
+  if(.shadia$species == "shad"){
+    .shadia$spawnRecruit <- getMaturity(region = .shadia$region)
+  }
+  if(.shadia$species == "blueback"){
+    .shadia$spawnRecruit <- c(0, 0.009, 0.48, 0.90, 1, 1, 1, 1, 1, 1, 1, 1)
+  }
   
   ### NEED TO REPLACE WITH UPDATED ESTIMATES
   # Initial probabilities of repeat spawning - 
   # will be derived in annual loop after this
+  if(.shadia$species == "shad"){  
   .shadia$pRepeat <- c(0, 0, 0, 0.03, 0.11, 0.38, 0.87, 1, 1, 1, 1, 1, 1)
-  
+  }
+  if(.shadia$species == "blueback"){
+    .shadia$pRepeat <- c(0, 0, 0.004, 0.21, 0.67, 1, 1, 1, 1, 1, 1, 1)
+  } 
+    
   # Length-weight regression parameters by region
   # and separated by sex
+  ### Not used for shad, and not implemented for BBH
   .shadia$m_lw_params <- length_weight %>% subset(region == 'SI' & sex=='M')
   .shadia$f_lw_params <- length_weight %>% subset(region == 'SI' & sex=='F')
   
@@ -423,7 +458,8 @@ susquehannaRiverModel <- function(
   
   # Habitat numbers and configuration
   .shadia$habitat <- defineHabitat(river = .shadia$river, 
-                                   nRoutes = .shadia$nRoutes
+                                   nRoutes = .shadia$nRoutes,
+                                   species = .shadia$species
                                    )
     
   # Temperature data (daily averages by year)
@@ -453,7 +489,9 @@ for (k in 1:nRuns) {
   # each PU in each of the four
   # possible migration routes
   environment(fwFishingMort) <- .shadia
-  .shadia$inriv <- fwFishingMort(.shadia$inRiverF, river = .shadia$river)
+  .shadia$inriv <- fwFishingMort(.shadia$inRiverF, 
+                                 river = .shadia$river,
+                                 nRoutes = .shadia$nRoutes)
     
   # Starting population structure -----
   # Define starting population structure for each simulation

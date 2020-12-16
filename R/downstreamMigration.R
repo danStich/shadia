@@ -86,7 +86,7 @@ sPUj_Pisc[[1]] <- OpenD * (downstreamS ^ puRkm[[1]][1])
 sPUj_Pisc[[2]] <- (OpenD ^ 2) * (downstreamS ^ puRkm[[1]][2])
 sPUj_Pisc[[3]] <- sPUj_Pisc[[2]] *
   (((1 - pStillwaterD) * MilfordDj) +
-     (pStillwaterD * StillwaterD * OronoDj * GilmanDj)) * (downstreamS ^
+     (pStillwaterD * StillwaterDj * OronoDj * GilmanDj)) * (downstreamS ^
                                                              puRkm[[1]][3])
 sPUj_Pisc[[4]] <- sPUj_Pisc[[3]]	* HowlandDj * (downstreamS ^ puRkm[[1]][4])
 sPUj_Pisc[[5]] <- sPUj_Pisc[[4]] * BrownsMillDj * (downstreamS ^ puRkm[[1]][5])
@@ -97,7 +97,7 @@ sPUj_Main <- c()
 sPUj_Main[[1]] <- OpenD * (downstreamS ^ puRkm[[2]][1])
 sPUj_Main[[2]] <- (OpenD ^ 2) * (downstreamS ^ puRkm[[2]][2])
 sPUj_Main[[3]] <- sPUj_Pisc[[2]] * (((1 - pStillwaterD) * MilfordDj) +
-                                     (pStillwaterD * StillwaterD * OronoDj * GilmanDj)) * (downstreamS ^
+                                     (pStillwaterD * StillwaterDj * OronoDj * GilmanDj)) * (downstreamS ^
                                                                                              puRkm[[2]][3])
 sPUj_Main[[4]] <- sPUj_Main[[3]] * WestEnfieldDj * (downstreamS ^ puRkm[[2]][4])
 sPUj_Main[[5]] <- sPUj_Main[[4]] * MattaceunkDj * (downstreamS ^ puRkm[[2]][5])
@@ -362,10 +362,10 @@ if(river=='connecticut'){
   # dam passage efficiencies from the starting PU to the ocean.
     sPUj <- c()
     sPUj[[1]] <- downstreamS ^ puRkm[[1]][1]
-    sPUj[[2]] <- sPUj[[1]] * HolyokeD * (downstreamS ^ puRkm[[1]][2])
-    sPUj[[3]] <- sPUj[[2]] * CabotD * (downstreamS ^ puRkm[[1]][3])
-    sPUj[[4]] <- sPUj[[3]] * GatehouseD * (downstreamS ^ puRkm[[1]][4])
-    sPUj[[5]] <- sPUj[[4]] * VernonD * (downstreamS ^ puRkm[[1]][5])
+    sPUj[[2]] <- sPUj[[1]] * HolyokeDj * (downstreamS ^ puRkm[[1]][2])
+    sPUj[[3]] <- sPUj[[2]] * CabotDj * (downstreamS ^ puRkm[[1]][3])
+    sPUj[[4]] <- sPUj[[3]] * GatehouseDj * (downstreamS ^ puRkm[[1]][4])
+    sPUj[[5]] <- sPUj[[4]] * VernonDj * (downstreamS ^ puRkm[[1]][5])
 
   # Calculate number of males reaching the mouth of the river after spawn from
   # each PU
@@ -689,16 +689,16 @@ if(river=='kennebec'){
   # Mainstem
     sPUj <- c()
     sPUj[[1]] <- downstreamS ^ puRkm[[1]][1]
-    sPUj[[2]] <- sPUj[[1]] * lockwoodD * (downstreamS ^ puRkm[[1]][2])
-    sPUj[[3]] <- sPUj[[2]] * hydrokennD * (downstreamS ^ puRkm[[1]][3])
-    sPUj[[4]] <- sPUj[[3]] * shawmutD * (downstreamS ^ puRkm[[1]][4])
-    sPUj[[5]] <- sPUj[[4]] * westonD * (downstreamS ^ puRkm[[1]][5])
+    sPUj[[2]] <- sPUj[[1]] * lockwoodDj * (downstreamS ^ puRkm[[1]][2])
+    sPUj[[3]] <- sPUj[[2]] * hydrokennDj * (downstreamS ^ puRkm[[1]][3])
+    sPUj[[4]] <- sPUj[[3]] * shawmutDj * (downstreamS ^ puRkm[[1]][4])
+    sPUj[[5]] <- sPUj[[4]] * westonDj * (downstreamS ^ puRkm[[1]][5])
     
     # Bypass at Pawtucket
     sPU_sebj <- c()
     sPU_sebj[[1]] <- downstreamS ^ puRkm[[2]][1]
-    sPU_sebj[[2]] <- sPU_sebj[[1]] * bentonD * (downstreamS ^ puRkm[[2]][2])
-    sPU_sebj[[3]] <- sPU_sebj[[2]] * burnhamD * (downstreamS ^ puRkm[[2]][3])
+    sPU_sebj[[2]] <- sPU_sebj[[1]] * bentonDj * (downstreamS ^ puRkm[[2]][2])
+    sPU_sebj[[3]] <- sPU_sebj[[2]] * burnhamDj * (downstreamS ^ puRkm[[2]][3])
     
   # Calculate number of males reaching the mouth of the river after spawn from
   # each PU

@@ -593,3 +593,66 @@
 #' @source New York State Department of Environmental Conservation, unpublished data
 #' 
 "vbgf_hudson_m"
+
+#' @title Sex-aggregate von Bertalanffy growth parameters for
+#' blueback herring in the Kennebec River
+#' 
+#' @description Posterior distributions for parameters of a 
+#' sex-aggregated von Bertalanffy growth function for blueback herring
+#' in the Kennebec River, Maine, USA.
+#'  
+#' @format A list with elements corresponding to estimated parameters
+#' of a von Bertalanffy growth function with sex aggregated
+#' 
+#' @source Maine Department of Marine Resources, unpublished
+#' 
+"vbgf_kennebec_bbh_agg"
+
+#' @title Female von Bertalanffy growth parameters for
+#' blueback herring in the Hudson River
+#' 
+#' @description Posterior distributions for parameters of a 
+#' female-only von Bertalanffy growth function for blueback herring
+#' in the Kennebec River, Maine, USA.
+#' 
+#' @format A list with elements corresponding to estimated parameters
+#' of a von Bertalanffy growth function for females
+#' 
+#' @source Maine Department of Marine Resources, unpublished
+#' 
+"vbgf_kennebec_bbh_f"
+
+#' @title Female von Bertalanffy growth parameters for
+#' blueback herring in the Hudson River
+#' 
+#' @description Posterior distributions for parameters of a 
+#' male-only von Bertalanffy growth function for blueback herring
+#' in the Kennebec River, Maine, USA.
+#' 
+#' @format A list with elements corresponding to estimated parameters
+#' of a von Bertalanffy growth function for males
+#' 
+#' @source Maine Department of Marine Resources, unpublished
+#' 
+"vbgf_kennebec_bbh_m"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -16,6 +16,9 @@
 #' to match default FERC licenses, but can be 
 #' changed.
 #' 
+#' @param n_adults Number of starting adults in 
+#' population based on American shad demographics.
+#' 
 #' @param timing The amount of time required for
 #' upstream passage by individual fish (in days), 
 #' where the default (1) indicates a 24-h dam
@@ -45,6 +48,9 @@
 #' (not each year). Therefore, multiple model runs
 #' are necessary if more than one passage efficiency
 #' is supplied for any dam.
+#' 
+#' @param downstream_juv A named list of downstream
+#' juvenile dam passage efficiencies at each dam.
 #' 
 #' @param inRiverF Annual, recreational harvest of 
 #' American shad. Parameterized as an annual rate [0, 1].
@@ -109,7 +115,6 @@
 #'     \item \code{S.prespawnF} Postspawn survival rate for males
 #'     \item \code{S.postspawnF} Postspawn survival rate for males
 #'     \item \code{S.juvenile} Hatch to out-migrant survival rate
-#'     \item \code{t.stoch} Temperature stochasticity parameter
 #'     \item \code{b.Arr} Mean arrival date for males
 #'     \item \code{r.Arr} Mean arrival date for females
 #'     \item \code{ATUspawn1} Accumulated thermal units at initiation of spawn
@@ -184,7 +189,8 @@ sacoRiverModel <- function(
   nRuns = 1,
   species = 'shad',
   nYears = 40,
-  timing = list(1,1,1,1,1,1),
+  n_adults = 10e4,
+  timing = c(1,1,1,1,1,1),
   upstream = list(
     cataract = 1,
     spring = 1,
@@ -201,12 +207,20 @@ sacoRiverModel <- function(
     westBuxton = 1,
     bonnyEagle = 1
   ),
+  downstream_juv = list(
+    cataract = 1,
+    spring = 1,
+    barmills = 1,
+    skelton = 1,
+    westBuxton = 1,
+    bonnyEagle = 1
+  ),  
   inRiverF = 0,
   commercialF = 0,
   bycatchF = 0,
   indirect = 1,
   latent = 1,
-  watershed = TRUE,
+  watershed = FALSE,
   k_method = 'cumulative'
   ){
   
@@ -225,29 +239,44 @@ sacoRiverModel <- function(
           climate predictions that are limited to
           that time period.')
   }
-    
-# Create package workspace if it does not yet exist  
-  if(!exists(".shadia", mode="environment"))
-    .shadia <- new.env()  
+
+# Warning about using watershed TRUE
+  if(watershed){
+  cat('WARNING: when watershed is set to TRUE,
+    upstream and downstream passage rate(s)
+    for Cataract will be used at all dams.',
+    '\n','\n', sep='')
+  }  
+      
+# Create a hidden workspace
+  .shadia <- new.env()  
+ 
+# Assign species
+  .shadia$species <- species  
   
 # Assign River
-  river <- 'saco'
-  region <- 'Northern Iteroparous'
+  .shadia$river <- 'saco'
+  .shadia$region <- 'Northern Iteroparous'
   
 # Choose climate scenario
 # Right now, these are set as 'current' in all
 # models except Connecticut River. Hidden from
 # user because we lack projections from other
 # systems.
-  climate <- 'current'  
+  .shadia$climate <- 'current'  
   
 # Passage variable assignment -----
+  
+  # Upstream and downstream passage
+  ### DSS: would like to re-write this all
   pDraws <- upstream
   dDraws <- downstream
+  djDraws <- downstream_juv
   
   # For watershed applications of
   # the model, all values need to
   # match
+  # Adult upstream
   sampU <- sample(pDraws[[1]], 1)
   pDraws <- lapply(pDraws, 
                     function(x){
@@ -257,6 +286,8 @@ sacoRiverModel <- function(
                         {x <- x}
                       }
                     )
+  .shadia$up <- as.vector(mapply(sample, pDraws, 1))
+  # Adult downstream
   sampD <- sample(dDraws[[1]], 1)
   dDraws <- lapply(dDraws, 
                     function(x){
@@ -266,212 +297,207 @@ sacoRiverModel <- function(
                         {x <- x}
                       }
                     )
-  
-  if(watershed){
-  cat('WARNING: when watershed is set to TRUE,
-    upstream and downstream passage rate(s)
-    for Cataract will be used at all dams.',
-    '\n','\n', sep='')
-  }
-  
-# Set parameters -----
-  environment(setParameters) <- .shadia
-  list2env(setParameters(), envir = .shadia)
-  
+  .shadia$d <- as.vector(mapply(sample, dDraws, 1))
+  # Juvenile downstream
+  sampDj <- sample(djDraws[[1]], 1)
+  dDjraws <- lapply(djDraws, 
+                    function(x){
+                      if(watershed){
+                        x <- sampDj}
+                      else
+                        {x <- x}
+                      }
+                    )
+  .shadia$dj <- as.vector(mapply(sample, djDraws, 1))  
+  # Upstream timing
+  timely <- timing
+
+  # Survival reduction due to delay in project head ponds
+  delay <- 1
+
   
 # Data load and memory pre-allocation -----
-  if (.shadia$useTictoc) tic("Running data load...")
-  
-  environment(setUpData) <- .shadia
-  list2env(setUpData(), envir = .shadia)
-  
+  # Pre-allocate output vectors
   environment(defineOutputVectors) <- .shadia
   list2env(defineOutputVectors(), envir = .shadia)
-  
-  if (.shadia$useTictoc) toc()
 
   
-# Hydro system configuration -----
-  environment(defineHydroSystem) <- .shadia
-  list2env(defineHydroSystem(), envir = .shadia)
-  
-  environment(defineHabitat) <- .shadia
-  list2env(defineHabitat(), envir = .shadia)
+# Time-invariant system-specific data ----
 
-  
-# Timers and progress -----
-  # Start the timer for the simulation
-  ptmSim <- proc.time()
-  
-  # Progress meter
-  if (.shadia$useProgress) {
-    pb <-
-      txtProgressBar(
-        min = 0,
-        max = nRuns * nYears,
-        style = 3,
-        char = '+'
-      )
+  # Maximum age
+  if(.shadia$species == "shad"){
+    .shadia$maxAge <- getMaxAge(region = .shadia$region)
+  }
+  if(.shadia$species == "blueback"){
+    .shadia$maxAge <- 7
   }
   
-  if (.shadia$useTictoc) tic("total time")
-
-
-# SIMULATION SETTINGS FOR OUTER LOOP -----
-  # Outer loop for number of simulations- 
-  # this is how many runs it will do
-  for (k in 1:nRuns) {
-    .shadia$k <- k
-    if (.shadia$useTictoc) tic(paste("OUTER loop", .shadia$k))
+  # Assign the starting population based on a seed of
+  # age-1 fish and application of an ocean survival curve
+  # The population size is scaled to make the models
+  # run faster. Output is re-scaled
+  ### DSS: This will be removed with new population
+  ###      seed based on number of spawners
+  .shadia$Age1 <- rpois(1, 1e4)  
+  ### COME BACK AND REMOVE THIS WHEN READY. POP IS 
+  ### NOW INITIALIZED BY NUMBER OF ADULTS
   
-    # JMS: load the saved sampled variables for repeatability:
-    # JMS: Perform sampling and save variables for the outer-loop ONE TIME, for repeatability
-    # otherwise, load previously saved variables
-    if (.shadia$doOuterSampling) {
-      #if (useTictoc) tic("Running outer loop sampling...")
-      environment(outerLoopSampling) <- .shadia
-      list2env(outerLoopSampling(), envir = .shadia)
-      #if (useTictoc) toc()
-    } else {
-      #if (useTictoc) tic("LOADING outer loop sampling...")
-      load(outerLoopSamplingRData)
-      #if (useTictoc) toc()
-    }
+  # Define probability of recruitment to spawn
+  # using regional estimates from ASMFC (2020)
+  if(.shadia$species == "shad"){
+    .shadia$spawnRecruit <- getMaturity(region = .shadia$region)
+  }
+  if(.shadia$species == "blueback"){
+    .shadia$spawnRecruit <- c(0, 0.01, 0.48, 0.90, 1, 1, 1)
+  }
+  
+  ### NEED TO REPLACE WITH UPDATED ESTIMATES
+  # Initial probabilities of repeat spawning - 
+  # will be derived in annual loop after this
+  if(.shadia$species == "shad"){
+    .shadia$pRepeat <- c(0, 0, 0, 0.03, 0.11, 0.38, 0.87, 1, 1, 1, 1, 1, 1)
+  }
+  if(.shadia$species == "blueback"){
+    .shadia$pRepeat <- c(0, 0, 0.004, 0.28, 0.83, 1, 1)
+  }  
+  # Length-weight regression parameters by region
+  # and separated by sex
+  ### Not used for shad, and not implemented for BBH
+  .shadia$m_lw_params <- length_weight %>% subset(region == 'NI' & sex=='M')
+  .shadia$f_lw_params <- length_weight %>% subset(region == 'NI' & sex=='F')
+  
+  # Fishing mortality
+  .shadia$commercialF <- rep(commercialF, .shadia$maxAge)
+  .shadia$bycatchF <- rep(bycatchF, .shadia$maxAge) 
+  .shadia$inRiverF <- inRiverF
+  
+  # Survival rates for various life-history stages
+  # Define ocean survival for each age (1-M from Hoenig 1983 in ASMFC 2007
+  # stock assessment). This is now used only to seed the population. All
+  # models now use climate-informed mortality estimates for VBGF parameters
+  # derived as part of the 2020 ASMFC stock assessment.
+  .shadia$downstreamS <- 1  # Survival per km (natural)
+  .shadia$oceanSurvival <- rep(rbeta(1, 320, 400), .shadia$maxAge)
+  
+  # Hydro system configuration
+  environment(defineHydroSystem) <- .shadia
+  .shadia$hydro_out <- defineHydroSystem(river = .shadia$river)
+  .shadia$nRoutes <- .shadia$hydro_out$nRoutes
+  .shadia$nDams <- .shadia$hydro_out$nDams
+  .shadia$maxrkm <- .shadia$hydro_out$maxrkm
+  .shadia$damRkms <- .shadia$hydro_out$damRkms
+  .shadia$nPU <- .shadia$hydro_out$nPU
+  
+  # Habitat numbers and configuration
+  .shadia$habitat <- defineHabitat(river = .shadia$river, 
+                                   nRoutes = .shadia$nRoutes,
+                                   species = .shadia$species
+                                   )
+    
+  # Temperature data (daily averages by year)
+  environment(setUpTemperatureData) <- .shadia
+  .shadia$mu <- setUpTemperatureData(river = .shadia$river) 
+  
+  
+### Can the outer loop be eliminated?  
+# Outer loop for number of simulations (nRuns) ----
+# this is how many runs it will do for each nYears
+for (k in 1:nRuns) {
+  .shadia$k <- k
 
-  # . Dam passage efficiencies -----
-    environment(definePassageRates) <- .shadia
-    list2env(definePassageRates(), envir = .shadia)
+### NONE OF THIS RELIES ON LOOPING ANYMORE  
+  # Dam passage efficiencies
+  environment(definePassageRates) <- .shadia
+  list2env(definePassageRates(.shadia$river), envir = .shadia)
+  ### WILL THROW GLOBAL BINDING NOTES ON CHECK
+  
+  # Upstream passage efficiencies and migration route
+  environment(annualUpstream) <- .shadia
+  .shadia$ann_up <- annualUpstream(.shadia$river, .shadia$damRkms)
+  .shadia$times <- .shadia$ann_up$times
+  .shadia$upEffs <- .shadia$ann_up$upEffs
+
+  # Define in-river fishing mortality for 
+  # each PU in each of the four
+  # possible migration routes
+  environment(fwFishingMort) <- .shadia
+  .shadia$inriv <- fwFishingMort(.shadia$inRiverF, 
+                                 river = .shadia$river,
+                                 nRoutes = .shadia$nRoutes)
     
-  # . Upstream passage efficiencies and migration route -----
-    environment(annualUpstream) <- .shadia
-    list2env(annualUpstream(), envir = .shadia)
-    
-  # . In-river fishing mortality
-    # Define in-river fishing mortalities for 
-    # each PU in each of the four
-    # possible migration routes
-    environment(fwFishingMort) <- .shadia
-    list2env(fwFishingMort(), envir = .shadia)
-    
-# Starting population structure -----
-# Define starting population structure for each simulation
+  # Starting population structure -----
+  # Define starting population structure for each simulation
   environment(startingPop) <- .shadia
-  list2env(startingPop(), envir = .shadia)
+  .shadia$starting_pop <- simStartingPop(adults = n_adults, 
+                                         .shadia$maxAge, 
+                                         .shadia$oceanSurvival,
+                                         .shadia$spawnRecruit)
+  .shadia$pop <- .shadia$starting_pop$pop
+  .shadia$spawningPool <- .shadia$starting_pop$spawningPool
+  .shadia$recruitmentPool <- .shadia$starting_pop$recruitmentPool
 
-# Inner loop -----
-  # Run sim for nYears
-  for (n in 1:nYears) {
-    
-    # Assign iterator to a var so it
-    # can be accessed in functions called
-    .shadia$n <- n
-    
-    #if (useTictoc) tic(paste("inner loop", n))
+ ### THIS STAYS IN AS A LOOP UNLESS CHANGED INTERNALLY
+  # Inner loop -----
+    # Run sim for nYears
+    for (n in 1:nYears) {
+      
+      # Assign iterator to a var so it
+      # can be accessed in functions called
+      .shadia$n <- n
+      
+      # Reset the scalar based on population size
+      .shadia$scalar <- setScalar(.shadia$spawningPool)
+      
+      # Scale the population
+      scaled_pop <- scalePop(.shadia$pop,
+                             .shadia$spawningPool, 
+                             .shadia$recruitmentPool, 
+                             .shadia$scalar)
+      
+     .shadia$pop <- scaled_pop[[1]]
+     .shadia$spawningPool <- scaled_pop[[2]]
+     .shadia$recruitmentPool <- scaled_pop[[3]]     
 
-    # Remove dynamically named objects from the work space so there are no
-    # legacy effects in naming new objects- this could lead to negative
-    # population sizes and the like
-    #rm(list = ls(.shadia)[grep(ls(.shadia), pat = '_')])
-    
-    # Reset the scalar based on population size
-    environment(setScalar) <- .shadia
-    list2env(setScalar(), envir = .shadia)
-    
-    # Scale the population
-    environment(scalePop) <- .shadia
-    list2env(scalePop(), envir = .shadia)
-    
-    # If you need to load/reuse inner loop sampling,
-    # uncomment/use this stop, then call
-    # the inner loop sampling code.
-    #stop('halt here for testing')
-
-    # JMS: Perform sampling and save variables 
-    # for the inner-loop ONE TIME, for repeatability
-    # otherwise load the variables we saved...
-    if (.shadia$doInnerSampling) {
-      #if (useTictoc) tic("Running inner loop sampling...")
+      # Perform innerLoopSampling
       environment(innerLoopSampling) <- .shadia
-      list2env(innerLoopSampling(), envir = .shadia)
-      #if (useTictoc) toc()
-    } else {
-      #if (useTictoc) tic("LOADING inner loop sampling...")
-      load(.shadia$innerLoopSamplingRData)
-      #if (useTictoc) toc()
-    }
-
-
-  # . Process fish and eggs ----
-    # Processing of populations generalized and
-    # moved into functions. See defineFunctions.R
-    # JMS Dec 2017
-          
-    #if (useTictoc) tic("calculate counts in each PU")
-    
-    # Make matrices to hold fish
-    environment(populationMatrices) <- .shadia
-    list2env(populationMatrices(), envir = .shadia)
-
-    # Fill them in and change them into cohorts
-    environment(processCohorts) <- .shadia
-    list2env(processCohorts(), envir = .shadia)
-    
-    
-  # . Downstream migration -----
-    #if (useTictoc) toc() 
-    # Post-spawning mortality
-    environment(postSpawnMortality) <- .shadia
-    list2env(postSpawnMortality(), envir = .shadia)
-
-    # Define downstream migration survival rate matrices
-    # and then apply them to calculate the number of adult
-    # and juvenile fish surviving to the ocean.
-    environment(downstreamMigration) <- .shadia
-    list2env(downstreamMigration(), envir = .shadia)
-
+      list2env(innerLoopSampling(.shadia$habitat), envir = .shadia)
   
-  # . The next generation -----
-    # next year (after applying ocean survival)
-    #if (useTictoc) tic("NEXT GENERATION")
-    environment(nextGeneration) <- .shadia
-    list2env(nextGeneration(), envir = .shadia)
-    # if (useTictoc) toc()
-    
-
-  # . Store output in pre-allocated vectors -----
-    environment(fillOutputVectors) <- .shadia
-    list2env(fillOutputVectors(), envir = .shadia)
-
-  # PROGRESS METER UPDATE
-    if (.shadia$useProgress) {
-      Sys.sleep(0.001) # System time-out for update
-      setTxtProgressBar(pb, (n + nYears * (k - 1))) # Calculates % completed
-    }
-
-  #if (useTictoc) toc() # inner loop
-  } # Year loop
-
-  if (.shadia$useTictoc) toc() # outer loop
+      # Process fish and eggs
+      # Make matrices to hold fish
+      environment(populationMatrices) <- .shadia
+      list2env(populationMatrices(), envir = .shadia)
   
+      # Fill them in and change them into cohorts
+      environment(processCohorts) <- .shadia
+      list2env(processCohorts(), envir = .shadia)
+      
+    # Downstream migration
+      # Post-spawning mortality
+      environment(postSpawnMortality) <- .shadia
+      list2env(postSpawnMortality(), envir = .shadia)
+  
+      # Define downstream migration survival rate matrices
+      # and then apply them to calculate the number of adult
+      # and juvenile fish surviving to the ocean.
+      environment(downstreamMigration) <- .shadia
+      list2env(downstreamMigration(), envir = .shadia)
+  
+    # . The next generation -----
+      # next year (after applying ocean survival)
+      environment(nextGeneration) <- .shadia
+      list2env(nextGeneration(), envir = .shadia)
+
+    # . Store output in pre-allocated vectors -----
+      environment(fillOutputVectors) <- .shadia
+      list2env(fillOutputVectors(), envir = .shadia)
+  
+    } # Year loop
+
 } # Simulation loop
 
 # Write the simulation results to an object
 # that can be returned to workspace
   environment(writeData) <- .shadia
   writeData()
-
-# TIMING RESULTS FOR SIMULATION BENCHMARKING ------------------------------
-# This section uses the timing prompts from earlier in the script to calculate
-# the total run time for the simulation.
-# if (useTictoc) toc() #"total"
-# 
-# simTime <- proc.time() - ptmSim
-# print(' ')
-# #print('timeABM')
-# #print.proc_time(timeABM)
-# #print('timeDelay')
-# #print.proc_time(timeDelay)
-# print('simTime')
-# print.proc_time(simTime)
 
 }

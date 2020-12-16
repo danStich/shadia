@@ -22,11 +22,9 @@
 simGrowth <- function(region, female=TRUE){
 
 if(species=='shad'){  
-  # Load system-region key
-    data("regions")
     
   # Get number for region from system-region key
-    numregion <-  unique(regions$num[regions$Region==region])
+    numregion <-  unique(shadia::regions$num[shadia::regions$Region==region])
     
   # Sex-specific VBGF estimates ----
   # Load vbgf posteriors from built-in R datasets in shadia
@@ -75,12 +73,25 @@ if(species=='shad'){
   if(species=='blueback'){
     
     # Sex-specific VBGF estimates ----
-    # Load vbgf posteriors from built-in R datasets
+    
+    if(river == "kennebec"){
+      
+      if(female){
+        pars <- vbgf_kennebec_bbh_f
+      } else {
+        pars <- vbgf_kennebec_bbh_m
+      }
+      
+    } else {
+    
+    # Load vbgf posteriors from built-in R datasets for the rest
       if(female){
         pars <- vbgf_hudson_f
       } else {
         pars <- vbgf_hudson_m
       }
+    
+    }
     
     # Predict VBGF parameters from model estimates
       Linf <- exp(pars$b0_linf)

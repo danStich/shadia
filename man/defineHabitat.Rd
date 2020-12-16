@@ -4,7 +4,7 @@
 \alias{defineHabitat}
 \title{Production potential definition}
 \usage{
-defineHabitat(river, nRoutes)
+defineHabitat(river, nRoutes, species)
 }
 \value{
 A list of habitat production potential

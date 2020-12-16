@@ -22,18 +22,16 @@
 #' @export
 #' 
 simMarineS <- function(){
-# Load system-region key
-  data("regions")
-  
+
 # Get number for region from system-region key
-  numregion <-  unique(regions$num[regions$Region==region])
+  numregion <-  unique(shadia::regions$num[shadia::regions$Region==region])
   
 # Sex-aggregate VBGF mort estimates ----
 # American shad  
   if(species=='shad'){
     
   # Load vbgf posteriors
-    data("vbgf_agg")
+    vbgf_agg <- shadia::vbgf_agg
   
   # Define current year for scenarios
     current_year <- lubridate::year(Sys.time()) + (n-1)
@@ -79,14 +77,22 @@ simMarineS <- function(){
   # Blueback herring
     if(species=='blueback'){
     
-    # Load vbgf posteriors
-      data("vbgf_hudson_agg")    
+      if(region == 'Northern Iteroparous'){
+        
+      # Predict VBGF parameters from model estimates
+        Linf_agg <- exp(shadia::vbgf_kennebec_bbh_agg$b0_linf)
+        K_agg <- exp(shadia::vbgf_kennebec_bbh_agg$b0_k)
+        t0_agg <- exp(shadia::vbgf_kennebec_bbh_agg$b0_t0) - 10           
+        
+      } else {
+        
+      # Predict VBGF parameters from model estimates
+        Linf_agg <- exp(shadia::vbgf_hudson_agg$b0_linf)
+        K_agg <- exp(shadia::vbgf_hudson_agg$b0_k)
+        t0_agg <- exp(shadia::vbgf_hudson_agg$b0_t0) - 10  
+        
+      }
       
-    # Predict VBGF parameters from model estimates
-      Linf_agg <- exp(vbgf_hudson_agg$b0_linf)
-      K_agg <- exp(vbgf_hudson_agg$b0_k)
-      t0_agg <- exp(vbgf_hudson_agg$b0_t0) - 10      
-    
     }
   
 # Estimate natural mortality (instantaneous) from the posterior

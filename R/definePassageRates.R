@@ -22,8 +22,8 @@ if(river=='penobscot'){
   Open <- 1.00
   Confluence <- 1.00
   OronoUp <- 1             # Orono upstream passage
-  StillwaterUp <- 1             # Stillwater upstream passage
-  GilmanUp <- 1                 # Gilman Falls upstream passage
+  StillwaterUp <- 1        # Stillwater upstream passage
+  GilmanUp <- 1            # Gilman Falls upstream passage
   MilfordUp <- up[1]       # Milford upstream passage
   HowlandUp <- up[2]       # Howland upstream passage
   WestEnfieldUp <- up[3]   # West Enfield upstream passage
@@ -47,20 +47,17 @@ if(river=='penobscot'){
   MattaceunkD <- d[9] * indirect * latent * delay    # Mattaceunk (Weldon) passage
 
   # Make downstream survival probabilities for juveniles
-  # Unused. Moved to separate calculations in the 
-  # Connecticut River Model. All runs in the Penobscot
-  # River to date have used equal performance standards.
-  # Will update this model to use the same approach.
-  GilmanDj <- 1.00                            # Gilman passage
-  StillwaterDj <- StillwaterD * jReduction    # Stillwater passage
-  OronoDj <- OronoD * jReduction              # Orono passage
-  MilfordDj <- MilfordD * jReduction          # Milford passage
-  HowlandDj <- HowlandD * jReduction          # Howland passage
-  WestEnfieldDj <- WestEnfieldD * jReduction  # West Enfield passage
-  BrownsMillDj <- BrownsMillD * jReduction    # Browns Mill passage
-  MooseheadDj <- MooseheadD * jReduction      # Moosehead (Dover) passage
-  GuilfordDj <- GuilfordD * jReduction        # Guilford Passage
-  MattaceunkDj <- MattaceunkD * jReduction    # Mattaceunk (Weldon) passage
+  OpenDj <- 1.00                                        # Perfect passage open reaches
+  GilmanDj <- 1.00 * delay                              # Gilman passage
+  StillwaterDj <- dj[1] * indirect * latent * delay    # Stillwater passage
+  OronoDj <- dj[2] * indirect * latent * delay         # Orono passage
+  MilfordDj <- dj[3] * indirect * latent * delay       # Milford passage
+  HowlandDj <- dj[4] * indirect * latent * delay       # Howland passage
+  WestEnfieldDj <- dj[5] * indirect * latent * delay   # West Enfield passage
+  BrownsMillDj <- dj[6] * indirect * latent * delay    # Browns Mill passage
+  MooseheadDj <- dj[7] * indirect * latent * delay     # Moosehead (Dover) passage
+  GuilfordDj <- dj[8] * indirect * latent * delay      # Guilford Passage
+  MattaceunkDj <- dj[9] * indirect * latent * delay    # Mattaceunk (Weldon) passage
 
   return(
     list(
@@ -88,6 +85,7 @@ if(river=='penobscot'){
       MooseheadUp = MooseheadUp,
       Open = Open,
       OpenD = OpenD,
+      OpenDj = OpenDj,
       OronoD = OronoD,
       OronoDj = OronoDj,
       OronoUp = OronoUp,
@@ -120,15 +118,11 @@ if(river=='merrimack'){
   HooksetD <- d[5] * indirect * latent * delay
   
   # Make downstream survival probabilities for juveniles
-  # Unused. Moved to separate calculations in the 
-  # Connecticut River Model. All runs in the Penobscot
-  # River to date have used equal performance standards.
-  # Will update this model to use the same approach.
-  EssexDj <- d[1] * indirect * latent * delay
-  PawtucketBypassDj <- d[2] * indirect * latent * delay
-  PawtucketDj <- d[3] * indirect * latent * delay
-  AmoskeagDj <- d[4] * indirect * latent * delay
-  HooksetDj <- d[5] * indirect * latent * delay  
+  EssexDj <- dj[1] * indirect * latent * delay
+  PawtucketBypassDj <- dj[2] * indirect * latent * delay
+  PawtucketDj <- dj[3] * indirect * latent * delay
+  AmoskeagDj <- dj[4] * indirect * latent * delay
+  HooksetDj <- dj[5] * indirect * latent * delay  
   
   return(
     list(
@@ -170,14 +164,10 @@ if(river=='connecticut'){
   VernonD <- d[4] * indirect * latent * delay
   
   # Make downstream survival probabilities for juveniles.
-  # Unused. Moved to separate calculations in the 
-  # Connecticut River Model. All runs in the Penobscot
-  # River to date have used equal performance standards.
-  # Will update this model to use the same approach.
-  HolyokeDj <- d[1] * indirect * latent * delay
-  CabotDj <- d[2] * indirect * latent * delay
-  GatehouseDj <- d[3] * indirect * latent * delay
-  VernonDj <- d[4] * indirect * latent * delay
+  HolyokeDj <- dj[1] * indirect * latent * delay
+  CabotDj <- dj[2] * indirect * latent * delay
+  GatehouseDj <- dj[3] * indirect * latent * delay
+  VernonDj <- dj[4] * indirect * latent * delay
   
   return(
     list(
@@ -232,24 +222,19 @@ if(river=='susquehanna'){
   ColliersvilleD <- d[10] * indirect * latent * delay
 
   # Make downstream survival probabilities for juveniles.
-  # Unused. Moved to separate calculations in the 
-  # Connecticut River Model. All runs in the Penobscot
-  # River to date have used equal performance standards.
-  # Will update this model to use the same approach.
-  ConowingoDj <- d[1] * indirect * latent * delay
-  HoltwoodDj <- d[2] * indirect * latent * delay
-  SafeHarborDj <- d[3] * indirect * latent * delay
-  YorkHavenDj <- d[4] * indirect * latent * delay
+  ConowingoDj <- dj[1] * indirect * latent * delay
+  HoltwoodDj <- dj[2] * indirect * latent * delay
+  SafeHarborDj <- dj[3] * indirect * latent * delay
+  YorkHavenDj <- dj[4] * indirect * latent * delay
   junConfluenceDj <- 1
-  SunburyDj <- d[5]* indirect * latent * delay
-  WilliamsportDj <- d[6] * indirect * latent * delay
-  LockHavenDj <- d[7] * indirect * latent * delay
+  SunburyDj <- dj[5]* indirect * latent * delay
+  WilliamsportDj <- dj[6] * indirect * latent * delay
+  LockHavenDj <- dj[7] * indirect * latent * delay
   NyDj <- 1
-  ChaseHibbardDj <- d[8] * indirect * latent * delay
-  RockBottomDj <- d[9]  * indirect * latent * delay
+  ChaseHibbardDj <- dj[8] * indirect * latent * delay
+  RockBottomDj <- dj[9]  * indirect * latent * delay
   UnadillaReachDj <- 1
-  ColliersvilleDj <- d[10] * indirect * latent * delay
-
+  ColliersvilleDj <- dj[10] * indirect * latent * delay
 
   return(
     list(
@@ -318,16 +303,12 @@ if(river=='saco'){
   bonnyD <- d[6] * indirect * latent * delay
   
   # Make downstream survival probabilities for juveniles
-  # Unused. Moved to separate calculations in the 
-  # Connecticut River Model. All runs in the Penobscot
-  # River to date have used equal performance standards.
-  # Will update this model to use the same approach.
-  cataractDj <- d[1] * indirect * latent * delay
-  springDj <- d[2] * indirect * latent * delay
-  skeltonDj <- d[3] * indirect * latent * delay
-  barmillsDj <- d[4] * indirect * latent * delay
-  buxtonDj <- d[5] * indirect * latent * delay  
-  bonnyDj <- d[6] * indirect * latent * delay  
+  cataractDj <- dj[1] * indirect * latent * delay
+  springDj <- dj[2] * indirect * latent * delay
+  skeltonDj <- dj[3] * indirect * latent * delay
+  barmillsDj <- dj[4] * indirect * latent * delay
+  buxtonDj <- dj[5] * indirect * latent * delay  
+  bonnyDj <- dj[6] * indirect * latent * delay  
 
   return(
     list(
@@ -379,12 +360,12 @@ if(river=='kennebec'){
   # Connecticut River Model. All runs in the Penobscot
   # River to date have used equal performance standards.
   # Will update this model to use the same approach.
-  lockwoodDj <- d[1] * indirect * latent * delay
-  hydrokennDj <- d[2] * indirect * latent * delay
-  shawmutDj <- d[3] * indirect * latent * delay
-  westonDj <- d[4] * indirect * latent * delay
-  bentonDj <- d[5] * indirect * latent * delay
-  burnhamDj <- d[6] * indirect * latent * delay
+  lockwoodDj <- dj[1] * indirect * latent * delay
+  hydrokennDj <- dj[2] * indirect * latent * delay
+  shawmutDj <- dj[3] * indirect * latent * delay
+  westonDj <- dj[4] * indirect * latent * delay
+  bentonDj <- dj[5] * indirect * latent * delay
+  burnhamDj <- dj[6] * indirect * latent * delay
 
   return(
     list(
@@ -417,11 +398,11 @@ if(river=='hudson'){
   Open <- 1.00
   federalUp <- up[1]
   for(i in 1:length(grep('C', names(upstream)))){
-    assign(paste0(names(upstream)[i+1],"Up"), up[i+1]*fB)
+    assign(paste0(names(upstream)[i+1],"Up"), up[i+1])
   }
   
   for(i in 1:length(grep('E', names(upstream)))){
-    assign(paste0(names(upstream)[i+7],"Up"), up[i+7]*fB)
+    assign(paste0(names(upstream)[i+7],"Up"), up[i+7])
   }
   
   # Downstream passage efficiencies
@@ -438,18 +419,14 @@ if(river=='hudson'){
   }  
   
   # Make downstream survival probabilities for juveniles
-  # Unused. Moved to separate calculations in the 
-  # Connecticut River Model. All runs in the Penobscot
-  # River to date have used equal performance standards.
-  # Will update this model to use the same approach.
   OpenDj <- 1.00
   federalDj <- d[1] * other
-  for(i in 1:length(grep('C', names(downstream)))){
-    assign(paste0(names(downstream)[i+1],"Dj"), d[i+1]*other)
+  for(i in 1:length(grep('C', names(downstream_juv)))){
+    assign(paste0(names(downstream_juv)[i+1],"Dj"), dj[i+1]*other)
   }
   
-  for(i in 1:length(grep('E', names(downstream)))){
-    assign(paste0(names(downstream)[i+7],"Dj"), d[i+7]*other)
+  for(i in 1:length(grep('E', names(downstream_juv)))){
+    assign(paste0(names(downstream_juv)[i+7],"Dj"), dj[i+7]*other)
   }    
 
 

@@ -17,10 +17,6 @@
 defineOutputVectors <- function(){
   
 if(river=='penobscot'){  
-  # if (useTictoc | useProgress) {
-  #   print(paste('nRuns = ',nRuns))
-  #   print(paste('nYears = ',nYears))
-  # }
   
   # Define empty vectors to hold results for outer loop
     
@@ -28,46 +24,13 @@ if(river=='penobscot'){
   years <- vector(mode = 'numeric', length = nYears * nRuns)
   
   climate_scen <- vector(mode='character', length = nYears * nRuns)
-  
-  # Empty container to hold Weldon scenario (depricated)
-  scen <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Upstream passage effeciencies
-  OrUp <- vector(mode = 'numeric', length = nYears * nRuns)
-  StUp <- vector(mode = 'numeric', length = nYears * nRuns)
-  GilmUp <- vector(mode = 'numeric', length = nYears * nRuns)
-  MdUp <- vector(mode = 'numeric', length = nYears * nRuns)
-  HdUp <- vector(mode = 'numeric', length = nYears * nRuns)
-  WEnfUp <- vector(mode = 'numeric', length = nYears * nRuns)
-  BMillUp <- vector(mode = 'numeric', length = nYears * nRuns)
-  MooseUp <- vector(mode = 'numeric', length = nYears * nRuns)
-  GuilfUp <- vector(mode = 'numeric', length = nYears * nRuns)
-  MattUp <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Downstream passage efficiencies
-  OrD <- vector(mode = 'numeric', length = nYears * nRuns)
-  StD <- vector(mode = 'numeric', length = nYears * nRuns)
-  GilmD <- vector(mode = 'numeric', length = nYears * nRuns)
-  MdD <- vector(mode = 'numeric', length = nYears * nRuns)
-  HdD <- vector(mode = 'numeric', length = nYears * nRuns)
-  WEnfD <- vector(mode = 'numeric', length = nYears * nRuns)
-  BMillD <- vector(mode = 'numeric', length = nYears * nRuns)
-  MooseD <- vector(mode = 'numeric', length = nYears * nRuns)
-  GuilfD <- vector(mode = 'numeric', length = nYears * nRuns)
-  MattD <- vector(mode = 'numeric', length = nYears * nRuns)
-  
+
   # Indirect mortality during downstream passage
   indirectM <- vector(mode = 'numeric', length = nYears * nRuns)
   
   # Latent estuary mortality during downstream passage
   latentM <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Juvenile survival reduction at each dam during downstream passage
-  juvReduction <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Fall-back during upstream passage
-  fallback <- vector(mode = 'numeric', length = nYears * nRuns)
-  
+
   # Population abundance in each production unit
   # Population abundance below Milford Dam in main-stem
   LowerPop <- vector(mode = 'numeric', length = nYears * nRuns)
@@ -124,18 +87,6 @@ if(river=='penobscot'){
   S.postspawnF <- vector(mode = 'numeric', length = nYears * nRuns)
   S.juvenile <- vector(mode = 'numeric', length = nYears * nRuns)
   
-  # Environmental
-  # Stochasticity
-  t.stoch <- vector(mode = 'numeric', length = nYears * nRuns)
-  # Regression relating temperatures in PNR and CTR
-  t.RegrInt <- vector(mode = 'numeric', length = nYears * nRuns)
-  t.RegrSlp <- vector(mode = 'numeric', length = nYears * nRuns)
-  # Model parameters for sex-specific arrival timing
-  b.ArrRegrInt <- vector(mode = 'numeric', length = nYears * nRuns)
-  b.ArrRegrSlp <- vector(mode = 'numeric', length = nYears * nRuns)
-  r.ArrRegrInt <- vector(mode = 'numeric', length = nYears * nRuns)
-  r.ArrRegrSlp <- vector(mode = 'numeric', length = nYears * nRuns)
-  
   # Individual traits
   # Entry dates
   b.Arr <- vector(mode = 'numeric', length = nYears * nRuns)
@@ -155,14 +106,6 @@ if(river=='penobscot'){
   linM <- vector(mode = 'numeric', length = nYears * nRuns)
   kM <- vector(mode = 'numeric', length = nYears * nRuns)
   t0M <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Length-weight regression parameters
-  # Female
-  lwF.alpha <- vector(mode = 'numeric', length = nYears * nRuns)
-  lwF.beta <- vector(mode = 'numeric', length = nYears * nRuns)
-  # Male
-  lwM.alpha <- vector(mode = 'numeric', length = nYears * nRuns)
-  lwM.beta <- vector(mode = 'numeric', length = nYears * nRuns)
   
   # Lengths and mass
   b.length <- vector(mode = 'numeric', length = nYears * nRuns)
@@ -184,31 +127,8 @@ if(river=='penobscot'){
     list(
       years = years,
       climate_scen = climate_scen,
-      scen = scen,
-      OrUp = OrUp,
-      StUp = StUp,
-      GilmUp = GilmUp,
-      MdUp = MdUp,
-      HdUp = HdUp,
-      WEnfUp = WEnfUp,
-      BMillUp = BMillUp,
-      MooseUp = MooseUp,
-      GuilfUp = GuilfUp,
-      MattUp = MattUp,
-      OrD = OrD,
-      StD = StD,
-      GilmD = GilmD,
-      MdD = MdD,
-      HdD = HdD,
-      WEnfD = WEnfD,
-      BMillD = BMillD,
-      MooseD = MooseD,
-      GuilfD = GuilfD,
-      MattD = MattD,
       indirectM = indirectM,
       latentM = latentM,
-      juvReduction = juvReduction,
-      fallback = fallback,
       LowerPop = LowerPop,
       OronoPop = OronoPop,
       StillwaterPop = StillwaterPop,
@@ -240,13 +160,6 @@ if(river=='penobscot'){
       S.prespawnF = S.prespawnF,
       S.postspawnF = S.postspawnF,
       S.juvenile = S.juvenile,
-      t.RegrInt = t.RegrInt,
-      t.RegrSlp = t.RegrSlp,
-      t.stoch = t.stoch,
-      b.ArrRegrInt = b.ArrRegrInt,
-      b.ArrRegrSlp = b.ArrRegrSlp,
-      r.ArrRegrInt = r.ArrRegrInt,
-      r.ArrRegrSlp = r.ArrRegrSlp,
       b.Arr = b.Arr,
       r.Arr = r.Arr,
       ATUspawn1 = ATUspawn1,
@@ -259,10 +172,6 @@ if(river=='penobscot'){
       linM = linM,
       kM = kM,
       t0M = t0M,
-      lwF.alpha = lwF.alpha,
-      lwF.beta = lwF.beta,
-      lwM.alpha = lwM.alpha,
-      lwM.beta = lwM.beta,
       b.length = b.length,
       r.length = r.length,
       spawnInt = spawnInt,
@@ -278,33 +187,12 @@ if(river=='penobscot'){
 }
   
 if(river=='merrimack'){  
-  # if (useTictoc | useProgress) {
-  #   print(paste('nRuns = ',nRuns))
-  #   print(paste('nYears = ',nYears))
-  # }
   
   # Define empty vectors to hold results for outer loop
     
   # Empty container to hold year
   years <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Empty container to hold Weldon scenario (depricated)
-  scen <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Upstream passage efficiencies
-  EssUp <- vector(mode = 'numeric', length = nYears * nRuns)
-  PawBUp <- vector(mode = 'numeric', length = nYears * nRuns)
-  PawUp <- vector(mode = 'numeric', length = nYears * nRuns)
-  AmosUp <- vector(mode = 'numeric', length = nYears * nRuns)
-  HookUp <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Downstream passage efficiencies
-  EssD <- vector(mode = 'numeric', length = nYears * nRuns)
-  PawBD <- vector(mode = 'numeric', length = nYears * nRuns)
-  PawD <- vector(mode = 'numeric', length = nYears * nRuns)
-  AmosD <- vector(mode = 'numeric', length = nYears * nRuns)
-  HookD <- vector(mode = 'numeric', length = nYears * nRuns)
-      
+
   # Probability of using bypass route at pawtucket
   pBypassUS <- vector(mode = 'numeric', length = nYears * nRuns)
   pBypassDS <- vector(mode = 'numeric', length = nYears * nRuns)
@@ -317,13 +205,7 @@ if(river=='merrimack'){
   
   # Latent estuary mortality during downstream passage
   latentM <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Juvenile survival reduction at each dam during downstream passage
-  juvReduction <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Fall-back during upstream passage
-  fallback <- vector(mode = 'numeric', length = nYears * nRuns)
-  
+
   # Population abundance in each production unit
   popI <- vector(mode = 'numeric', length = nYears * nRuns)
   popII <- vector(mode = 'numeric', length = nYears * nRuns)
@@ -357,18 +239,6 @@ if(river=='merrimack'){
   S.postspawnF <- vector(mode = 'numeric', length = nYears * nRuns)
   S.juvenile <- vector(mode = 'numeric', length = nYears * nRuns)
   
-  # Environmental
-  # Stochasticity
-  t.stoch <- vector(mode = 'numeric', length = nYears * nRuns)
-  # Regression relating temperatures in PNR and CTR
-  t.RegrInt <- vector(mode = 'numeric', length = nYears * nRuns)
-  t.RegrSlp <- vector(mode = 'numeric', length = nYears * nRuns)
-  # Model parameters for sex-specific arrival timing
-  b.ArrRegrInt <- vector(mode = 'numeric', length = nYears * nRuns)
-  b.ArrRegrSlp <- vector(mode = 'numeric', length = nYears * nRuns)
-  r.ArrRegrInt <- vector(mode = 'numeric', length = nYears * nRuns)
-  r.ArrRegrSlp <- vector(mode = 'numeric', length = nYears * nRuns)
-  
   # Individual traits
   # Entry dates
   b.Arr <- vector(mode = 'numeric', length = nYears * nRuns)
@@ -388,14 +258,6 @@ if(river=='merrimack'){
   linM <- vector(mode = 'numeric', length = nYears * nRuns)
   kM <- vector(mode = 'numeric', length = nYears * nRuns)
   t0M <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Length-weight regression parameters
-  # Female
-  lwF.alpha <- vector(mode = 'numeric', length = nYears * nRuns)
-  lwF.beta <- vector(mode = 'numeric', length = nYears * nRuns)
-  # Male
-  lwM.alpha <- vector(mode = 'numeric', length = nYears * nRuns)
-  lwM.beta <- vector(mode = 'numeric', length = nYears * nRuns)
   
   # Lengths and mass
   b.length <- vector(mode = 'numeric', length = nYears * nRuns)
@@ -417,22 +279,10 @@ if(river=='merrimack'){
     list(
       years = years,
       scen = scen,
-      EssUp = EssUp,
-      PawUp = PawUp,
-      PawBUp = PawBUp,      
-      AmosUp = AmosUp,
-      HookUp = HookUp,
-      EssD = EssD,
-      PawD = PawD,
-      PawBD = PawBD,      
-      AmosD = AmosD,
-      HookD = HookD,
       pBypassUS = pBypassUS,
       pBypassDS = pBypassDS,
       indirectM = indirectM,
       latentM = latentM,
-      juvReduction = juvReduction,
-      fallback = fallback,
       popI = popI,
       popII = popII,
       popIII = popIII,
@@ -456,13 +306,6 @@ if(river=='merrimack'){
       S.prespawnF = S.prespawnF,
       S.postspawnF = S.postspawnF,
       S.juvenile = S.juvenile,
-      t.RegrInt = t.RegrInt,
-      t.RegrSlp = t.RegrSlp,
-      t.stoch = t.stoch,
-      b.ArrRegrInt = b.ArrRegrInt,
-      b.ArrRegrSlp = b.ArrRegrSlp,
-      r.ArrRegrInt = r.ArrRegrInt,
-      r.ArrRegrSlp = r.ArrRegrSlp,
       b.Arr = b.Arr,
       r.Arr = r.Arr,
       ATUspawn1 = ATUspawn1,
@@ -475,10 +318,6 @@ if(river=='merrimack'){
       linM = linM,
       kM = kM,
       t0M = t0M,
-      lwF.alpha = lwF.alpha,
-      lwF.beta = lwF.beta,
-      lwM.alpha = lwM.alpha,
-      lwM.beta = lwM.beta,
       b.length = b.length,
       r.length = r.length,
       spawnInt = spawnInt,
@@ -494,11 +333,6 @@ if(river=='merrimack'){
 }
 
 if(river=='connecticut'){  
-  # if (useTictoc | useProgress) {
-  #   print(paste('nRuns = ',nRuns))
-  #   print(paste('nYears = ',nYears))
-  # }
-  
   # Define empty vectors to hold results for outer loop
     
   # Empty container to hold year
@@ -511,25 +345,6 @@ if(river=='connecticut'){
   # upstream migration
   pSpill <- vector(mode = 'numeric', length = nYears * nRuns)
   
-  # Upstream passage efficiencies
-  HolUp <- vector(mode = 'numeric', length = nYears * nRuns)
-  CabUp <- vector(mode = 'numeric', length = nYears * nRuns)
-  SpillUp <- vector(mode = 'numeric', length = nYears * nRuns)
-  GateUp <- vector(mode = 'numeric', length = nYears * nRuns)
-  VernUp <- vector(mode = 'numeric', length = nYears * nRuns)
-
-  # Downstream passage efficiencies
-  HolD <- vector(mode = 'numeric', length = nYears * nRuns)
-  CabD <- vector(mode = 'numeric', length = nYears * nRuns)
-  GateD <- vector(mode = 'numeric', length = nYears * nRuns)
-  VernD <- vector(mode = 'numeric', length = nYears * nRuns)
-
-  # Downstream dam passage performance standards juvenile
-  HolDj = vector(mode='numeric', length = nYears*nRuns)
-  CabDj = vector(mode='numeric', length = nYears*nRuns)
-  GateDj = vector(mode='numeric', length = nYears*nRuns)
-  VernDj = vector(mode='numeric', length = nYears*nRuns)
-
   # Northfield mountain take
   NorthFieldV = vector(mode='numeric', length = nYears*nRuns)
   NorthFieldT = vector(mode='numeric', length = nYears*nRuns)
@@ -544,13 +359,7 @@ if(river=='connecticut'){
   
   # Latent estuary mortality during downstream passage
   latentM <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Juvenile survival reduction at each dam during downstream passage
-  juvReduction <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Fall-back during upstream passage
-  fallback <- vector(mode = 'numeric', length = nYears * nRuns)
-  
+
   # Population abundance in each production unit
   popI <- vector(mode = 'numeric', length = nYears * nRuns)
   popII <- vector(mode = 'numeric', length = nYears * nRuns)
@@ -584,15 +393,6 @@ if(river=='connecticut'){
   S.postspawnF <- vector(mode = 'numeric', length = nYears * nRuns)
   S.juvenile <- vector(mode = 'numeric', length = nYears * nRuns)
   
-  # Environmental
-  # Stochasticity
-  t.stoch <- vector(mode = 'numeric', length = nYears * nRuns)
-
-  # Model parameters for sex-specific arrival timing
-  b.ArrRegrInt <- vector(mode = 'numeric', length = nYears * nRuns)
-  b.ArrRegrSlp <- vector(mode = 'numeric', length = nYears * nRuns)
-  r.ArrRegrInt <- vector(mode = 'numeric', length = nYears * nRuns)
-  r.ArrRegrSlp <- vector(mode = 'numeric', length = nYears * nRuns)
   
   # Individual traits
   # Entry dates
@@ -613,14 +413,6 @@ if(river=='connecticut'){
   linM <- vector(mode = 'numeric', length = nYears * nRuns)
   kM <- vector(mode = 'numeric', length = nYears * nRuns)
   t0M <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Length-weight regression parameters
-  # Female
-  lwF.alpha <- vector(mode = 'numeric', length = nYears * nRuns)
-  lwF.beta <- vector(mode = 'numeric', length = nYears * nRuns)
-  # Male
-  lwM.alpha <- vector(mode = 'numeric', length = nYears * nRuns)
-  lwM.beta <- vector(mode = 'numeric', length = nYears * nRuns)
   
   # Lengths and mass
   b.length <- vector(mode = 'numeric', length = nYears * nRuns)
@@ -643,27 +435,12 @@ if(river=='connecticut'){
       years = years,
       climate_scen = climate_scen,
       pSpill = pSpill,
-      HolUp = HolUp,
-      CabUp = CabUp,
-      SpillUp = SpillUp,
-      GateUp = GateUp,
-      VernUp = VernUp,
-      HolD = HolD,
-      CabD = CabD,
-      GateD = GateD,
-      VernD = VernD,
-      HolDj = HolDj,
-      CabDj = CabDj,
-      GateDj = GateDj,
-      VernDj = VernDj,
       NorthFieldV = NorthFieldV,
       NorthFieldT = NorthFieldT,
       NorthFieldVa = NorthFieldVa,
       NorthFieldTa = NorthFieldTa,
       indirectM = indirectM,
       latentM = latentM,
-      juvReduction = juvReduction,
-      fallback = fallback,
       popI = popI,
       popII = popII,
       popIII = popIII,
@@ -687,11 +464,6 @@ if(river=='connecticut'){
       S.prespawnF = S.prespawnF,
       S.postspawnF = S.postspawnF,
       S.juvenile = S.juvenile,
-      t.stoch = t.stoch,
-      b.ArrRegrInt = b.ArrRegrInt,
-      b.ArrRegrSlp = b.ArrRegrSlp,
-      r.ArrRegrInt = r.ArrRegrInt,
-      r.ArrRegrSlp = r.ArrRegrSlp,
       b.Arr = b.Arr,
       r.Arr = r.Arr,
       ATUspawn1 = ATUspawn1,
@@ -704,10 +476,6 @@ if(river=='connecticut'){
       linM = linM,
       kM = kM,
       t0M = t0M,
-      lwF.alpha = lwF.alpha,
-      lwF.beta = lwF.beta,
-      lwM.alpha = lwM.alpha,
-      lwM.beta = lwM.beta,
       b.length = b.length,
       r.length = r.length,
       spawnInt = spawnInt,
@@ -723,52 +491,17 @@ if(river=='connecticut'){
 }  
 
 if(river=='susquehanna'){  
-  # if (useTictoc | useProgress) {
-  #   print(paste('nRuns = ',nRuns))
-  #   print(paste('nYears = ',nYears))
-  # }
-  
   # Define empty vectors to hold results for outer loop
     
   # Empty container to hold year
   years <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Upstream passage effeciencies
-  ConUp <- vector(mode = 'numeric', length = nYears * nRuns)
-  HoltUp <- vector(mode = 'numeric', length = nYears * nRuns)
-  SafeUp <- vector(mode = 'numeric', length = nYears * nRuns)
-  YorkUp <- vector(mode = 'numeric', length = nYears * nRuns)
-  SunUp <- vector(mode = 'numeric', length = nYears * nRuns)
-  WillUp <- vector(mode = 'numeric', length = nYears * nRuns)
-  ChasUp <- vector(mode = 'numeric', length = nYears * nRuns)
-  LockUp <- vector(mode = 'numeric', length = nYears * nRuns)
-  RockUp <- vector(mode = 'numeric', length = nYears * nRuns)
-  CollUp <- vector(mode = 'numeric', length = nYears * nRuns)
-
-  # Downstream passage efficiencies
-  ConD <- vector(mode = 'numeric', length = nYears * nRuns)
-  HoltD <- vector(mode = 'numeric', length = nYears * nRuns)
-  SafeD <- vector(mode = 'numeric', length = nYears * nRuns)
-  YorkD <- vector(mode = 'numeric', length = nYears * nRuns)
-  SunD <- vector(mode = 'numeric', length = nYears * nRuns)
-  WillD <- vector(mode = 'numeric', length = nYears * nRuns)
-  LockD <- vector(mode = 'numeric', length = nYears * nRuns)
-  ChasD <- vector(mode = 'numeric', length = nYears * nRuns)
-  RockD <- vector(mode = 'numeric', length = nYears * nRuns)
-  CollD <- vector(mode = 'numeric', length = nYears * nRuns)
   
   # Indirect mortality during downstream passage
   indirectM <- vector(mode = 'numeric', length = nYears * nRuns)
   
   # Latent estuary mortality during downstream passage
   latentM <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Juvenile survival reduction at each dam during downstream passage
-  juvReduction <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Fall-back during upstream passage
-  fallback <- vector(mode = 'numeric', length = nYears * nRuns)
-  
+
   # Population abundance in each production unit
   LowPop <- vector(mode = 'numeric', length = nYears * nRuns)
   ConPop <- vector(mode = 'numeric', length = nYears * nRuns)
@@ -821,17 +554,6 @@ if(river=='susquehanna'){
   S.postspawnF <- vector(mode = 'numeric', length = nYears * nRuns)
   S.juvenile <- vector(mode = 'numeric', length = nYears * nRuns)
   
-  # Environmental stochasticity
-  t.stoch <- vector(mode = 'numeric', length = nYears * nRuns)
-  # Regression relating temperatures in PNR and CTR
-  t.RegrInt <- vector(mode = 'numeric', length = nYears * nRuns)
-  t.RegrSlp <- vector(mode = 'numeric', length = nYears * nRuns)
-  # Model parameters for sex-specific arrival timing
-  b.ArrRegrInt <- vector(mode = 'numeric', length = nYears * nRuns)
-  b.ArrRegrSlp <- vector(mode = 'numeric', length = nYears * nRuns)
-  r.ArrRegrInt <- vector(mode = 'numeric', length = nYears * nRuns)
-  r.ArrRegrSlp <- vector(mode = 'numeric', length = nYears * nRuns)
-  
   # Individual traits
   # Entry dates
   b.Arr <- vector(mode = 'numeric', length = nYears * nRuns)
@@ -852,14 +574,6 @@ if(river=='susquehanna'){
   kM <- vector(mode = 'numeric', length = nYears * nRuns)
   t0M <- vector(mode = 'numeric', length = nYears * nRuns)
   
-  # Length-weight regression parameters
-  # Female
-  lwF.alpha <- vector(mode = 'numeric', length = nYears * nRuns)
-  lwF.beta <- vector(mode = 'numeric', length = nYears * nRuns)
-  # Male
-  lwM.alpha <- vector(mode = 'numeric', length = nYears * nRuns)
-  lwM.beta <- vector(mode = 'numeric', length = nYears * nRuns)
-  
   # Lengths and mass
   b.length <- vector(mode = 'numeric', length = nYears * nRuns)
   r.length <- vector(mode = 'numeric', length = nYears * nRuns)
@@ -879,30 +593,8 @@ if(river=='susquehanna'){
   return(
     list(
       years = years,
-      ConUp = ConUp,
-      HoltUp = HoltUp,
-      SafeUp = SafeUp,
-      YorkUp = YorkUp,
-      SunUp = SunUp,
-      WillUp = WillUp,
-      LockUp = LockUp,
-      ChasUp = ChasUp,
-      RockUp = RockUp,
-      CollUp = CollUp,
-      ConD = ConD,
-      HoltD = HoltD,
-      SafeD = SafeD,
-      YorkD = YorkD,
-      SunD = SunD,
-      WillD = WillD,
-      LockD = LockD,
-      ChasD = ChasD,
-      RockD = RockD,
-      CollD = CollD,
       indirectM = indirectM,
       latentM = latentM,
-      juvReduction = juvReduction,
-      fallback = fallback,
       LowPop = LowPop,
       ConPop = ConPop,
       HolPop = HolPop,
@@ -941,13 +633,6 @@ if(river=='susquehanna'){
       S.prespawnF = S.prespawnF,
       S.postspawnF = S.postspawnF,
       S.juvenile = S.juvenile,
-      t.RegrInt = t.RegrInt,
-      t.RegrSlp = t.RegrSlp,
-      t.stoch = t.stoch,
-      b.ArrRegrInt = b.ArrRegrInt,
-      b.ArrRegrSlp = b.ArrRegrSlp,
-      r.ArrRegrInt = r.ArrRegrInt,
-      r.ArrRegrSlp = r.ArrRegrSlp,
       b.Arr = b.Arr,
       r.Arr = r.Arr,
       ATUspawn1 = ATUspawn1,
@@ -960,10 +645,6 @@ if(river=='susquehanna'){
       linM = linM,
       kM = kM,
       t0M = t0M,
-      lwF.alpha = lwF.alpha,
-      lwF.beta = lwF.beta,
-      lwM.alpha = lwM.alpha,
-      lwM.beta = lwM.beta,
       b.length = b.length,
       r.length = r.length,
       spawnInt = spawnInt,
@@ -979,11 +660,6 @@ if(river=='susquehanna'){
 }
   
 if(river=='saco'){  
-  # if (useTictoc | useProgress) {
-  #   print(paste('nRuns = ',nRuns))
-  #   print(paste('nYears = ',nYears))
-  # }
-  
   # Define empty vectors to hold results for outer loop
     
   # Empty container to hold year
@@ -1013,12 +689,6 @@ if(river=='saco'){
   
   # Latent estuary mortality during downstream passage
   latentM <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Juvenile survival reduction at each dam during downstream passage
-  juvReduction <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Fall-back during upstream passage
-  fallback <- vector(mode = 'numeric', length = nYears * nRuns)
   
   # Population abundance in each production unit
   popI <- vector(mode = 'numeric', length = nYears * nRuns)
@@ -1055,18 +725,6 @@ if(river=='saco'){
   S.postspawnF <- vector(mode = 'numeric', length = nYears * nRuns)
   S.juvenile <- vector(mode = 'numeric', length = nYears * nRuns)
   
-  # Environmental
-  # Stochasticity
-  t.stoch <- vector(mode = 'numeric', length = nYears * nRuns)
-  # Regression relating temperatures in PNR and CTR
-  t.RegrInt <- vector(mode = 'numeric', length = nYears * nRuns)
-  t.RegrSlp <- vector(mode = 'numeric', length = nYears * nRuns)
-  # Model parameters for sex-specific arrival timing
-  b.ArrRegrInt <- vector(mode = 'numeric', length = nYears * nRuns)
-  b.ArrRegrSlp <- vector(mode = 'numeric', length = nYears * nRuns)
-  r.ArrRegrInt <- vector(mode = 'numeric', length = nYears * nRuns)
-  r.ArrRegrSlp <- vector(mode = 'numeric', length = nYears * nRuns)
-  
   # Individual traits
   # Entry dates
   b.Arr <- vector(mode = 'numeric', length = nYears * nRuns)
@@ -1086,14 +744,6 @@ if(river=='saco'){
   linM <- vector(mode = 'numeric', length = nYears * nRuns)
   kM <- vector(mode = 'numeric', length = nYears * nRuns)
   t0M <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Length-weight regression parameters
-  # Female
-  lwF.alpha <- vector(mode = 'numeric', length = nYears * nRuns)
-  lwF.beta <- vector(mode = 'numeric', length = nYears * nRuns)
-  # Male
-  lwM.alpha <- vector(mode = 'numeric', length = nYears * nRuns)
-  lwM.beta <- vector(mode = 'numeric', length = nYears * nRuns)
   
   # Lengths and mass
   b.length <- vector(mode = 'numeric', length = nYears * nRuns)
@@ -1128,8 +778,6 @@ if(river=='saco'){
       bonD = bonD,   
       indirectM = indirectM,
       latentM = latentM,
-      juvReduction = juvReduction,
-      fallback = fallback,
       popI = popI,
       popII = popII,
       popIII = popIII,
@@ -1155,13 +803,6 @@ if(river=='saco'){
       S.prespawnF = S.prespawnF,
       S.postspawnF = S.postspawnF,
       S.juvenile = S.juvenile,
-      t.RegrInt = t.RegrInt,
-      t.RegrSlp = t.RegrSlp,
-      t.stoch = t.stoch,
-      b.ArrRegrInt = b.ArrRegrInt,
-      b.ArrRegrSlp = b.ArrRegrSlp,
-      r.ArrRegrInt = r.ArrRegrInt,
-      r.ArrRegrSlp = r.ArrRegrSlp,
       b.Arr = b.Arr,
       r.Arr = r.Arr,
       ATUspawn1 = ATUspawn1,
@@ -1174,10 +815,6 @@ if(river=='saco'){
       linM = linM,
       kM = kM,
       t0M = t0M,
-      lwF.alpha = lwF.alpha,
-      lwF.beta = lwF.beta,
-      lwM.alpha = lwM.alpha,
-      lwM.beta = lwM.beta,
       b.length = b.length,
       r.length = r.length,
       spawnInt = spawnInt,
@@ -1193,11 +830,6 @@ if(river=='saco'){
 }  
 
 if(river=='kennebec'){  
-  # if (useTictoc | useProgress) {
-  #   print(paste('nRuns = ',nRuns))
-  #   print(paste('nYears = ',nYears))
-  # }
-  
   # Define empty vectors to hold results for outer loop
     
   # Empty container to hold year
@@ -1214,12 +846,6 @@ if(river=='kennebec'){
   
   # Latent estuary mortality during downstream passage
   latentM <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Juvenile survival reduction at each dam during downstream passage
-  juvReduction <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Fall-back during upstream passage
-  fallback <- vector(mode = 'numeric', length = nYears * nRuns)
   
   # Population abundance in each production unit
   pop1a <- vector(mode = 'numeric', length = nYears * nRuns)
@@ -1256,18 +882,6 @@ if(river=='kennebec'){
   S.postspawnF <- vector(mode = 'numeric', length = nYears * nRuns)
   S.juvenile <- vector(mode = 'numeric', length = nYears * nRuns)
   
-  # Environmental
-  # Stochasticity
-  t.stoch <- vector(mode = 'numeric', length = nYears * nRuns)
-  # Regression relating temperatures in PNR and CTR
-  t.RegrInt <- vector(mode = 'numeric', length = nYears * nRuns)
-  t.RegrSlp <- vector(mode = 'numeric', length = nYears * nRuns)
-  # Model parameters for sex-specific arrival timing
-  b.ArrRegrInt <- vector(mode = 'numeric', length = nYears * nRuns)
-  b.ArrRegrSlp <- vector(mode = 'numeric', length = nYears * nRuns)
-  r.ArrRegrInt <- vector(mode = 'numeric', length = nYears * nRuns)
-  r.ArrRegrSlp <- vector(mode = 'numeric', length = nYears * nRuns)
-  
   # Individual traits
   # Entry dates
   b.Arr <- vector(mode = 'numeric', length = nYears * nRuns)
@@ -1287,14 +901,6 @@ if(river=='kennebec'){
   linM <- vector(mode = 'numeric', length = nYears * nRuns)
   kM <- vector(mode = 'numeric', length = nYears * nRuns)
   t0M <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Length-weight regression parameters
-  # Female
-  lwF.alpha <- vector(mode = 'numeric', length = nYears * nRuns)
-  lwF.beta <- vector(mode = 'numeric', length = nYears * nRuns)
-  # Male
-  lwM.alpha <- vector(mode = 'numeric', length = nYears * nRuns)
-  lwM.beta <- vector(mode = 'numeric', length = nYears * nRuns)
   
   # Lengths and mass
   b.length <- vector(mode = 'numeric', length = nYears * nRuns)
@@ -1318,8 +924,6 @@ if(river=='kennebec'){
       sebasticook = sebasticook,
       indirectM = indirectM,
       latentM = latentM,
-      juvReduction = juvReduction,
-      fallback = fallback,
       pop1a	=	pop1a,
       pop2a =	pop2a,
       pop3a =	pop3a,
@@ -1344,14 +948,6 @@ if(river=='kennebec'){
       S.postspawnM = S.postspawnM,
       S.prespawnF = S.prespawnF,
       S.postspawnF = S.postspawnF,
-      S.juvenile = S.juvenile,
-      t.RegrInt = t.RegrInt,
-      t.RegrSlp = t.RegrSlp,
-      t.stoch = t.stoch,
-      b.ArrRegrInt = b.ArrRegrInt,
-      b.ArrRegrSlp = b.ArrRegrSlp,
-      r.ArrRegrInt = r.ArrRegrInt,
-      r.ArrRegrSlp = r.ArrRegrSlp,
       b.Arr = b.Arr,
       r.Arr = r.Arr,
       ATUspawn1 = ATUspawn1,
@@ -1364,10 +960,6 @@ if(river=='kennebec'){
       linM = linM,
       kM = kM,
       t0M = t0M,
-      lwF.alpha = lwF.alpha,
-      lwF.beta = lwF.beta,
-      lwM.alpha = lwM.alpha,
-      lwM.beta = lwM.beta,
       b.length = b.length,
       r.length = r.length,
       spawnInt = spawnInt,
@@ -1383,10 +975,6 @@ if(river=='kennebec'){
 }      
   
 if(river=='hudson'){  
-  # if (useTictoc | useProgress) {
-  #   print(paste('nRuns = ',nRuns))
-  #   print(paste('nYears = ',nYears))
-  # }
   
   # Define empty vectors to hold results for outer loop
     
@@ -1404,12 +992,6 @@ if(river=='hudson'){
   
   # Latent estuary mortality during downstream passage
   latentM <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Juvenile survival reduction at each dam during downstream passage
-  juvReduction <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Fall-back during upstream passage
-  fallback <- vector(mode = 'numeric', length = nYears * nRuns)
   
   # Population abundance in each production unit
   pop01a <- vector(mode = 'numeric', length = nYears * nRuns)
@@ -1467,18 +1049,6 @@ if(river=='hudson'){
   S.postspawnF <- vector(mode = 'numeric', length = nYears * nRuns)
   S.juvenile <- vector(mode = 'numeric', length = nYears * nRuns)
   
-  # Environmental
-  # Stochasticity
-  t.stoch <- vector(mode = 'numeric', length = nYears * nRuns)
-  # Regression relating temperatures in PNR and CTR
-  t.RegrInt <- vector(mode = 'numeric', length = nYears * nRuns)
-  t.RegrSlp <- vector(mode = 'numeric', length = nYears * nRuns)
-  # Model parameters for sex-specific arrival timing
-  b.ArrRegrInt <- vector(mode = 'numeric', length = nYears * nRuns)
-  b.ArrRegrSlp <- vector(mode = 'numeric', length = nYears * nRuns)
-  r.ArrRegrInt <- vector(mode = 'numeric', length = nYears * nRuns)
-  r.ArrRegrSlp <- vector(mode = 'numeric', length = nYears * nRuns)
-  
   # Individual traits
   # Entry dates
   b.Arr <- vector(mode = 'numeric', length = nYears * nRuns)
@@ -1498,14 +1068,6 @@ if(river=='hudson'){
   linM <- vector(mode = 'numeric', length = nYears * nRuns)
   kM <- vector(mode = 'numeric', length = nYears * nRuns)
   t0M <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Length-weight regression parameters
-  # Female
-  lwF.alpha <- vector(mode = 'numeric', length = nYears * nRuns)
-  lwF.beta <- vector(mode = 'numeric', length = nYears * nRuns)
-  # Male
-  lwM.alpha <- vector(mode = 'numeric', length = nYears * nRuns)
-  lwM.beta <- vector(mode = 'numeric', length = nYears * nRuns)
   
   # Lengths and mass
   b.length <- vector(mode = 'numeric', length = nYears * nRuns)
@@ -1529,8 +1091,6 @@ if(river=='hudson'){
       mohawk = mohawk,
       indirectM = indirectM,
       latentM = latentM,
-      juvReduction = juvReduction,
-      fallback = fallback,
       pop01a = pop01a,
       pop02a = pop02a,
       pop03a = pop03a,
@@ -1577,13 +1137,6 @@ if(river=='hudson'){
       S.prespawnF = S.prespawnF,
       S.postspawnF = S.postspawnF,
       S.juvenile = S.juvenile,
-      t.RegrInt = t.RegrInt,
-      t.RegrSlp = t.RegrSlp,
-      t.stoch = t.stoch,
-      b.ArrRegrInt = b.ArrRegrInt,
-      b.ArrRegrSlp = b.ArrRegrSlp,
-      r.ArrRegrInt = r.ArrRegrInt,
-      r.ArrRegrSlp = r.ArrRegrSlp,
       b.Arr = b.Arr,
       r.Arr = r.Arr,
       ATUspawn1 = ATUspawn1,
@@ -1596,10 +1149,6 @@ if(river=='hudson'){
       linM = linM,
       kM = kM,
       t0M = t0M,
-      lwF.alpha = lwF.alpha,
-      lwF.beta = lwF.beta,
-      lwM.alpha = lwM.alpha,
-      lwM.beta = lwM.beta,
       b.length = b.length,
       r.length = r.length,
       spawnInt = spawnInt,

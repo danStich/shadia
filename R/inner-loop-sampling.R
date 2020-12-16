@@ -12,7 +12,6 @@
 innerLoopSampling <- function(habitat){
 
   
-  
 # Habitat stochasticity -----
 # Add stochasticity to habitat per PU
 habStoch <- runif(1, 0.95, 1.05)  
@@ -22,7 +21,6 @@ habStoch <- runif(1, 0.95, 1.05)
 # fluctuations
 habitat <- addStochList(habitat, habStoch)  
   
-
 
 # Daily in-river climate data ----
 # Use historical temperature data to predict temperature
@@ -39,7 +37,7 @@ newTU <- cumsum(predTemps[, 2])
 
 # Create an object containing the age of individual fish
 # based on the number of fish in each age class and build
-age_df <- cbind(spawningPool, seq(1,length(spawningPool),1))
+age_df <- cbind(spawningPool, seq(1, length(spawningPool), 1))
 c_fishAges <- do.call("c", (mapply(rep, c(age_df[, 2]), age_df[, 1])))
 
 # Assign fish gender using sex ratio drawn above, females are 1
@@ -104,8 +102,8 @@ c_entryDate <- apply(
 # Spawning dates ----
 # Draw initial and terminal spawning dates based on daily temperature
 # Randomly draw ATU for initiation (1) and termination (2) of spawning for each
-c_spawnATU1 <- rnorm(length(c_entryDate), 150, 15)
-c_spawnATU2 <- rnorm(length(c_entryDate), 500, 15)
+c_spawnATU1 <- rnorm(length(c_entryDate), 750, 50)
+c_spawnATU2 <- rnorm(length(c_entryDate), 1250, 50)
 
 # Determine on which day the threshold ATU for each individual is reached
 # Pre-allocate vectors
@@ -159,16 +157,8 @@ photo <- getPhotoperiod(river, day)
     c_male_lf <- c_male * c_linM * (1 - exp(-c_kM * (c_fishAges - c_t0M)))
   # Calculate length of females
     c_female_lf <- c_female * c_linF * (1 - exp(-c_kF * (c_fishAges - c_t0F)))
-  # Calculate mass of males
-    c_male_m <- c_male * (m_lw_params$alpha + m_lw_params$beta * c_male_lf)
-  # Calculate mass of females
-    c_female_m <- c_female * (f_lw_params$alpha + f_lw_params$beta * c_female_lf)
-  # Collect fork length and mass into one column each
+  # Collect fork length into one column
     c_forkLength <- c_male_lf + c_female_lf
-    c_mass <- c_male_m + c_female_m
-  # Convert fork length to mm from cm for movement calcs below
-  # if data are stored in cm
-    c_forkLength[c_forkLength < 10] <- c_forkLength[c_forkLength < 10] * 10
 
 # Calculate fecundity
   # Calculate residence time for each fish based on entry date and exit date
@@ -197,8 +187,9 @@ photo <- getPhotoperiod(river, day)
     
   # Blueback herring batch fecundity
   # Limburg and Blackburn (2003) report to NYSDEC
+  # See also Jessop (1990)
     if(species=='blueback'){
-      c_BF <- sd(MASS::rnegbin(length(c_fishAges), 75500, 8))
+      c_BF <- MASS::rnegbin(length(c_fishAges), 75500, 8)
     }  
     
   # Calculate realized annual fecundity
@@ -209,7 +200,7 @@ photo <- getPhotoperiod(river, day)
     
 # Calculate movement rates based on Castro-Santos and Letcher (2010)
   # Optimizing ground speed in body lengths per second (BLS)
-    sOptim <- runif(length(c_mass), .7, 1.7)
+    sOptim <- runif(length(c_fecundity), .7, 1.7)
   # Get max daily movement, converting from BLS to km per day
     dMax <- (sOptim * c_forkLength * 86400) / 1e6
   # Movement tortuosity drawn from uniform distribution.  This corresponds to
@@ -365,16 +356,14 @@ upstream_path <- assignFishToRoutes(river = .shadia$river, c_fishAges = c_fishAg
   environment(simMarineS) <- .shadia
   marineS <- rep(simMarineS(), maxAge)
   
-  
 
 # Time-based upstream passage at dams ----
 # Convert passage performance standards into rates 
 # over time based on passage efficiency and timely
-up_effs <- mapply('+', upEffs, 1, SIMPLIFY = FALSE)
+up_effs <- upEffs
 for(i in 1:length(up_effs)){
-  up_effs[[i]] <- mapply('^', up_effs[[i]], (1 / times[[i]]))
+  up_effs[[i]] <- mapply('^', up_effs[[i]], (times[[i]]))
 }
-up_effs <- mapply('-', up_effs, 1, SIMPLIFY = FALSE)
 
 # Finally, assign passage efficiencies for each reach in the river
 eFFs <- vector(mode = 'list', length = length(upEffs))
@@ -387,8 +376,6 @@ for(i in 1:length(eFFs)){
   eFFs[[i]] <- c(rep(Open, maxrkm[i])) # Create perfect passage for group 1
   eFFs[[i]][damRkms[[i]]] <- up_effs[[i]] # Dam-specific efficiencies group 1
 }
-
-
 
 # Seasonal changes in migration ----
 # Make the adult fish move upstream through space and time. The functions used
@@ -426,7 +413,7 @@ mot <- mean((1 - (newTU - min(newTU)) /
 # These need to be river-specific. For the Penobscot River, this can
 # be done in bulk for both Piscataquis River spawners and Mainstem spawners
 # because we use vectorization to select the appropriate elements later on.
-rkm1 <- get_rkm1('susquehanna', c_fishAges)
+rkm1 <- get_rkm1(river, c_fishAges)
 
 # For all rivers:
 rkm2 <- matrix(0, ncol = length(day), nrow = length(c_fishAges))
@@ -581,7 +568,7 @@ if(river=='kennebec'){
                   ppPenalty[[1]],
                   rkm1[upstream_path == 1],
                   rkm2[upstream_path == 1, , drop = FALSE],
-                  c_end[upstream_path == 1])
+                  c_initial[upstream_path == 1])
   # Run the ABM for mainstem route through Pawtucket
   moves_2 <- moveC(day,
                   c_entryDate[upstream_path == 2],
@@ -590,7 +577,7 @@ if(river=='kennebec'){
                   ppPenalty[[2]],
                   rkm1[upstream_path == 2],
                   rkm2[upstream_path == 2,  , drop = FALSE],
-                  c_end[upstream_path == 2])
+                  c_initial[upstream_path == 2])
 }  
   
 if(river=='hudson'){
@@ -809,7 +796,7 @@ if(river=='hudson'){
     sp_2$surv <- rbinom(nrow(sp_2), 1, sp_2$preSpawn * (1 - sp_2$F))
     sp_3$surv <- rbinom(nrow(sp_3), 1, sp_3$preSpawn * (1 - sp_3$F))
     sp_4$surv <- rbinom(nrow(sp_4), 1, sp_4$preSpawn * (1 - sp_4$F))
-    #toc()
+
   }
 
   # Merrimack River:
@@ -1232,31 +1219,17 @@ if(river=='hudson'){
     
 # Data return to calling environment
   # Penobscot River:
-  if(river=='penobscot' | river=='susquehanna'){
+  if(river =='penobscot' | river=='susquehanna'){
     return(list(
-    b.entry = b.entry,
-    b.entryDate = b.entryDate,
     b.mat = b.mat,
-    b.prob = b.prob,
-    batch = batch,
+    r.mat = r.mat,    
     c_BF = c_BF,
     c_end = c_end,
     c_entryDate = c_entryDate,
-    c_fecundity = c_fecundity,
-    c_female = c_female,
     c_female_lf = c_female_lf,
-    c_female_m = c_female_m,
     c_fishAges = c_fishAges,
-    c_forkLength = c_forkLength,
     c_initial = c_initial,
-    c_kF = c_kF,
-    c_kM = c_kM,
-    c_linF = c_linF,
-    c_linM = c_linM,
-    c_male = c_male,
     c_male_lf = c_male_lf,
-    c_male_m = c_male_m,
-    c_mass = c_mass,
     c_RAF = c_RAF,
     c_repeat = c_repeat,
     c_RT = c_RT,
@@ -1264,103 +1237,42 @@ if(river=='hudson'){
     c_SI = c_SI,
     c_spawnATU1 = c_spawnATU1,
     c_spawnATU2 = c_spawnATU2,
-    c_t0F = c_t0F,
-    c_t0M = c_t0M,
     dailyMove = dailyMove,
-    day = day,
-    delay_1 = delay_1,
-    delay_2 = delay_2,
-    delay_3 = delay_3,
-    delay_4 = delay_4,
     dMax = dMax,
-    eFFs = eFFs,
-    entry = entry,
     juvenile_survival = juvenile_survival,
     k_pus = k_pus,
     maxR = maxR,
     mot = mot,
-    moves_1 = moves_1,
-    moves_2 = moves_2,
-    moves_3 = moves_3,
-    moves_4 = moves_4,
-    newTU = newTU,
-    newTU_2 = newTU_2,
     marineS = marineS,
-    photo = photo,
     post_spawn_survival_females = post_spawn_survival_females,
     post_spawn_survival_males = post_spawn_survival_males,
-    ppPenalty = ppPenalty,
     pre_spawn_survival_females = pre_spawn_survival_females,
     pre_spawn_survival_males = pre_spawn_survival_males,
-    predTemps = predTemps,
     puNames = puNames,
     puRkm = puRkm,
-    res.B = res.B,
-    res.R = res.R,
-    r.entry = r.entry,
-    r.entryDate = r.entryDate,
-    r.mat = r.mat,
-    r.prob = r.prob,
-    rkm1 = rkm1,
-    rkm2 = rkm2,
-    routes = routes,
     sexRatio = sexRatio,
     sOptim = sOptim,
+    habStoch = habStoch,
+    tort = tort,   
     sp_1 = sp_1,
     sp_2 = sp_2,
     sp_3 = sp_3,
-    sp_4 = sp_4,
-    spawnData_1 = spawnData_1,
-    spawnData_2 = spawnData_2,
-    spawnData_3 = spawnData_3,
-    spawnData_4 = spawnData_4,
-    tort = tort,
-    traits = traits,
-    traits_1 = traits_1,
-    traits_2 = traits_2,
-    traits_3 = traits_3,
-    traits_4 = traits_4,
-    up_effs = up_effs,
-    upstream_path = upstream_path,
-    #y = y,
-    #Year = Year,
-    habStoch = habStoch
+    sp_4 = sp_4
     ))
   }
 
-  # Merrimack River:
-  if(river=='merrimack' | river=='kennebec' | river=='hudson'){
+  # Rivers that have 2 migration routes:
+  if(river %in% c('connecticut', 'merrimack', 'kennebec', 'hudson')){
     return(list(
-    b.entry = b.entry,
-    b.entryDate = b.entryDate,
-    b.lw = b.lw,
     b.mat = b.mat,
-    b.prob = b.prob,
-    b.res = b.res,
-    batch = batch,
-    bucklw = bucklw,
+    r.mat = r.mat,    
     c_BF = c_BF,
     c_end = c_end,
     c_entryDate = c_entryDate,
-    c_fecundity = c_fecundity,
-    c_female = c_female,
     c_female_lf = c_female_lf,
-    c_female_m = c_female_m,
-    c_femaleLWalpha = c_femaleLWalpha,
-    c_femaleLWbeta = c_femaleLWbeta,
     c_fishAges = c_fishAges,
-    c_forkLength = c_forkLength,
     c_initial = c_initial,
-    c_kF = c_kF,
-    c_kM = c_kM,
-    c_linF = c_linF,
-    c_linM = c_linM,
-    c_male = c_male,
     c_male_lf = c_male_lf,
-    c_male_m = c_male_m,
-    c_maleLWalpha = c_maleLWalpha,
-    c_maleLWbeta = c_maleLWbeta,
-    c_mass = c_mass,
     c_RAF = c_RAF,
     c_repeat = c_repeat,
     c_RT = c_RT,
@@ -1368,202 +1280,40 @@ if(river=='hudson'){
     c_SI = c_SI,
     c_spawnATU1 = c_spawnATU1,
     c_spawnATU2 = c_spawnATU2,
-    c_t0F = c_t0F,
-    c_t0M = c_t0M,
     dailyMove = dailyMove,
-    day = day,
-    delay_1 = delay_1,
-    delay_2 = delay_2,
     dMax = dMax,
-    eFFs = eFFs,
-    entry = entry,
-    fishAges = fishAges,
-    #id = id,
     juvenile_survival = juvenile_survival,
     k_pus = k_pus,
     maxR = maxR,
     mot = mot,
-    moves_1 = moves_1,
-    moves_2 = moves_2,
-    newTU = newTU,
-    newTU_2 = newTU_2,
     marineS = marineS,
-    photo = photo,
     post_spawn_survival_females = post_spawn_survival_females,
     post_spawn_survival_males = post_spawn_survival_males,
-    ppPenalty = ppPenalty,
     pre_spawn_survival_females = pre_spawn_survival_females,
     pre_spawn_survival_males = pre_spawn_survival_males,
-    #pred = pred,
-    predTemps = predTemps,
     puNames = puNames,
     puRkm = puRkm,
-    res.B = res.B,
-    res.R = res.R,
-    r.entry = r.entry,
-    r.entryDate = r.entryDate,
-    r.lw = r.lw,
-    r.mat = r.mat,
-    r.prob = r.prob,
-    r.res = r.res,
-    rkm1 = rkm1,
-    rkm2 = rkm2,
-    roelw = roelw,
-    routes = routes,
     sexRatio = sexRatio,
     sOptim = sOptim,
+    habStoch = habStoch,
+    tort = tort,   
     sp_1 = sp_1,
-    sp_2 = sp_2,
-    spawnData_1 = spawnData_1,
-    spawnData_2 = spawnData_2,
-    stoch = stoch,
-    tort = tort,
-    traits = traits,
-    traits_1 = traits_1,
-    traits_2 = traits_2,
-    up_effs = up_effs,
-    upstream_path = upstream_path,
-    #y = y,
-    #Year = Year,
-    habStoch = habStoch
-    ))
-  }
-
-  # Connecticut:
-  if(river=='connecticut'){
-    return(list(
-    b.entry = b.entry,
-    b.entryDate = b.entryDate,
-    b.lw = b.lw,
-    b.mat = b.mat,
-    b.prob = b.prob,
-    b.res = b.res,
-    batch = batch,
-    bucklw = bucklw,
-    c_BF = c_BF,
-    c_end = c_end,
-    c_entryDate = c_entryDate,
-    c_fecundity = c_fecundity,
-    c_female = c_female,
-    c_female_lf = c_female_lf,
-    c_female_m = c_female_m,
-    c_femaleLWalpha = c_femaleLWalpha,
-    c_femaleLWbeta = c_femaleLWbeta,
-    c_fishAges = c_fishAges,
-    c_forkLength = c_forkLength,
-    c_initial = c_initial,
-    c_kF = c_kF,
-    c_kM = c_kM,
-    c_linF = c_linF,
-    c_linM = c_linM,
-    c_male = c_male,
-    c_male_lf = c_male_lf,
-    c_male_m = c_male_m,
-    c_maleLWalpha = c_maleLWalpha,
-    c_maleLWbeta = c_maleLWbeta,
-    c_mass = c_mass,
-    c_RAF = c_RAF,
-    c_repeat = c_repeat,
-    c_RT = c_RT,
-    c_sex = c_sex,
-    c_SI = c_SI,
-    c_spawnATU1 = c_spawnATU1,
-    c_spawnATU2 = c_spawnATU2,
-    c_t0F = c_t0F,
-    c_t0M = c_t0M,
-    dailyMove = dailyMove,
-    day = day,
-    delay_1 = delay_1,
-    delay_2 = delay_2,
-    dMax = dMax,
-    eFFs = eFFs,
-    entry = entry,
-    fishAges = fishAges,
-    #id = id,
-    juvenile_survival = juvenile_survival,
-    k_pus = k_pus,
-    #maxrkm = maxrkm,
-    maxR = maxR,
-    mot = mot,
-    moves_1 = moves_1,
-    moves_2 = moves_2,
-    newTU = newTU,
-    newTU_2 = newTU_2,
-    marineS = marineS,
-    photo = photo,
-    post_spawn_survival_females = post_spawn_survival_females,
-    post_spawn_survival_males = post_spawn_survival_males,
-    ppPenalty = ppPenalty,
-    pre_spawn_survival_females = pre_spawn_survival_females,
-    pre_spawn_survival_males = pre_spawn_survival_males,
-    #pred = pred,
-    predTemps = predTemps,
-    puNames = puNames,
-    puRkm = puRkm,
-    res.B = res.B,
-    res.R = res.R,
-    r.entry = r.entry,
-    r.entryDate = r.entryDate,
-    r.lw = r.lw,
-    r.mat = r.mat,
-    r.prob = r.prob,
-    r.res = r.res,
-    rkm1 = rkm1,
-    rkm2 = rkm2,
-    roelw = roelw,
-    routes = routes,
-    sexRatio = sexRatio,
-    sOptim = sOptim,
-    sp_1 = sp_1,
-    sp_2 = sp_2,
-    spawnData_1 = spawnData_1,
-    spawnData_2 = spawnData_2,
-    stoch = stoch,
-    tort = tort,
-    traits = traits,
-    traits_1 = traits_1,
-    traits_2 = traits_2,
-    up_effs = up_effs,
-    upstream_path = upstream_path,
-    #y = y,
-    #Year = Year,
-    habStoch = habStoch
+    sp_2 = sp_2
     ))
   }
 
   # Saco River:
   if(river=='saco'){
     return(list(
-    b.entry = b.entry,
-    b.entryDate = b.entryDate,
-    b.lw = b.lw,
     b.mat = b.mat,
-    b.prob = b.prob,
-    b.res = b.res,
-    batch = batch,
-    bucklw = bucklw,
+    r.mat = r.mat,    
     c_BF = c_BF,
     c_end = c_end,
     c_entryDate = c_entryDate,
-    c_fecundity = c_fecundity,
-    c_female = c_female,
     c_female_lf = c_female_lf,
-    c_female_m = c_female_m,
-    c_femaleLWalpha = c_femaleLWalpha,
-    c_femaleLWbeta = c_femaleLWbeta,
     c_fishAges = c_fishAges,
-    c_forkLength = c_forkLength,
     c_initial = c_initial,
-    c_kF = c_kF,
-    c_kM = c_kM,
-    c_linF = c_linF,
-    c_linM = c_linM,
-    c_male = c_male,
     c_male_lf = c_male_lf,
-    c_male_m = c_male_m,
-    c_maleLWalpha = c_maleLWalpha,
-    c_maleLWbeta = c_maleLWbeta,
-    c_mass = c_mass,
     c_RAF = c_RAF,
     c_repeat = c_repeat,
     c_RT = c_RT,
@@ -1571,59 +1321,24 @@ if(river=='hudson'){
     c_SI = c_SI,
     c_spawnATU1 = c_spawnATU1,
     c_spawnATU2 = c_spawnATU2,
-    c_t0F = c_t0F,
-    c_t0M = c_t0M,
     dailyMove = dailyMove,
-    day = day,
-    delay_1 = delay_1,
     dMax = dMax,
-    eFFs = eFFs,
-    entry = entry,
-    fishAges = fishAges,
-    #id = id,
     juvenile_survival = juvenile_survival,
     k_pus = k_pus,
     maxR = maxR,
     mot = mot,
-    moves_1 = moves_1,
-    newTU = newTU,
-    newTU_2 = newTU_2,
     marineS = marineS,
-    photo = photo,
     post_spawn_survival_females = post_spawn_survival_females,
     post_spawn_survival_males = post_spawn_survival_males,
-    ppPenalty = ppPenalty,
     pre_spawn_survival_females = pre_spawn_survival_females,
     pre_spawn_survival_males = pre_spawn_survival_males,
-    #pred = pred,
-    predTemps = predTemps,
     puNames = puNames,
     puRkm = puRkm,
-    res.B = res.B,
-    res.R = res.R,
-    r.entry = r.entry,
-    r.entryDate = r.entryDate,
-    r.lw = r.lw,
-    r.mat = r.mat,
-    r.prob = r.prob,
-    r.res = r.res,
-    rkm1 = rkm1,
-    rkm2 = rkm2,
-    roelw = roelw,
-    routes = routes,
     sexRatio = sexRatio,
     sOptim = sOptim,
-    sp_1 = sp_1,
-    spawnData_1 = spawnData_1,
-    stoch = stoch,
+    habStoch = habStoch,
     tort = tort,
-    traits = traits,
-    traits_1 = traits_1,
-    up_effs = up_effs,
-    upstream_path = upstream_path,
-    #y = y,
-    #Year = Year,
-    habStoch = habStoch
+    sp_1 = sp_1
     ))
   }
 

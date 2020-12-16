@@ -18,11 +18,11 @@
 #' 
 #' Technical Committee for Anadromous Fishery Management
 #' of the Merrimack River Basin. 2010. A plan for the 
-#' restoration of American shad Merrmimack River watershed. 
+#' restoration of American shad Merrimack River watershed. 
 #' 
 #' @export
 #' 
-defineHabitat <- function(river, nRoutes){
+defineHabitat <- function(river, nRoutes, species){
 
 if(river=='penobscot'){
 habitat <- vector(mode = 'list', length = nRoutes)
@@ -64,11 +64,15 @@ habitat <- vector(mode = 'list', length = nRoutes)
     (204336 + 25773)
   )
   
-  return(list(
-    OronoHabitat=OronoHabitat,
-    StillwaterHabitat=StillwaterHabitat,
-    habitat=habitat
-    ))  
+  # Bluebacks moving to 500 fish per ha. Based on 
+  # G. Wippelhauser pers. comm. and S. Ledwin pers. comm (MEDMR)
+  if(species=='blueback'){
+    
+    # Multiply by 484 and divide out the original 100 per acre (250/ha)
+    habitat <- lapply(habitat, function(x) x*(484/100))
+    
+  }  
+  
 }
  
 if(river=='merrimack'){
@@ -90,10 +94,15 @@ if(river=='merrimack'){
     182598
   )
   
-  return(list(
-    habitat=habitat
-  ))
-  
+  # Bluebacks moving to 500 fish per ha. Based on 
+  # G. Wippelhauser pers. comm. and S. Ledwin pers. comm (MEDMR)
+  if(species=='blueback'){
+    
+    # Multiply by 484 and divide out the original 100 per acre (250/ha)
+    habitat <- lapply(habitat, function(x) x*(484/100))
+    
+  }
+
 }  
   
 
@@ -106,9 +115,15 @@ if(river=='connecticut'){
     habitat[[1]] <- c(4825, 1369, 0, 762, 1042)*250
     habitat[[2]] <- c(4825, 1369, 0, 762, 1042)*250
     
-    return(list(
-      habitat=habitat
-    ))
+  # Bluebacks moving to 500 fish per ha. Based on 
+  # G. Wippelhauser pers. comm. and S. Ledwin pers. comm (MEDMR)
+  if(species=='blueback'){
+    
+    # Multiply by 484 and divide out the original 100 per acre (250/ha)
+    habitat <- lapply(habitat, function(x) x*(484/.4)/250)
+    
+  }    
+
 }  
   
   
@@ -122,10 +137,16 @@ if(river=='susquehanna'){
   habitat[[2]] <- c(0, 0, 0, 1833, 11057, 1489, 1489, 0)*250
   habitat[[3]] <- c(0, 0, 0, 1833, 11057, 6664, 104, 0)*250
   habitat[[4]] <- c(0, 0, 0, 1833, 11057, 6664, 1142, 1147, 0, 0)*250 
+
+  # Bluebacks moving to 500 fish per ha. Based on 
+  # G. Wippelhauser pers. comm. and S. Ledwin pers. comm (MEDMR)
+  if(species=='blueback'){
+    
+    # Multiply by 484 and divide out the original 100 per acre (250/ha)
+    habitat <- lapply(habitat, function(x) x*(484/.4)/250)
+    
+  }  
   
-  return(
-    habitat
-  )
 }    
   
 
@@ -137,10 +158,14 @@ if(river=='saco'){
   
   habitat[[1]] <- c(268, 5, 178, 97, 57, 238, 157)*250
   
-  return(list(
-    habitat=habitat
-  ))
-  
+  # Bluebacks moving to 500 fish per ha. Based on 
+  # G. Wippelhauser pers. comm. and S. Ledwin pers. comm (MEDMR)
+  if(species=='blueback'){
+    
+    # Multiply by 484 and divide out the original 100 per acre (250/ha)
+    habitat <- lapply(habitat, function(x) x*(484/.4)/250)
+    
+  }  
 } 
   
   
@@ -153,7 +178,7 @@ if(river=='kennebec'){
     0,   # Lockwood to Hydro Kennebec
     211, # Hydro Kennebec to Shawmut
     512, # Shawmut to Weston
-    415  # Weston to Abanaki
+    415  # Weston to Abanaki incl lower Sandy
   )*250
   habitat[[2]] <- c(
     523, # Downstream of Lockwood 
@@ -162,17 +187,13 @@ if(river=='kennebec'){
   )*250
   
   # Bluebacks moving to 500 fish per ha. Based on 
-  # G. Wippelhauser pers. comm. and S. Lindwell pers. comm (MEDMR)
+  # G. Wippelhauser pers. comm. and S. Ledwin pers. comm (MEDMR)
   if(species=='blueback'){
     
-    # Multiply by 484 and divide out the original 150
-    habitat <- lapply(habitat, function(x) x*484/250)
+    # Multiply by 484 and divide out the original 100 per acre (250/ha)
+    habitat <- lapply(habitat, function(x) x*(484/.4)/250)
     
   }
-  
-  return(list(
-    habitat=habitat
-  ))
   
 }    
   
@@ -197,11 +218,18 @@ if(river=='hudson'){
     182,388,237,150,345,
     261,268)*100
   
-  return(list(
-    habitat=habitat
-  ))
+  # Bluebacks moving to 500 fish per ha. Based on 
+  # G. Wippelhauser pers. comm. and S. Ledwin pers. comm (MEDMR)
+  if(species=='blueback'){
+    
+    # Multiply by 484 and divide out the original 100 per acre (250/ha)
+    habitat <- lapply(habitat, function(x) x*(484/100))
+    
+  }
+  
   
 }   
   
+  return(habitat)
   
 }  

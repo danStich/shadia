@@ -7,9 +7,10 @@
 kennebecRiverModel(
   nRuns = 1,
   species = "shad",
-  nYears = 40,
+  nYears = 50,
+  n_adults = 10000,
+  timing = c(1, 1, 1, 1, 1, 1),
   p_sebasticook = rbeta(1, 25, 100),
-  timing = list(1, 1, 1, 1, 1, 1),
   upstream = list(lockwood = 1, hydroken = 1, shawmut = 1, weston = 1, benton = 1,
     burnham = 1),
   downstream = list(lockwood = 1, hydroken = 1, shawmut = 1, weston = 1, benton = 1,
@@ -19,7 +20,7 @@ kennebecRiverModel(
   bycatchF = 0,
   indirect = 1,
   latent = 1,
-  watershed = TRUE,
+  watershed = FALSE,
   k_method = "cumulative"
 )
 }
@@ -35,16 +36,19 @@ run. Current options include \code{'shad'} and
 each run will last. The default is 40 years
 to match default FERC license duration.}
 
-\item{p_sebasticook}{Probability of using the
-Sebasticook River for migration. Default is
-based on proportional distribution of habitat
-in each route.}
+\item{n_adults}{Number of starting adults in 
+population based on American shad demographics.}
 
 \item{timing}{The amount of time required for
 upstream passage by individual fish (in days), 
 where the default (1) indicates a 24-h dam
 passage performance standard and the value is 
 specified as a proportion of 1 day.}
+
+\item{p_sebasticook}{Probability of using the
+Sebasticook River for migration. Default is
+based on proportional distribution of habitat
+in each route.}
 
 \item{upstream}{A named list of upstream dam
 passage efficiencies at each dam in the 

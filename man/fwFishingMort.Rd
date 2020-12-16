@@ -4,7 +4,7 @@
 \alias{fwFishingMort}
 \title{Assign freshwater fishing mortality}
 \usage{
-fwFishingMort(inRiverF, river)
+fwFishingMort(inRiverF, river, nRoutes)
 }
 \description{
 Internal function used to assign 

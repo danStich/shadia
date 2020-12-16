@@ -99,22 +99,9 @@ if(river=='penobscot'){
   times[[4]][5] <- timely[[3]]
   times[[4]][6] <- timely[[7]]
   
-
-  # JMS: Draw probability of using the Stillwater Branch moved to outer-loop-sampling.R
-  pMainUp <- 1 - pStillwaterUp
-  pMainD <- 1 - pStillwaterD
-
-  # # Draw probability of using the Piscataquis for upstream migration. NOTE: NEED
-  # # TO MAKE THIS CONDITIONAL ON FLOW.
-  # JMS: Draw of pPiscUp moved to outer-loop-sampling.R
-  pMainstemUp <- 1 - pPiscUp  # Probability of using mainstem in upper river
-
 return(list(
   times = times,
-  upEffs = upEffs,
-  pMainUp = pMainUp,
-  pMainD = pMainD,
-  pMainstemUp = pMainstemUp
+  upEffs = upEffs
 ))  
 }
   

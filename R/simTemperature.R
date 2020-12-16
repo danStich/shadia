@@ -1,8 +1,8 @@
 #' @title Simulate daily temperatures
 #' 
-#' @description Internal function used to simulate daily
+#' @description Function used to simulate daily
 #' temperatures in each river system using historical gauge
-#' data loaded in \code{setUPData}.
+#' data loaded using \code{setupTemperatureData}.
 #' 
 #' @return A list containing 1) a matrix of projected 
 #' temperatures for the number of years specified (predTemps), 
@@ -23,7 +23,6 @@ simTemperature <- function(mu){
 # on each day from a multivariate normal distribution
 
 # Fit a 2nd order polynomial to model log(Temperature)
-# by day of year after removing values <= 0 in setUpData
   mu <- mu[mu$val > 0 , ]
   mu <- mu[!is.na(mu$val) & !is.infinite(mu$val), ]
   tmod <- lm(log(val) ~ day + I(day^2), data = mu)
@@ -31,7 +30,6 @@ simTemperature <- function(mu){
 # Save coefficients and vcv
   tbetas <- coef(tmod)
   tsig <- vcov(tmod)
-
 
 # Draw new coeffs from mv normal
   tcoeffs <- MASS::mvrnorm(

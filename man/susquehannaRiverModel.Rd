@@ -9,7 +9,7 @@ susquehannaRiverModel(
   species = "shad",
   nYears = 50,
   n_adults = 10000,
-  timing = list(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+  timing = c(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
   upstream = list(conowingo = 1, holtwood = 1, safeHarbor = 1, yorkHaven = 1, sunbury =
     1, williamsport = 1, lockhaven = 1, rockbottom = 1, chasehibbard = 1, colliersville =
     1),
@@ -57,7 +57,7 @@ not included in the list of values.
 Users may specify a single value of upstream
 passage at each dam, or a vector of upstream
 passage efficiencies at each dam. Note that
-passage efficiences passed as vectors are 
+passage efficiencies passed as vectors are 
 randomly sampled during each model run 
 (not each year). Therefore, multiple model runs
 are necessary if more than one passage efficiency
@@ -70,7 +70,7 @@ Susquehanna River.
 Users may specify a single value of downstream
 passage at each dam, or a vector of downstream
 passage efficiencies at each dam. Note that
-passage efficiences passed as vectors are 
+passage efficiencies passed as vectors are 
 randomly sampled during each model run 
 (not each year). Therefore, multiple model runs
 are necessary if more than one passage efficiency
@@ -108,6 +108,10 @@ all available habitat across all occupied production units. The
 alternative, 'discrete' assumes that carrying capacity is applied
 within discrete production units based on the numbers, and was the
 method used in Stich et al. (2019).}
+
+\item{downstream_j}{A named list of downstream
+dam passage efficiencies at each dam in the 
+Susquehanna River for juveniles.}
 }
 \value{
 Returns a list of two named dataframes.
