@@ -58,25 +58,38 @@ additionalEggsProcessing <- function(fec){
 
     fec_Max <- vector(mode = 'list', length = length(fec))
     
-    for (i in 1:length(fec2)) {
-      for (j in 1:length(fec2[[i]])) {
-      
-        if (sum(fec2[[i]]) > sum(k_pus[[i]][fec2[[i]]!=0])) {
+      # This chunk is generalized between systems
+      ### Need to add to others
+      for (i in 1:length(fec2)) {
+        
+        for (j in 1:length(fec2[[i]])) {
+        
+          if(any(fec2[[i]]!=0)){
+            upper <- max(which(fec2[[i]]!=0))
+          } else {
+            upper <- 999
+          }
           
-          fec_Max[[i]][j] = fec2[[i]][j]*(sum(k_pus[[i]][fec2[[i]]!=0])/
-                                            sum(fec2[[i]]))
-          
-        } else {
-          
-          fec_Max[[i]][j] = fec2[[i]][j]
-          
+          if(upper < 999){
+            sum_fec <- sum(fec2[[i]])
+            sum_kpus <- sum(k_pus[[i]][1:upper])
+          } else {
+            sum_fec <- sum(fec2[[i]])
+            sum_kpus <- k_pus[[i]][1]            
+          }
+              
+          if(sum_fec > sum_kpus){
+            fec_Max[[i]][j] = fec2[[i]][j] * (sum_kpus/sum_fec)
+          } else {
+            fec_Max[[i]][j] = fec2[[i]][j]
+          }
         }
       }
     }
-  }
-  return(fec_Max)
-  #toc()
-  }  
+    return(fec_Max)
+    #toc()
+  } 
+  
   
   if(river=='merrimack'){
     # Calculate total number of eggs in each PU
@@ -114,25 +127,38 @@ additionalEggsProcessing <- function(fec){
   
       fec_Max <- vector(mode = 'list', length = length(fec))
       
+      # This chunk is generalized between systems
+      ### Need to add to others
       for (i in 1:length(fec2)) {
+        
         for (j in 1:length(fec2[[i]])) {
         
-          if (sum(fec2[[i]]) > sum(k_pus[[i]][fec2[[i]]!=0])) {
-            
-            fec_Max[[i]][j] = fec2[[i]][j]*(sum(k_pus[[i]][fec2[[i]]!=0])/
-                                              sum(fec2[[i]]))
-            
+          if(any(fec2[[i]]!=0)){
+            upper <- max(which(fec2[[i]]!=0))
           } else {
-            
+            upper <- 999
+          }
+          
+          if(upper < 999){
+            sum_fec <- sum(fec2[[i]])
+            sum_kpus <- sum(k_pus[[i]][1:upper])
+          } else {
+            sum_fec <- sum(fec2[[i]])
+            sum_kpus <- k_pus[[i]][1]            
+          }
+              
+          if(sum_fec > sum_kpus){
+            fec_Max[[i]][j] = fec2[[i]][j] * (sum_kpus/sum_fec)
+          } else {
             fec_Max[[i]][j] = fec2[[i]][j]
-            
           }
         }
       }
     }
     return(fec_Max)
     #toc()
-  }  
+  } 
+  
   
   if(river=='connecticut'){
     # Calculate total number of eggs in each PU
@@ -172,23 +198,34 @@ additionalEggsProcessing <- function(fec){
   
       fec_Max <- vector(mode = 'list', length = length(fec))
       
+      # This chunk is generalized between systems
+      ### Need to add to others
       for (i in 1:length(fec2)) {
+        
         for (j in 1:length(fec2[[i]])) {
         
-          if (sum(fec2[[i]]) > sum(k_pus[[i]][fec2[[i]]!=0])) {
-            
-            fec_Max[[i]][j] = fec2[[i]][j]*(sum(k_pus[[i]][fec2[[i]]!=0])/
-                                              sum(fec2[[i]]))
-            
+          if(any(fec2[[i]]!=0)){
+            upper <- max(which(fec2[[i]]!=0))
           } else {
-            
+            upper <- 999
+          }
+          
+          if(upper < 999){
+            sum_fec <- sum(fec2[[i]])
+            sum_kpus <- sum(k_pus[[i]][1:upper])
+          } else {
+            sum_fec <- sum(fec2[[i]])
+            sum_kpus <- k_pus[[i]][1]            
+          }
+              
+          if(sum_fec > sum_kpus){
+            fec_Max[[i]][j] = fec2[[i]][j] * (sum_kpus/sum_fec)
+          } else {
             fec_Max[[i]][j] = fec2[[i]][j]
-            
           }
         }
       }
     }
-    
     return(fec_Max)
     #toc()
   }  
@@ -239,25 +276,38 @@ additionalEggsProcessing <- function(fec){
   
       fec_Max <- vector(mode = 'list', length = length(fec))
       
+      # This chunk is generalized between systems
+      ### Need to add to others
       for (i in 1:length(fec2)) {
+        
         for (j in 1:length(fec2[[i]])) {
         
-          if (sum(fec2[[i]]) > sum(k_pus[[i]][fec2[[i]]!=0])) {
-            
-            fec_Max[[i]][j] = fec2[[i]][j]*(sum(k_pus[[i]][fec2[[i]]!=0])/
-                                              sum(fec2[[i]]))
-            
+          if(any(fec2[[i]]!=0)){
+            upper <- max(which(fec2[[i]]!=0))
           } else {
-            
+            upper <- 999
+          }
+          
+          if(upper < 999){
+            sum_fec <- sum(fec2[[i]])
+            sum_kpus <- sum(k_pus[[i]][1:upper])
+          } else {
+            sum_fec <- sum(fec2[[i]])
+            sum_kpus <- k_pus[[i]][1]            
+          }
+              
+          if(sum_fec > sum_kpus){
+            fec_Max[[i]][j] = fec2[[i]][j] * (sum_kpus/sum_fec)
+          } else {
             fec_Max[[i]][j] = fec2[[i]][j]
-            
           }
         }
       }
     }
     return(fec_Max)
     #toc()
-  }    
+  } 
+  
  
   if(river=='saco'){
     # Calculate total number of eggs in each PU
@@ -287,25 +337,38 @@ additionalEggsProcessing <- function(fec){
   
       fec_Max <- vector(mode = 'list', length = length(fec))
       
+      # This chunk is generalized between systems
+      ### Need to add to others
       for (i in 1:length(fec2)) {
+        
         for (j in 1:length(fec2[[i]])) {
         
-          if (sum(fec2[[i]]) > sum(k_pus[[i]][fec2[[i]]!=0])) {
-            
-            fec_Max[[i]][j] = fec2[[i]][j]*(sum(k_pus[[i]][fec2[[i]]!=0])/
-                                              sum(fec2[[i]]))
-            
+          if(any(fec2[[i]]!=0)){
+            upper <- max(which(fec2[[i]]!=0))
           } else {
-            
+            upper <- 999
+          }
+          
+          if(upper < 999){
+            sum_fec <- sum(fec2[[i]])
+            sum_kpus <- sum(k_pus[[i]][1:upper])
+          } else {
+            sum_fec <- sum(fec2[[i]])
+            sum_kpus <- k_pus[[i]][1]            
+          }
+              
+          if(sum_fec > sum_kpus){
+            fec_Max[[i]][j] = fec2[[i]][j] * (sum_kpus/sum_fec)
+          } else {
             fec_Max[[i]][j] = fec2[[i]][j]
-            
           }
         }
       }
     }
     return(fec_Max)
     #toc()
-  }    
+  } 
+  
 
   if(river=='kennebec'){
     # Calculate total number of eggs in each PU
@@ -338,25 +401,38 @@ additionalEggsProcessing <- function(fec){
   
       fec_Max <- vector(mode = 'list', length = length(fec))
       
+      # This chunk is generalized between systems
+      ### Need to add to others
       for (i in 1:length(fec2)) {
+        
         for (j in 1:length(fec2[[i]])) {
         
-          if (sum(fec2[[i]]) > sum(k_pus[[i]][fec2[[i]]!=0])) {
-            
-            fec_Max[[i]][j] = fec2[[i]][j]*(sum(k_pus[[i]][fec2[[i]]!=0])/
-                                              sum(fec2[[i]]))
-            
+          if(any(fec2[[i]]!=0)){
+            upper <- max(which(fec2[[i]]!=0))
           } else {
-            
+            upper <- 999
+          }
+          
+          if(upper < 999){
+            sum_fec <- sum(fec2[[i]])
+            sum_kpus <- sum(k_pus[[i]][1:upper])
+          } else {
+            sum_fec <- sum(fec2[[i]])
+            sum_kpus <- k_pus[[i]][1]            
+          }
+              
+          if(sum_fec > sum_kpus){
+            fec_Max[[i]][j] = fec2[[i]][j] * (sum_kpus/sum_fec)
+          } else {
             fec_Max[[i]][j] = fec2[[i]][j]
-            
           }
         }
       }
     }
     return(fec_Max)
     #toc()
-  }    
+  } 
+  
   
   if(river=='hudson'){
     # Calculate total number of eggs in each PU
@@ -389,25 +465,36 @@ additionalEggsProcessing <- function(fec){
   
       fec_Max <- vector(mode = 'list', length = length(fec))
       
+      # This chunk is generalized between systems
+      ### Need to add to others
       for (i in 1:length(fec2)) {
+        
         for (j in 1:length(fec2[[i]])) {
         
-          if (sum(fec2[[i]]) > sum(k_pus[[i]][fec2[[i]]!=0])) {
-            
-            fec_Max[[i]][j] = fec2[[i]][j]*(sum(k_pus[[i]][fec2[[i]]!=0])/
-                                              sum(fec2[[i]]))
-            
+          if(any(fec2[[i]]!=0)){
+            upper <- max(which(fec2[[i]]!=0))
           } else {
-            
+            upper <- 999
+          }
+          
+          if(upper < 999){
+            sum_fec <- sum(fec2[[i]])
+            sum_kpus <- sum(k_pus[[i]][1:upper])
+          } else {
+            sum_fec <- sum(fec2[[i]])
+            sum_kpus <- k_pus[[i]][1]            
+          }
+              
+          if(sum_fec > sum_kpus){
+            fec_Max[[i]][j] = fec2[[i]][j] * (sum_kpus/sum_fec)
+          } else {
             fec_Max[[i]][j] = fec2[[i]][j]
-            
           }
         }
       }
     }
-    
     return(fec_Max)
     #toc()
-  }       
+  } 
+  
 }
-
