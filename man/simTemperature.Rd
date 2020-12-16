@@ -13,9 +13,9 @@ and 2) a matrix of accumulated thermal units (ATU) for
 corresponding days.
 }
 \description{
-Internal function used to simulate daily
+Function used to simulate daily
 temperatures in each river system using historical gauge
-data loaded in \code{setUPData}.
+data loaded using \code{setupTemperatureData}.
 }
 \details{
 This function relies on a data set (\code{mu}) containing

@@ -8,18 +8,24 @@ penobscotRiverModel(
   nRuns = 1,
   species = "shad",
   nYears = 50,
-  timing = list(1, 1, 1, 1, 1, 1, 1),
+  n_adults = 10000,
+  pStillwaterUp = rbeta(1, 15, 120),
+  pStillwaterD = rbeta(1, 15, 120),
+  pPiscUp = rbeta(1, 25, 75),
+  timing = c(1, 1, 1, 1, 1, 1, 1),
   upstream = list(milford = 1, howland = 1, westEnfield = 1, brownsMill = 1, moosehead
     = 1, guilford = 1, weldon = 1),
   downstream = list(stillwater = 1, orono = 1, milford = 1, howland = 1, westEnfield =
     1, brownsMill = 1, moosehead = 1, guilford = 1, weldon = 1),
+  downstream_juv = list(stillwater = 1, orono = 1, milford = 1, howland = 1,
+    westEnfield = 1, brownsMill = 1, moosehead = 1, guilford = 1, weldon = 1),
   pinHarvest = 0,
   inRiverF = 0,
   commercialF = 0,
   bycatchF = 0,
   indirect = 1,
   latent = 1,
-  watershed = TRUE,
+  watershed = FALSE,
   climate = "current",
   k_method = "cumulative"
 )
@@ -36,6 +42,25 @@ run. Current options include \code{'shad'} and
 each run will last. The default is 50 years
 to match hydropower license duration in the
 Penobscot River.}
+
+\item{n_adults}{Number of starting adults in 
+population based on American shad demographics.}
+
+\item{pStillwaterUp}{Probability of using the
+Stillwater Branch for upstream migration. The 
+default is based on proportional distribution of
+discharge around Marsh Island.}
+
+\item{pStillwaterD}{Probability of using the
+Stillwater Branch for downstream migration. The 
+default is based on proportional distribution of
+discharge around Marsh Island.}
+
+\item{pPiscUp}{Probability of using the
+Piscataquis River during upstream migration. The 
+default is based on proportional distribution of
+habitat in the Piscataquis and mainstem Penobscot
+rivers.}
 
 \item{timing}{The amount of time required for
 upstream passage by individual fish (in days), 
@@ -70,6 +95,10 @@ randomly sampled during each model run
 (not each year). Therefore, multiple model runs
 are necessary if more than one passage efficiency
 is supplied for any dam.}
+
+\item{downstream_juv}{A named list of downstream
+dam passage efficiencies at each dam in the 
+Kennebec River for juveniles.}
 
 \item{pinHarvest}{In-river, sustenance harvest
 by Penobscot Indian Nation (PIN) upstream of Weldon 
@@ -149,7 +178,6 @@ The following named columns are returned in \code{sens}:
     \item \code{S.prespawnF} Postspawn survival rate for males
     \item \code{S.postspawnF} Postspawn survival rate for males
     \item \code{S.juvenile} Hatch to out-migrant survival rate
-    \item \code{t.stoch} Temperature stochasticity parameter
     \item \code{b.Arr} Mean arrival date for males
     \item \code{r.Arr} Mean arrival date for females
     \item \code{ATUspawn1} Accumulated thermal units at initiation of spawn

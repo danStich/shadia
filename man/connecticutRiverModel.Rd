@@ -8,9 +8,11 @@ connecticutRiverModel(
   nRuns = 1,
   species = "shad",
   nYears = 40,
-  timing = list(1, 1, 1, 1, 1),
+  n_adults = 1e+05,
+  timing = c(1, 1, 1, 1, 1),
   upstream = list(holyoke = 1, cabot = 1, spillway = 1, gatehouse = 1, vernon = 1),
   downstream = list(holyoke = 1, cabot = 1, gatehouse = 1, vernon = 1),
+  downstream_juv = list(holyoke = 1, cabot = 1, gatehouse = 1, vernon = 1),
   northfield = list(turnersA = 1, turnersJ = 1, vernonA = 1, vernonJ = 1),
   pSpillway = 1,
   inRiverF = 0,
@@ -18,7 +20,7 @@ connecticutRiverModel(
   bycatchF = 0,
   indirect = 1,
   latent = 1,
-  watershed = TRUE,
+  watershed = FALSE,
   climate = "current",
   k_method = "cumulative"
 )
@@ -35,6 +37,9 @@ run. Current options include \code{'shad'} and
 each run will last. The default is 40 years
 to match current license lengths in the 
 Connecticut River.}
+
+\item{n_adults}{Number of starting adults in 
+population based on American shad demographics.}
 
 \item{timing}{A list. The amount of time required for
 upstream passage by individual fish (in days),
@@ -66,6 +71,10 @@ randomly sampled during each model run
 (not each year). Therefore, multiple model runs
 are necessary if more than one passage efficiency
 is supplied for any dam.}
+
+\item{downstream_juv}{A named list of downstream
+dam passage efficiencies at each dam in the 
+Connecticut River for juveniles.}
 
 \item{northfield}{Annual take for juveniles and
 adults from PU IV and PU V at the Northfield

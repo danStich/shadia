@@ -9,6 +9,7 @@ mohawkHudsonRiverModel(
   pMohawk = 0,
   nRuns = 1,
   nYears = 40,
+  n_adults = 1e+05,
   timing = rep(1, 26),
   upstream = list(federal = 1, C01 = 1, C02 = 1, C03 = 1, C04 = 1, C05 = 1, C06 = 1,
     E02 = 1, E03 = 1, E04 = 1, E05 = 1, E06 = 1, E07 = 1, E08 = 1, E09 = 1, E10 = 1, E11
@@ -16,12 +17,16 @@ mohawkHudsonRiverModel(
   downstream = list(federal = 1, C01 = 1, C02 = 1, C03 = 1, C04 = 1, C05 = 1, C06 = 1,
     E02 = 1, E03 = 1, E04 = 1, E05 = 1, E06 = 1, E07 = 1, E08 = 1, E09 = 1, E10 = 1, E11
     = 1, E12 = 1, E13 = 1, E14 = 1, E15 = 1, E16 = 1, E17 = 1, E18 = 1, E19 = 1, E20 = 1),
+  downstream_juv = list(federal = 1, C01 = 1, C02 = 1, C03 = 1, C04 = 1, C05 = 1, C06 =
+    1, E02 = 1, E03 = 1, E04 = 1, E05 = 1, E06 = 1, E07 = 1, E08 = 1, E09 = 1, E10 = 1,
+    E11 = 1, E12 = 1, E13 = 1, E14 = 1, E15 = 1, E16 = 1, E17 = 1, E18 = 1, E19 = 1, E20
+    = 1),
   inRiverF = 0,
   commercialF = 0,
   bycatchF = 0,
   indirect = 1,
   latent = 1,
-  watershed = TRUE,
+  watershed = FALSE,
   k_method = "cumulative"
 )
 }
@@ -36,6 +41,9 @@ model will be run.}
 \item{nYears}{The number of years for which
 each run will last. The default is 40 years
 to match default FERC license duration.}
+
+\item{n_adults}{Number of starting adults in 
+population based on American shad demographics.}
 
 \item{timing}{The amount of time required for
 upstream passage by individual fish (in days), 
@@ -63,9 +71,11 @@ and downstream survival through dams).}
 \item{downstream}{A named list of downstream
 dam passage efficiencies at each dam in the 
 Mohawk and Hudson rivers including
-navigational locks. 
+navigational locks.}
 
-See note in \code{upstream}.}
+\item{downstream_juv}{A named list of downstream
+dam passage efficiencies at each dam in the 
+Mohawk and Hudson rivers for juveniles.}
 
 \item{inRiverF}{Annual, recreational harvest of 
 American shad. Parameterized as an annual rate [0, 1].}
@@ -133,7 +143,6 @@ The following named columns are returned in \code{sens}:
     \item \code{S.prespawnF} Postspawn survival rate for males
     \item \code{S.postspawnF} Postspawn survival rate for males
     \item \code{S.juvenile} Hatch to out-migrant survival rate
-    \item \code{t.stoch} Temperature stochasticity parameter
     \item \code{b.Arr} Mean arrival date for males
     \item \code{r.Arr} Mean arrival date for females
     \item \code{ATUspawn1} Accumulated thermal units at initiation of spawn

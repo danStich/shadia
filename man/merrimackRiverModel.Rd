@@ -8,10 +8,13 @@ merrimackRiverModel(
   nRuns = 1,
   species = "shad",
   nYears = 50,
-  timing = list(1, 1, 1, 1, 1),
+  n_adults = 10000,
+  timing = c(1, 1, 1, 1, 1),
   upstream = list(essex = 1, pawtucketBypass = 1, pawtucket = 1, amoskeag = 1, hookset
     = 1),
   downstream = list(essex = 1, pawtucketBypass = 1, pawtucket = 1, amoskeag = 1,
+    hookset = 1),
+  downstream_juv = list(essex = 1, pawtucketBypass = 1, pawtucket = 1, amoskeag = 1,
     hookset = 1),
   pBypassUp = 1,
   pBypassD = 1,
@@ -20,7 +23,7 @@ merrimackRiverModel(
   bycatchF = 0,
   indirect = 1,
   latent = 1,
-  watershed = TRUE,
+  watershed = FALSE,
   k_method = "cumulative"
 )
 }
@@ -36,6 +39,9 @@ run. Current options include \code{'shad'} and
 each run will last. The default is 40 years
 to match the default FERC license, but can
 be changed.}
+
+\item{n_adults}{Number of starting adults in 
+population based on American shad demographics.}
 
 \item{timing}{The amount of time required for
 upstream passage by individual fish (in days),
@@ -67,6 +73,10 @@ randomly sampled during each model run
 (not each year). Therefore, multiple model runs
 are necessary if more than one passage efficiency
 is supplied for any dam.}
+
+\item{downstream_juv}{A named list of downstream
+dam passage efficiencies at each dam in the 
+Merrimack River for juveniles.}
 
 \item{inRiverF}{Annual, recreational harvest of
 American shad. Parameterized as an annual rate [0, 1].}

@@ -15,6 +15,8 @@ kennebecRiverModel(
     burnham = 1),
   downstream = list(lockwood = 1, hydroken = 1, shawmut = 1, weston = 1, benton = 1,
     burnham = 1),
+  downstream_juv = list(lockwood = 1, hydroken = 1, shawmut = 1, weston = 1, benton =
+    1, burnham = 1),
   inRiverF = 0,
   commercialF = 0,
   bycatchF = 0,
@@ -69,9 +71,11 @@ and downstream survival through dams).}
 
 \item{downstream}{A named list of downstream
 dam passage efficiencies at each dam in the 
-Kennebec and Sebasticook rivers. 
+Kennebec and Sebasticook rivers.}
 
-See note in \code{upstream}.}
+\item{downstream_juv}{A named list of downstream
+dam passage efficiencies at each dam in the 
+Kennebec River for juveniles.}
 
 \item{inRiverF}{Annual, recreational harvest of 
 American shad. Parameterized as an annual rate [0, 1].}
@@ -137,7 +141,6 @@ The following named columns are returned in \code{sens}:
     \item \code{S.prespawnF} Postspawn survival rate for males
     \item \code{S.postspawnF} Postspawn survival rate for males
     \item \code{S.juvenile} Hatch to out-migrant survival rate
-    \item \code{t.stoch} Temperature stochasticity parameter
     \item \code{b.Arr} Mean arrival date for males
     \item \code{r.Arr} Mean arrival date for females
     \item \code{ATUspawn1} Accumulated thermal units at initiation of spawn

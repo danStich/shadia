@@ -76,6 +76,10 @@ randomly sampled during each model run
 are necessary if more than one passage efficiency
 is supplied for any dam.}
 
+\item{downstream_juv}{A named list of downstream
+dam passage efficiencies at each dam in the 
+Susquehanna River for juveniles.}
+
 \item{inRiverF}{Annual, recreational harvest of 
 American shad. Parameterized as an annual rate [0, 1].}
 
@@ -108,10 +112,6 @@ all available habitat across all occupied production units. The
 alternative, 'discrete' assumes that carrying capacity is applied
 within discrete production units based on the numbers, and was the
 method used in Stich et al. (2019).}
-
-\item{downstream_j}{A named list of downstream
-dam passage efficiencies at each dam in the 
-Susquehanna River for juveniles.}
 }
 \value{
 Returns a list of two named dataframes.
@@ -147,7 +147,6 @@ The following named variables are returned in \code{sens}:
     \item \code{S.prespawnF} Postspawn survival rate for males
     \item \code{S.postspawnF} Postspawn survival rate for males
     \item \code{S.juvenile} Hatch to out-migrant survival rate
-    \item \code{t.stoch} Temperature stochasticity parameter
     \item \code{b.Arr} Mean arrival date for males
     \item \code{r.Arr} Mean arrival date for females
     \item \code{ATUspawn1} Accumulated thermal units at initiation of spawn

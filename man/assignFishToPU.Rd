@@ -9,5 +9,5 @@ assignFishToPU(puNum, PUS)
 \description{
 Generically generate individual x_PUS_n,
 for fish gender and PU number. Not intended to be called
-directly. Visible for the sake of model transparency.
+directly. Visible for model transparency.
 }

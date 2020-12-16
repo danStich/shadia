@@ -8,17 +8,20 @@ sacoRiverModel(
   nRuns = 1,
   species = "shad",
   nYears = 40,
-  timing = list(1, 1, 1, 1, 1, 1),
+  n_adults = 1e+05,
+  timing = c(1, 1, 1, 1, 1, 1),
   upstream = list(cataract = 1, spring = 1, skelton = 1, barmills = 1, westBuxton = 1,
     bonnyEagle = 1),
   downstream = list(cataract = 1, spring = 1, barmills = 1, skelton = 1, westBuxton =
     1, bonnyEagle = 1),
+  downstream_juv = list(cataract = 1, spring = 1, barmills = 1, skelton = 1, westBuxton
+    = 1, bonnyEagle = 1),
   inRiverF = 0,
   commercialF = 0,
   bycatchF = 0,
   indirect = 1,
   latent = 1,
-  watershed = TRUE,
+  watershed = FALSE,
   k_method = "cumulative"
 )
 }
@@ -34,6 +37,9 @@ run. Current options include \code{'shad'} and
 each run will last. The default is 40 years
 to match default FERC licenses, but can be 
 changed.}
+
+\item{n_adults}{Number of starting adults in 
+population based on American shad demographics.}
 
 \item{timing}{The amount of time required for
 upstream passage by individual fish (in days), 
@@ -64,6 +70,9 @@ randomly sampled during each model run
 (not each year). Therefore, multiple model runs
 are necessary if more than one passage efficiency
 is supplied for any dam.}
+
+\item{downstream_juv}{A named list of downstream
+juvenile dam passage efficiencies at each dam.}
 
 \item{inRiverF}{Annual, recreational harvest of 
 American shad. Parameterized as an annual rate [0, 1].}
@@ -129,7 +138,6 @@ The following named columns are returned in \code{sens}:
     \item \code{S.prespawnF} Postspawn survival rate for males
     \item \code{S.postspawnF} Postspawn survival rate for males
     \item \code{S.juvenile} Hatch to out-migrant survival rate
-    \item \code{t.stoch} Temperature stochasticity parameter
     \item \code{b.Arr} Mean arrival date for males
     \item \code{r.Arr} Mean arrival date for females
     \item \code{ATUspawn1} Accumulated thermal units at initiation of spawn

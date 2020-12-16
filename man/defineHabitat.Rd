@@ -27,5 +27,5 @@ Augusta, ME.
 
 Technical Committee for Anadromous Fishery Management
 of the Merrimack River Basin. 2010. A plan for the 
-restoration of American shad Merrmimack River watershed.
+restoration of American shad Merrimack River watershed.
 }
