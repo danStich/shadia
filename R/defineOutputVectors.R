@@ -15,43 +15,13 @@
 #' @export
 #' 
 defineOutputVectors <- function(){
+  # Shared parameters
   
-if(river=='penobscot'){  
-  
-  # Define empty vectors to hold results for outer loop
-    
   # Empty container to hold year
   years <- vector(mode = 'numeric', length = nYears * nRuns)
   
+  # Define empty vectors to hold results for outer loop
   climate_scen <- vector(mode='character', length = nYears * nRuns)
-
-  # Indirect mortality during downstream passage
-  indirectM <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Latent estuary mortality during downstream passage
-  latentM <- vector(mode = 'numeric', length = nYears * nRuns)
-
-  # Population abundance in each production unit
-  # Population abundance below Milford Dam in main-stem
-  LowerPop <- vector(mode = 'numeric', length = nYears * nRuns)
-  # Population abundance between Orono and Stillwater dams
-  OronoPop <- vector(mode = 'numeric', length = nYears * nRuns)
-  # Population abundance between Stillwater Dam and Gilman Falls
-  StillwaterPop <- vector(mode = 'numeric', length = nYears * nRuns)
-  # Population abundance between Milford Dam and confluence
-  MilfordPop <- vector(mode = 'numeric', length = nYears * nRuns)
-  # Population abundance between West Enfield and Weldon dams
-  EnfieldPop <- vector(mode = 'numeric', length = nYears * nRuns)
-  # Population abundance above Weldon Dam
-  WeldonPop <- vector(mode = 'numeric', length = nYears * nRuns)
-  # Population abundance between Howland and Moosehead dams
-  HowlandPop <- vector(mode = 'numeric', length = nYears * nRuns)
-  # Population abundance between Moosehead and Browns Mill dams
-  MoosePop <- vector(mode = 'numeric', length = nYears * nRuns)
-  # Population abundance between Browns Mill and Guilford dams
-  BrownsPop <- vector(mode = 'numeric', length = nYears * nRuns)
-  # Population abundance above Guilford Dam
-  GuilfordPop <- vector(mode = 'numeric', length = nYears * nRuns)
   
   # Age-structured spawning population
   spawners <- vector(mode = 'list', length = nYears * nRuns)
@@ -68,9 +38,6 @@ if(river=='penobscot'){
   # Store the inputs for sensitivity analysis
   # Passage assumptions
   ptime <- vector(mode = 'list', length = nYears * nRuns)
-  pStillUP <- vector(mode = 'numeric', length = nYears * nRuns)
-  pStillD <- vector(mode = 'numeric', length = nYears * nRuns)
-  pPiscUP <- vector(mode = 'numeric', length = nYears * nRuns)
   
   # Population demographics
   S.downstream <- vector(mode = 'numeric', length = nYears * nRuns)
@@ -86,7 +53,9 @@ if(river=='penobscot'){
   S.prespawnF <- vector(mode = 'numeric', length = nYears * nRuns)
   S.postspawnF <- vector(mode = 'numeric', length = nYears * nRuns)
   S.juvenile <- vector(mode = 'numeric', length = nYears * nRuns)
-  
+  indirectM <- vector(mode = 'numeric', length = nYears * nRuns)
+  latentM <- vector(mode = 'numeric', length = nYears * nRuns)
+
   # Individual traits
   # Entry dates
   b.Arr <- vector(mode = 'numeric', length = nYears * nRuns)
@@ -121,8 +90,38 @@ if(river=='penobscot'){
   d.Max <- vector(mode = 'numeric', length = nYears * nRuns)
   tortuosity <- vector(mode = 'numeric', length = nYears * nRuns)
   motivation <- vector(mode = 'numeric', length = nYears * nRuns)
-  daily.move <- vector(mode = 'numeric', length = nYears * nRuns)
+  daily.move <- vector(mode = 'numeric', length = nYears * nRuns)  
+  
+  
+if(river=='penobscot'){  
 
+  # Population abundance in each production unit
+  # Population abundance below Milford Dam in main-stem
+  LowerPop <- vector(mode = 'numeric', length = nYears * nRuns)
+  # Population abundance between Orono and Stillwater dams
+  OronoPop <- vector(mode = 'numeric', length = nYears * nRuns)
+  # Population abundance between Stillwater Dam and Gilman Falls
+  StillwaterPop <- vector(mode = 'numeric', length = nYears * nRuns)
+  # Population abundance between Milford Dam and confluence
+  MilfordPop <- vector(mode = 'numeric', length = nYears * nRuns)
+  # Population abundance between West Enfield and Weldon dams
+  EnfieldPop <- vector(mode = 'numeric', length = nYears * nRuns)
+  # Population abundance above Weldon Dam
+  WeldonPop <- vector(mode = 'numeric', length = nYears * nRuns)
+  # Population abundance between Howland and Moosehead dams
+  HowlandPop <- vector(mode = 'numeric', length = nYears * nRuns)
+  # Population abundance between Moosehead and Browns Mill dams
+  MoosePop <- vector(mode = 'numeric', length = nYears * nRuns)
+  # Population abundance between Browns Mill and Guilford dams
+  BrownsPop <- vector(mode = 'numeric', length = nYears * nRuns)
+  # Population abundance above Guilford Dam
+  GuilfordPop <- vector(mode = 'numeric', length = nYears * nRuns)
+  
+  # System-specific passage probabilities
+  pStillUP <- vector(mode = 'numeric', length = nYears * nRuns)
+  pStillD <- vector(mode = 'numeric', length = nYears * nRuns)
+  pPiscUP <- vector(mode = 'numeric', length = nYears * nRuns)
+  
   return(
     list(
       years = years,
@@ -188,92 +187,16 @@ if(river=='penobscot'){
   
 if(river=='merrimack'){  
   
-  # Define empty vectors to hold results for outer loop
-    
-  # Empty container to hold year
-  years <- vector(mode = 'numeric', length = nYears * nRuns)
-
   # Probability of using bypass route at pawtucket
   pBypassUS <- vector(mode = 'numeric', length = nYears * nRuns)
   pBypassDS <- vector(mode = 'numeric', length = nYears * nRuns)
   
-  # Timing
-  ptime <- vector(mode = 'list', length = nYears * nRuns)
-
-  # Indirect mortality during downstream passage
-  indirectM <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Latent estuary mortality during downstream passage
-  latentM <- vector(mode = 'numeric', length = nYears * nRuns)
-
   # Population abundance in each production unit
   popI <- vector(mode = 'numeric', length = nYears * nRuns)
   popII <- vector(mode = 'numeric', length = nYears * nRuns)
   popIII <- vector(mode = 'numeric', length = nYears * nRuns)
   popIV <- vector(mode = 'numeric', length = nYears * nRuns)
   popV <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Age-structured spawning population
-  spawners <- vector(mode = 'list', length = nYears * nRuns)
-  
-  # Proportion of repeat spawners in each age class
-  pRepeats <- vector(mode = 'list', length = nYears * nRuns)
-  
-  # Catchment-wide population abundance
-  populationSize <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Store the scale
-  scalarVar <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Population demographics
-  S.downstream <- vector(mode = 'numeric', length = nYears * nRuns)
-  S.marine <- vector(mode = 'numeric', length = nYears * nRuns)
-  F.inRiver <- vector(mode = 'numeric', length = nYears * nRuns)
-  F.commercial <- vector(mode = 'numeric', length = nYears * nRuns)
-  F.bycatch <- vector(mode = 'numeric', length = nYears * nRuns)
-  popStart <- vector(mode = 'numeric', length = nYears * nRuns)
-  p.female <- vector(mode = 'numeric', length = nYears * nRuns)
-  S.prespawnM <- vector(mode = 'numeric', length = nYears * nRuns)
-  S.postspawnM <- vector(mode = 'numeric', length = nYears * nRuns)
-  S.prespawnF <- vector(mode = 'numeric', length = nYears * nRuns)
-  S.postspawnF <- vector(mode = 'numeric', length = nYears * nRuns)
-  S.juvenile <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Individual traits
-  # Entry dates
-  b.Arr <- vector(mode = 'numeric', length = nYears * nRuns)
-  r.Arr <- vector(mode = 'numeric', length = nYears * nRuns)
-  # Spawning ATU
-  ATUspawn1 <- vector(mode = 'numeric', length = nYears * nRuns)
-  ATUspawn2 <- vector(mode = 'numeric', length = nYears * nRuns)
-  # Spawning dates
-  Dspawn1 <- vector(mode = 'numeric', length = nYears * nRuns)
-  Dspawn2 <- vector(mode = 'numeric', length = nYears * nRuns)
-  # Length at age
-  # Females
-  linF <- vector(mode = 'numeric', length = nYears * nRuns)
-  kF <- vector(mode = 'numeric', length = nYears * nRuns)
-  t0F <- vector(mode = 'numeric', length = nYears * nRuns)
-  # Males
-  linM <- vector(mode = 'numeric', length = nYears * nRuns)
-  kM <- vector(mode = 'numeric', length = nYears * nRuns)
-  t0M <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Lengths and mass
-  b.length <- vector(mode = 'numeric', length = nYears * nRuns)
-  r.length <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Fecundity
-  spawnInt <- vector(mode = 'numeric', length = nYears * nRuns)
-  batchSize <- vector(mode = 'numeric', length = nYears * nRuns)
-  RAF <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Movement parameters
-  s.Optim <- vector(mode = 'numeric', length = nYears * nRuns)
-  d.Max <- vector(mode = 'numeric', length = nYears * nRuns)
-  tortuosity <- vector(mode = 'numeric', length = nYears * nRuns)
-  motivation <- vector(mode = 'numeric', length = nYears * nRuns)
-  daily.move <- vector(mode = 'numeric', length = nYears * nRuns)
 
   return(
     list(
@@ -332,14 +255,6 @@ if(river=='merrimack'){
 }
 
 if(river=='connecticut'){  
-  # Define empty vectors to hold results for outer loop
-    
-  # Empty container to hold year
-  years <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Empty container to hold Weldon scenario (depricated)
-  climate_scen <- vector(mode = 'character', length = nYears * nRuns)
-  
   # Probability of using the spillway passage route for
   # upstream migration
   pSpill <- vector(mode = 'numeric', length = nYears * nRuns)
@@ -349,15 +264,6 @@ if(river=='connecticut'){
   NorthFieldT = vector(mode='numeric', length = nYears*nRuns)
   NorthFieldVa = vector(mode='numeric', length = nYears*nRuns)
   NorthFieldTa = vector(mode='numeric', length = nYears*nRuns)
-   
-  # Timing
-  ptime <- vector(mode = 'list', length = nYears * nRuns)
-
-  # Indirect mortality during downstream passage
-  indirectM <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Latent estuary mortality during downstream passage
-  latentM <- vector(mode = 'numeric', length = nYears * nRuns)
 
   # Population abundance in each production unit
   popI <- vector(mode = 'numeric', length = nYears * nRuns)
@@ -365,69 +271,6 @@ if(river=='connecticut'){
   popIII <- vector(mode = 'numeric', length = nYears * nRuns)
   popIV <- vector(mode = 'numeric', length = nYears * nRuns)
   popV <- vector(mode = 'numeric', length = nYears * nRuns)
-
-  # Age-structured spawning population
-  spawners <- vector(mode = 'list', length = nYears * nRuns)
-  
-  # Proportion of repeat spawners in each age class
-  pRepeats <- vector(mode = 'list', length = nYears * nRuns)
-  
-  # Catchment-wide population abundance
-  populationSize <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Store the scale
-  scalarVar <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Population demographics
-  S.downstream <- vector(mode = 'numeric', length = nYears * nRuns)
-  S.marine <- vector(mode = 'numeric', length = nYears * nRuns)
-  F.inRiver <- vector(mode = 'numeric', length = nYears * nRuns)
-  F.commercial <- vector(mode = 'numeric', length = nYears * nRuns)
-  F.bycatch <- vector(mode = 'numeric', length = nYears * nRuns)
-  popStart <- vector(mode = 'numeric', length = nYears * nRuns)
-  p.female <- vector(mode = 'numeric', length = nYears * nRuns)
-  S.prespawnM <- vector(mode = 'numeric', length = nYears * nRuns)
-  S.postspawnM <- vector(mode = 'numeric', length = nYears * nRuns)
-  S.prespawnF <- vector(mode = 'numeric', length = nYears * nRuns)
-  S.postspawnF <- vector(mode = 'numeric', length = nYears * nRuns)
-  S.juvenile <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  
-  # Individual traits
-  # Entry dates
-  b.Arr <- vector(mode = 'numeric', length = nYears * nRuns)
-  r.Arr <- vector(mode = 'numeric', length = nYears * nRuns)
-  # Spawning ATU
-  ATUspawn1 <- vector(mode = 'numeric', length = nYears * nRuns)
-  ATUspawn2 <- vector(mode = 'numeric', length = nYears * nRuns)
-  # Spawning dates
-  Dspawn1 <- vector(mode = 'numeric', length = nYears * nRuns)
-  Dspawn2 <- vector(mode = 'numeric', length = nYears * nRuns)
-  # Length at age
-  # Females
-  linF <- vector(mode = 'numeric', length = nYears * nRuns)
-  kF <- vector(mode = 'numeric', length = nYears * nRuns)
-  t0F <- vector(mode = 'numeric', length = nYears * nRuns)
-  # Males
-  linM <- vector(mode = 'numeric', length = nYears * nRuns)
-  kM <- vector(mode = 'numeric', length = nYears * nRuns)
-  t0M <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Lengths and mass
-  b.length <- vector(mode = 'numeric', length = nYears * nRuns)
-  r.length <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Fecundity
-  spawnInt <- vector(mode = 'numeric', length = nYears * nRuns)
-  batchSize <- vector(mode = 'numeric', length = nYears * nRuns)
-  RAF <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Movement parameters
-  s.Optim <- vector(mode = 'numeric', length = nYears * nRuns)
-  d.Max <- vector(mode = 'numeric', length = nYears * nRuns)
-  tortuosity <- vector(mode = 'numeric', length = nYears * nRuns)
-  motivation <- vector(mode = 'numeric', length = nYears * nRuns)
-  daily.move <- vector(mode = 'numeric', length = nYears * nRuns)
 
   return(
     list(
@@ -491,16 +334,6 @@ if(river=='connecticut'){
 
 if(river=='susquehanna'){  
   # Define empty vectors to hold results for outer loop
-    
-  # Empty container to hold year
-  years <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Indirect mortality during downstream passage
-  indirectM <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Latent estuary mortality during downstream passage
-  latentM <- vector(mode = 'numeric', length = nYears * nRuns)
-
   # Population abundance in each production unit
   LowPop <- vector(mode = 'numeric', length = nYears * nRuns)
   ConPop <- vector(mode = 'numeric', length = nYears * nRuns)
@@ -519,75 +352,12 @@ if(river=='susquehanna'){
   RocPop <- vector(mode = 'numeric', length = nYears * nRuns)
   ColPop <- vector(mode = 'numeric', length = nYears * nRuns)
   
-  # Age-structured spawning population
-  spawners <- vector(mode = 'list', length = nYears * nRuns)
-  
-  # Proportion of repeat spawners in each age class
-  pRepeats <- vector(mode = 'list', length = nYears * nRuns)
-  
-  # Catchment-wide population abundance
-  populationSize <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Store the scale
-  scalarVar <- vector(mode = 'numeric', length = nYears * nRuns)
-  
   # Store the inputs for sensitivity analysis
   # Passage assumptions
-  ptime <- vector(mode = 'list', length = nYears * nRuns)
   pJuniataUp <- vector(mode = 'numeric', length = nYears * nRuns)
   pWestBranchUp <- vector(mode = 'numeric', length = nYears * nRuns)
   pChemungUp <- vector(mode = 'numeric', length = nYears * nRuns)
   pNorthBranchUp <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Population demographics
-  S.downstream <- vector(mode = 'numeric', length = nYears * nRuns)
-  S.marine <- vector(mode = 'numeric', length = nYears * nRuns)
-  F.inRiver <- vector(mode = 'numeric', length = nYears * nRuns)
-  F.commercial <- vector(mode = 'numeric', length = nYears * nRuns)
-  F.bycatch <- vector(mode = 'numeric', length = nYears * nRuns)
-  popStart <- vector(mode = 'numeric', length = nYears * nRuns)
-  p.female <- vector(mode = 'numeric', length = nYears * nRuns)
-  S.prespawnM <- vector(mode = 'numeric', length = nYears * nRuns)
-  S.postspawnM <- vector(mode = 'numeric', length = nYears * nRuns)
-  S.prespawnF <- vector(mode = 'numeric', length = nYears * nRuns)
-  S.postspawnF <- vector(mode = 'numeric', length = nYears * nRuns)
-  S.juvenile <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Individual traits
-  # Entry dates
-  b.Arr <- vector(mode = 'numeric', length = nYears * nRuns)
-  r.Arr <- vector(mode = 'numeric', length = nYears * nRuns)
-  # Spawning ATU
-  ATUspawn1 <- vector(mode = 'numeric', length = nYears * nRuns)
-  ATUspawn2 <- vector(mode = 'numeric', length = nYears * nRuns)
-  # Spawning dates
-  Dspawn1 <- vector(mode = 'numeric', length = nYears * nRuns)
-  Dspawn2 <- vector(mode = 'numeric', length = nYears * nRuns)
-  # Length at age
-  # Females
-  linF <- vector(mode = 'numeric', length = nYears * nRuns)
-  kF <- vector(mode = 'numeric', length = nYears * nRuns)
-  t0F <- vector(mode = 'numeric', length = nYears * nRuns)
-  # Males
-  linM <- vector(mode = 'numeric', length = nYears * nRuns)
-  kM <- vector(mode = 'numeric', length = nYears * nRuns)
-  t0M <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Lengths and mass
-  b.length <- vector(mode = 'numeric', length = nYears * nRuns)
-  r.length <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Fecundity
-  spawnInt <- vector(mode = 'numeric', length = nYears * nRuns)
-  batchSize <- vector(mode = 'numeric', length = nYears * nRuns)
-  RAF <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Movement parameters
-  s.Optim <- vector(mode = 'numeric', length = nYears * nRuns)
-  d.Max <- vector(mode = 'numeric', length = nYears * nRuns)
-  tortuosity <- vector(mode = 'numeric', length = nYears * nRuns)
-  motivation <- vector(mode = 'numeric', length = nYears * nRuns)
-  daily.move <- vector(mode = 'numeric', length = nYears * nRuns)
 
   return(
     list(
@@ -660,35 +430,6 @@ if(river=='susquehanna'){
   
 if(river=='saco'){  
   # Define empty vectors to hold results for outer loop
-    
-  # Empty container to hold year
-  years <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Upstream passage efficiencies - first three letters each dam
-  catUp <- vector(mode = 'numeric', length = nYears * nRuns)
-  sprUp <- vector(mode = 'numeric', length = nYears * nRuns)
-  skeUp <- vector(mode = 'numeric', length = nYears * nRuns)
-  barUp <- vector(mode = 'numeric', length = nYears * nRuns)
-  buxUp <- vector(mode = 'numeric', length = nYears * nRuns)
-  bonUp <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Downstream passage efficiencies - first three letters each dam
-  catD <- vector(mode = 'numeric', length = nYears * nRuns)
-  sprD <- vector(mode = 'numeric', length = nYears * nRuns)
-  skeD <- vector(mode = 'numeric', length = nYears * nRuns)
-  barD <- vector(mode = 'numeric', length = nYears * nRuns)
-  buxD <- vector(mode = 'numeric', length = nYears * nRuns)
-  bonD <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Timing
-  ptime <- vector(mode = 'list', length = nYears * nRuns)
-
-  # Indirect mortality during downstream passage
-  indirectM <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Latent estuary mortality during downstream passage
-  latentM <- vector(mode = 'numeric', length = nYears * nRuns)
-  
   # Population abundance in each production unit
   popI <- vector(mode = 'numeric', length = nYears * nRuns)
   popII <- vector(mode = 'numeric', length = nYears * nRuns)
@@ -697,84 +438,10 @@ if(river=='saco'){
   popV <- vector(mode = 'numeric', length = nYears * nRuns)
   popVI <- vector(mode = 'numeric', length = nYears * nRuns)
   popVII <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Age-structured spawning population
-  spawners <- vector(mode = 'list', length = nYears * nRuns)
-  
-  # Proportion of repeat spawners in each age class
-  pRepeats <- vector(mode = 'list', length = nYears * nRuns)
-  
-  # Catchment-wide population abundance
-  populationSize <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Store the scale
-  scalarVar <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Population demographics
-  S.downstream <- vector(mode = 'numeric', length = nYears * nRuns)
-  S.marine <- vector(mode = 'numeric', length = nYears * nRuns)
-  F.inRiver <- vector(mode = 'numeric', length = nYears * nRuns)
-  F.commercial <- vector(mode = 'numeric', length = nYears * nRuns)
-  F.bycatch <- vector(mode = 'numeric', length = nYears * nRuns)
-  popStart <- vector(mode = 'numeric', length = nYears * nRuns)
-  p.female <- vector(mode = 'numeric', length = nYears * nRuns)
-  S.prespawnM <- vector(mode = 'numeric', length = nYears * nRuns)
-  S.postspawnM <- vector(mode = 'numeric', length = nYears * nRuns)
-  S.prespawnF <- vector(mode = 'numeric', length = nYears * nRuns)
-  S.postspawnF <- vector(mode = 'numeric', length = nYears * nRuns)
-  S.juvenile <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Individual traits
-  # Entry dates
-  b.Arr <- vector(mode = 'numeric', length = nYears * nRuns)
-  r.Arr <- vector(mode = 'numeric', length = nYears * nRuns)
-  # Spawning ATU
-  ATUspawn1 <- vector(mode = 'numeric', length = nYears * nRuns)
-  ATUspawn2 <- vector(mode = 'numeric', length = nYears * nRuns)
-  # Spawning dates
-  Dspawn1 <- vector(mode = 'numeric', length = nYears * nRuns)
-  Dspawn2 <- vector(mode = 'numeric', length = nYears * nRuns)
-  # Length at age
-  # Females
-  linF <- vector(mode = 'numeric', length = nYears * nRuns)
-  kF <- vector(mode = 'numeric', length = nYears * nRuns)
-  t0F <- vector(mode = 'numeric', length = nYears * nRuns)
-  # Males
-  linM <- vector(mode = 'numeric', length = nYears * nRuns)
-  kM <- vector(mode = 'numeric', length = nYears * nRuns)
-  t0M <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Lengths and mass
-  b.length <- vector(mode = 'numeric', length = nYears * nRuns)
-  r.length <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Fecundity
-  spawnInt <- vector(mode = 'numeric', length = nYears * nRuns)
-  batchSize <- vector(mode = 'numeric', length = nYears * nRuns)
-  RAF <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Movement parameters
-  s.Optim <- vector(mode = 'numeric', length = nYears * nRuns)
-  d.Max <- vector(mode = 'numeric', length = nYears * nRuns)
-  tortuosity <- vector(mode = 'numeric', length = nYears * nRuns)
-  motivation <- vector(mode = 'numeric', length = nYears * nRuns)
-  daily.move <- vector(mode = 'numeric', length = nYears * nRuns)
-
+ 
   return(
     list(
       years = years,
-      catUp = catUp,
-      sprUp = sprUp,
-      skeUp = skeUp,
-      barUp = barUp,
-      buxUp = buxUp,
-      bonUp = bonUp,
-      catD = catD,
-      sprD = sprD,
-      skeD = skeD,
-      barD = barD,
-      buxD = buxD,
-      bonD = bonD,   
       indirectM = indirectM,
       latentM = latentM,
       popI = popI,
@@ -829,23 +496,9 @@ if(river=='saco'){
 }  
 
 if(river=='kennebec'){  
-  # Define empty vectors to hold results for outer loop
-    
-  # Empty container to hold year
-  years <- vector(mode = 'numeric', length = nYears * nRuns)
-  
   # Probability of using Sebasticook
   sebasticook <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Timing
-  ptime <- vector(mode = 'list', length = nYears * nRuns)
 
-  # Indirect mortality during downstream passage
-  indirectM <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Latent estuary mortality during downstream passage
-  latentM <- vector(mode = 'numeric', length = nYears * nRuns)
-  
   # Population abundance in each production unit
   pop1a <- vector(mode = 'numeric', length = nYears * nRuns)
   pop2a <- vector(mode = 'numeric', length = nYears * nRuns)
@@ -854,68 +507,6 @@ if(river=='kennebec'){
   pop5a <- vector(mode = 'numeric', length = nYears * nRuns)
   pop1b <- vector(mode = 'numeric', length = nYears * nRuns)
   pop2b <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Age-structured spawning population
-  spawners <- vector(mode = 'list', length = nYears * nRuns)
-  
-  # Proportion of repeat spawners in each age class
-  pRepeats <- vector(mode = 'list', length = nYears * nRuns)
-  
-  # Catchment-wide population abundance
-  populationSize <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Store the scale
-  scalarVar <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Population demographics
-  S.downstream <- vector(mode = 'numeric', length = nYears * nRuns)
-  S.marine <- vector(mode = 'numeric', length = nYears * nRuns)
-  F.inRiver <- vector(mode = 'numeric', length = nYears * nRuns)
-  F.commercial <- vector(mode = 'numeric', length = nYears * nRuns)
-  F.bycatch <- vector(mode = 'numeric', length = nYears * nRuns)
-  popStart <- vector(mode = 'numeric', length = nYears * nRuns)
-  p.female <- vector(mode = 'numeric', length = nYears * nRuns)
-  S.prespawnM <- vector(mode = 'numeric', length = nYears * nRuns)
-  S.postspawnM <- vector(mode = 'numeric', length = nYears * nRuns)
-  S.prespawnF <- vector(mode = 'numeric', length = nYears * nRuns)
-  S.postspawnF <- vector(mode = 'numeric', length = nYears * nRuns)
-  S.juvenile <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Individual traits
-  # Entry dates
-  b.Arr <- vector(mode = 'numeric', length = nYears * nRuns)
-  r.Arr <- vector(mode = 'numeric', length = nYears * nRuns)
-  # Spawning ATU
-  ATUspawn1 <- vector(mode = 'numeric', length = nYears * nRuns)
-  ATUspawn2 <- vector(mode = 'numeric', length = nYears * nRuns)
-  # Spawning dates
-  Dspawn1 <- vector(mode = 'numeric', length = nYears * nRuns)
-  Dspawn2 <- vector(mode = 'numeric', length = nYears * nRuns)
-  # Length at age
-  # Females
-  linF <- vector(mode = 'numeric', length = nYears * nRuns)
-  kF <- vector(mode = 'numeric', length = nYears * nRuns)
-  t0F <- vector(mode = 'numeric', length = nYears * nRuns)
-  # Males
-  linM <- vector(mode = 'numeric', length = nYears * nRuns)
-  kM <- vector(mode = 'numeric', length = nYears * nRuns)
-  t0M <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Lengths and mass
-  b.length <- vector(mode = 'numeric', length = nYears * nRuns)
-  r.length <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Fecundity
-  spawnInt <- vector(mode = 'numeric', length = nYears * nRuns)
-  batchSize <- vector(mode = 'numeric', length = nYears * nRuns)
-  RAF <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Movement parameters
-  s.Optim <- vector(mode = 'numeric', length = nYears * nRuns)
-  d.Max <- vector(mode = 'numeric', length = nYears * nRuns)
-  tortuosity <- vector(mode = 'numeric', length = nYears * nRuns)
-  motivation <- vector(mode = 'numeric', length = nYears * nRuns)
-  daily.move <- vector(mode = 'numeric', length = nYears * nRuns)
 
   return(
     list(
@@ -975,24 +566,7 @@ if(river=='kennebec'){
 }      
   
 if(river=='hudson'){  
-  
   # Define empty vectors to hold results for outer loop
-    
-  # Empty container to hold year
-  years <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Probability of using Mohawk
-  mohawk <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Timing
-  ptime <- vector(mode = 'list', length = nYears * nRuns)
-
-  # Indirect mortality during downstream passage
-  indirectM <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Latent estuary mortality during downstream passage
-  latentM <- vector(mode = 'numeric', length = nYears * nRuns)
-  
   # Population abundance in each production unit
   pop01a <- vector(mode = 'numeric', length = nYears * nRuns)
   pop02a <- vector(mode = 'numeric', length = nYears * nRuns)
@@ -1023,68 +597,6 @@ if(river=='hudson'){
   pop20b <- vector(mode = 'numeric', length = nYears * nRuns)
   pop21b <- vector(mode = 'numeric', length = nYears * nRuns)
   
-  # Age-structured spawning population
-  spawners <- vector(mode = 'list', length = nYears * nRuns)
-  
-  # Proportion of repeat spawners in each age class
-  pRepeats <- vector(mode = 'list', length = nYears * nRuns)
-  
-  # Catchment-wide population abundance
-  populationSize <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Store the scale
-  scalarVar <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Population demographics
-  S.downstream <- vector(mode = 'numeric', length = nYears * nRuns)
-  S.marine <- vector(mode = 'numeric', length = nYears * nRuns)
-  F.inRiver <- vector(mode = 'numeric', length = nYears * nRuns)
-  F.commercial <- vector(mode = 'numeric', length = nYears * nRuns)
-  F.bycatch <- vector(mode = 'numeric', length = nYears * nRuns)
-  popStart <- vector(mode = 'numeric', length = nYears * nRuns)
-  p.female <- vector(mode = 'numeric', length = nYears * nRuns)
-  S.prespawnM <- vector(mode = 'numeric', length = nYears * nRuns)
-  S.postspawnM <- vector(mode = 'numeric', length = nYears * nRuns)
-  S.prespawnF <- vector(mode = 'numeric', length = nYears * nRuns)
-  S.postspawnF <- vector(mode = 'numeric', length = nYears * nRuns)
-  S.juvenile <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Individual traits
-  # Entry dates
-  b.Arr <- vector(mode = 'numeric', length = nYears * nRuns)
-  r.Arr <- vector(mode = 'numeric', length = nYears * nRuns)
-  # Spawning ATU
-  ATUspawn1 <- vector(mode = 'numeric', length = nYears * nRuns)
-  ATUspawn2 <- vector(mode = 'numeric', length = nYears * nRuns)
-  # Spawning dates
-  Dspawn1 <- vector(mode = 'numeric', length = nYears * nRuns)
-  Dspawn2 <- vector(mode = 'numeric', length = nYears * nRuns)
-  # Length at age
-  # Females
-  linF <- vector(mode = 'numeric', length = nYears * nRuns)
-  kF <- vector(mode = 'numeric', length = nYears * nRuns)
-  t0F <- vector(mode = 'numeric', length = nYears * nRuns)
-  # Males
-  linM <- vector(mode = 'numeric', length = nYears * nRuns)
-  kM <- vector(mode = 'numeric', length = nYears * nRuns)
-  t0M <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Lengths and mass
-  b.length <- vector(mode = 'numeric', length = nYears * nRuns)
-  r.length <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Fecundity
-  spawnInt <- vector(mode = 'numeric', length = nYears * nRuns)
-  batchSize <- vector(mode = 'numeric', length = nYears * nRuns)
-  RAF <- vector(mode = 'numeric', length = nYears * nRuns)
-  
-  # Movement parameters
-  s.Optim <- vector(mode = 'numeric', length = nYears * nRuns)
-  d.Max <- vector(mode = 'numeric', length = nYears * nRuns)
-  tortuosity <- vector(mode = 'numeric', length = nYears * nRuns)
-  motivation <- vector(mode = 'numeric', length = nYears * nRuns)
-  daily.move <- vector(mode = 'numeric', length = nYears * nRuns)
-
   return(
     list(
       years = years,
