@@ -1,8 +1,7 @@
 #' Kennebec River Model
 #' 
-#' Runs American shad dam passage performance
-#' standard model for Kennebec River, Maine,
-#' USA
+#' Dam passage performance standard model for 
+#' Kennebec River, Maine, USA
 #' 
 #' @param nRuns The number of times that the
 #' model will be run.
@@ -54,8 +53,8 @@
 #' dam passage efficiencies at each dam in the 
 #' Kennebec River for juveniles. 
 #' 
-#' @param inRiverF Annual, recreational harvest of 
-#' American shad. Parameterized as an annual rate [0, 1].
+#' @param inRiverF Annual, recreational harvest in river. 
+#' Parameterized as an annual rate [0, 1].
 #'
 #' @param commercialF Commercial fishery mortality
 #' in marine environment incurred through targeted 

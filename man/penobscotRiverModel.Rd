@@ -27,7 +27,8 @@ penobscotRiverModel(
   latent = 1,
   watershed = FALSE,
   climate = "current",
-  k_method = "cumulative"
+  k_method = "cumulative",
+  sensitivity = FALSE
 )
 }
 \arguments{
@@ -35,16 +36,15 @@ penobscotRiverModel(
 model will be run.}
 
 \item{species}{Species for which the model will be
-run. Current options include \code{'shad'} and
-\code{'blueback'}.}
+run. Current options include American \code{'shad'} and
+\code{'blueback'} herring.}
 
 \item{nYears}{The number of years for which
-each run will last. The default is 50 years
-to match hydropower license duration in the
-Penobscot River.}
+each run will last. The default is 40 years
+to match default FERC license duration.}
 
 \item{n_adults}{Number of starting adults in 
-population based on American shad demographics.}
+population.}
 
 \item{pStillwaterUp}{Probability of using the
 Stillwater Branch for upstream migration. The 
@@ -104,17 +104,15 @@ Kennebec River for juveniles.}
 by Penobscot Indian Nation (PIN) upstream of Weldon 
 Dam. Parameterized as an annual rate [0, 1].}
 
-\item{inRiverF}{Annual, recreational harvest of 
-American shad downstream of Weldon Dam. 
+\item{inRiverF}{Annual, recreational harvest in river. 
 Parameterized as an annual rate [0, 1].}
 
 \item{commercialF}{Commercial fishery mortality
-for American shad in marine environment incurred 
-through targeted fisheries. Parameterized as an 
-annual rate [0, 1].}
+in marine environment incurred through targeted 
+fisheries. Parameterized as an annual rate [0, 1].}
 
 \item{bycatchF}{Marine bycatch mortality of
-American shad in non-target fisheries. 
+species in non-target fisheries. 
 Parameterized as an annual rate [0, 1].}
 
 \item{indirect}{Indirect mortality incurred during
@@ -128,30 +126,28 @@ delay, etc.).}
 \item{watershed}{A logical indicating whether or not
 to use the same dam passage efficiencies at all dams
 for upstream and downstream. If watershed = TRUE, then
-the first element in lists `upstream` and `downstream`
-are recycled for all subsequent dams.}
-
-\item{climate}{Character string indicating scenario to
-be used for temperature projections. Available options
-include '\code{current}', '\code{rcp45}', and '\code{rcp85}'.
-This argument is only implemented in \code{connecticutRiverModel}.
-If \code{species == blueback} then `climate` must be set to 
-`current`.}
+the first element in lists `upstream`, `downstream`,
+and `downstream_juv` are recycled for all subsequent dams.}
 
 \item{k_method}{Method used to impose carrying capacity. The 
-default, 'cumulative' assumes that carrying capacity is based on 
-all available habitat across all occupied production units. The 
-alternative, 'discrete' assumes that carrying capacity is applied
-within discrete production units based on the numbers, and was the
-method used in Stich et al. (2019).}
+default, `cumulative`, assumes that carrying capacity is based on 
+all available habitat through the most upstream occupied production 
+units in a given migration route. The alternative, 'discrete' assumes
+that carrying capacity is applied within discrete production units 
+based on the numbers, and was the method used in Stich et al. (2019).}
+
+\item{sensitivity}{Whether to return a dataframe for sensitivity
+analysis. The default is set to FALSE for faster run time and smaller
+memory load in parallel processing.}
 }
 \value{
-Returns a list of two named dataframes.
+Returns a dataframe when sensitivity = FALSE (default). 
+Returns a list of two named dataframes when sensitivity = TRUE.
 The first dataframe (\code{res}) contains user-defined
-inputs and available model outputs.
+inputs and available model outputs. The second dataframe (\code{sens})
+contains input variables for sensitivity analysis if desired.
 
-If run in parallel, returns a list of lists
-of dataframes.
+If run in parallel, returns a list of lists of dataframes.
 
 The folowing named columns are returned in \code{res}:
 \itemize{
@@ -166,11 +162,8 @@ The folowing named columns are returned in \code{res}:
 
 The following named columns are returned in \code{sens}:
 \itemize{
-    \item \code{pStillUP} Probability of fish using the Stillwater Branch for upstream migration
-    \item \code{pStillD} Probability of fish using the Stillwater Branch for downstream migration
-    \item \code{pPiscUP} Probability of fish using the Piscataquis River during upstream migration
     \item \code{S.downstream} Downstream survival per kilometer
-    \item \code{S.marine} Marine survival
+    \item \code{S.marine} Marine survival as an annual rate
     \item \code{popStart} Starting population size
     \item \code{p.female} Probability of being female
     \item \code{S.prespawnM} Prespawn survival rate for males
@@ -204,9 +197,8 @@ The following named columns are returned in \code{sens}:
 }
 }
 \description{
-Runs American shad dam passage performance
-standard model for Penobscot River, Maine,
-USA
+Dam passage performance standard model for 
+Penobscot River, Maine, USA
 }
 \section{Schematic of production units}{
 

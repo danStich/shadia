@@ -1,22 +1,29 @@
 #' Connecticut River Model
 #'
-#' Runs American shad dam passage performance
-#' standard model for Connecticut River, USA
-#'
+#' Dam passage performance standard model for 
+#' Connecticut River, USA
+#' 
 #' @param nRuns The number of times that the
 #' model will be run.
-#'
+#' 
 #' @param species Species for which the model will be
-#' run. Current options include \code{'shad'} and
-#' \code{'blueback'}.
+#' run. Current options include American \code{'shad'} and
+#' \code{'blueback'} herring.
 #' 
 #' @param nYears The number of years for which
 #' each run will last. The default is 40 years
-#' to match current license lengths in the 
-#' Connecticut River.
+#' to match default FERC license duration.
 #' 
 #' @param n_adults Number of starting adults in 
-#' population based on American shad demographics.
+#' population.
+#' 
+#' @param pSpillway Probability of using the spillway
+#' route for passage through the Turner's Falls
+#' hydropower complex.
+#' 
+#' @param northfield Annual take for juveniles and
+#' adults from PU IV and PU V at the Northfield
+#' Mountain pumped power storage facility.
 #' 
 #' @param timing A list. The amount of time required for
 #' upstream passage by individual fish (in days),
@@ -53,53 +60,37 @@
 #' dam passage efficiencies at each dam in the 
 #' Connecticut River for juveniles. 
 #' 
-#' @param northfield Annual take for juveniles and
-#' adults from PU IV and PU V at the Northfield
-#' Mountain pumped power storage facility.
-#' 
-#' @param pSpillway Probability of using the spillway
-#' route for passage through the Turner's Falls
-#' hydropower complex.
-#'
-#' @param inRiverF Annual, recreational harvest of
-#' American shad. Parameterized as an annual rate [0, 1].
-#'
-#' @param commercialF Commercial fishery mortality
-#' for American shad in marine environment incurred
-#' through targeted fisheries. Parameterized as an
-#' annual rate [0, 1].
-#'
-#' @param bycatchF Marine bycatch mortality of
-#' American shad in non-target fisheries.
+#' @param inRiverF Annual, recreational harvest in river. 
 #' Parameterized as an annual rate [0, 1].
 #'
+#' @param commercialF Commercial fishery mortality
+#' in marine environment incurred through targeted 
+#' fisheries. Parameterized as an annual rate [0, 1].
+#'
+#' @param bycatchF Marine bycatch mortality of
+#' species in non-target fisheries. 
+#' Parameterized as an annual rate [0, 1].
+#' 
 #' @param indirect Indirect mortality incurred during
 #' freshwater migration as a result of dam-related
 #' impacts (e.g., injury, predation, etc.).
-#'
+#' 
 #' @param latent Latent mortality incurred during estuary
 #' passage as a result of dam-related impacts (e.g., injury,
 #' delay, etc.).
-#'
+#' 
 #' @param watershed A logical indicating whether or not
 #' to use the same dam passage efficiencies at all dams
 #' for upstream and downstream. If watershed = TRUE, then
-#' the first element in lists `upstream` and `downstream`
-#' are recycled for all subsequent dams.
-#' 
-#' @param climate Character string indicating scenario to
-#' be used for temperature projections. Available options
-#' include '\code{current}', '\code{rcp45}', and '\code{rcp85}'.
-#' This argument is only implemented in \code{connecticutRiverModel}.
-#' If \code{species == blueback} then `climate` must be set to 
-#' `current`.
+#' the first element in lists `upstream`, `downstream`,
+#' and `downstream_juv` are recycled for all subsequent dams.
 #'  
 #' @param k_method Method used to impose carrying capacity. The 
-#' default, 'cumulative' assumes that carrying capacity is based on 
-#' all available habitat across all occupied production units. The 
-#' alternative, 'discrete' assumes that carrying capacity is applied
-#' within discrete production units based on the numbers, and was the
-#' method used in Stich et al. (2019).  
+#' default, `cumulative`, assumes that carrying capacity is based on 
+#' all available habitat through the most upstream occupied production 
+#' units in a given migration route. The alternative, 'discrete' assumes
+#' that carrying capacity is applied within discrete production units 
+#' based on the numbers, and was the method used in Stich et al. (2019).  
 #'  
 #' @param sensitivity Whether to return a dataframe for sensitivity
 #' analysis. The default is set to FALSE for faster run time and smaller
@@ -135,7 +126,6 @@
 #'     \item \code{S.prespawnF} Postspawn survival rate for males
 #'     \item \code{S.postspawnF} Postspawn survival rate for males
 #'     \item \code{S.juvenile} Hatch to out-migrant survival rate
-#'     \item \code{t.stoch} Temperature stochasticity parameter
 #'     \item \code{b.Arr} Mean arrival date for males
 #'     \item \code{r.Arr} Mean arrival date for females
 #'     \item \code{ATUspawn1} Accumulated thermal units at initiation of spawn

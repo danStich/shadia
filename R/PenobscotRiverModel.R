@@ -1,23 +1,21 @@
 #' Penobscot River Model
 #' 
-#' Runs American shad dam passage performance
-#' standard model for Penobscot River, Maine,
-#' USA
+#' Dam passage performance standard model for 
+#' Penobscot River, Maine, USA
 #' 
 #' @param nRuns The number of times that the
 #' model will be run.
 #' 
 #' @param species Species for which the model will be
-#' run. Current options include \code{'shad'} and
-#' \code{'blueback'}. 
+#' run. Current options include American \code{'shad'} and
+#' \code{'blueback'} herring.
 #' 
 #' @param nYears The number of years for which
-#' each run will last. The default is 50 years
-#' to match hydropower license duration in the
-#' Penobscot River.
+#' each run will last. The default is 40 years
+#' to match default FERC license duration.
 #' 
 #' @param n_adults Number of starting adults in 
-#' population based on American shad demographics.
+#' population.
 #' 
 #' @param pStillwaterUp Probability of using the
 #' Stillwater Branch for upstream migration. The 
@@ -77,17 +75,15 @@
 #' by Penobscot Indian Nation (PIN) upstream of Weldon 
 #' Dam. Parameterized as an annual rate [0, 1].
 #' 
-#' @param inRiverF Annual, recreational harvest of 
-#' American shad downstream of Weldon Dam. 
+#' @param inRiverF Annual, recreational harvest in river. 
 #' Parameterized as an annual rate [0, 1].
 #'
 #' @param commercialF Commercial fishery mortality
-#' for American shad in marine environment incurred 
-#' through targeted fisheries. Parameterized as an 
-#' annual rate [0, 1].
+#' in marine environment incurred through targeted 
+#' fisheries. Parameterized as an annual rate [0, 1].
 #'
 #' @param bycatchF Marine bycatch mortality of
-#' American shad in non-target fisheries. 
+#' species in non-target fisheries. 
 #' Parameterized as an annual rate [0, 1].
 #' 
 #' @param indirect Indirect mortality incurred during
@@ -101,27 +97,20 @@
 #' @param watershed A logical indicating whether or not
 #' to use the same dam passage efficiencies at all dams
 #' for upstream and downstream. If watershed = TRUE, then
-#' the first element in lists `upstream` and `downstream`
-#' are recycled for all subsequent dams.
-#'  
-#' @param climate Character string indicating scenario to
-#' be used for temperature projections. Available options
-#' include '\code{current}', '\code{rcp45}', and '\code{rcp85}'.
-#' This argument is only implemented in \code{connecticutRiverModel}.
-#' If \code{species == blueback} then `climate` must be set to 
-#' `current`.  
+#' the first element in lists `upstream`, `downstream`,
+#' and `downstream_juv` are recycled for all subsequent dams.
 #'  
 #' @param k_method Method used to impose carrying capacity. The 
-#' default, 'cumulative' assumes that carrying capacity is based on 
-#' all available habitat across all occupied production units. The 
-#' alternative, 'discrete' assumes that carrying capacity is applied
-#' within discrete production units based on the numbers, and was the
-#' method used in Stich et al. (2019).  
+#' default, `cumulative`, assumes that carrying capacity is based on 
+#' all available habitat through the most upstream occupied production 
+#' units in a given migration route. The alternative, 'discrete' assumes
+#' that carrying capacity is applied within discrete production units 
+#' based on the numbers, and was the method used in Stich et al. (2019).  
 #'  
 #' @param sensitivity Whether to return a dataframe for sensitivity
 #' analysis. The default is set to FALSE for faster run time and smaller
 #' memory load in parallel processing.  
-#'     
+#'  
 #' @return Returns a dataframe when sensitivity = FALSE (default). 
 #' Returns a list of two named dataframes when sensitivity = TRUE.
 #' The first dataframe (\code{res}) contains user-defined
@@ -143,11 +132,8 @@
 #' 
 #' The following named columns are returned in \code{sens}:
 #' \itemize{
-#'     \item \code{pStillUP} Probability of fish using the Stillwater Branch for upstream migration
-#'     \item \code{pStillD} Probability of fish using the Stillwater Branch for downstream migration
-#'     \item \code{pPiscUP} Probability of fish using the Piscataquis River during upstream migration
 #'     \item \code{S.downstream} Downstream survival per kilometer
-#'     \item \code{S.marine} Marine survival
+#'     \item \code{S.marine} Marine survival as an annual rate
 #'     \item \code{popStart} Starting population size
 #'     \item \code{p.female} Probability of being female
 #'     \item \code{S.prespawnM} Prespawn survival rate for males

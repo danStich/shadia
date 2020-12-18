@@ -22,7 +22,8 @@ sacoRiverModel(
   indirect = 1,
   latent = 1,
   watershed = FALSE,
-  k_method = "cumulative"
+  k_method = "cumulative",
+  sensitivity = FALSE
 )
 }
 \arguments{
@@ -30,16 +31,15 @@ sacoRiverModel(
 model will be run.}
 
 \item{species}{Species for which the model will be
-run. Current options include \code{'shad'} and
-\code{'blueback'}.}
+run. Current options include American \code{'shad'} and
+\code{'blueback'} herring.}
 
 \item{nYears}{The number of years for which
 each run will last. The default is 40 years
-to match default FERC licenses, but can be 
-changed.}
+to match default FERC license duration.}
 
 \item{n_adults}{Number of starting adults in 
-population based on American shad demographics.}
+population.}
 
 \item{timing}{The amount of time required for
 upstream passage by individual fish (in days), 
@@ -74,16 +74,15 @@ is supplied for any dam.}
 \item{downstream_juv}{A named list of downstream
 juvenile dam passage efficiencies at each dam.}
 
-\item{inRiverF}{Annual, recreational harvest of 
-American shad. Parameterized as an annual rate [0, 1].}
+\item{inRiverF}{Annual, recreational harvest in river. 
+Parameterized as an annual rate [0, 1].}
 
 \item{commercialF}{Commercial fishery mortality
-for American shad in marine environment incurred 
-through targeted fisheries. Parameterized as an 
-annual rate [0, 1].}
+in marine environment incurred through targeted 
+fisheries. Parameterized as an annual rate [0, 1].}
 
 \item{bycatchF}{Marine bycatch mortality of
-American shad in non-target fisheries. 
+species in non-target fisheries. 
 Parameterized as an annual rate [0, 1].}
 
 \item{indirect}{Indirect mortality incurred during
@@ -97,24 +96,28 @@ delay, etc.).}
 \item{watershed}{A logical indicating whether or not
 to use the same dam passage efficiencies at all dams
 for upstream and downstream. If watershed = TRUE, then
-the first element in lists `upstream` and `downstream`
-are recycled for all subsequent dams.}
+the first element in lists `upstream`, `downstream`,
+and `downstream_juv` are recycled for all subsequent dams.}
 
 \item{k_method}{Method used to impose carrying capacity. The 
-default, 'cumulative' assumes that carrying capacity is based on 
-all available habitat across all occupied production units. The 
-alternative, 'discrete' assumes that carrying capacity is applied
-within discrete production units based on the numbers, and was the
-method used in Stich et al. (2019).}
+default, `cumulative`, assumes that carrying capacity is based on 
+all available habitat through the most upstream occupied production 
+units in a given migration route. The alternative, 'discrete' assumes
+that carrying capacity is applied within discrete production units 
+based on the numbers, and was the method used in Stich et al. (2019).}
+
+\item{sensitivity}{Whether to return a dataframe for sensitivity
+analysis. The default is set to FALSE for faster run time and smaller
+memory load in parallel processing.}
 }
 \value{
-Returns a list of two named dataframes.
+Returns a dataframe when sensitivity = FALSE (default). 
+Returns a list of two named dataframes when sensitivity = TRUE.
 The first dataframe (\code{res}) contains user-defined
-inputs and available model outputs. THe second (\code{sens})
-contains stochastic variables for sensitivity analysis.
+inputs and available model outputs. The second dataframe (\code{sens})
+contains input variables for sensitivity analysis if desired.
 
-If run in parallel, returns a list of lists
-of dataframes.
+If run in parallel, returns a list of lists of dataframes.
 
 The following named columns are returned in \code{res}:
 \itemize{
@@ -164,9 +167,8 @@ The following named columns are returned in \code{sens}:
 }
 }
 \description{
-Runs American shad dam passage performance
-standard model for Saco River, Maine,
-USA
+Dam passage performance standard model for
+Saco River, Maine, USA
 }
 \section{Production units delineated by main-stem dams}{
 

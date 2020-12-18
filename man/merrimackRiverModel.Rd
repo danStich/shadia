@@ -24,7 +24,8 @@ merrimackRiverModel(
   indirect = 1,
   latent = 1,
   watershed = FALSE,
-  k_method = "cumulative"
+  k_method = "cumulative",
+  sensitivity = FALSE
 )
 }
 \arguments{
@@ -32,16 +33,15 @@ merrimackRiverModel(
 model will be run.}
 
 \item{species}{Species for which the model will be
-run. Current options include \code{'shad'} and
-\code{'blueback'}.}
+run. Current options include American \code{'shad'} and
+\code{'blueback'} herring.}
 
 \item{nYears}{The number of years for which
 each run will last. The default is 40 years
-to match the default FERC license, but can
-be changed.}
+to match default FERC license duration.}
 
 \item{n_adults}{Number of starting adults in 
-population based on American shad demographics.}
+population.}
 
 \item{timing}{The amount of time required for
 upstream passage by individual fish (in days),
@@ -78,16 +78,15 @@ is supplied for any dam.}
 dam passage efficiencies at each dam in the 
 Merrimack River for juveniles.}
 
-\item{inRiverF}{Annual, recreational harvest of
-American shad. Parameterized as an annual rate [0, 1].}
+\item{inRiverF}{Annual, recreational harvest in river. 
+Parameterized as an annual rate [0, 1].}
 
 \item{commercialF}{Commercial fishery mortality
-for American shad in marine environment incurred
-through targeted fisheries. Parameterized as an
-annual rate [0, 1].}
+in marine environment incurred through targeted 
+fisheries. Parameterized as an annual rate [0, 1].}
 
 \item{bycatchF}{Marine bycatch mortality of
-American shad in non-target fisheries.
+species in non-target fisheries. 
 Parameterized as an annual rate [0, 1].}
 
 \item{indirect}{Indirect mortality incurred during
@@ -101,26 +100,31 @@ delay, etc.).}
 \item{watershed}{A logical indicating whether or not
 to use the same dam passage efficiencies at all dams
 for upstream and downstream. If watershed = TRUE, then
-the first element in lists `upstream` and `downstream`
-are recycled for all subsequent dams.}
+the first element in lists `upstream`, `downstream`,
+and `downstream_juv` are recycled for all subsequent dams.}
 
 \item{k_method}{Method used to impose carrying capacity. The 
-default, 'cumulative' assumes that carrying capacity is based on 
-all available habitat across all occupied production units. The 
-alternative, 'discrete' assumes that carrying capacity is applied
-within discrete production units based on the numbers, and was the
-method used in Stich et al. (2019).}
+default, `cumulative`, assumes that carrying capacity is based on 
+all available habitat through the most upstream occupied production 
+units in a given migration route. The alternative, 'discrete' assumes
+that carrying capacity is applied within discrete production units 
+based on the numbers, and was the method used in Stich et al. (2019).}
+
+\item{sensitivity}{Whether to return a dataframe for sensitivity
+analysis. The default is set to FALSE for faster run time and smaller
+memory load in parallel processing.}
 
 \item{pBypass}{Probability of using bypass at 
 Pawtucket Dam for passage (alternative is mainstem).}
 }
 \value{
-Returns a list of two named dataframes.
+Returns a dataframe when sensitivity = FALSE (default). 
+Returns a list of two named dataframes when sensitivity = TRUE.
 The first dataframe (\code{res}) contains user-defined
-inputs and available model outputs.
+inputs and available model outputs. The second dataframe (\code{sens})
+contains input variables for sensitivity analysis if desired.
 
-If run in parallel, returns a list of lists
-of dataframes.
+If run in parallel, returns a list of lists of dataframes.
 
 The following named columns are returned in \code{res}:
 \itemize{
@@ -138,7 +142,7 @@ The following named columns are returned in \code{res}:
 The following named columns are returned in \code{sens}:
 \itemize{
     \item \code{S.downstream} Downstream survival per kilometer
-    \item \code{S.marine} Marine survival
+    \item \code{S.marine} Marine survival as an annual rate
     \item \code{popStart} Starting population size
     \item \code{p.female} Probability of being female
     \item \code{S.prespawnM} Prespawn survival rate for males
@@ -146,7 +150,6 @@ The following named columns are returned in \code{sens}:
     \item \code{S.prespawnF} Postspawn survival rate for males
     \item \code{S.postspawnF} Postspawn survival rate for males
     \item \code{S.juvenile} Hatch to out-migrant survival rate
-    \item \code{t.stoch} Temperature stochasticity parameter
     \item \code{b.Arr} Mean arrival date for males
     \item \code{r.Arr} Mean arrival date for females
     \item \code{ATUspawn1} Accumulated thermal units at initiation of spawn
@@ -173,23 +176,9 @@ The following named columns are returned in \code{sens}:
 }
 }
 \description{
-Runs American shad dam passage performance
+American shad dam passage performance
 standard model Merrimack River, USA
 }
-\section{Production units by migration route}{
-
-\itemize{
-  \item Merrimack River
-    \itemize{
-      \item \code{PU I} Downstream of Essex
-      \item \code{PU II} Essex to Pawtucket
-      \item \code{PU III} Pawtucket to Amoskeag
-      \item \code{PU IV} Amoskeag to Hookset
-      \item \code{PU V} Upstream of Hookset
-   }
- }
-}
-
 \section{Schematic of production units}{
 
 Production units delineated by dams in the watershed. Circles are log 
