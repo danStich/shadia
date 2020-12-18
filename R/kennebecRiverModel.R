@@ -8,15 +8,15 @@
 #' model will be run.
 #' 
 #' @param species Species for which the model will be
-#' run. Current options include \code{'shad'} and
-#' \code{'blueback'}.
+#' run. Current options include American \code{'shad'} and
+#' \code{'blueback'} herring.
 #' 
 #' @param nYears The number of years for which
 #' each run will last. The default is 40 years
 #' to match default FERC license duration.
 #' 
 #' @param n_adults Number of starting adults in 
-#' population based on American shad demographics.
+#' population.
 #' 
 #' @param p_sebasticook Probability of using the
 #' Sebasticook River for migration. Default is
@@ -41,7 +41,7 @@
 #' randomly sampled during each model run 
 #' (not each year). Therefore, multiple model runs
 #' are necessary if more than one passage efficiency
-#' is supplied for any dam.As a rough rule of thumb
+#' is supplied for any dam. As a rough rule of thumb
 #' we advise a minimum of 100 runs per combination of
 #' management parameters (upstream timing and passage,
 #' and downstream survival through dams).
@@ -58,12 +58,11 @@
 #' American shad. Parameterized as an annual rate [0, 1].
 #'
 #' @param commercialF Commercial fishery mortality
-#' for American shad in marine environment incurred 
-#' through targeted fisheries. Parameterized as an 
-#' annual rate [0, 1].
+#' in marine environment incurred through targeted 
+#' fisheries. Parameterized as an annual rate [0, 1].
 #'
 #' @param bycatchF Marine bycatch mortality of
-#' American shad in non-target fisheries. 
+#' species in non-target fisheries. 
 #' Parameterized as an annual rate [0, 1].
 #' 
 #' @param indirect Indirect mortality incurred during
@@ -77,15 +76,15 @@
 #' @param watershed A logical indicating whether or not
 #' to use the same dam passage efficiencies at all dams
 #' for upstream and downstream. If watershed = TRUE, then
-#' the first element in lists `upstream` and `downstream`
-#' are recycled for all subsequent dams.
+#' the first element in lists `upstream`, `downstream`,
+#' and `downstream_juv` are recycled for all subsequent dams.
 #'  
 #' @param k_method Method used to impose carrying capacity. The 
-#' default, 'cumulative' assumes that carrying capacity is based on 
-#' all available habitat across all occupied production units. The 
-#' alternative, 'discrete' assumes that carrying capacity is applied
-#' within discrete production units based on the numbers, and was the
-#' method used in Stich et al. (2019).  
+#' default, `cumulative`, assumes that carrying capacity is based on 
+#' all available habitat through the most upstream occupied production 
+#' units in a given migration route. The alternative, 'discrete' assumes
+#' that carrying capacity is applied within discrete production units 
+#' based on the numbers, and was the method used in Stich et al. (2019).  
 #'  
 #' @return Returns a list of two named dataframes.
 #' The first dataframe (\code{res}) contains user-defined

@@ -948,6 +948,7 @@ if(river=='kennebec'){
       S.postspawnM = S.postspawnM,
       S.prespawnF = S.prespawnF,
       S.postspawnF = S.postspawnF,
+      S.juvenile = S.juvenile,
       b.Arr = b.Arr,
       r.Arr = r.Arr,
       ATUspawn1 = ATUspawn1,
