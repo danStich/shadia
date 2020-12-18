@@ -44,7 +44,8 @@ population.}
 \item{timing}{The amount of time required for
 upstream passage by individual fish (in days), 
 where the default (1) indicates a 24-h dam
-passage performance standard.}
+passage performance standard and the value is 
+specified as a proportion of 1 day.}
 
 \item{upstream}{A named list of upstream dam
 passage efficiencies at each dam in the 
@@ -122,13 +123,20 @@ If run in parallel, returns a list of lists of dataframes.
 The following named columns are returned in \code{res}:
 \itemize{
     \item \code{year} Year of simulation
-    \item \code{time_cataract...time_bonnyEagle} Passage timing input by user
-    \item \code{CataractUp...BonnyEagleUp} User-specified upstream passage efficiencies
-    \item \code{CataractD...BonnyEagleD}  User-specified downstream passage efficiencies
-    \item \code{pRepeat_Age1...Age9} Age-specific probability of repeat spawning  
-    \item \code{populationSize} Total number of adult spawners returning to the river
+    \item \code{species} Species used for simulation
+    \item \code{timing_cataract...timing_bonnyEagle} Passage timing input by user
+    \item \code{cataract_us...bonnyEagle_us} User-specified upstream passage efficiencies
+    \item \code{cataract_ds...bonnyEagle_ds}  User-specified downstream passage efficiencies
+    \item \code{cataract_dsj...bonnyEagle_dsj}  User-specified juvenile downstream passage efficiencies
+    \item \code{F.inRiver} User-specified recreational fishing mortality
+    \item \code{F.commercial} User-specified recreational fishing mortality
+    \item \code{F.bycatch} User-specified recreational fishing mortality
+    \item \code{indirect} User-specified indirect mortality dams
+    \item \code{latent} User-specified latent mortality
+    \item \code{pRepeat_Age1...pRepeat_AgeN} Age-specific probability of repeat spawning  
     \item \code{N_I...N_VII} Production unit-specific population size after in-river fishery mortality
-}
+    \item \code{populationSize} Number of spawners returning to the river
+} 
 
 The following named columns are returned in \code{sens}:
 \itemize{

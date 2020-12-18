@@ -97,16 +97,23 @@
 #'
 #' If run in parallel, returns a list of lists of dataframes.
 #'
-#' The folowing named columns are returned in \code{res}:
+#' The following named columns are returned in \code{res}:
 #' \itemize{
 #'     \item \code{year} Year of simulation
+#'     \item \code{species} Species used for simulation
+#'     \item \code{pSebasticook} Probability of fish using the Sebasticook River during upstream migration and spawning
 #'     \item \code{timing_lockwood...timing_burnham} Passage timing input by user
 #'     \item \code{lockwood_us...burnham_us} User-specified upstream passage efficiencies
 #'     \item \code{lockwood_ds...burnham_ds}  User-specified downstream passage efficiencies
-#'     \item \code{pRepeat_Age1...pRepeat_Age9} Age-specific probability of repeat spawning  
-#'     \item \code{populationSize} Total number of adult spawners returning to the river
+#'     \item \code{lockwood_dsj...burnham_dsj}  User-specified juvenile downstream passage efficiencies
+#'     \item \code{F.inRiver} User-specified recreational fishing mortality
+#'     \item \code{F.commercial} User-specified recreational fishing mortality
+#'     \item \code{F.recreational} User-specified recreational fishing mortality
+#'     \item \code{indirectM} User-specified indirect mortality dams
+#'     \item \code{indirectM} User-specified latent mortality
+#'     \item \code{pRepeat_Age1...pRepeat_AgeN} Age-specific probability of repeat spawning  
 #'     \item \code{N_IA...N_IIB} Production unit-specific population size after in-river fishery mortality
-#'     \item \code{pSebasticook} Probability of fish using the Sebasticook River during upstream migration and spawning.
+#'     \item \code{populationSize} Number of spawners returning to the river
 #' }
 #' 
 #' The following named columns are returned in \code{sens}:

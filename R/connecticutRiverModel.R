@@ -25,10 +25,11 @@
 #' adults from PU IV and PU V at the Northfield
 #' Mountain pumped power storage facility.
 #' 
-#' @param timing A list. The amount of time required for
-#' upstream passage by individual fish (in days),
-#' where the default, list(1,1,1,1,1), indicates a 24-h dam
-#' passage performance standard.
+#' @param timing The amount of time required for
+#' upstream passage by individual fish (in days), 
+#' where the default (1) indicates a 24-h dam
+#' passage performance standard and the value is 
+#' specified as a proportion of 1 day.
 #'
 #' @param upstream A named list of upstream dam
 #' passage efficiencies at each dam in the
@@ -107,13 +108,23 @@
 #' The following named columns are returned in \code{res}:
 #' \itemize{
 #'     \item \code{year} Year of simulation
-#'     \item \code{time_holyoke...time_vernon} Passage timing input by user
-#'     \item \code{HolyokeUp...VernonUp} User-specified upstream passage efficiencies
-#'     \item \code{HolyokeD...VernonD}  User-specified downstream passage efficiencies
-#'     \item \code{pRepeat_Age1...Age8} Age-specific probability of repeat spawning
-#'     \item \code{populationSize} Total number of adult spawners returning to the river
+#'     \item \code{species} Species used for simulation
+#'     \item \code{climate} Climate scenario used for simulation
+#'     \item \code{pSpillway} Probability of fish using the spillway route during upstream migration and spawning
+#'     \item \code{NorthFieldV...NorthFieldTa} Survival probabilities at Northfield Mountain
+#'     \item \code{timing_holyoke...timing_vernon} Passage timing input by user
+#'     \item \code{holyoke_us...vernon_us} User-specified upstream passage efficiencies
+#'     \item \code{holyoke_ds...vernon_ds}  User-specified downstream passage efficiencies
+#'     \item \code{lockwood_dsj...burnham_dsj}  User-specified juvenile downstream passage efficiencies
+#'     \item \code{F.inRiver} User-specified recreational fishing mortality
+#'     \item \code{F.commercial} User-specified recreational fishing mortality
+#'     \item \code{F.bycatch} User-specified recreational fishing mortality
+#'     \item \code{indirect} User-specified indirect mortality dams
+#'     \item \code{latent} User-specified latent mortality
+#'     \item \code{pRepeat_Age1...pRepeat_AgeN} Age-specific probability of repeat spawning  
 #'     \item \code{N_I...N_V} Production unit-specific population size after in-river fishery mortality
-#' }
+#'     \item \code{populationSize} Number of spawners returning to the river
+#' } 
 #' 
 #' The following named columns are returned in \code{sens}:
 #' \itemize{

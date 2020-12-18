@@ -40,6 +40,9 @@ res <- data.frame(
   years,
   species,
   climate = climate_scen,
+  pStillUp,
+  pStillD,
+  pPiscUp,
   times,
   pDraws,
   dDraws,
@@ -50,7 +53,6 @@ res <- data.frame(
   indirectM,
   latentM,
   pRepeats,
-  ceiling(populationSize),
   ceiling(LowerPop),
   ceiling(MilfordPop),
   ceiling(EnfieldPop),
@@ -58,13 +60,17 @@ res <- data.frame(
   ceiling(HowlandPop),
   ceiling(MoosePop),
   ceiling(BrownsPop),
-  ceiling(GuilfordPop)#,
+  ceiling(GuilfordPop),
+  ceiling(populationSize)
 )
 
 names(res)<-c(
   "year",
   "species",
   "climate",
+  "pStillUp",
+  "pStillD",
+  "pPiscUp",
   paste0('timing_', names(upstream)),
   paste0(names(upstream), '_us'),
   paste0(names(downstream), '_ds'),
@@ -75,7 +81,6 @@ names(res)<-c(
   "indirect",
   "latent",
   colnames(pRepeats),
-  "populationSize",
   "N_pu1A2A",
   "N_pu3A",
   "N_pu4A",
@@ -83,7 +88,8 @@ names(res)<-c(
   "N_pu1B",
   "N_pu2B",
   "N_pu3B",
-  "N_pu4B"
+  "N_pu4B",
+  "populationSize"
 )
 
 }
@@ -93,47 +99,47 @@ if(river=='merrimack'){
 res <- data.frame(
   years,
   species,
+  pBypassUS,
+  pBypassDS,  
   times,
   pDraws,
   dDraws,
   djDraws,
-  pBypassUS,
-  pBypassDS,
   F.inRiver,
   F.commercial,
   F.bycatch,
   indirectM,
   latentM,
   pRepeats,
-  ceiling(populationSize),
   ceiling(popI),
   ceiling(popII),
   ceiling(popIII),
   ceiling(popIV),
-  ceiling(popV)
+  ceiling(popV),
+  ceiling(populationSize)
 )
 
 names(res)<-c(
   "year",
   "species",
+  "pBypassUp",
+  "pBypassD",  
   paste0('timing_', names(upstream)),
   paste0(names(upstream), '_us'),
   paste0(names(downstream), '_ds'),
   paste0(names(downstream_juv), '_dsj'),
-  "pBypassUp",
-  "pBypassD",
   "inriverF",
   "commercialF",
   "bycatchF",
   "indirect",
   "latent",
   colnames(pRepeats),  
-  "populationSize",
   "N_I",
   "N_II",
   "N_III",
   "N_IV",
-  "N_V"
+  "N_V",
+  "populationSize"  
 )
 
 }
@@ -144,54 +150,54 @@ res <- data.frame(
   years,
   species,
   climate = climate_scen,
-  times,
   pSpill,
-  pDraws,
-  dDraws,
-  djDraws,
   NorthFieldV,
   NorthFieldT,
   NorthFieldVa,
-  NorthFieldTa,
+  NorthFieldTa,  
+  times,
+  pDraws,
+  dDraws,
+  djDraws,
   F.inRiver,
   F.commercial,
   F.bycatch,
   indirectM,
   latentM,
   pRepeats,
-  ceiling(populationSize),
   ceiling(popI),
   ceiling(popII),
   ceiling(popIII),
   ceiling(popIV),
-  ceiling(popV)
+  ceiling(popV),
+  ceiling(populationSize)
 )
 
 names(res)<-c(
   "year",
   "species",
   "climate",
-  paste0('timing_', names(upstream)),
-  "pSpill",
-  paste0(names(upstream), '_us'),
-  paste0(names(downstream), '_ds'),
-  paste0(names(downstream_juv), '_dsj'),
+  "pSpillway",  
   "NorthFieldV",
   "NorthFieldT",
   "NorthFieldVa",
-  "NorthFieldTa",
+  "NorthFieldTa",  
+  paste0('timing_', names(upstream)),
+  paste0(names(upstream), '_us'),
+  paste0(names(downstream), '_ds'),
+  paste0(names(downstream_juv), '_dsj'),
   "inriverF",
   "commercialF",
   "bycatchF",
   "indirect",
   "latent",
   colnames(pRepeats),
-  "populationSize",
   "N_I",
   "N_II",
   "N_III",
   "N_IV",
-  "N_V"
+  "N_V",
+  "populationSize"  
 )
 
 }
@@ -201,7 +207,19 @@ if(river=='susquehanna'){
 res <- data.frame(
   years = years, 
   species,
-  populationSize = populationSize,
+  pJuniataUp,
+  pWestBranchUp,
+  pChemungUp,
+  times,
+  pDraws,
+  dDraws,
+  djDraws,
+  F.inRiver = F.inRiver,
+  F.commercial = F.commercial,
+  F.bycatch = F.bycatch,
+  indirectM = indirectM,
+  latentM = latentM,
+  pRepeats,
   LowPop = LowPop,
   ConPop = ConPop,
   HolPop = HolPop,
@@ -217,24 +235,27 @@ res <- data.frame(
   NorPop = NorPop,
   RocPop = RocPop,
   UnaPop = UnaPop,  
-  ColPop = ColPop,
-  times,
-  pDraws,
-  dDraws,
-  djDraws,
-  F.inRiver = F.inRiver,
-  F.commercial = F.commercial,
-  F.bycatch = F.bycatch,
-  indirectM = indirectM,
-  latentM = latentM,
-  pRepeats
+  ColPop = ColPop,  
+  populationSize = populationSize
 )
 
 
 names(res)<-c(
   'year',
   'species',
-  'populationSize',
+  "pJuniataUp",
+  "pWestBranchUp",
+  "pChemungUp",  
+  paste0('timing_', names(upstream)),
+  paste0(names(upstream), '_us'),
+  paste0(names(downstream), '_ds'),
+  paste0(names(downstream_juv), '_dsj'),
+  "inriverF",
+  "commercialF",
+  "bycatchF",
+  "indirect",
+  "latent",
+  paste0("pRepeat_Age", seq(1, maxAge)),
   'N_1A',
   'N_2A',
   'N_3A',
@@ -250,18 +271,8 @@ names(res)<-c(
   'N_7A',
   'N_8A',
   'N_9A',
-  'N_10A',
-  paste0('timing_', names(upstream)),
-  paste0(names(upstream), '_us'),
-  paste0(names(downstream), '_ds'),
-  paste0(names(downstream_juv), '_dsj'),
-  "inriverF",
-  "commercialF",
-  "bycatchF",
-  "indirect",
-  "latent",
-  paste0("pRepeat_Age", seq(1, maxAge))
-
+  'N_10A',  
+  'populationSize'  
 )
 
 }
@@ -281,14 +292,14 @@ if(river=='saco'){
     indirectM,
     latentM,
     pRepeats,
-    ceiling(populationSize),
     ceiling(popI),
     ceiling(popII),
     ceiling(popIII),
     ceiling(popIV),
     ceiling(popV),
     ceiling(popVI),    
-    ceiling(popVII)   
+    ceiling(popVII),
+    ceiling(populationSize)
   )
   
   names(res)<-c(
@@ -304,14 +315,14 @@ if(river=='saco'){
     "indirect",
     "latent",
     colnames(pRepeats),
-    "populationSize",
     "N_I",
     "N_II",
     "N_III",
     "N_IV",
     "N_V",
     "N_VI",
-    "N_VII"
+    "N_VII",
+    "populationSize"
   )
   
 }
@@ -332,14 +343,14 @@ res <- data.frame(
     indirectM,
     latentM,
     pRepeats,
-    ceiling(populationSize),
     ceiling(pop1a),
     ceiling(pop2a),
     ceiling(pop3a),
     ceiling(pop4a),
     ceiling(pop5a),
     ceiling(pop1b),    
-    ceiling(pop2b)   
+    ceiling(pop2b),
+    ceiling(populationSize)    
   )
   
   names(res)<-c(
@@ -356,14 +367,14 @@ res <- data.frame(
     "indirect",
     "latent",
     colnames(pRepeats),
-    "populationSize",
     "N_IA",
     "N_IIA",
     "N_IIIA",
     "N_IVA",
     "N_VA",
     "N_IB",
-    "N_IIB"
+    "N_IIB",
+    "populationSize"
   )
   
 }
@@ -384,7 +395,6 @@ if(river=='hudson'){
     indirectM,
     latentM,
     pRepeats,
-    ceiling(populationSize),
     ceiling(pop01a),
     ceiling(pop02a),
     ceiling(pop03a),
@@ -412,7 +422,8 @@ if(river=='hudson'){
     ceiling(pop18b),  
     ceiling(pop19b),
     ceiling(pop20b),  
-    ceiling(pop21b)    
+    ceiling(pop21b),
+    ceiling(populationSize)    
   )
   
   names(res)<-c(
@@ -429,7 +440,6 @@ if(river=='hudson'){
     "indirect",
     "latent",
      paste0("pRepeat_Age",seq(1, maxAge)),
-    "populationSize",
     "N_1a",
     "N_2a",
     "N_3a",
@@ -457,7 +467,8 @@ if(river=='hudson'){
     "N_18b",
     "N_19b",
     "N_20b",
-    "N_21b"     
+    "N_21b", 
+    "populationSize"
   )
   
 }

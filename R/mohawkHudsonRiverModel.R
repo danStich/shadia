@@ -93,17 +93,24 @@
 #'
 #' If run in parallel, returns a list of lists of dataframes.
 #'
-#' The folowing named columns are returned in \code{res}:
+#' The following named columns are returned in \code{res}:
 #' \itemize{
 #'     \item \code{year} Year of simulation
-#'     \item \code{timing} Passage timing input by user. Must be same length as \code{upstream}.
+#'     \item \code{species} Species used for simulation
+#'     \item \code{pMohawk} Probability of fish using the Mohawk River during upstream migration and spawning.
+#'     \item \code{timing_federal...timing_E20} Passage timing input by user
 #'     \item \code{federal_us...E20_us} User-specified upstream passage efficiencies
 #'     \item \code{federal_ds...E20_ds}  User-specified downstream passage efficiencies
-#'     \item \code{pRepeat_Age1...pRepeat_Age9} Age-specific probability of repeat spawning  
-#'     \item \code{populationSize} Total number of adult spawners returning to the river
-#'     \item \code{N_IA...N_XIXB} Production unit-specific population size after in-river fishery mortality
-#'     \item \code{pMohawk} Probability of fish using the Mohawk River during upstream migration and spawning.
-#' }
+#'     \item \code{federal_dsj...E20_dsj}  User-specified juvenile downstream passage efficiencies
+#'     \item \code{F.inRiver} User-specified recreational fishing mortality
+#'     \item \code{F.commercial} User-specified recreational fishing mortality
+#'     \item \code{F.bycatch} User-specified recreational fishing mortality
+#'     \item \code{indirect} User-specified indirect mortality dams
+#'     \item \code{latent} User-specified latent mortality
+#'     \item \code{pRepeat_Age1...pRepeat_AgeN} Age-specific probability of repeat spawning  
+#'     \item \code{N_1a...N21b} Production unit-specific population size after in-river fishery mortality
+#'     \item \code{populationSize} Number of spawners returning to the river
+#' } 
 #' 
 #' The following named columns are returned in \code{sens}:
 #' \itemize{

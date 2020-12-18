@@ -36,7 +36,8 @@
 #' @param timing The amount of time required for
 #' upstream passage by individual fish (in days), 
 #' where the default (1) indicates a 24-h dam
-#' passage performance standard.
+#' passage performance standard and the value is 
+#' specified as a proportion of 1 day.
 #' 
 #' @param upstream A named list of upstream dam
 #' passage efficiencies at each dam in the 
@@ -119,17 +120,28 @@
 #'
 #' If run in parallel, returns a list of lists of dataframes.
 #'
-#' The folowing named columns are returned in \code{res}:
+#' The following named columns are returned in \code{res}:
 #' \itemize{
 #'     \item \code{year} Year of simulation
-#'     \item \code{time_milford...time_guilford} Passage timing input by user
-#'     \item \code{milford_up...guilford_up} User-specified upstream passage efficiencies
-#'     \item \code{stillwater_down...weldon_down}  User-specified downstream passage efficiencies
-#'     \item \code{pRepeat_Age1...Age9} Age-specific probability of repeat spawning  
-#'     \item \code{populationSize} Total number of adult spawners returning to the river
+#'     \item \code{species} Species used for simulation
+#'     \item \code{climate} Climate scenario used for simulation
+#'     \item \code{pStillUp} Probability of fish using the Stillwater Branch for upstream migration
+#'     \item \code{pBypassD} Probability of fish using the Stillwater Branch for downstream migration
+#'     \item \code{pPiscUp} Probability of fish using the Piscataquis River for upstream migration and spawning
+#'     \item \code{timing_milford...timing_guilford} Passage timing input by user
+#'     \item \code{milford_us...guilford_us} User-specified upstream passage efficiencies
+#'     \item \code{milford_ds...guilford_ds}  User-specified downstream passage efficiencies
+#'     \item \code{milford_dsj...guilford_dsj}  User-specified juvenile downstream passage efficiencies
+#'     \item \code{F.inRiver} User-specified recreational fishing mortality
+#'     \item \code{F.commercial} User-specified recreational fishing mortality
+#'     \item \code{F.bycatch} User-specified recreational fishing mortality
+#'     \item \code{indirect} User-specified indirect mortality dams
+#'     \item \code{latent} User-specified latent mortality
+#'     \item \code{pRepeat_Age1...pRepeat_AgeN} Age-specific probability of repeat spawning  
 #'     \item \code{N_pu1A2A...N_pu4B} Production unit-specific population size after in-river fishery mortality
-#' }
-#' 
+#'     \item \code{populationSize} Number of spawners returning to the river
+#' } 
+#'  
 #' The following named columns are returned in \code{sens}:
 #' \itemize{
 #'     \item \code{S.downstream} Downstream survival per kilometer

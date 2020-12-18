@@ -17,10 +17,27 @@
 #' @param n_adults Number of starting adults in 
 #' population.
 #' 
+#' @param p_JuniataUp Proportion of fish using Juniata River. 
+#' Default = 0.21 based on proportional distribution of habitat.
+#' Must sum to 1.00 with others.
+#' 
+#' @param p_WestBranchUp Proportion of fish using West Branch River. 
+#' Default = 0.22 based on proportional distribution of habitat.
+#' Must sum to 1.00 with others.
+#' 
+#' @param p_ChemungUp Proportion of fish using Chemung River. 
+#' Default = 0.27 based on proportional distribution of habitat.
+#' Must sum to 1.00 with others. 
+#' 
+#' @param p_NorthBranchUp Proportion of fish using North Branch Susquehanna River. 
+#' Default = 0.30 based on proportional distribution of habitat.
+#' Must sum to 1.00 with others.
+#' 
 #' @param timing The amount of time required for
 #' upstream passage by individual fish (in days), 
 #' where the default (1) indicates a 24-h dam
-#' passage performance standard.
+#' passage performance standard and the value is 
+#' specified as a proportion of 1 day.
 #' 
 #' @param upstream A named list of upstream dam
 #' passage efficiencies at each dam in the 
@@ -108,6 +125,26 @@
 #'     \item \code{pRepeat_Age1...Age11} Age-specific probability of repeat spawning  
 #' }
 #' 
+#' The following named columns are returned in \code{res}:
+#' \itemize{
+#'     \item \code{year} Year of simulation
+#'     \item \code{species} Species used for simulation
+#'     \item \code{pJuniataUp} Probability of using Juniata River
+#'     \item \code{pWestBranchUp} Probability of using West Branch
+#'     \item \code{pChemungUp} Probability of using Chemung River
+#'     \item \code{timing_conowingo...timing_colliersville} Passage timing input by user
+#'     \item \code{conowingo_us...colliersville_us} User-specified upstream passage efficiencies
+#'     \item \code{conowingo_ds...colliersville_ds}  User-specified downstream passage efficiencies
+#'     \item \code{conowingo_dsj...colliersville_dsj}  User-specified juvenile downstream passage efficiencies
+#'     \item \code{F.inRiver} User-specified recreational fishing mortality
+#'     \item \code{F.commercial} User-specified recreational fishing mortality
+#'     \item \code{F.bycatch} User-specified recreational fishing mortality
+#'     \item \code{indirect} User-specified indirect mortality dams
+#'     \item \code{latent} User-specified latent mortality
+#'     \item \code{pRepeat_Age1...pRepeat_AgeN} Age-specific probability of repeat spawning  
+#'     \item \code{N_1A...N_10A} Production unit-specific population size after in-river fishery mortality
+#'     \item \code{populationSize} Number of spawners returning to the river
+#' }  
 #' The following named columns are returned in \code{sens}:
 #' \itemize{
 #'     \item \code{S.downstream} Downstream survival per kilometer
@@ -228,6 +265,10 @@ susquehannaRiverModel <- function(
   species = 'shad',
   nYears = 40,
   n_adults = 1e4,
+  p_JuniataUp = 0.21,
+  p_WestBranchUp = 0.22,
+  p_ChemungUp = 0.27,  
+  p_NorthBranchUp = 0.30,
   timing = c(1,1,1,1,1,1,1,1,1,1),
   upstream = list(
     conowingo = 1,
@@ -331,10 +372,10 @@ cat('WARNING: when watershed is set to TRUE,
   
   # Draw probability of using each passage route,
   # conditional on amount of habitat in each route
-  .shadia$p_JuniataUp <- 0.206262
-  .shadia$p_WestBranchUp <- 0.2195443
-  .shadia$p_ChemungUp <- 0.2719814
-  .shadia$p_NorthBranchUp <- 0.3022123  
+  .shadia$p_JuniataUp <- p_JuniataUp
+  .shadia$p_WestBranchUp <- p_WestBranchUp
+  .shadia$p_ChemungUp <- p_ChemungUp
+  .shadia$p_NorthBranchUp <- p_NorthBranchUp 
   
   # Upstream and downstream passage
   ### DSS: would like to re-write this all
