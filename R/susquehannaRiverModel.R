@@ -226,7 +226,7 @@
 susquehannaRiverModel <- function(
   nRuns = 1,
   species = 'shad',
-  nYears = 50,
+  nYears = 40,
   n_adults = 1e4,
   timing = c(1,1,1,1,1,1,1,1,1,1),
   upstream = list(

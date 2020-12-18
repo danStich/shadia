@@ -9,7 +9,7 @@ mohawkHudsonRiverModel(
   pMohawk = 0,
   nRuns = 1,
   nYears = 40,
-  n_adults = 1e+05,
+  n_adults = 10000,
   timing = rep(1, 26),
   upstream = list(federal = 1, C01 = 1, C02 = 1, C03 = 1, C04 = 1, C05 = 1, C06 = 1,
     E02 = 1, E03 = 1, E04 = 1, E05 = 1, E06 = 1, E07 = 1, E08 = 1, E09 = 1, E10 = 1, E11

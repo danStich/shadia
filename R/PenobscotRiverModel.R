@@ -199,7 +199,7 @@
 penobscotRiverModel <- function(
   nRuns = 1,
   species = 'shad',
-  nYears = 50,
+  nYears = 40,
   n_adults = 1e4,
   pStillwaterUp = rbeta(1, 15, 120),
   pStillwaterD = rbeta(1, 15, 120),

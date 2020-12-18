@@ -7,7 +7,7 @@
 kennebecRiverModel(
   nRuns = 1,
   species = "shad",
-  nYears = 50,
+  nYears = 40,
   n_adults = 10000,
   timing = c(1, 1, 1, 1, 1, 1),
   p_sebasticook = rbeta(1, 25, 100),

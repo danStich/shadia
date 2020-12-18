@@ -178,7 +178,7 @@
 kennebecRiverModel <- function(
   nRuns = 1,
   species = 'shad',
-  nYears = 50,
+  nYears = 40,
   n_adults = 1e4,
   timing = c(1,1,1,1,1,1),
   p_sebasticook = rbeta(1, 25, 100),
@@ -215,7 +215,6 @@ kennebecRiverModel <- function(
   k_method = 'cumulative',
   sensitivity = FALSE
   ){
-  
   
 # Error message for passage efficiencies
   if( (length(upstream)!=6 ) |  (length(downstream)!=6 ) ){ 

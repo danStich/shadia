@@ -7,7 +7,7 @@
 susquehannaRiverModel(
   nRuns = 1,
   species = "shad",
-  nYears = 50,
+  nYears = 40,
   n_adults = 10000,
   timing = c(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
   upstream = list(conowingo = 1, holtwood = 1, safeHarbor = 1, yorkHaven = 1, sunbury =

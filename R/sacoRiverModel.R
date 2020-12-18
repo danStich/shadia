@@ -190,7 +190,7 @@ sacoRiverModel <- function(
   nRuns = 1,
   species = 'shad',
   nYears = 40,
-  n_adults = 10e4,
+  n_adults = 1e4,
   timing = c(1,1,1,1,1,1),
   upstream = list(
     cataract = 1,

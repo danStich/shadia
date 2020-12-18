@@ -8,7 +8,7 @@ connecticutRiverModel(
   nRuns = 1,
   species = "shad",
   nYears = 40,
-  n_adults = 1e+05,
+  n_adults = 10000,
   timing = c(1, 1, 1, 1, 1),
   upstream = list(holyoke = 1, cabot = 1, spillway = 1, gatehouse = 1, vernon = 1),
   downstream = list(holyoke = 1, cabot = 1, gatehouse = 1, vernon = 1),

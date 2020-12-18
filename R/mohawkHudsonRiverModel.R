@@ -177,7 +177,7 @@ mohawkHudsonRiverModel <- function(
   pMohawk = 0,
   nRuns = 1,
   nYears = 40,
-  n_adults = 10e4,
+  n_adults = 1e4,
   timing = rep(1, 26),
   upstream = list(
     federal = 1,
