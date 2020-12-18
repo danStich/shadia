@@ -201,6 +201,7 @@ if(river=='merrimack'){
   return(
     list(
       years = years,
+      climate_scen = climate_scen,
       pBypassUS = pBypassUS,
       pBypassDS = pBypassDS,
       indirectM = indirectM,
@@ -362,6 +363,7 @@ if(river=='susquehanna'){
   return(
     list(
       years = years,
+      climate_scen = climate_scen,
       indirectM = indirectM,
       latentM = latentM,
       LowPop = LowPop,
@@ -442,6 +444,7 @@ if(river=='saco'){
   return(
     list(
       years = years,
+      climate_scen = climate_scen,
       indirectM = indirectM,
       latentM = latentM,
       popI = popI,
@@ -511,6 +514,7 @@ if(river=='kennebec'){
   return(
     list(
       years = years,
+      climate_scen = climate_scen,
       sebasticook = sebasticook,
       indirectM = indirectM,
       latentM = latentM,
@@ -600,7 +604,7 @@ if(river=='hudson'){
   return(
     list(
       years = years,
-      mohawk = mohawk,
+      climate_scen = climate_scen,
       indirectM = indirectM,
       latentM = latentM,
       pop01a = pop01a,

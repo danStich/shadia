@@ -86,45 +86,6 @@ names(res)<-c(
   "N_pu4B"
 )
 
-
-# Collect variables for sensitivity analysis and save them out
-sens = data.frame(
-  pStillUP,
-  pStillD,
-  pPiscUP,
-  S.downstream,
-  S.marine,
-  popStart,
-  p.female,
-  S.prespawnM,
-  S.postspawnM,
-  S.prespawnF,
-  S.postspawnF,
-  S.juvenile,
-  b.Arr,
-  r.Arr,
-  ATUspawn1,
-  ATUspawn2,
-  Dspawn1,
-  Dspawn2,
-  linF,
-  kF,
-  t0F,
-  linM,
-  kM,
-  t0M,
-  b.length,
-  r.length,
-  spawnInt,
-  batchSize,
-  RAF,
-  s.Optim,
-  d.Max,
-  tortuosity,
-  motivation,
-  daily.move,
-  habStoch
-)
 }
 
 if(river=='merrimack'){
@@ -175,41 +136,6 @@ names(res)<-c(
   "N_V"
 )
 
-# Collect variables for sensitivity analysis and save them out
-sens = data.frame(
-  S.downstream,
-  S.marine,
-  popStart,
-  p.female,
-  S.prespawnM,
-  S.postspawnM,
-  S.prespawnF,
-  S.postspawnF,
-  S.juvenile,
-  b.Arr,
-  r.Arr,
-  ATUspawn1,
-  ATUspawn2,
-  Dspawn1,
-  Dspawn2,
-  linF,
-  kF,
-  t0F,
-  linM,
-  kM,
-  t0M,
-  b.length,
-  r.length,
-  spawnInt,
-  batchSize,
-  RAF,
-  s.Optim,
-  d.Max,
-  tortuosity,
-  motivation,
-  daily.move,
-  habStoch
-)
 }
 
 if(river=='connecticut'){
@@ -266,42 +192,6 @@ names(res)<-c(
   "N_III",
   "N_IV",
   "N_V"
-)
-
-# Collect variables for sensitivity analysis and save them out
-sens = data.frame(
-  S.downstream,
-  S.marine,
-  popStart,
-  p.female,
-  S.prespawnM,
-  S.postspawnM,
-  S.prespawnF,
-  S.postspawnF,
-  S.juvenile,
-  b.Arr,
-  r.Arr,
-  ATUspawn1,
-  ATUspawn2,
-  Dspawn1,
-  Dspawn2,
-  linF,
-  kF,
-  t0F,
-  linM,
-  kM,
-  t0M,
-  b.length,
-  r.length,
-  spawnInt,
-  batchSize,
-  RAF,
-  s.Optim,
-  d.Max,
-  tortuosity,
-  motivation,
-  daily.move,
-  habStoch
 )
 
 }
@@ -374,46 +264,6 @@ names(res)<-c(
 
 )
 
-# Collect variables for sensitivity analysis and save them out
-sens = data.frame(
-  pJuniataUp = pJuniataUp,
-  pWestBranchUp = pWestBranchUp,
-  pChemungUp = pChemungUp,
-  pNorthBranchUp = pNorthBranchUp,
-  S.downstream = S.downstream,
-  S.marine = S.marine,
-  popStart = popStart,
-  p.female = p.female,
-  S.prespawnM = S.prespawnM,
-  S.postspawnM = S.postspawnM,
-  S.prespawnF = S.prespawnF,
-  S.postspawnF = S.postspawnF,
-  S.juvenile = S.juvenile,
-  b.Arr = b.Arr,
-  r.Arr = r.Arr,
-  ATUspawn1 = ATUspawn1,
-  ATUspawn2 = ATUspawn2,
-  Dspawn1 = Dspawn1,
-  Dspawn2 = Dspawn2,
-  linF = linF,
-  kF = kF,
-  t0F = t0F,
-  linM = linM,
-  kM = kM,
-  t0M = t0M,
-  b.length = b.length,
-  r.length = r.length,
-  spawnInt = spawnInt,
-  batchSize = batchSize,
-  RAF = RAF,
-  s.Optim = s.Optim,
-  d.Max = d.Max,
-  tortuosity = tortuosity,
-  motivation = motivation,
-  daily.move = daily.move,
-  habStoch = habStoch
-)
-
 }
 
 if(river=='saco'){
@@ -464,41 +314,6 @@ if(river=='saco'){
     "N_VII"
   )
   
-  # Collect variables for sensitivity analysis and save them out
-  sens = data.frame(
-    S.downstream,
-    S.marine,
-    popStart,
-    p.female,
-    S.prespawnM,
-    S.postspawnM,
-    S.prespawnF,
-    S.postspawnF,
-    S.juvenile,
-    b.Arr,
-    r.Arr,
-    ATUspawn1,
-    ATUspawn2,
-    Dspawn1,
-    Dspawn2,
-    linF,
-    kF,
-    t0F,
-    linM,
-    kM,
-    t0M,
-    b.length,
-    r.length,
-    spawnInt,
-    batchSize,
-    RAF,
-    s.Optim,
-    d.Max,
-    tortuosity,
-    motivation,
-    daily.move,
-    habStoch
-  )
 }
 
 if(river=='kennebec'){
@@ -551,41 +366,6 @@ res <- data.frame(
     "N_IIB"
   )
   
-  # Collect variables for sensitivity analysis and save them out
-  sens = data.frame(
-    S.downstream,
-    S.marine,
-    popStart,
-    p.female,
-    S.prespawnM,
-    S.postspawnM,
-    S.prespawnF,
-    S.postspawnF,
-    S.juvenile,
-    b.Arr,
-    r.Arr,
-    ATUspawn1,
-    ATUspawn2,
-    Dspawn1,
-    Dspawn2,
-    linF,
-    kF,
-    t0F,
-    linM,
-    kM,
-    t0M,
-    b.length,
-    r.length,
-    spawnInt,
-    batchSize,
-    RAF,
-    s.Optim,
-    d.Max,
-    tortuosity,
-    motivation,
-    daily.move,
-    habStoch
-  )
 }
 
 if(river=='hudson'){
@@ -593,7 +373,7 @@ if(river=='hudson'){
   res <- data.frame(
     years,
     species,
-    pMohawk = mohawk,
+    pMohawk = pMohawk,
     times,
     pDraws,
     dDraws,
@@ -680,43 +460,43 @@ if(river=='hudson'){
     "N_21b"     
   )
   
-  # Collect variables for sensitivity analysis and save them out
-  sens = data.frame(
-    S.downstream,
-    S.marine,
-    popStart,
-    p.female,
-    S.prespawnM,
-    S.postspawnM,
-    S.prespawnF,
-    S.postspawnF,
-    S.juvenile,
-    b.Arr,
-    r.Arr,
-    ATUspawn1,
-    ATUspawn2,
-    Dspawn1,
-    Dspawn2,
-    linF,
-    kF,
-    t0F,
-    linM,
-    kM,
-    t0M,
-    b.length,
-    r.length,
-    spawnInt,
-    batchSize,
-    RAF,
-    s.Optim,
-    d.Max,
-    tortuosity,
-    motivation,
-    daily.move,
-    habStoch
-  )
-  
 }
+
+# Collect variables for sensitivity analysis and save them out
+sens = data.frame(
+  S.downstream,
+  S.marine,
+  popStart,
+  p.female,
+  S.prespawnM,
+  S.postspawnM,
+  S.prespawnF,
+  S.postspawnF,
+  S.juvenile,
+  b.Arr,
+  r.Arr,
+  ATUspawn1,
+  ATUspawn2,
+  Dspawn1,
+  Dspawn2,
+  linF,
+  kF,
+  t0F,
+  linM,
+  kM,
+  t0M,
+  b.length,
+  r.length,
+  spawnInt,
+  batchSize,
+  RAF,
+  s.Optim,
+  d.Max,
+  tortuosity,
+  motivation,
+  daily.move,
+  habStoch
+)
 
 # Output write
 if(sensitivity == TRUE){

@@ -12,10 +12,12 @@
 #' 
 fillOutputVectors <- function(){
   
-if(river=='penobscot'){ 
   # Year, filling pre-allocated vector with this year
   years[(n + nYears * (k - 1))] <-  n
 
+  # Upstream passage timing
+  ptime[[(n + nYears * (k - 1))]] <-  timely
+  
   # Climate scenario
   climate_scen[(n + nYears * (k - 1))] <-  climate  
 
@@ -25,6 +27,70 @@ if(river=='penobscot'){
   # Latent estuary mortality, filling pre-allocated vector
   latentM[(n + nYears * (k - 1))] <-  latent
   
+  # Proportion of repeat spawners at each age, filling pre-allocated vector
+  pRepeats[[(n + nYears * (k - 1))]] <-  pRepeat
+
+  # Age-structured repeat spawners, filling pre-allocated vector
+  spawners[[(n + nYears * (k - 1))]] <-  .shadia$spawningPool
+
+  # Reset the scalar based on population size
+  .shadia$scalar <- setScalar(.shadia$spawningPool)
+
+  # Scalar variable for computational gains
+  scalarVar[[(n + nYears * (k - 1))]] <-  .shadia$scalar  
+  
+  # Population demographics and survival rates
+  S.downstream[(n + nYears * (k - 1))] <-  mean(downstreamS)
+  S.marine[(n + nYears * (k - 1))] <-  marineS[1]
+  F.inRiver[(n + nYears * (k - 1))] <-  inRiverF
+  F.commercial[(n + nYears * (k - 1))] <-  mean(commercialF)
+  F.bycatch[(n + nYears * (k - 1))] <-  mean(bycatchF)
+  popStart[(n + nYears * (k - 1))] <-  n_adults
+  p.female[(n + nYears * (k - 1))] <-  sexRatio
+  S.prespawnM[(n + nYears * (k - 1))] <-  pre_spawn_survival_males
+  S.postspawnM[(n + nYears * (k - 1))] <-  post_spawn_survival_males
+  S.prespawnF[(n + nYears * (k - 1))] <-  pre_spawn_survival_females
+  S.postspawnF[(n + nYears * (k - 1))] <-  post_spawn_survival_females
+  S.juvenile[(n + nYears * (k - 1))] <-  juvenile_survival
+
+  # Individual traits
+  # Entry dates
+  b.Arr[(n + nYears * (k - 1))] <-  mean(c_entryDate[c_sex == 0])
+  r.Arr[(n + nYears * (k - 1))] <-  mean(c_entryDate[c_sex == 1])
+  # Spawning ATU
+  ATUspawn1[(n + nYears * (k - 1))] <-  mean(c_spawnATU1)
+  ATUspawn2[(n + nYears * (k - 1))] <-  mean(c_spawnATU2)
+  # Spawning dates
+  Dspawn1[(n + nYears * (k - 1))] <-  mean(c_initial)
+  Dspawn2[(n + nYears * (k - 1))] <-  mean(c_end)
+  # Length at age
+  # Females
+  linF[(n + nYears * (k - 1))] <-  r.mat[1]
+  kF[(n + nYears * (k - 1))] <-  r.mat[2]
+  t0F[(n + nYears * (k - 1))] <-  r.mat[3]
+  # Males
+  linM[(n + nYears * (k - 1))] <-  b.mat[1]
+  kM[(n + nYears * (k - 1))] <-  b.mat[2]
+  t0M[(n + nYears * (k - 1))] <-  b.mat[3]
+
+  # Length
+  b.length[(n + nYears * (k - 1))] <-  mean(c_male_lf[c_male_lf!=0])
+  r.length[(n + nYears * (k - 1))] <-  mean(c_female_lf[c_female_lf!=0])
+  
+  # Fecundity
+  spawnInt[(n + nYears * (k - 1))] <-  mean(c_SI)
+  batchSize[(n + nYears * (k - 1))] <-  mean(c_BF)
+  RAF[(n + nYears * (k - 1))] <-  mean(c_RAF)
+
+  # Movement parameters
+  s.Optim[(n + nYears * (k - 1))] <-  mean(sOptim)
+  d.Max[(n + nYears * (k - 1))] <-  mean(dMax)
+  tortuosity[(n + nYears * (k - 1))] <-  mean(tort)
+  motivation[(n + nYears * (k - 1))] <-  mot
+  daily.move[(n + nYears * (k - 1))] <-  mean(dailyMove)
+  
+  
+if(river=='penobscot'){ 
   # Population below Milford, filling pre-allocated vector
   LowerPop[(n + nYears * (k - 1))] <-  (
       sum(males2res[[1]][[1]]) +
@@ -130,74 +196,14 @@ if(river=='penobscot'){
     BrownsPop[(n + nYears * (k - 1))] +
     GuilfordPop[(n + nYears * (k - 1))]
 
-  # Proportion of repeat spawners at each age, filling pre-allocated vector
-  pRepeats[[(n + nYears * (k - 1))]] <-  pRepeat
-
-  # Age-structured repeat spawners, filling pre-allocated vector
-  spawners[[(n + nYears * (k - 1))]] <-  .shadia$spawningPool
-
-  # Reset the scalar based on population size
-  .shadia$scalar <- setScalar(.shadia$spawningPool)
-
-  # Scalar variable for computational gains
-  scalarVar[[(n + nYears * (k - 1))]] <-  .shadia$scalar
 
   # Store the inputs for sensitivity analysis
   # Passage assumptions
-  ptime[[(n + nYears * (k - 1))]] <-  timely
   pStillUP[(n + nYears * (k - 1))] <-  pStillwaterUp
   pStillD[(n + nYears * (k - 1))] <-  pStillwaterD
   pPiscUP[(n + nYears * (k - 1))] <-  pPiscUp
 
-  # Population demographics and survival rates
-  S.downstream[(n + nYears * (k - 1))] <-  mean(downstreamS)
-  S.marine[(n + nYears * (k - 1))] <-  marineS[1]
-  F.inRiver[(n + nYears * (k - 1))] <-  inRiverF
-  F.commercial[(n + nYears * (k - 1))] <-  mean(commercialF)
-  F.bycatch[(n + nYears * (k - 1))] <-  mean(bycatchF)
-  popStart[(n + nYears * (k - 1))] <-  n_adults
-  p.female[(n + nYears * (k - 1))] <-  sexRatio
-  S.prespawnM[(n + nYears * (k - 1))] <-  pre_spawn_survival_males
-  S.postspawnM[(n + nYears * (k - 1))] <-  post_spawn_survival_males
-  S.prespawnF[(n + nYears * (k - 1))] <-  pre_spawn_survival_females
-  S.postspawnF[(n + nYears * (k - 1))] <-  post_spawn_survival_females
-  S.juvenile[(n + nYears * (k - 1))] <-  juvenile_survival
 
-  # Individual traits
-  # Entry dates
-  b.Arr[(n + nYears * (k - 1))] <-  mean(c_entryDate[c_sex == 0])
-  r.Arr[(n + nYears * (k - 1))] <-  mean(c_entryDate[c_sex == 1])
-  # Spawning ATU
-  ATUspawn1[(n + nYears * (k - 1))] <-  mean(c_spawnATU1)
-  ATUspawn2[(n + nYears * (k - 1))] <-  mean(c_spawnATU2)
-  # Spawning dates
-  Dspawn1[(n + nYears * (k - 1))] <-  mean(c_initial)
-  Dspawn2[(n + nYears * (k - 1))] <-  mean(c_end)
-  # Length at age
-  # Females
-  linF[(n + nYears * (k - 1))] <-  r.mat[1]
-  kF[(n + nYears * (k - 1))] <-  r.mat[2]
-  t0F[(n + nYears * (k - 1))] <-  r.mat[3]
-  # Males
-  linM[(n + nYears * (k - 1))] <-  b.mat[1]
-  kM[(n + nYears * (k - 1))] <-  b.mat[2]
-  t0M[(n + nYears * (k - 1))] <-  b.mat[3]
-
-  # Length
-  b.length[(n + nYears * (k - 1))] <-  mean(c_male_lf[c_male_lf!=0])
-  r.length[(n + nYears * (k - 1))] <-  mean(c_female_lf[c_female_lf!=0])
-  
-  # Fecundity
-  spawnInt[(n + nYears * (k - 1))] <-  mean(c_SI)
-  batchSize[(n + nYears * (k - 1))] <-  mean(c_BF)
-  RAF[(n + nYears * (k - 1))] <-  mean(c_RAF)
-
-  # Movement parameters
-  s.Optim[(n + nYears * (k - 1))] <-  mean(sOptim)
-  d.Max[(n + nYears * (k - 1))] <-  mean(dMax)
-  tortuosity[(n + nYears * (k - 1))] <-  mean(tort)
-  motivation[(n + nYears * (k - 1))] <-  mot
-  daily.move[(n + nYears * (k - 1))] <-  mean(dailyMove)
 
 return(list(
   scalar = scalar,
@@ -261,18 +267,9 @@ return(list(
 }  
   
 if(river=='merrimack'){ 
-  # Year, filling pre-allocated vector with this year
-  years[(n + nYears * (k - 1))] <-  n
-  
   # Probability of using bypass route at pawtucket
   pBypassUS[(n + nYears * (k - 1))] <- pBypassUp
   pBypassDS[(n + nYears * (k - 1))] <- pBypassD
-  
-  # Indirect mortality, filling pre-allocated vector
-  indirectM[(n + nYears * (k - 1))] <-  indirect
-
-  # Latent estuary mortality, filling pre-allocated vector
-  latentM[(n + nYears * (k - 1))] <-  latent
 
   # Population below Essex, filling pre-allocated vector
   popI[(n + nYears * (k - 1))] <-  (
@@ -306,73 +303,6 @@ if(river=='merrimack'){
     popIII[(n + nYears * (k - 1))] +
     popIV[(n + nYears * (k - 1))] +
     popV[(n + nYears * (k - 1))]
-  
-  # Proportion of repeat spawners at each age, filling pre-allocated vector
-  pRepeats[[(n + nYears * (k - 1))]] <-  pRepeat
-
-  # Age-structured repeat spawners, filling pre-allocated vector
-  spawners[[(n + nYears * (k - 1))]] <-  .shadia$spawningPool
-
-  # Reset the scalar based on population size
-  .shadia$scalar <- setScalar(.shadia$spawningPool)
-
-  # Scalar variable for computational gains
-  scalarVar[[(n + nYears * (k - 1))]] <-  .shadia$scalar
-
-  # Store the inputs for sensitivity analysis
-  # Passage assumptions
-  ptime[[(n + nYears * (k - 1))]] <-  timely
-
-  # Population demographics and survival rates
-  S.downstream[(n + nYears * (k - 1))] <-  mean(downstreamS)
-  S.marine[(n + nYears * (k - 1))] <-  marineS[1]
-  F.inRiver[(n + nYears * (k - 1))] <-  inRiverF
-  F.commercial[(n + nYears * (k - 1))] <-  mean(commercialF)
-  F.bycatch[(n + nYears * (k - 1))] <-  mean(bycatchF)
-  popStart[(n + nYears * (k - 1))] <-  n_adults
-  p.female[(n + nYears * (k - 1))] <-  sexRatio
-  S.prespawnM[(n + nYears * (k - 1))] <-  pre_spawn_survival_males
-  S.postspawnM[(n + nYears * (k - 1))] <-  post_spawn_survival_males
-  S.prespawnF[(n + nYears * (k - 1))] <-  pre_spawn_survival_females
-  S.postspawnF[(n + nYears * (k - 1))] <-  post_spawn_survival_females
-  S.juvenile[(n + nYears * (k - 1))] <-  juvenile_survival
-
-  # Individual traits
-  # Entry dates
-  b.Arr[(n + nYears * (k - 1))] <-  mean(c_entryDate[c_sex == 0])
-  r.Arr[(n + nYears * (k - 1))] <-  mean(c_entryDate[c_sex == 1])
-  # Spawning ATU
-  ATUspawn1[(n + nYears * (k - 1))] <-  mean(c_spawnATU1)
-  ATUspawn2[(n + nYears * (k - 1))] <-  mean(c_spawnATU2)
-  # Spawning dates
-  Dspawn1[(n + nYears * (k - 1))] <-  mean(c_initial)
-  Dspawn2[(n + nYears * (k - 1))] <-  mean(c_end)
-  # Length at age
-  # Females
-  linF[(n + nYears * (k - 1))] <-  r.mat[1]
-  kF[(n + nYears * (k - 1))] <-  r.mat[2]
-  t0F[(n + nYears * (k - 1))] <-  r.mat[3]
-  # Males
-  linM[(n + nYears * (k - 1))] <-  b.mat[1]
-  kM[(n + nYears * (k - 1))] <-  b.mat[2]
-  t0M[(n + nYears * (k - 1))] <-  b.mat[3]
-
-  # Length
-  b.length[(n + nYears * (k - 1))] <-  mean(c_male_lf[c_male_lf!=0])
-  r.length[(n + nYears * (k - 1))] <-  mean(c_female_lf[c_female_lf!=0])
-  
-  # Fecundity
-  spawnInt[(n + nYears * (k - 1))] <-  mean(c_SI)
-  batchSize[(n + nYears * (k - 1))] <-  mean(c_BF)
-  RAF[(n + nYears * (k - 1))] <-  mean(c_RAF)
-
-  # Movement parameters
-  s.Optim[(n + nYears * (k - 1))] <-  mean(sOptim)
-  d.Max[(n + nYears * (k - 1))] <-  mean(dMax)
-  tortuosity[(n + nYears * (k - 1))] <-  mean(tort)
-  motivation[(n + nYears * (k - 1))] <-  mot
-  daily.move[(n + nYears * (k - 1))] <-  mean(dailyMove)
-  #toc()
 
 return(list(
   scalar = scalar,
@@ -427,13 +357,6 @@ return(list(
 }    
 
 if(river=='connecticut'){ 
-
-  # Year, filling pre-allocated vector with this year
-  years[(n + nYears * (k - 1))] <-  n
-  
-  # Climate scenario
-  climate_scen[(n + nYears * (k - 1))] <-  climate
-
   # Probability of using spillway for migration through TF
   pSpill[(n + nYears * (k - 1))] <- pSpillway
 
@@ -442,12 +365,6 @@ if(river=='connecticut'){
   NorthFieldT[(n + nYears * (k - 1))] <- northfield$turnersJ
   NorthFieldVa[(n + nYears * (k - 1))] <- northfield$vernonA
   NorthFieldTa[(n + nYears * (k - 1))] <- northfield$turnersA
-  
-  # Indirect mortality, filling pre-allocated vector
-  indirectM[(n + nYears * (k - 1))] <-  indirect
-
-  # Latent estuary mortality, filling pre-allocated vector
-  latentM[(n + nYears * (k - 1))] <-  latent
 
   # Population below Essex, filling pre-allocated vector
   popI[(n + nYears * (k - 1))] <-  (
@@ -487,73 +404,6 @@ if(river=='connecticut'){
     popIV[(n + nYears * (k - 1))] +
     popV[(n + nYears * (k - 1))]
     
-  # Proportion of repeat spawners at each age, filling pre-allocated vector
-  pRepeats[[(n + nYears * (k - 1))]] <-  pRepeat
-
-  # Age-structured repeat spawners, filling pre-allocated vector
-  spawners[[(n + nYears * (k - 1))]] <-  .shadia$spawningPool
-
-  # Reset the scalar based on population size
-  .shadia$scalar <- setScalar(.shadia$spawningPool)
-
-  # Scalar variable for computational gains
-  scalarVar[[(n + nYears * (k - 1))]] <-  .shadia$scalar
-
-  # Store the inputs for sensitivity analysis
-  # Passage assumptions
-  ptime[[(n + nYears * (k - 1))]] <-  timely
-
-  # Population demographics and survival rates
-  S.downstream[(n + nYears * (k - 1))] <-  mean(downstreamS)
-  S.marine[(n + nYears * (k - 1))] <-  marineS[1]
-  F.inRiver[(n + nYears * (k - 1))] <-  inRiverF
-  F.commercial[(n + nYears * (k - 1))] <-  mean(commercialF)
-  F.bycatch[(n + nYears * (k - 1))] <-  mean(bycatchF)
-  popStart[(n + nYears * (k - 1))] <-  n_adults
-  p.female[(n + nYears * (k - 1))] <-  sexRatio
-  S.prespawnM[(n + nYears * (k - 1))] <-  pre_spawn_survival_males
-  S.postspawnM[(n + nYears * (k - 1))] <-  post_spawn_survival_males
-  S.prespawnF[(n + nYears * (k - 1))] <-  pre_spawn_survival_females
-  S.postspawnF[(n + nYears * (k - 1))] <-  post_spawn_survival_females
-  S.juvenile[(n + nYears * (k - 1))] <-  juvenile_survival
-
-  # Individual traits
-  # Entry dates
-  b.Arr[(n + nYears * (k - 1))] <-  mean(c_entryDate[c_sex == 0])
-  r.Arr[(n + nYears * (k - 1))] <-  mean(c_entryDate[c_sex == 1])
-  # Spawning ATU
-  ATUspawn1[(n + nYears * (k - 1))] <-  mean(c_spawnATU1)
-  ATUspawn2[(n + nYears * (k - 1))] <-  mean(c_spawnATU2)
-  # Spawning dates
-  Dspawn1[(n + nYears * (k - 1))] <-  mean(c_initial)
-  Dspawn2[(n + nYears * (k - 1))] <-  mean(c_end)
-  # Length at age
-  # Females
-  linF[(n + nYears * (k - 1))] <-  r.mat[1]
-  kF[(n + nYears * (k - 1))] <-  r.mat[2]
-  t0F[(n + nYears * (k - 1))] <-  r.mat[3]
-  # Males
-  linM[(n + nYears * (k - 1))] <-  b.mat[1]
-  kM[(n + nYears * (k - 1))] <-  b.mat[2]
-  t0M[(n + nYears * (k - 1))] <-  b.mat[3]
-
-  # Length
-  b.length[(n + nYears * (k - 1))] <-  mean(c_male_lf[c_male_lf!=0])
-  r.length[(n + nYears * (k - 1))] <-  mean(c_female_lf[c_female_lf!=0])
-
-  # Fecundity
-  spawnInt[(n + nYears * (k - 1))] <-  mean(c_SI)
-  batchSize[(n + nYears * (k - 1))] <-  mean(c_BF)
-  RAF[(n + nYears * (k - 1))] <-  mean(c_RAF)
-
-  # Movement parameters
-  s.Optim[(n + nYears * (k - 1))] <-  mean(sOptim)
-  d.Max[(n + nYears * (k - 1))] <-  mean(dMax)
-  tortuosity[(n + nYears * (k - 1))] <-  mean(tort)
-  motivation[(n + nYears * (k - 1))] <-  mot
-  daily.move[(n + nYears * (k - 1))] <-  mean(dailyMove)
-  #toc()
-
   return(list(
     scalar = scalar,
     populationSize = populationSize,
@@ -614,21 +464,11 @@ if(river=='connecticut'){
   
 if(river=='susquehanna'){ 
   # Store output in pre-allocated vectors 
-
-  # Year, filling pre-allocated vector with this year
-  years[(n + nYears * (k - 1))] <-  n
-  
   # Path choice probabilities
   pJuniataUp[(n + nYears * (k - 1))] <- p_JuniataUp
   pWestBranchUp[(n + nYears * (k - 1))] <- p_WestBranchUp
   pChemungUp[(n + nYears * (k - 1))] <- p_ChemungUp
   pNorthBranchUp[(n + nYears * (k - 1))] <- p_NorthBranchUp
-  
-  # Indirect mortality, filling pre-allocated vector
-  indirectM[(n + nYears * (k - 1))] <-  indirect
-
-  # Latent estuary mortality, filling pre-allocated vector
-  latentM[(n + nYears * (k - 1))] <- latent
 
   # Population abundance in each PU
   # Abundance downstream of conowingo
@@ -763,72 +603,6 @@ if(river=='susquehanna'){
     UnaPop[(n + nYears * (k - 1))] +
     RocPop[(n + nYears * (k - 1))] +
     ColPop[(n + nYears * (k - 1))]
-  
-  # Proportion of repeat spawners at each age, filling pre-allocated vector
-  pRepeats[[(n + nYears * (k - 1))]] <-  pRepeat
-
-  # Age-structured repeat spawners, filling pre-allocated vector
-  spawners[[(n + nYears * (k - 1))]] <-  .shadia$spawningPool
-
-  # Reset the scalar based on population size
-  .shadia$scalar <- setScalar(.shadia$spawningPool)
-
-  # Scalar variable for computational gains
-  scalarVar[[(n + nYears * (k - 1))]] <-  .shadia$scalar
-
-  # Store the inputs for sensitivity analysis
-  # Passage assumptions
-  ptime[[(n + nYears * (k - 1))]] <-  timely
-
-  # Population demographics and survival rates
-  S.downstream[(n + nYears * (k - 1))] <-  mean(downstreamS)
-  S.marine[(n + nYears * (k - 1))] <-  marineS[1]
-  F.inRiver[(n + nYears * (k - 1))] <-  inRiverF
-  F.commercial[(n + nYears * (k - 1))] <-  mean(commercialF)
-  F.bycatch[(n + nYears * (k - 1))] <-  mean(bycatchF)
-  popStart[(n + nYears * (k - 1))] <-  n_adults
-  p.female[(n + nYears * (k - 1))] <-  sexRatio
-  S.prespawnM[(n + nYears * (k - 1))] <-  pre_spawn_survival_males
-  S.postspawnM[(n + nYears * (k - 1))] <-  post_spawn_survival_males
-  S.prespawnF[(n + nYears * (k - 1))] <-  pre_spawn_survival_females
-  S.postspawnF[(n + nYears * (k - 1))] <-  post_spawn_survival_females
-  S.juvenile[(n + nYears * (k - 1))] <-  juvenile_survival
-
-  # Individual traits
-  # Entry dates
-  b.Arr[(n + nYears * (k - 1))] <-  mean(c_entryDate[c_sex == 0])
-  r.Arr[(n + nYears * (k - 1))] <-  mean(c_entryDate[c_sex == 1])
-  # Spawning ATU
-  ATUspawn1[(n + nYears * (k - 1))] <-  mean(c_spawnATU1)
-  ATUspawn2[(n + nYears * (k - 1))] <-  mean(c_spawnATU2)
-  # Spawning dates
-  Dspawn1[(n + nYears * (k - 1))] <-  mean(c_initial)
-  Dspawn2[(n + nYears * (k - 1))] <-  mean(c_end)
-  # Length at age
-  # Females
-  linF[(n + nYears * (k - 1))] <-  r.mat[1]
-  kF[(n + nYears * (k - 1))] <-  r.mat[2]
-  t0F[(n + nYears * (k - 1))] <-  r.mat[3]
-  # Males
-  linM[(n + nYears * (k - 1))] <-  b.mat[1]
-  kM[(n + nYears * (k - 1))] <-  b.mat[2]
-  t0M[(n + nYears * (k - 1))] <-  b.mat[3]
-
-  # Length
-  b.length[(n + nYears * (k - 1))] <-  mean(c_male_lf[c_male_lf!=0])
-  r.length[(n + nYears * (k - 1))] <-  mean(c_female_lf[c_female_lf!=0])
-  
-  # Fecundity
-  spawnInt[(n + nYears * (k - 1))] <-  mean(c_SI)
-  batchSize[(n + nYears * (k - 1))] <-  mean(c_BF)
-  RAF[(n + nYears * (k - 1))] <-  mean(c_RAF)
-
-  # Movement parameters
-  s.Optim[(n + nYears * (k - 1))] <-  mean(sOptim)
-  d.Max[(n + nYears * (k - 1))] <-  mean(dMax)
-  tortuosity[(n + nYears * (k - 1))] <-  mean(tort)
-  motivation[(n + nYears * (k - 1))] <-  mot
-  daily.move[(n + nYears * (k - 1))] <-  mean(dailyMove)
 
 return(list(
   scalar = scalar,
@@ -899,16 +673,6 @@ return(list(
   
 if(river=='saco'){ 
   # Store output in pre-allocated vectors 
-
-  # Year, filling pre-allocated vector with this year
-  years[(n + nYears * (k - 1))] <- n
-
-  # Indirect mortality, filling pre-allocated vector
-  indirectM[(n + nYears * (k - 1))] <-  indirect
-  
-  # Latent estuary mortality, filling pre-allocated vector
-  latentM[(n + nYears * (k - 1))] <-  latent
-  
   # Population below the Cataract Project, 
   # filling pre-allocated vector
   popI[(n + nYears * (k - 1))] <-  (
@@ -954,72 +718,6 @@ if(river=='saco'){
     popV[(n + nYears * (k - 1))] +
     popVI[(n + nYears * (k - 1))] +
     popVII[(n + nYears * (k - 1))]  
-  
-  # Proportion of repeat spawners at each age, filling pre-allocated vector
-  pRepeats[[(n + nYears * (k - 1))]] <-  pRepeat
-  
-  # Age-structured repeat spawners, filling pre-allocated vector
-  spawners[[(n + nYears * (k - 1))]] <-  .shadia$spawningPool
-  
-  # Reset the scalar based on population size
-  .shadia$scalar <- setScalar(.shadia$spawningPool)
-  
-  # Scalar variable for computational gains
-  scalarVar[[(n + nYears * (k - 1))]] <-  .shadia$scalar
-  
-  # Store the inputs for sensitivity analysis
-  # Passage assumptions
-  ptime[[(n + nYears * (k - 1))]] <-  timely
-  
-  # Population demographics and survival rates
-  S.downstream[(n + nYears * (k - 1))] <-  mean(downstreamS)
-  S.marine[(n + nYears * (k - 1))] <-  marineS[1]
-  F.inRiver[(n + nYears * (k - 1))] <-  inRiverF
-  F.commercial[(n + nYears * (k - 1))] <-  mean(commercialF)
-  F.bycatch[(n + nYears * (k - 1))] <-  mean(bycatchF)
-  popStart[(n + nYears * (k - 1))] <-  n_adults
-  p.female[(n + nYears * (k - 1))] <-  sexRatio
-  S.prespawnM[(n + nYears * (k - 1))] <-  pre_spawn_survival_males
-  S.postspawnM[(n + nYears * (k - 1))] <-  post_spawn_survival_males
-  S.prespawnF[(n + nYears * (k - 1))] <-  pre_spawn_survival_females
-  S.postspawnF[(n + nYears * (k - 1))] <-  post_spawn_survival_females
-  S.juvenile[(n + nYears * (k - 1))] <-  juvenile_survival
-  
-  # Individual traits
-  # Entry dates
-  b.Arr[(n + nYears * (k - 1))] <-  mean(c_entryDate[c_sex == 0])
-  r.Arr[(n + nYears * (k - 1))] <-  mean(c_entryDate[c_sex == 1])
-  # Spawning ATU
-  ATUspawn1[(n + nYears * (k - 1))] <-  mean(c_spawnATU1)
-  ATUspawn2[(n + nYears * (k - 1))] <-  mean(c_spawnATU2)
-  # Spawning dates
-  Dspawn1[(n + nYears * (k - 1))] <-  mean(c_initial)
-  Dspawn2[(n + nYears * (k - 1))] <-  mean(c_end)
-  # Length at age
-  # Females
-  linF[(n + nYears * (k - 1))] <-  r.mat[1]
-  kF[(n + nYears * (k - 1))] <-  r.mat[2]
-  t0F[(n + nYears * (k - 1))] <-  r.mat[3]
-  # Males
-  linM[(n + nYears * (k - 1))] <-  b.mat[1]
-  kM[(n + nYears * (k - 1))] <-  b.mat[2]
-  t0M[(n + nYears * (k - 1))] <-  b.mat[3]
-  
-  # Length
-  b.length[(n + nYears * (k - 1))] <-  mean(c_male_lf[c_male_lf!=0])
-  r.length[(n + nYears * (k - 1))] <-  mean(c_female_lf[c_female_lf!=0])
-  
-  # Fecundity
-  spawnInt[(n + nYears * (k - 1))] <-  mean(c_SI)
-  batchSize[(n + nYears * (k - 1))] <-  mean(c_BF)
-  RAF[(n + nYears * (k - 1))] <-  mean(c_RAF)
-  
-  # Movement parameters
-  s.Optim[(n + nYears * (k - 1))] <-  mean(sOptim)
-  d.Max[(n + nYears * (k - 1))] <-  mean(dMax)
-  tortuosity[(n + nYears * (k - 1))] <-  mean(tort)
-  motivation[(n + nYears * (k - 1))] <-  mot
-  daily.move[(n + nYears * (k - 1))] <-  mean(dailyMove)
 
   return(list(
     scalar = scalar,
@@ -1077,18 +775,9 @@ if(river=='saco'){
 
 if(river=='kennebec'){ 
   # Store output in pre-allocated vectors 
-
-  # Year, filling pre-allocated vector with this year
-  years[(n + nYears * (k - 1))] <- n
   
   # Probability of using sebasticook river
   sebasticook[(n + nYears * (k - 1))] <- p_sebasticook
-  
-  # Indirect mortality, filling pre-allocated vector
-  indirectM[(n + nYears * (k - 1))] <-  indirect
-  
-  # Latent estuary mortality, filling pre-allocated vector
-  latentM[(n + nYears * (k - 1))] <-  latent
 
   # Population downstream of lockwood dam
   pop1a[(n + nYears * (k - 1))] <-  (
@@ -1138,73 +827,7 @@ if(river=='kennebec'){
     pop5a[(n + nYears * (k - 1))] +
     pop1b[(n + nYears * (k - 1))] +
     pop2b[(n + nYears * (k - 1))]
-  
-  # Proportion of repeat spawners at each age, filling pre-allocated vector
-  pRepeats[[(n + nYears * (k - 1))]] <-  pRepeat
 
-  # Age-structured repeat spawners, filling pre-allocated vector
-  spawners[[(n + nYears * (k - 1))]] <-  .shadia$spawningPool
-
-  # Reset the scalar based on population size
-  .shadia$scalar <- setScalar(.shadia$spawningPool)
-
-  # Scalar variable for computational gains
-  scalarVar[[(n + nYears * (k - 1))]] <-  .shadia$scalar
-
-  # Store the inputs for sensitivity analysis
-  # Passage assumptions
-  ptime[[(n + nYears * (k - 1))]] <-  timely
-
-  # Population demographics and survival rates
-  S.downstream[(n + nYears * (k - 1))] <-  mean(downstreamS)
-  S.marine[(n + nYears * (k - 1))] <-  marineS[1]
-  F.inRiver[(n + nYears * (k - 1))] <-  inRiverF
-  F.commercial[(n + nYears * (k - 1))] <-  mean(commercialF)
-  F.bycatch[(n + nYears * (k - 1))] <-  mean(bycatchF)
-  popStart[(n + nYears * (k - 1))] <-  n_adults
-  p.female[(n + nYears * (k - 1))] <-  sexRatio
-  S.prespawnM[(n + nYears * (k - 1))] <-  pre_spawn_survival_males
-  S.postspawnM[(n + nYears * (k - 1))] <-  post_spawn_survival_males
-  S.prespawnF[(n + nYears * (k - 1))] <-  pre_spawn_survival_females
-  S.postspawnF[(n + nYears * (k - 1))] <-  post_spawn_survival_females
-  S.juvenile[(n + nYears * (k - 1))] <-  juvenile_survival
-
-  # Individual traits
-  # Entry dates
-  b.Arr[(n + nYears * (k - 1))] <-  mean(c_entryDate[c_sex == 0])
-  r.Arr[(n + nYears * (k - 1))] <-  mean(c_entryDate[c_sex == 1])
-  # Spawning ATU
-  ATUspawn1[(n + nYears * (k - 1))] <-  mean(c_spawnATU1)
-  ATUspawn2[(n + nYears * (k - 1))] <-  mean(c_spawnATU2)
-  # Spawning dates
-  Dspawn1[(n + nYears * (k - 1))] <-  mean(c_initial)
-  Dspawn2[(n + nYears * (k - 1))] <-  mean(c_end)
-  # Length at age
-  # Females
-  linF[(n + nYears * (k - 1))] <-  r.mat[1]
-  kF[(n + nYears * (k - 1))] <-  r.mat[2]
-  t0F[(n + nYears * (k - 1))] <-  r.mat[3]
-  # Males
-  linM[(n + nYears * (k - 1))] <-  b.mat[1]
-  kM[(n + nYears * (k - 1))] <-  b.mat[2]
-  t0M[(n + nYears * (k - 1))] <-  b.mat[3]
-
-  # Length
-  b.length[(n + nYears * (k - 1))] <-  mean(c_male_lf[c_male_lf!=0])
-  r.length[(n + nYears * (k - 1))] <-  mean(c_female_lf[c_female_lf!=0])
-  
-  # Fecundity
-  spawnInt[(n + nYears * (k - 1))] <-  mean(c_SI)
-  batchSize[(n + nYears * (k - 1))] <-  mean(c_BF)
-  RAF[(n + nYears * (k - 1))] <-  mean(c_RAF)
-
-  # Movement parameters
-  s.Optim[(n + nYears * (k - 1))] <-  mean(sOptim)
-  d.Max[(n + nYears * (k - 1))] <-  mean(dMax)
-  tortuosity[(n + nYears * (k - 1))] <-  mean(tort)
-  motivation[(n + nYears * (k - 1))] <-  mot
-  daily.move[(n + nYears * (k - 1))] <-  mean(dailyMove)
-  
   return(list(
     scalar = scalar,
     populationSize = populationSize,
@@ -1261,21 +884,6 @@ if(river=='kennebec'){
 }      
 
 if(river=='hudson'){ 
-  # Store output in pre-allocated vectors 
-  # if (useTictoc) tic("store output")
-  
-  # Year, filling pre-allocated vector with this year
-  years[(n + nYears * (k - 1))] <- n
-  
-  # Probability of using Mohawk
-  mohawk[(n + nYears * (k - 1))] <- pMohawk
-  
-  # Indirect mortality, filling pre-allocated vector
-  indirectM[(n + nYears * (k - 1))] <-  indirect
-  
-  # Latent estuary mortality, filling pre-allocated vector
-  latentM[(n + nYears * (k - 1))] <-  latent
-
   # Population downstream of Troy Federal Dam
   pop01a[(n + nYears * (k - 1))] <-  (
     sum(males2res[[1]][[1]]) + 
@@ -1450,78 +1058,11 @@ if(river=='hudson'){
     pop19b[(n + nYears * (k - 1))] +  
     pop20b[(n + nYears * (k - 1))] +
     pop21b[(n + nYears * (k - 1))]    
-    
-  # Proportion of repeat spawners at each age
-  pRepeats[[(n + nYears * (k - 1))]] <-  pRepeat
-  
-  # Age-structured repeat spawners, filling pre-allocated vector
-  spawners[[(n + nYears * (k - 1))]] <-  .shadia$spawningPool
-  
-  # Reset the scalar based on population size
-  .shadia$scalar <- setScalar(.shadia$spawningPool)
-  
-  # Scalar variable for computational gains
-  scalarVar[[(n + nYears * (k - 1))]] <-  .shadia$scalar
-  
-  # Store the inputs for sensitivity analysis
-  # Passage assumptions
-  ptime[[(n + nYears * (k - 1))]] <-  timely
-  
-  # Population demographics and survival rates
-  S.downstream[(n + nYears * (k - 1))] <-  mean(downstreamS)
-  S.marine[(n + nYears * (k - 1))] <-  marineS[1]
-  F.inRiver[(n + nYears * (k - 1))] <-  inRiverF
-  F.commercial[(n + nYears * (k - 1))] <-  mean(commercialF)
-  F.bycatch[(n + nYears * (k - 1))] <-  mean(bycatchF)
-  popStart[(n + nYears * (k - 1))] <-  n_adults
-  p.female[(n + nYears * (k - 1))] <-  sexRatio
-  S.prespawnM[(n + nYears * (k - 1))] <-  pre_spawn_survival_males
-  S.postspawnM[(n + nYears * (k - 1))] <-  post_spawn_survival_males
-  S.prespawnF[(n + nYears * (k - 1))] <-  pre_spawn_survival_females
-  S.postspawnF[(n + nYears * (k - 1))] <-  post_spawn_survival_females
-  S.juvenile[(n + nYears * (k - 1))] <-  juvenile_survival
-  
-  # Individual traits
-  # Entry dates
-  b.Arr[(n + nYears * (k - 1))] <-  mean(c_entryDate[c_sex == 0])
-  r.Arr[(n + nYears * (k - 1))] <-  mean(c_entryDate[c_sex == 1])
-  # Spawning ATU
-  ATUspawn1[(n + nYears * (k - 1))] <-  mean(c_spawnATU1)
-  ATUspawn2[(n + nYears * (k - 1))] <-  mean(c_spawnATU2)
-  # Spawning dates
-  Dspawn1[(n + nYears * (k - 1))] <-  mean(c_initial)
-  Dspawn2[(n + nYears * (k - 1))] <-  mean(c_end)
-  # Length at age
-  # Females
-  linF[(n + nYears * (k - 1))] <-  r.mat[1]
-  kF[(n + nYears * (k - 1))] <-  r.mat[2]
-  t0F[(n + nYears * (k - 1))] <-  r.mat[3]
-  # Males
-  linM[(n + nYears * (k - 1))] <-  b.mat[1]
-  kM[(n + nYears * (k - 1))] <-  b.mat[2]
-  t0M[(n + nYears * (k - 1))] <-  b.mat[3]
-  
-  # Length
-  b.length[(n + nYears * (k - 1))] <-  mean(c_male_lf[c_male_lf!=0])
-  r.length[(n + nYears * (k - 1))] <-  mean(c_female_lf[c_female_lf!=0])
-  
-  # Fecundity
-  spawnInt[(n + nYears * (k - 1))] <-  mean(c_SI)
-  batchSize[(n + nYears * (k - 1))] <-  mean(c_BF)
-  RAF[(n + nYears * (k - 1))] <-  mean(c_RAF)
-  
-  # Movement parameters
-  s.Optim[(n + nYears * (k - 1))] <-  mean(sOptim)
-  d.Max[(n + nYears * (k - 1))] <-  mean(dMax)
-  tortuosity[(n + nYears * (k - 1))] <-  mean(tort)
-  motivation[(n + nYears * (k - 1))] <-  mot
-  daily.move[(n + nYears * (k - 1))] <-  mean(dailyMove)
-  
+ 
   return(list(
     scalar = scalar,
     populationSize = populationSize,
     years = years,
-    mohawk = mohawk,
     indirectM = indirectM,
     latentM = latentM,
     pop01a = pop01a,
