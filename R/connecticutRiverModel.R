@@ -101,12 +101,17 @@
 #' within discrete production units based on the numbers, and was the
 #' method used in Stich et al. (2019).  
 #'  
-#' @return Returns a list of two named dataframes.
+#' @param sensitivity Whether to return a dataframe for sensitivity
+#' analysis. The default is set to FALSE for faster run time and smaller
+#' memory load in parallel processing.  
+#'  
+#' @return Returns a dataframe when sensitivity = FALSE (default). 
+#' Returns a list of two named dataframes when sensitivity = TRUE.
 #' The first dataframe (\code{res}) contains user-defined
-#' inputs and available model outputs.
+#' inputs and available model outputs. The second dataframe (\code{sens})
+#' contains input variables for sensitivity analysis if desired.
 #'
-#' If run in parallel, returns a list of lists
-#' of dataframes.
+#' If run in parallel, returns a list of lists of dataframes.
 #'
 #' The following named columns are returned in \code{res}:
 #' \itemize{
@@ -244,7 +249,8 @@ connecticutRiverModel <- function(
   latent = 1,
   watershed = FALSE,
   climate = 'current',
-  k_method = 'cumulative'
+  k_method = 'cumulative',
+  sensitivity = FALSE
   ){
 
 # Exceptions, errors, and warning messages ----
@@ -286,7 +292,10 @@ cat('
 # Assign River
   .shadia$river <- 'connecticut'
   .shadia$region <- 'Northern Iteroparous'
-
+  
+# Assign sensitivity option
+  .shadia$sensitivity <- sensitivity
+  
 # Passage variable assignment -----
   
   # Draw probability of using each passage route,

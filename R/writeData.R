@@ -125,11 +125,6 @@ sens = data.frame(
   daily.move,
   habStoch
 )
-
-return(list(		
-  res	= res,
-  sens = sens
-))	
 }
 
 if(river=='merrimack'){
@@ -215,11 +210,6 @@ sens = data.frame(
   daily.move,
   habStoch
 )
-
-return(list(		
-  res	= res,
-  sens = sens
-))	
 }
 
 if(river=='connecticut'){
@@ -313,11 +303,6 @@ sens = data.frame(
   daily.move,
   habStoch
 )
-
-return(list(		
-  res	= res,
-  sens = sens
-))	
 
 }
 
@@ -429,10 +414,6 @@ sens = data.frame(
   habStoch = habStoch
 )
 
-return(list(		
-  res	= res,
-  sens = sens
-))	
 }
 
 if(river=='saco'){
@@ -518,11 +499,6 @@ if(river=='saco'){
     daily.move,
     habStoch
   )
-  
-  return(list(		
-    res	= res,
-    sens = sens
-  ))	
 }
 
 if(river=='kennebec'){
@@ -610,11 +586,6 @@ res <- data.frame(
     daily.move,
     habStoch
   )
-  
-  return(list(		
-    res	= res,
-    sens = sens
-  ))	
 }
 
 if(river=='hudson'){
@@ -745,10 +716,20 @@ if(river=='hudson'){
     habStoch
   )
   
+}
+
+# Output write
+if(sensitivity == TRUE){
   return(list(		
     res	= res,
     sens = sens
-  ))	
+  ))
 }
+
+if(sensitivity == FALSE){
+  return(res)
+}
+
+
 
 }

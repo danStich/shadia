@@ -85,13 +85,17 @@
 #' within discrete production units based on the numbers, and was the
 #' method used in Stich et al. (2019).  
 #'  
-#' @return Returns a list of two named dataframes.
+#' @param sensitivity Whether to return a dataframe for sensitivity
+#' analysis. The default is set to FALSE for faster run time and smaller
+#' memory load in parallel processing.  
+#'  
+#' @return Returns a dataframe when sensitivity = FALSE (default). 
+#' Returns a list of two named dataframes when sensitivity = TRUE.
 #' The first dataframe (\code{res}) contains user-defined
-#' inputs and available model outputs. THe second (\code{sens})
-#' contains stochastic variables for sensitivity analysis.
+#' inputs and available model outputs. The second dataframe (\code{sens})
+#' contains input variables for sensitivity analysis if desired.
 #'
-#' If run in parallel, returns a list of lists
-#' of dataframes.
+#' If run in parallel, returns a list of lists of dataframes.
 #'
 #' The following named columns are returned in \code{res}:
 #' \itemize{
@@ -221,7 +225,8 @@ sacoRiverModel <- function(
   indirect = 1,
   latent = 1,
   watershed = FALSE,
-  k_method = 'cumulative'
+  k_method = 'cumulative',
+  sensitivity = FALSE
   ){
   
 # Error message for passage efficiencies
@@ -264,7 +269,10 @@ sacoRiverModel <- function(
 # user because we lack projections from other
 # systems.
   .shadia$climate <- 'current'  
-  
+
+# Assign sensitivity option
+.shadia$sensitivity <- sensitivity
+    
 # Passage variable assignment -----
   
   # Upstream and downstream passage
