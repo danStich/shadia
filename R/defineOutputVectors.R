@@ -278,7 +278,6 @@ if(river=='merrimack'){
   return(
     list(
       years = years,
-      scen = scen,
       pBypassUS = pBypassUS,
       pBypassDS = pBypassDS,
       indirectM = indirectM,
