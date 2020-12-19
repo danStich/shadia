@@ -8,15 +8,15 @@
 A data frame with 3631 observations of 6 variables
 \describe{
   \code{staid }{Station ID}
-  
+
   \code{dates }{Date of temperature observation}
-  
+
   \code{year }{Year of temperature observation}
-  
+
   \code{day }{Ordinal date}
-  
+
   \code{val }{Temperature in degrees celcius}
-  
+
 }
 }
 \source{
@@ -26,7 +26,7 @@ U.S. Geological Survey, SHEDS Stream Temperature Database
 tempData_saco
 }
 \description{
-Temperature data for 
+Temperature data for
 the Saco River at various locations in watershed
 }
 \keyword{datasets}

@@ -8,15 +8,15 @@
 A data frame with 1816 observations of 6 variables
 \describe{
   \code{staid }{USGS Station ID}
-  
+
   \code{val }{Temperature in degrees celcius}
-  
+
   \code{dates }{Date of temperature observation}
-  
+
   \code{qualcode }{Qualification code}
-  
+
   \code{year }{Year of temperature observation}
-  
+
   \code{day }{Ordinal date}
 }
 }
@@ -27,7 +27,7 @@ U.S. Geological Survey
 tempData_susquehanna
 }
 \description{
-Temperature data for 
+Temperature data for
 the Susquehanna River at Harrisburg, PA.
 }
 \keyword{datasets}

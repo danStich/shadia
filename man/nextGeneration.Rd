@@ -7,12 +7,12 @@
 nextGeneration()
 }
 \description{
-Internal function to perform 
+Internal function to perform
 cohort-based projections of the population
 into the next year of the simulation based
 on marine survival, commercial fishery harvest,
 and fishery bycatch (all annual rates).
 
-Not intended to be called directly, but 
+Not intended to be called directly, but
 visible for the sake of transparency.
 }

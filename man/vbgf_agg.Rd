@@ -16,7 +16,7 @@ Gilligan, E. (In Prep). MS Biology Thesis, SUNY Oneonta.
 vbgf_agg
 }
 \description{
-Posterior distributions for parameters of a 
+Posterior distributions for parameters of a
 sex-aggregated von Bertalanffy growth function for American
 shad in the Northeast Continental Shelf Large Marine Ecosystem.
 }

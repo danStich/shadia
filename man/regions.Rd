@@ -8,9 +8,9 @@
 A dataframe with 11 obs. of 3 variables:
 \describe{
   \code{System }{Stock assessment unit}
-  
+
   \code{Region }{Management region based on life-history strategy}
-  
+
   \code{Thompsonville }{Numeric identifier for region}
 }
 }
@@ -21,7 +21,7 @@ Atlantic States Marine Fisheries Commission
 regions
 }
 \description{
-A key for matching rivers used in the growth 
+A key for matching rivers used in the growth
 analysis for the 2020 ASMFC American shad stock assessment. This is
 used to query posterior distributions from von Bertalanffy growth
 models used to predict fish length at age and incorporate climate

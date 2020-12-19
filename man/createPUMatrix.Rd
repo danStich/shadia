@@ -11,8 +11,8 @@ Matrix of fish numbers by ages in each PU following
 execution of the upstream migration model in source code.
 }
 \description{
-Internal function to generalize creation of 
+Internal function to generalize creation of
 the PU_n data structure for different PUs and fish sexes.
-Not intended to be called directly, but visible 
+Not intended to be called directly, but visible
 for model transparency.
 }

@@ -1,83 +1,60 @@
 # Parallel execution on a local cluster
 \dontrun{
-  
-# R snowfall example
+
 # Load R packages
-  library(snowfall)
-  library(rlecuyer)
-  library(shadia)
+library(snowfall)
+library(rlecuyer)
+library(shadia)
+library(tidyverse)
 
-# 1. Initialization of snowfall.
-# Initialize parallel mode using sockets and
-# command-line args
-  sfInit(parallel=TRUE, cpus=3, type="SOCK")
+# Initialize parallel socket cluster
+sfInit(parallel = TRUE, cpus = 7, type = "SOCK")
 
-# 2. Load data. 
-  data('fish')
-  data('arr.B')
-  data('arr.R')
-  data('b.parms_susquehanna')
-  data('r.parms_susquehanna')
-  data('tempD')
-  data('tempData_susquehanna')
-
-# 3. Define wrapper function, which can be called in parallel.
-#
-#   Runs susquehannaRiverModel() on each worker
-#
-#   Here, workerId just contains the identity of the cpu that perfomed
-#   the work. We do this only to prove we have used all the specified cpus!
-#   Ideally, we will minimize the data sent to (and returned from) the workers.
-#
-#   Note that constructing and returning a list enables the function to
-#   return more than one output.
-wrapper <- function(x) {
+# Define a model run as a function
+model <- function(x) {
 
   # Run the model
-    res1 <- susquehannaRiverModel()
-  
-  # Define the output lists
-    retlist <- list(
-      sim=res1)       
-    return(retlist)
+  sim <- susquehannaRiverModel(nYears = 40, species = "shad")
+
+  # Output
+  return(sim)
 }
 
-# 4. Export needed data to workers 
-#    load required packages on workers.
-  sfLibrary(shadia)
+# Export  libraries or data to workers
+sfLibrary(shadia)
 
-# 5. Start network random number generator 
-#    (as "sample" uses random numbers).
-#    sfClusterSetupRNG()
+# Distribute calculation to workers
+niterations <- 30
 
-# 6. Distribute calculation to workers
-  niterations <- 10
-  start <- Sys.time()
+# Use sfLapply() to distribute simulations to workers
+# and run the model with these settings in parallel
+result <- sfLapply(1:niterations, model)
 
-  # Use sfLapply() function to send wrapper() to the workers:
-    result <- sfLapply(1:niterations, wrapper) 
-    
-# 7. Stop snowfall
-  Sys.time()-start  
-  sfStop()
-
-# 8. Examine the results returned from the cluster:
-
-# 'result' is a list of lists. Save this:
-# save(result, file = "snowfall-result.rda")
-
-# Extract results list from output list
-  out <- lapply(result, function(x) x[[c('sim')]])
+# Stop snowfall
+Sys.time() - start
 
 # Extract user inputs and population metrics
-  res <- lapply(out, function(x) x[[c('res')]])
-  resdf <- do.call(rbind, res)
+resdf <- do.call(rbind, result)
 
-# Extract sensitivity variables
-  sens <- lapply(out, function(x) x[[c('sens')]])
-  sensdf <- do.call(rbind, sens)
+# . Abundance at mouth ----
+library(tidyverse)
+plotter <- resdf %>%
+  group_by(year) %>%
+  summarize(
+    pop = mean(populationSize),
+    lci = CI(populationSize)[1],
+    uci = CI(populationSize)[2],
+    .groups = "keep"
+  )
 
-# Have a look at result  
-  plot(resdf$year, resdf$populationSize)
+ggplot(plotter, aes(x = year, y = pop)) +
+  geom_line(lwd = 1) +
+  geom_ribbon(aes(x = year, ymin = lci, ymax = uci, color = NULL)) +
+  xlab("Year") +
+  ylab("Millions of spawners") +
+  scale_y_continuous(
+    breaks = seq(0, 10e7, .5e6),
+    labels = format(seq(0, 100, 0.5), digits = 2)
+  )
 
 }

@@ -8,14 +8,14 @@
 A dataframe with 118 obs. of 5 variables:
 \describe{
   \code{Year }{Year for projection}
-  
+
   \code{Scenario }{Representative climate pathway (RCP) used for projection}
-  
+
   \code{Mean }{Mean projected temperature (C)}
 
   \code{pct5th }{5th percentile for projection}
 
-  \code{pct95th }{95th percentile for projection}                              
+  \code{pct95th }{95th percentile for projection}
 }
 }
 \source{

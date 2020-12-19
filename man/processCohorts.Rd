@@ -7,15 +7,15 @@
 processCohorts()
 }
 \value{
-A list of lists, each holding the numbers of 
-males, females, or eggs in each age class in each 
-production unit of each of four migration routes 
+A list of lists, each holding the numbers of
+males, females, or eggs in each age class in each
+production unit of each of four migration routes
 prior to the application of post spawning mortality
 or carrying capacity.
 }
 \description{
 Internal function used to calculate the
-numbers of males, females, and eggs spawned in each 
+numbers of males, females, and eggs spawned in each
 age class in each production unit of each of four
 migration routes.
 

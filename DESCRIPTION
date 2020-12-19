@@ -8,7 +8,7 @@ Description: This package includes source code and data files for parallel execu
 License: GNU >= 3.0
 Encoding: UTF-8
 LazyData: true
-Imports: plyr, zoo, MASS, methods, geosphere, lubridate, fishmethods
+Imports: plyr, zoo, MASS, methods, geosphere, lubridate, tidyverse
 LinkingTo: Rcpp
 Suggests: rlecuyer, snowfall
 RoxygenNote: 7.1.1.9000

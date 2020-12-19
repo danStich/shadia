@@ -1,24 +1,27 @@
 #' shadia: American shad dam passage performance standard models for R
-#' 
+#'
 #' The shadia package provides an interface for running
 #' the American shad dam passage performance standard
 #' model. It includes a limited number of functions intended to
 #' be called directly by the user, and a large number of
 #' supporting internal functions that are visible to promote
 #' transparency in the model.
-#' 
+#'
 #' @section Functions called directly:
 #'   \describe{
 #'     \code{\link{connecticutRiverModel}} \cr
+#'     \code{\link{kennebecRiverModel}} \cr
 #'     \code{\link{merrimackRiverModel}} \cr
+#'     \code{\link{mohawkHudsonRiverModel}} \cr
 #'     \code{\link{penobscotRiverModel}} \cr
+#'     \code{\link{sacoRiverModel}} \cr
 #'     \code{\link{susquehannaRiverModel}} \cr
 #'     \code{\link{addStochList}} \cr
 #'     \code{\link{CI}} \cr
 #'     \code{\link{invlogit}} \cr
 #'     \code{\link{substrRight}}
 #'   }
-#'   
+#'
 #' @section Internal functions:
 #'  \describe{
 #'    \code{\link{annualUpstream}} \cr
@@ -49,29 +52,26 @@
 #'    \code{\link{weldonScenarios}} \cr
 #'    \code{\link{writeData}} \cr
 #'  }
-#'  
+#'
 #' @section Data:
 #'   \describe{
-#'     
+#'
 #'   }
 #'
 #'
 #' @docType package
-#' 
+#'
 #' @name shadia
-#' 
+#'
 #' @importFrom graphics abline lines par plot
 #' @importFrom stats aggregate nls quantile runif var
-#' @importFrom utils write.table
 #' @importFrom geosphere daylength
 #' @importFrom lubridate year yday
-#' @importFrom plyr ddply . summarize summarise
 #' @importFrom MASS mvrnorm rnegbin
 #' @importFrom zoo na.spline
-#' @importFrom fishmethods growth
+#' @importFrom magrittr %>%
+#' @importFrom dplyr summarize group_by filter
 #' @import Rcpp
-#' 
+#'
 #' @useDynLib shadia
 NULL
-
-

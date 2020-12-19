@@ -8,17 +8,17 @@
 A dataframe with 2,485 observations of 19 variables
 \describe{
   \code{species }{NYSDEC species code}
-  
+
   \code{samp_date }{Date fish was collected}
-  
+
   \code{fl }{Fork length, in mm}
-  
+
   \code{wt }{Mass of fish in grams}
-  
+
   \code{sex }{Sex of fish, `B` is buck (male) and `R`is roe (female)}
-  
+
   \code{age }{Age of fish in years}
-  
+
 }
 }
 \source{

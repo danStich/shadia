@@ -9,15 +9,15 @@
 A data frame with 2194 obs. of 6 variables
 \describe{
   \code{staid }{USGS Station ID}
-  
+
   \code{val }{Temperature in degrees celcius}
-  
+
   \code{dates }{Date of temperature observation}
-  
+
   \code{qualcode }{Qualification code}
-  
+
   \code{year }{Year of temperature observation}
-  
+
   \code{day }{Ordinal date}
 }
 }
@@ -28,7 +28,7 @@ U.S. Geological Survey
 tempData_merrimack
 }
 \description{
-Temperature data for 
+Temperature data for
 South Branch Piscataqoug River near
 Goffstown, NH, USA
 }

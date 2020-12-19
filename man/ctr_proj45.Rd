@@ -8,13 +8,13 @@
 A dataframe with 54,747 obs. of 5 variables:
 \describe{
   \code{Date }{Date for projection}
-  
+
   \code{Haddam }{Daily temperature (C) at Haddam}
-  
+
   \code{Thompsonville }{Daily temperature (C) at Thompsonville}
 
   \code{Turners }{Daily temperature (C) at Turners Falls}
- 
+
   \code{avg}{Average daily temperature across sites}
 }
 }

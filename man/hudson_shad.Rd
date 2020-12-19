@@ -8,11 +8,11 @@
 A dataframe with 26,564 observations of 4 variables
 \describe{
   \code{samp_date }{Date fish was collected}
-  
+
   \code{Length }{Fork length, in mm}
-  
+
   \code{mass }{Mass of fish in grams}
-  
+
   \code{sex }{Sex of fish, `B` is buck (male) and `R`is roe (female)}
 }
 }

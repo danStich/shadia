@@ -3,13 +3,13 @@
 \docType{data}
 \name{pnr_proj85}
 \alias{pnr_proj85}
-\title{Projected daily river temperatures (RCP8.5) in 
+\title{Projected daily river temperatures (RCP8.5) in
 Penobscot River, USA}
 \format{
 A dataframe with 54,787 obs. of 5 variables:
 \describe{
   \code{Date }{Date for projection}
-  
+
   \code{Eddington_RCP85_temp }{Daily temperature (C) at Eddington}
 }
 }
@@ -21,7 +21,7 @@ pnr_proj85
 }
 \description{
 Daily project temperatures in the Penobscot
-River, USA for years 1950-2099 under RCP8.5 based on 
+River, USA for years 1950-2099 under RCP8.5 based on
 historical temperatures from the USGS gauge at Eddington.
 }
 \keyword{datasets}
