@@ -7,7 +7,7 @@
 getMaturity(region)
 }
 \arguments{
-\item{region}{Life-history region (one of `Semelparous`, 
+\item{region}{Life-history region (one of `Semelparous`,
 `Southern Iteroparous` or `Northern Iteroparous`).}
 }
 \description{

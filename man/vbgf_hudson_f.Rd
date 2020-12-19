@@ -16,7 +16,7 @@ New York State Department of Environmental Conservation, unpublished data
 vbgf_hudson_f
 }
 \description{
-Posterior distributions for parameters of a 
+Posterior distributions for parameters of a
 female-only von Bertalanffy growth function for blueback herring
 in the Hudson River, NY, USA.
 }

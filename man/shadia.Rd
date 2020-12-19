@@ -65,7 +65,7 @@ transparency in the model.
 \section{Data}{
 
   \describe{
-    
+
   }
 }
 

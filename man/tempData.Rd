@@ -3,21 +3,21 @@
 \docType{data}
 \name{tempData}
 \alias{tempData}
-\title{Penobscot River temperatures, 
+\title{Penobscot River temperatures,
 Eddington, ME, USA}
 \format{
 A data frame with 13265 obs. of 6 variables
 \describe{
   \code{staid }{USGS Station ID}
-  
+
   \code{val }{Temperature in degrees celcius}
-  
+
   \code{dates }{Date of temperature observation}
-  
+
   \code{qualcode }{Qualification code}
-  
+
   \code{year }{Year of temperature observation}
-  
+
   \code{day }{Ordinal date}
 }
 }
@@ -28,7 +28,7 @@ U.S. Geological Survey
 tempData
 }
 \description{
-Temperature data for 
+Temperature data for
 Penobscot River, Eddington, ME, USA
 }
 \keyword{datasets}

@@ -8,9 +8,9 @@ processPopulation(isFemale, isEgg = FALSE)
 }
 \description{
 A function that uses \code{\link{createPUMatrix}},
-\code{\link{assignFishToRoutes}}, and 
-\code{\link{additionalEggsProcessing}} to return the 
-number of fish in each cohort in each PU prior to 
+\code{\link{assignFishToRoutes}}, and
+\code{\link{additionalEggsProcessing}} to return the
+number of fish in each cohort in each PU prior to
 application of annual mortality rates and downstream
 migration.  Called by \code{\link{processCohorts}}.
 Not intended to be called directly. Visible for

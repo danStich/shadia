@@ -1,126 +1,127 @@
 # Parallel execution on a local cluster
-\dontrun{
-  
-# R snowfall example
+# \dontrun{
 
 # Load R packages
-  library(snowfall)
-  library(rlecuyer)
-  library(shadia)
-  library(plyr)
+library(snowfall)
+library(rlecuyer)
+library(shadia)
+library(tidyverse)
 
-# 1. Initialization of snowfall.
-# Initialize parallel mode using sockets and
-# command-line args
-sfInit(parallel=TRUE, cpus=3, type="SOCK")
+# Initialize parallel socket cluster
+sfInit(parallel = TRUE, cpus = 7, type = "SOCK")
 
-# Display information about nodes and processes
-# used by this job. This is entirely optional,
-# to demonstrate snowfall methods sfClusterCall()
-# and sfCpus().
+# Define a model run as a function
+model <- function(x) {
+  times <- c(1, 3, 7, 20)
+  timex <- sample(times, 1)
 
-# Describe the nodes and cpus:
-cat(paste0('CPU count: ', sfCpus()), fill=TRUE)
+  upstream <- sample(c(.7, .8, 0.9, 1), 1)
+  downstream <- 1
+  downstream_juv <- 0.95
 
-# Count off each process with anonymous function
-cat('CPU ids: ', unlist(sfClusterCall(function() Sys.getpid())), fill=TRUE)
-
-# 2. Load data. 
-# -----
-data('tempData_kennebec')
-
-# 3. Define wrapper function, which can be called in parallel.
-#
-#   Runs penobscotRiverModel on each worker
-#
-#   Here, workerId just contains the identity of the cpu that perfomed
-#   the work. We do this only to prove we have used all the specified cpus!
-#   Ideally, we will minimize the data sent to (and returned from) the workers.
-#
-#   Note that constructing and returning a list enables the function to
-#   return more than one output.
-
-wrapper <- function(idx) {
-
-  # Get cpu ids  
-    workerId <- paste(Sys.info()[['nodename']],
-                      Sys.getpid(),
-                      sep='-'
-                      )
-  
   # Run the model
-  res1 <- kennebecRiverModel(
-          nRuns = 1,
-          nYears = 40,
-          timing = list(1,1,1,1,1,1),
-          upstream = list(
-            lockwood = 1,
-            hydroken = 1,
-            shawmut = 1,
-            weston = 1,
-            benton = 1,
-            burnham = 1
-          ),
-          downstream = list(
-            lockwood = 1,
-            hydroken = 1,
-            shawmut = 1,
-            weston = 1,
-            benton = 1,
-            burnham = 1
-          ),
-          inRiverF = 0,
-          commercialF = 0,
-          bycatchF = 0,
-          indirect = 1,
-          latent = 1,
-          watershed = TRUE
+  sim <- kennebecRiverModel(
+    nRuns = 1,
+    species = "blueback",
+    nYears = 40,
+    n_adults = 1e4,
+    timing = rep(timex, 6),
+    p_sebasticook = rbeta(1, 25, 100),
+    upstream = list(
+      lockwood = upstream,
+      hydroken = 1,
+      shawmut = 1,
+      weston = 1,
+      benton = 1,
+      burnham = 1
+    ),
+    downstream = list(
+      lockwood = downstream,
+      hydroken = 1,
+      shawmut = 1,
+      weston = 1,
+      benton = 1,
+      burnham = 1
+    ),
+    downstream_juv = list(
+      lockwood = downstream_juv,
+      hydroken = 1,
+      shawmut = 1,
+      weston = 1,
+      benton = 1,
+      burnham = 1
+    ),
+
+    inRiverF = 0,
+    commercialF = 0,
+    bycatchF = 0,
+    indirect = 1,
+    latent = 1,
+    watershed = TRUE,
+    k_method = "cumulative",
+    sensitivity = FALSE
   )
-  
-  # Define the output lists
-      retlist <- list(
-        worker=workerId,
-        sim=res1)       
-      return(retlist)
+
+  # Output
+  return(sim)
 }
 
-# 4. Export needed data to workers 
-#    load required packages on workers.
-  sfLibrary(shadia)
+# Export  libraries or data to workers
+sfLibrary(shadia)
 
-# 5. Start network random number generator 
-#    (as "sample" uses random numbers).
-#    sfClusterSetupRNG()
+# Distribute calculation to workers
+niterations <- 200
 
-# 6. Distribute calculation to workers
-  niterations <- 10
-  start <- Sys.time()
+# Use sfLapply() to distribute simulations to workers
+# and run the model with these settings in parallel
+result <- sfLapply(1:niterations, model)
 
-  # Use sfLapply() function to send wrapper() to the workers:
-    result <- sfLapply(1:niterations, wrapper) 
-    
-# 7. Stop snowfall
-  Sys.time()-start  
-  sfStop()
-
-# 8. Examine the results returned from the cluster:
-
-# 'result' is a list of lists. Save this:
-# save(result, file = "snowfall-result.rda")
-
-# Extract results list from output list
-  out <- lapply(result, function(x) x[[c('sim')]])
+# Stop snowfall
+Sys.time() - start
 
 # Extract user inputs and population metrics
-  res <- lapply(out, function(x) x[[c('res')]])
-  resdf <- do.call(rbind, res)
+resdf <- do.call(rbind, result)
 
-# Extract sensitivity variables
-  sens <- lapply(out, function(x) x[[c('sens')]])
-  sensdf <- do.call(rbind, sens)
+# . Abundance at mouth ----
+library(tidyverse)
+plotter <- resdf %>%
+  group_by(year, timing_lockwood, lockwood_us) %>%
+  summarize(
+    pop = mean(populationSize),
+    lci = CI(populationSize)[1],
+    uci = CI(populationSize)[2],
+    .groups = "keep"
+  )
 
-# Have a look at result  
-  plotter <- ddply(resdf, 'year', summarize,
-                   mu=mean(populationSize))
-  plot(plotter$year, plotter$mu, type = 'l')
-}
+ggplot(
+  plotter,
+  aes(
+    x = year, y = pop,
+    fill = factor(lockwood_us),
+    color = factor(lockwood_us)
+  )
+) +
+  geom_line(lwd = 1) +
+  geom_ribbon(
+    aes(x = year, ymin = lci, ymax = uci, color = NULL),
+    alpha = 0.15
+  ) +
+  xlab("Year") +
+  ylab("Millions of spawners") +
+  labs(
+    fill = "Upstream passage",
+    color = "Upstream passage"
+  ) +
+  scale_y_continuous(
+    breaks = seq(0, 10e7, .5e6),
+    labels = format(seq(0, 100, 0.5), digits = 2)
+  ) +
+  theme_bw() +
+  theme(
+    axis.title.x = element_text(vjust = -1),
+    axis.title.y = element_text(vjust = 3),
+    legend.position = "top"
+  ) +
+  facet_wrap(~timing_lockwood)
+
+# }

@@ -1,120 +1,120 @@
 # Parallel execution on a local cluster
 \dontrun{
-  
-# R snowfall example
 
 # Load R packages
-  library(snowfall)
-  library(rlecuyer)
-  library(shadia)
+library(snowfall)
+library(rlecuyer)
+library(shadia)
+library(tidyverse)
 
-# 1. Initialization of snowfall.
-# Initialize parallel mode using sockets and
-# command-line args
-  sfInit(parallel=TRUE, cpus=3, type="SOCK")
+# Initialize parallel socket cluster
+sfInit(parallel = TRUE, cpus = 7, type = "SOCK")
 
-# Display information about nodes and processes
-# used by this job. This is entirely optional,
-# to demonstrate snowfall methods sfClusterCall()
-# and sfCpus().
+# Define a model run as a function
+model <- function(x) {
+  times <- c(1, 3, 7, 20)
+  timex <- sample(times, 1)
 
-# Describe the nodes and cpus:
-  cat(paste0('CPU count: ', sfCpus()), fill=TRUE)
-
-# Count off each process with anonymous function
-  cat('CPU ids: ', unlist(sfClusterCall(function() Sys.getpid())), fill=TRUE)
-
-# 2. Load data. 
-  data('fish')
-  data('arr.B')
-  data('arr.R')
-  data('b.parms_merrimack')
-  data('r.parms_merrimack')
-  data('tempD')
-  data('tempData_merrimack')
-
-# 3. Define wrapper function, which can be called in parallel.
-#
-#   Runs merrimackRiverModel() on each worker
-#
-#   Here, workerId just contains the identity of the cpu that perfomed
-#   the work. We do this only to prove we have used all the specified cpus!
-#   Ideally, we will minimize the data sent to (and returned from) the workers.
-#
-#   Note that constructing and returning a list enables the function to
-#   return more than one output.
-wrapper <- function(idx) {
-
-  # Get cpu ids  
-    workerId <- paste(Sys.info()[['nodename']],
-                      Sys.getpid(),
-                      sep='-'
-                      )
+  upstream <- sample(c(.7, .8, 0.9, 1), 1)
+  downstream <- 1
 
   # Run the model
-    res1 <- merrimackRiverModel(
-      nYears = 50,
-      upstream = list(
-        essex = seq(0, 1, 0.10),
-        pawtucketBypass = seq(0, 1, 0.10),
-        pawtucket = seq(0, 1, 0.10),
-        amoskeag = seq(0, 1, 0.10),
-        hookset = seq(0, 1, 0.10)
-      ),
-      downstream = list(
-        essex = seq(0, 1, 0.10),
-        pawtucketBypass = seq(0, 1, 0.10),                              
-        pawtucket = seq(0, 1, 0.10),
-        amoskeag = seq(0, 1, 0.10),
-        hookset = seq(0, 1, 0.10)
-      )
-    )
-  
-  # Define the output lists
-      retlist <- list(
-        worker=workerId,
-        sim=res1)       
-      return(retlist)
+  sim <- merrimackRiverModel(
+    nRuns = 1,
+    species = "shad",
+    nYears = 50,
+    timing = rep(timex, 6),
+    upstream = list(
+      essex = upstream,
+      pawtucketBypass = 1,
+      pawtucket = 1,
+      amoskeag = 1,
+      hookset = 1
+    ),
+    downstream = list(
+      essex = downstream,
+      pawtucketBypass = 1,
+      pawtucket = 1,
+      amoskeag = 1,
+      hookset = 1
+    ),
+    downstream_juv = list(
+      essex = downstream,
+      pawtucketBypass = 1,
+      pawtucket = 1,
+      amoskeag = 1,
+      hookset = 1
+    ),
+    pBypassUp = 1,
+    pBypassD = 1,
+    inRiverF = 0,
+    commercialF = 0,
+    bycatchF = 0,
+    indirect = 1,
+    latent = 1,
+    watershed = TRUE
+  )
+
+  # Output
+  return(sim)
 }
 
-# 4. Export needed data to workers 
-#    load required packages on workers.
-  sfLibrary(shadia)
+# Export  libraries or data to workers
+sfLibrary(shadia)
 
-# 5. Start network random number generator 
-#    (as "sample" uses random numbers).
-#    sfClusterSetupRNG()
+# Distribute calculation to workers
+niterations <- 200
 
-# 6. Distribute calculation to workers
-  niterations <- 10
-  start <- Sys.time()
+# Use sfLapply() to distribute simulations to workers
+# and run the model with these settings in parallel
+result <- sfLapply(1:niterations, model)
 
-  # Use sfLapply() function to send wrapper() to the workers:
-    result <- sfLapply(1:niterations, wrapper) 
-    
-# 7. Stop snowfall
-  Sys.time()-start  
-  sfStop()
-
-# 8. Examine the results returned from the cluster:
-
-# 'result' is a list of lists. Save this:
-# save(result, file = "snowfall-result.rda")
-
-# Extract results list from output list
-  out <- lapply(result, function(x) x[[c('sim')]])
+# Stop snowfall
+Sys.time() - start
 
 # Extract user inputs and population metrics
-  res <- lapply(out, function(x) x[[c('res')]])
-  resdf <- do.call(rbind, res)
+resdf <- do.call(rbind, result)
 
-# Extract sensitivity variables
-  sens <- lapply(out, function(x) x[[c('sens')]])
-  sensdf <- do.call(rbind, sens)
+# . Abundance at mouth ----
+library(tidyverse)
+plotter <- resdf %>%
+  group_by(year, timing_essex, essex_us) %>%
+  summarize(
+    pop = mean(populationSize),
+    lci = CI(populationSize)[1],
+    uci = CI(populationSize)[2],
+    .groups = "keep"
+  )
 
-# Have a look at result  
-  plotter <- ddply(resdf, 'year', summarize,
-                   mu=mean(populationSize))
-  plot(plotter$year, plotter$mu, type = 'l')
+ggplot(
+  plotter,
+  aes(
+    x = year, y = pop,
+    fill = factor(essex_us),
+    color = factor(essex_us)
+  )
+) +
+  geom_line(lwd = 1) +
+  geom_ribbon(
+    aes(x = year, ymin = lci, ymax = uci, color = NULL),
+    alpha = 0.15
+  ) +
+  xlab("Year") +
+  ylab("Millions of spawners") +
+  labs(
+    fill = "Upstream passage",
+    color = "Upstream passage"
+  ) +
+  scale_y_continuous(
+    breaks = seq(0, 10e7, .5e6),
+    labels = format(seq(0, 100, 0.5), digits = 2)
+  ) +
+  theme_bw() +
+  theme(
+    axis.title.x = element_text(vjust = -1),
+    axis.title.y = element_text(vjust = 3),
+    legend.position = "top"
+  ) +
+  facet_wrap(~timing_essex)
 
 }

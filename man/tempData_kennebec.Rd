@@ -8,13 +8,13 @@
 A data frame with 362168 observations of 5 variables
 \describe{
   \code{staid }{Site ID in watershed}
-  
+
   \code{dates }{Date of temperature observation}
-  
+
   \code{year }{Year of temperature observation}
-  
+
   \code{day }{Ordinal date}
-  
+
   \code{val }{Bottom temperature in degrees celcius}
 }
 }
@@ -25,8 +25,8 @@ Maine Department of Marine Resources, SHEDS Stream Temperature Database
 tempData_kennebec
 }
 \description{
-Temperature data from 
-various monitoring sites in the 
+Temperature data from
+various monitoring sites in the
 Kennebec River, Maine, USA.
 }
 \keyword{datasets}

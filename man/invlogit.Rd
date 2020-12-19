@@ -13,12 +13,11 @@ invlogit(x)
 A numeric vector on the probability scale [0, 1].
 }
 \description{
-A function for back-transformation 
+A function for back-transformation
 of variables from the logit scale.
 }
 \examples{
 
 x <- rnorm(1e3, 0, 1)
 invlogit(x)
-
 }

@@ -7,7 +7,7 @@
 simDailyTemperatures(mu, climate, river, current_year, n)
 }
 \arguments{
-\item{mu}{a dataframe with columns `val`, `year`, and `day` created 
+\item{mu}{a dataframe with columns `val`, `year`, and `day` created
 from setUpTemperatureData() within riverModel() functions. Used to
 simulate new daily temperature observations if `climate == current` in
 the model call, else temperatures are retrieved from climate projections

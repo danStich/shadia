@@ -20,6 +20,5 @@ is not exact match to `adults`.
 \examples{
 test <- simStartingPop(1e4, 13, 0.45)
 sum(test$spawningPool)
-plot(test$spawningPool, type='l')
-
+plot(test$spawningPool, type = "l")
 }

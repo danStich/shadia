@@ -12,16 +12,16 @@ of simultaneously estimated VBGF parameters (as a random draw
 from fitted model posteriors).
 }
 \description{
-Internal function used to simulate 
+Internal function used to simulate
 sex-specific length at age from sex-specific
 von Bertalanffy growth functions (VBGF) incorporating
 effect of sst on VBGF parameters L-infinity and K.
 }
 \details{
 This function relies on model estimated VBGF parameters
-from the 2020 Atlantic States Marine Fishery Commission 
-American shad stock assessment. The VBGF was fit using SST as a 
-continuous predictor of parameters Linf and K in the model. We 
+from the 2020 Atlantic States Marine Fishery Commission
+American shad stock assessment. The VBGF was fit using SST as a
+continuous predictor of parameters Linf and K in the model. We
 use these relationships to predict new values of Linf and K from
 projected sea surface temperatures with stored posteriors from
 built-in, sex-specific data sets containing VBGF parameters.

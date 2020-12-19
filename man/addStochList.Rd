@@ -25,4 +25,10 @@ it is just list multiplication with a different name.
 }
 \examples{
 
+# x <- list(
+#   runif(10, 1, 10),
+#   runif(10, 10, 20)
+# )
+#
+# addStochList(x, runif(1, 0, 1))
 }

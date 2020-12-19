@@ -13,8 +13,8 @@ and spawning/recruitment pools.
 }
 \description{
 Internal function for creating a starting
-population of fish for each iteration. 
+population of fish for each iteration.
 
-Not intended to be called directly, but visible 
+Not intended to be called directly, but visible
 for the sake of model transparency.
 }

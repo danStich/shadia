@@ -8,7 +8,7 @@
 A list of 1000 matrices with named dimensions
 \describe{
   \code{dim1 }{Intercept, slope}
-  
+
   \code{dim2 }{Estimate, Std Error, t statistic, and p-value}
 }
 }

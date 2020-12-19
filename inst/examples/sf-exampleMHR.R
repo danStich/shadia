@@ -14,7 +14,7 @@ sfInit(parallel = TRUE, cpus = 7, type = "SOCK")
 model <- function(x) {
 
   # Run the model
-  sim <- susquehannaRiverModel(nYears = 40, species = "shad")
+  sim <- mohawkHudsonRiverModel(nYears = 40, species = "blueback")
 
   # Output
   return(sim)

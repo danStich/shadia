@@ -7,8 +7,8 @@
 simTemperature(mu)
 }
 \value{
-A list containing 1) a matrix of projected 
-temperatures for the number of years specified (predTemps), 
+A list containing 1) a matrix of projected
+temperatures for the number of years specified (predTemps),
 and 2) a matrix of accumulated thermal units (ATU) for
 corresponding days.
 }

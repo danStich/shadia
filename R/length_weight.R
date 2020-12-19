@@ -9,15 +9,15 @@
 #'
 #' @format A data frame with 6 observations of 4 variables:
 #' \describe{
-#' 
+#'
 #' \code{region}{ Life-history region}
-#' 
+#'
 #' \code{sex}{ Fish sex (gender)}
-#' 
+#'
 #' \code{alpha}{ Intercept}
-#' 
+#'
 #' \code{beta}{ Slope}
 #' }
-#' 
+#'
 #' @source Atlantic States Marine Fisheries Commission
 "length_weight"

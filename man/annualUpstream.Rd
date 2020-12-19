@@ -10,18 +10,18 @@ annualUpstream(river, damRkms)
 \item{NULL}{}
 }
 \value{
-A named list of objects used for the annual 
-upstream migration model, including 1) upstream dam 
-passage efficiencies for each of the four possible 
-migration routes (list), 2) probability of using the 
+A named list of objects used for the annual
+upstream migration model, including 1) upstream dam
+passage efficiencies for each of the four possible
+migration routes (list), 2) probability of using the
 mainstem Penobscot River around Marsh Island (vector),
-3) the probability of using the mainstem Penobscot 
+3) the probability of using the mainstem Penobscot
 River during downstream migration (vector), and
 4) probability of using the mainstem Penobscot River
 at the confluence with the Piscataquis River (vector).
 }
 \description{
-A helper function used to define upstream passage efficiencies 
+A helper function used to define upstream passage efficiencies
 and routes based on stochastic variables and user-defined
 inputs to \code{\link{penobscotRiverModel}}, as well as
 the probability of using the mainstem Penobscot River

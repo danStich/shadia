@@ -12,8 +12,8 @@ and progress monitoring.
 }
 \description{
 Internal function for setting testing parameters
-and environment variables. 
+and environment variables.
 
-Not intended to be called directly, but visible 
+Not intended to be called directly, but visible
 for transparency.
 }

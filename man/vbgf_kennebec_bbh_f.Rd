@@ -16,7 +16,7 @@ Maine Department of Marine Resources, unpublished
 vbgf_kennebec_bbh_f
 }
 \description{
-Posterior distributions for parameters of a 
+Posterior distributions for parameters of a
 female-only von Bertalanffy growth function for blueback herring
 in the Kennebec River, Maine, USA.
 }

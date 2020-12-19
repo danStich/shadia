@@ -7,10 +7,10 @@
 defineHydroSystem(river)
 }
 \value{
-A list of values related to the hydro system, 
-including 1) the number of migration routes, 2) number of 
+A list of values related to the hydro system,
+including 1) the number of migration routes, 2) number of
 dams, 3) number of production units delineated by dams,
-4) the upstream extent to habitat in river kilometers (rkm), 
+4) the upstream extent to habitat in river kilometers (rkm),
 and 5) the locations of dams in rkm.
 }
 \description{

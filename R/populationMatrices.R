@@ -10,21 +10,20 @@
 #'
 #' @export
 #'
-populationMatrices <- function(){
+populationMatrices <- function() {
 
   # Get combos of puNames and age classes in all PUs
   # and assign them to an object
-  for(i in 1:nRoutes){
-    assign(paste0('x_', i), expand.grid(.shadia$puNames[[i]], seq(1, maxAge, 1)))
+  for (i in 1:nRoutes) {
+    assign(paste0("x_", i), expand.grid(.shadia$puNames[[i]], seq(1, maxAge, 1)))
   }
 
   # Assign dynamically created objects to list
-  outlist <- mget(paste0('x_', 1:nRoutes))
-  outlist <- lapply(outlist, setNames, c('pus', 'fishAges'))
+  outlist <- mget(paste0("x_", 1:nRoutes))
+  outlist <- lapply(outlist, setNames, c("pus", "fishAges"))
 
   # Return statement
   return(
     outlist
-    )
-
+  )
 }

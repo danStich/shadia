@@ -9,9 +9,9 @@ setScalar(spawningPool)
 \description{
 Internal function for setting the
 value of the population scalar that is used to
-dynamically adjust population size to avoid 
+dynamically adjust population size to avoid
 computational overflow.
 
-Not intended to be called directly, but visible 
+Not intended to be called directly, but visible
 for transparency.
 }

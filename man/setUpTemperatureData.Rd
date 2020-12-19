@@ -11,15 +11,15 @@ A list of generic parameters for code benchmarking
 and progress monitoring.
 }
 \description{
-Internal functions for manipulations to 
+Internal functions for manipulations to
 empirical data used as inputs, and for fitting of
 empirical relationships (e.g. discharge regressions).
 
-Not intended to be called directly, but visible 
+Not intended to be called directly, but visible
 for transparency.
 }
 \details{
-Have retained data manipulation to retain 
+Have retained data manipulation to retain
 integrity of raw data files in built-in data sets and
 provide transparency in methods.
 }
