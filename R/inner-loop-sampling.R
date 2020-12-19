@@ -496,7 +496,7 @@ if(river=='connecticut'){
                   ppPenalty[[1]],
                   rkm1[upstream_path == 1],
                   rkm2[upstream_path == 1, , drop = FALSE],
-                  c_end[upstream_path == 1])
+                  c_initial[upstream_path == 1])
   # Canal
   moves_2 <- moveC(day,
                   c_entryDate[upstream_path == 2],
@@ -505,7 +505,7 @@ if(river=='connecticut'){
                   ppPenalty[[2]],
                   rkm1[upstream_path == 2],
                   rkm2[upstream_path == 2,  , drop = FALSE],
-                  c_end[upstream_path == 2])
+                  c_initial[upstream_path == 2])
 }
 
 if(river=='susquehanna'){
@@ -517,7 +517,7 @@ if(river=='susquehanna'){
                   ppPenalty[[1]],
                   rkm1[upstream_path == 1],
                   rkm2[upstream_path == 1, , drop = FALSE],
-                  c_end[upstream_path == 1])
+                  c_initial[upstream_path == 1])
   # West Branch
   moves_2 <- moveC(day,
                   c_entryDate[upstream_path == 2],
@@ -526,7 +526,7 @@ if(river=='susquehanna'){
                   ppPenalty[[2]],
                   rkm1[upstream_path == 2],
                   rkm2[upstream_path == 2,  , drop = FALSE],
-                  c_end[upstream_path == 2])
+                  c_initial[upstream_path == 2])
   # Chemung
   moves_3 <- moveC(day,
                   c_entryDate[upstream_path == 3],
@@ -535,7 +535,7 @@ if(river=='susquehanna'){
                   ppPenalty[[3]],
                   rkm1[upstream_path == 3],
                   rkm2[upstream_path == 3,  , drop = FALSE],
-                  c_end[upstream_path == 3])
+                  c_initial[upstream_path == 3])
   # North Branch
   moves_4 <- moveC(day,
                   c_entryDate[upstream_path == 4],
@@ -544,7 +544,7 @@ if(river=='susquehanna'){
                   ppPenalty[[4]],
                   rkm1[upstream_path == 4],
                   rkm2[upstream_path == 4, , drop = FALSE],
-                  c_end[upstream_path == 4])  
+                  c_initial[upstream_path == 4])  
 }  
 
 if(river=='saco'){
@@ -589,7 +589,7 @@ if(river=='hudson'){
                   ppPenalty[[1]],
                   rkm1[upstream_path == 1],
                   rkm2[upstream_path == 1, , drop = FALSE],
-                  c_end[upstream_path == 1])
+                  c_initial[upstream_path == 1])
   # Run the ABM for mohawk route
   moves_2 <- moveC(day,
                   c_entryDate[upstream_path == 2],
@@ -598,7 +598,7 @@ if(river=='hudson'){
                   ppPenalty[[2]],
                   rkm1[upstream_path == 2],
                   rkm2[upstream_path == 2,  , drop = FALSE],
-                  c_end[upstream_path == 2])
+                  c_initial[upstream_path == 2])
 }  
   
 ### DSS: WANT TO COMMENT OUT BECAUSE THIS IS
