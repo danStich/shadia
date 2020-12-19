@@ -1,120 +1,92 @@
 # Parallel execution on a local cluster
 \dontrun{
-  
-# R snowfall example
 
 # Load R packages
   library(snowfall)
   library(rlecuyer)
   library(shadia)
-  library(plyr)
+  library(tidyverse)
 
-# 1. Initialization of snowfall.
-# Initialize parallel mode using sockets
-  sfInit(parallel=TRUE, cpus=3, type="SOCK")
+# Initialize parallel socket cluster
+  sfInit(parallel=TRUE, cpus=7, type="SOCK")
 
-# Display information about nodes and processes
-# used by this job. This is entirely optional,
-# to demonstrate snowfall methods sfClusterCall()
-# and sfCpus().
+# Define a model run as a function
+  model <- function(x) {
 
-# Describe the nodes and cpus:
-cat(paste0('CPU count: ', sfCpus()), fill=TRUE)
-
-# Count off each process with anonymous function
-cat('CPU ids: ', unlist(sfClusterCall(function() Sys.getpid())), fill=TRUE)
-
-# 2. Load data. 
-data('fish')
-data('arr.B')
-data('arr.R')
-data('b.parms')
-data('r.parms')
-data('tempD')
-data('tempData_connecticut')
-
-# 3. Define wrapper function, which can be called in parallel.
-#
-#   Runs connecticutRiverModel() on each worker
-#
-#   Here, workerId just contains the identity of the cpu that perfomed
-#   the work. We do this only to prove we have used all the specified cpus!
-#   Ideally, we will minimize the data sent to (and returned from) the workers.
-#
-#   Note that constructing and returning a list enables the function to
-#   return more than one output.
-wrapper <- function(idx) {
-
-# Get cpu ids  
-  workerId <- paste(Sys.info()[['nodename']],
-                    Sys.getpid(),
-                    sep='-'
-                    )
-
-# Run the model
-  res1 <- connecticutRiverModel(
-    nYears = 40,
-    upstream = list(
-      holyoke = seq(0, 1, 0.10),
-      cabot = seq(0, 1, 0.10),
-      spillway = seq(0, 1, 0.10),
-      gatehouse = seq(0, 1, 0.10),
-      vernon = seq(0, 1, 0.10)
-    ),
-    downstream = list(
-      holyoke = seq(0, 1, 0.10),
-      cabot = seq(0, 1, 0.10),
-      gatehouse = seq(0, 1, 0.10),
-      vernon = seq(0, 1, 0.10)
-    ),
-    pSpillway = 1
-    )
-
-# Define the output lists
-    retlist <- list(
-      worker=workerId,
-      sim=res1)       
-    return(retlist)
+  # Run the model
+    sim <- connecticutRiverModel(
+      nYears = 40,
+      upstream = list(
+        holyoke = 1,
+        cabot = 1,
+        spillway = 1,
+        gatehouse = 1,
+        vernon = 1
+        ),
+      downstream = list(
+        holyoke = 0.80,
+        cabot = 0.80,
+        gatehouse = 0.80,
+        vernon = 0.80
+      ),
+      downstream_juv = list(
+        holyoke = 0.95,
+        cabot = 0.95,
+        gatehouse = 0.95,
+        vernon = 0.95
+      ),
+      pSpillway = 1
+      )
+  
+  # Output
+    return(sim)
 }
 
-# 4. Export needed data to workers 
-#    load required packages on workers.
+# Export  libraries or data to workers
   sfLibrary(shadia)
 
-# 5. Start network random number generator 
-#    (as "sample" uses random numbers).
-#    sfClusterSetupRNG()
+# Distribute calculation to workers
+  niterations <- 30
 
-# 6. Distribute calculation to workers
-  niterations <- 10
-  start <- Sys.time()
-
-  # Use sfLapply() function to send wrapper() to the workers:
-    result <- sfLapply(1:niterations, wrapper) 
-    
-# 7. Stop snowfall
-  Sys.time()-start  
-  sfStop()
-
-# 8. Examine the results returned from the cluster:
-
-# 'result' is a list of lists. Save this:
-# save(result, file = "snowfall-result.rda")
-
-# Extract results list from output list
-  out <- lapply(result, function(x) x[[c('sim')]])
+# Use sfLapply() to distribute simulations to workers
+# and run the model with these settings in parallel
+  result <- sfLapply(1:niterations, model) 
+  
+# Stop snowfall
+  Sys.time() - start  
 
 # Extract user inputs and population metrics
-  res <- lapply(out, function(x) x[[c('res')]])
-  resdf <- do.call(rbind, res)
+  resdf <- do.call(rbind, result)
 
-# Extract sensitivity variables
-  sens <- lapply(out, function(x) x[[c('sens')]])
-  sensdf <- do.call(rbind, sens)
-
-# Have a look at result  
-  plotter <- ddply(resdf, 'year', summarize,
-                   mu=mean(populationSize))
-  plot(plotter$year, plotter$mu, type = 'l')
+# Summarize by year and passage combinations  
+  plotter <- resdf %>%
+    group_by(timing_holyoke, holyoke_us, holyoke_ds, holyoke_dsj, year) %>%
+    summarize(pop = mean(populationSize),
+              lci = quantile(populationSize, 0.025),
+              uci = quantile(populationSize, 0.975)
+              )
+  
+# Make a plot  
+  ggplot(plotter, 
+         aes(x = year, y = pop,
+             fill = factor(holyoke_us),
+             color = factor(holyoke_us)
+             )) +
+    geom_line(lwd = 1) +
+    geom_ribbon(
+      aes(x = year, ymin = lci, ymax = uci, color = NULL), alpha = 0.15) +
+    xlab("Year") +
+    ylab("Millions of spawners") +
+    labs(fill = "Upstream passage", color = "Upstream passage") +
+    scale_y_continuous(breaks = seq(0,10e7,1e6),
+                       labels = format(seq(0, 100, 1), digits=1)) +
+    theme_bw() +
+    theme(
+      axis.title.x = element_text(vjust = -1), 
+      axis.title.y = element_text(vjust = 3),
+      legend.position = "top"
+    ) +
+    facet_wrap(~timing_holyoke)  
+    
 
 }
