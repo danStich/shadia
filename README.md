@@ -2,9 +2,9 @@
 Package containing functions and data for American shad population modeling (click [here](https://shadia-ui.github.io/index.html) for project website).
 
 ## Note
-This is the developement version of the `shadia` package for R. This package is under continual development at this time, as it is part of ongoing research. For that reason, it is important to correspond with package developers before using the dam passage performance standard models in decision making or research. 
+This is the developement version of the `shadia` package for R (shadia v2.0). This package is under continual development at this time, as it is part of ongoing research and management. For that reason, it is important to correspond with package developers before using the dam passage performance standard models in decision making or research. 
 
-Frozen (stable) versions of the software are provided for consistency during dam relisencing studies and reproducibility of research through the [`shadia` website](https://shadia-ui.github.io/index.html). The site now also provides up-to-date information about the status of all [models](https://shadia-ui.github.io/models.html)!
+Frozen (stable) versions of the software are provided for consistency during dam relisencing studies and reproducibility of research through the [`shadia` website](https://shadia-ui.github.io/index.html). The site now also provides up-to-date information about the status of all [models](https://shadia-ui.github.io/models.html).
 
 Please check regularly for updates, changes, and bug patches. Please submit issues directly to this repository using the links above.
 
@@ -21,7 +21,7 @@ To install `shadia`, you will need to have `devtools` installed ahead of time in
  
 ## Use
 
-The purpose of this package is to distribute code used to run the American shad dam passage performance standard model. Currently, the model is implemented for the **Connecticut**, **Kennebec**, **Merrimack**, **Mohawk and Hudson**, **Penobscot**, **Saco**, and **Susquehanna** rivers, USA, but we are actively adding new rivers. 
+The purpose of this package is to distribute code used to run dam passage performance standard models for anadromous alosines (shad and herring). Currently, the model is implemented for the **Connecticut**, **Kennebec**, **Merrimack**, **Mohawk and Hudson**, **Penobscot**, **Saco**, and **Susquehanna** rivers, USA, but we are actively adding new rivers. 
 
 The main package functions can be run without any arguments to estimate population abundance in various reaches or in whole rivers under 'no dam' passage scenarios (see [examples](https://shadia-ui.github.io/examples.html)). Alternatively, the user can pass one or more values for upstream and downstream fish passage at a given dam which can then be applied throughout the watershed, or separately at each dam. Outputs include population abundance of spawners in the watersheds, within specific production units of each river, and the proportion of repeat spawners in each age class.
 
