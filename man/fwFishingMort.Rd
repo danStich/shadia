@@ -4,10 +4,10 @@
 \alias{fwFishingMort}
 \title{Assign freshwater fishing mortality}
 \usage{
-fwFishingMort()
+fwFishingMort(inRiverF, river, nRoutes)
 }
 \description{
-Internal function used to assign 
+Internal function used to assign
 freshwater fishing mortality for each PU
 in each migration route as an annual rate.
 

@@ -8,17 +8,17 @@
 A data frame with 2919 obs. of 7 variables
 \describe{
   \code{staid }{USGS Station ID}
-  
+
   \code{val }{Temperature in degrees celcius}
-  
+
   \code{dates }{Date of measurement}
-  
+
   \code{qualcode }{Qualification code}
-  
+
   \code{year }{Year of temperature observation}
-  
+
   \code{day }{Ordinal date}
-  
+
   \code{ph }{Photoperiod, in hours}
 }
 }

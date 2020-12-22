@@ -155,7 +155,7 @@ NumericMatrix entryC(NumericVector entry_prob,
     int n = entry_prob.size();
 
     for(int i = 0; i < n; i++){
-            entryDate(_, i) = rbinom(x, 15, entry_prob[i]);
+            entryDate(_, i) = rbinom(x, 5, entry_prob[i]);
     }
 
     return entryDate;
@@ -168,10 +168,10 @@ NumericMatrix entryC(NumericVector entry_prob,
 NumericMatrix motivationPenaltyC(NumericVector eFFs, NumericVector newTU,
     NumericMatrix ppPenalty){
 
-    int n = ppPenalty.nrow();          //Iterator based on number of days
-    int m = ppPenalty.ncol();          //Iterator for number of rkm
+    int n = ppPenalty.nrow();       //Iterator based on number of days
+    int m = ppPenalty.ncol();       //Iterator for number of rkm
 
-    NumericMatrix penalty(n, m);          //Output container for adjusted passage
+    NumericMatrix penalty(n, m);    //Output container for adjusted passage
 
     for(int i=0; i < n; ++i){
         for(int t=0; t < m; ++t){

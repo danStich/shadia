@@ -8,7 +8,7 @@
 A list of 10000 matrices with named dimensions
 \describe{
   \code{dim1 }{Sinf, K, t0}
-  
+
   \code{dim2 }{Estimate, Std Error, t statistic, and p-value}
 }
 }

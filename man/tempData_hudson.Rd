@@ -8,15 +8,15 @@
 A data frame with 4787 observations of 5 variables
 \describe{
   \code{staid }{Site ID in watershed}
-  
+
   \code{val }{Temperature in degrees celcius}
-  
+
   \code{year }{Year of temperature observation}
 
   \code{dates }{Date of temperature observation}
-  
+
   \code{day }{Ordinal date}
-  
+
 }
 }
 \source{
@@ -26,8 +26,8 @@ US Geological Survey
 tempData_hudson
 }
 \description{
-Temperature data from 
-USGS gage 01359139 in the 
+Temperature data from
+USGS gage 01359139 in the
 Hudson River, NY, USA.
 }
 \keyword{datasets}

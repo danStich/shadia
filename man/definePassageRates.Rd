@@ -4,7 +4,7 @@
 \alias{definePassageRates}
 \title{Assign upstream and downstream passage efficiencies}
 \usage{
-definePassageRates()
+definePassageRates(river)
 }
 \value{
 A list of upstream and downstream dam passage
@@ -14,7 +14,7 @@ efficiencies at each dam in the hydro system.
 Internal function passing user-defined
 arguments from call to \code{\link{penobscotRiverModel}}
 and other river models
-to named objects used to define passage rates at 
+to named objects used to define passage rates at
 dam rkms in the individual-based migration model.
 
 Not intended to be called directly, but visible for

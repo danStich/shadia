@@ -8,15 +8,15 @@
 A dataframe with 19,946 observatoins of 6 variables
 \describe{
   \code{Sex }{Fish sex}
-  
+
   \code{Age }{Assigned age}
-  
+
   \code{Length }{Total length, in cm}
-  
+
   \code{yearCollected }{Year during which fish was collected}
-  
+
   \code{backCalculated }{Logical indicating whether or not Length observation was back-calculated}
-  
+
   \code{Mass }{Mass of fish, in g}
 }
 }

@@ -4,11 +4,11 @@
 \alias{innerLoopSampling}
 \title{Stochastic sampling of annual variables}
 \usage{
-innerLoopSampling()
+innerLoopSampling(habitat)
 }
 \description{
 Internal function used to perform all
-annually based stochastic sampling for the 
+annually based stochastic sampling for the
 individual-based upstream migration model.
 
 Not intended to be called directly, but visible

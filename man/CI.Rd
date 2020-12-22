@@ -19,6 +19,5 @@ intervals on an object.
 }
 \examples{
 
-CI(rnorm(n=1e3, 0, 1))
-
+CI(rnorm(n = 1e3, 0, 1))
 }

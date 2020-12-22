@@ -16,8 +16,11 @@ transparency in the model.
 
   \describe{
     \code{\link{connecticutRiverModel}} \cr
+    \code{\link{kennebecRiverModel}} \cr
     \code{\link{merrimackRiverModel}} \cr
+    \code{\link{mohawkHudsonRiverModel}} \cr
     \code{\link{penobscotRiverModel}} \cr
+    \code{\link{sacoRiverModel}} \cr
     \code{\link{susquehannaRiverModel}} \cr
     \code{\link{addStochList}} \cr
     \code{\link{CI}} \cr
@@ -62,7 +65,7 @@ transparency in the model.
 \section{Data}{
 
   \describe{
-    
+
   }
 }
 

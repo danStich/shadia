@@ -12,7 +12,7 @@ by simulated females, or the carrying capacity: whichever
 is smaller.
 }
 \description{
-Internal function used to sum number of eggs in each 
+Internal function used to sum number of eggs in each
 production unit from each of the four migration
 routes, and apply carrying capacity based on k_pus. In addition
 to cohort processing routines (hence the name). Not

@@ -1,30 +1,29 @@
 #' @title Processing for egg calculations
-#' 
-#' @description Internal function used to sum number of eggs in each 
+#'
+#' @description Internal function used to sum number of eggs in each
 #' production unit from each of the four migration
 #' routes, and apply carrying capacity based on k_pus. In addition
 #' to cohort processing routines (hence the name). Not
 #' intended to be called directly. Visible for the sake of
 #' model transparency.
-#' 
+#'
 #' @return List of number of eggs spawned in each production unit
 #' by simulated females, or the carrying capacity: whichever
 #' is smaller.
-#' 
+#'
 #' @export
-#' 
-additionalEggsProcessing <- function(fec){
-  
-  if(river=='penobscot'){
+#'
+additionalEggsProcessing <- function(fec) {
+  if (river == "penobscot") {
     # Calculate total number of eggs in each PU
-    fec2 <- vector(mode = 'list', length = length(fec))
+    fec2 <- vector(mode = "list", length = length(fec))
     for (i in 1:length(fec)) {
       fec2[[i]] <- mapply(sum, fec[[i]])
     }
     # Now sum all eggs from each of the shared PUs for all routes.  Put all
     # of the eggs from shared PUs into fec2[[min]] that shares the PU,
     # set all others to zero
-    fec2[[1]][1] <- fec2[[1]][1] + fec2[[2]][1] + fec2[[3]][1]  +
+    fec2[[1]][1] <- fec2[[1]][1] + fec2[[2]][1] + fec2[[3]][1] +
       fec2[[4]][1]
     fec2[[1]][2] <- fec2[[1]][2] + fec2[[2]][2]
     fec2[[1]][3] <- fec2[[1]][3] + fec2[[2]][3] + fec2[[3]][4] + fec2[[4]][4]
@@ -34,109 +33,129 @@ additionalEggsProcessing <- function(fec){
     fec2[[2]][c(1:3)] <- 0
     fec2[[3]][c(1:2, 4:8)] <- 0
     fec2[[4]][1:6] <- 0
-    
+
     # Apply carrying capacity limitation to each production unit based
     # on habitat availability
-    if(k_method == 'discrete'){
-    fec_Max <- vector(mode = 'list', length = length(fec))
+    if (k_method == "discrete") {
+      fec_Max <- vector(mode = "list", length = length(fec))
       for (i in 1:length(fec2)) {
         for (j in 1:length(fec2[[i]])) {
           if (fec2[[i]][j] > k_pus[[i]][j]) {
-            fec_Max[[i]][j] = k_pus[[i]][j]
+            fec_Max[[i]][j] <- k_pus[[i]][j]
           } else {
-            fec_Max[[i]][j] = fec2[[i]][j]
+            fec_Max[[i]][j] <- fec2[[i]][j]
           }
         }
       }
     }
-    
-  if(k_method == 'cumulative'){
-        
-    k_pus[[2]][c(1:3)] <- 0
-    k_pus[[3]][c(1:2, 4:8)] <- 0
-    k_pus[[4]][1:6] <- 0
 
-    fec_Max <- vector(mode = 'list', length = length(fec))
-    
-    for (i in 1:length(fec2)) {
-      for (j in 1:length(fec2[[i]])) {
-      
-        if (sum(fec2[[i]]) > sum(k_pus[[i]][fec2[[i]]!=0])) {
-          
-          fec_Max[[i]][j] = fec2[[i]][j]*(sum(k_pus[[i]][fec2[[i]]!=0])/
-                                            sum(fec2[[i]]))
-          
-        } else {
-          
-          fec_Max[[i]][j] = fec2[[i]][j]
-          
+    if (k_method == "cumulative") {
+      k_pus[[2]][c(1:3)] <- 0
+      k_pus[[3]][c(1:2, 4:8)] <- 0
+      k_pus[[4]][1:6] <- 0
+
+      fec_Max <- vector(mode = "list", length = length(fec))
+
+      # This chunk is generalized between systems
+      ### Need to add to others
+      for (i in 1:length(fec2)) {
+        for (j in 1:length(fec2[[i]])) {
+          if (any(fec2[[i]] != 0)) {
+            upper <- max(which(fec2[[i]] != 0))
+          } else {
+            upper <- 999
+          }
+
+          if (upper < 999) {
+            sum_fec <- sum(fec2[[i]])
+            sum_kpus <- sum(k_pus[[i]][1:upper])
+          } else {
+            sum_fec <- sum(fec2[[i]])
+            sum_kpus <- k_pus[[i]][1]
+          }
+
+          if (sum_fec > sum_kpus) {
+            fec_Max[[i]][j] <- fec2[[i]][j] * (sum_kpus / sum_fec)
+          } else {
+            fec_Max[[i]][j] <- fec2[[i]][j]
+          }
         }
       }
     }
+    return(fec_Max)
+    # toc()
   }
-  return(fec_Max)
-  #toc()
-  }  
-  
-  if(river=='merrimack'){
+
+
+  if (river == "merrimack") {
     # Calculate total number of eggs in each PU
-    fec2 <- vector(mode = 'list', length = length(fec))
+    fec2 <- vector(mode = "list", length = length(fec))
     for (i in 1:length(fec)) {
-      fec2[[i]] <- mapply(sum, na.rm=TRUE, fec[[i]])
+      fec2[[i]] <- mapply(sum, na.rm = TRUE, fec[[i]])
     }
 
     fec2[[1]][1] <- fec2[[1]][1] + fec2[[2]][1]
     fec2[[1]][2] <- fec2[[1]][2] + fec2[[2]][2]
     fec2[[1]][3] <- fec2[[1]][3] + fec2[[2]][3]
     fec2[[1]][4] <- fec2[[1]][4] + fec2[[2]][4]
-    fec2[[2]][1:4] <- 0    
+    fec2[[2]][1:4] <- 0
 
     # Apply carrying capacity limitation to each production unit based
     # on habitat availability
     # Apply carrying capacity limitation to each production unit based
     # on habitat availability
-    if(k_method == 'discrete'){
-    fec_Max <- vector(mode = 'list', length = length(fec))
+    if (k_method == "discrete") {
+      fec_Max <- vector(mode = "list", length = length(fec))
       for (i in 1:length(fec2)) {
         for (j in 1:length(fec2[[i]])) {
           if (fec2[[i]][j] > k_pus[[i]][j]) {
-            fec_Max[[i]][j] = k_pus[[i]][j]
+            fec_Max[[i]][j] <- k_pus[[i]][j]
           } else {
-            fec_Max[[i]][j] = fec2[[i]][j]
+            fec_Max[[i]][j] <- fec2[[i]][j]
           }
         }
       }
     }
-    
-    if(k_method == 'cumulative'){
-      
+
+    if (k_method == "cumulative") {
       k_pus[[2]][1:4] <- 0
-  
-      fec_Max <- vector(mode = 'list', length = length(fec))
-      
+
+      fec_Max <- vector(mode = "list", length = length(fec))
+
+      # This chunk is generalized between systems
+      ### Need to add to others
       for (i in 1:length(fec2)) {
         for (j in 1:length(fec2[[i]])) {
-        
-          if (sum(fec2[[i]]) > sum(k_pus[[i]][fec2[[i]]!=0])) {
-            
-            fec_Max[[i]][j] = fec2[[i]][j]*(sum(k_pus[[i]][fec2[[i]]!=0])/
-                                              sum(fec2[[i]]))
-            
+          if (any(fec2[[i]] != 0)) {
+            upper <- max(which(fec2[[i]] != 0))
           } else {
-            
-            fec_Max[[i]][j] = fec2[[i]][j]
-            
+            upper <- 999
+          }
+
+          if (upper < 999) {
+            sum_fec <- sum(fec2[[i]])
+            sum_kpus <- sum(k_pus[[i]][1:upper])
+          } else {
+            sum_fec <- sum(fec2[[i]])
+            sum_kpus <- k_pus[[i]][1]
+          }
+
+          if (sum_fec > sum_kpus) {
+            fec_Max[[i]][j] <- fec2[[i]][j] * (sum_kpus / sum_fec)
+          } else {
+            fec_Max[[i]][j] <- fec2[[i]][j]
           }
         }
       }
     }
     return(fec_Max)
-    #toc()
-  }  
-  
-  if(river=='connecticut'){
+    # toc()
+  }
+
+
+  if (river == "connecticut") {
     # Calculate total number of eggs in each PU
-    fec2 <- vector(mode = 'list', length = length(fec))
+    fec2 <- vector(mode = "list", length = length(fec))
     for (i in 1:length(fec)) {
       fec2[[i]] <- mapply(sum, fec[[i]])
     }
@@ -150,264 +169,310 @@ additionalEggsProcessing <- function(fec){
     fec2[[1]][4] <- fec2[[1]][4] + fec2[[2]][4]
     fec2[[1]][5] <- fec2[[1]][5] + fec2[[2]][5]
     fec2[[2]][1:5] <- 0
-    
+
     # Apply carrying capacity limitation to each production unit based
     # on habitat availability
-    if(k_method == 'discrete'){
-    fec_Max <- vector(mode = 'list', length = length(fec))
+    if (k_method == "discrete") {
+      fec_Max <- vector(mode = "list", length = length(fec))
       for (i in 1:length(fec2)) {
         for (j in 1:length(fec2[[i]])) {
           if (fec2[[i]][j] > k_pus[[i]][j]) {
-            fec_Max[[i]][j] = k_pus[[i]][j]
+            fec_Max[[i]][j] <- k_pus[[i]][j]
           } else {
-            fec_Max[[i]][j] = fec2[[i]][j]
+            fec_Max[[i]][j] <- fec2[[i]][j]
           }
         }
       }
     }
-    
-    if(k_method == 'cumulative'){
-      
+
+    if (k_method == "cumulative") {
       k_pus[[2]][1:5] <- 0
-  
-      fec_Max <- vector(mode = 'list', length = length(fec))
-      
+
+      fec_Max <- vector(mode = "list", length = length(fec))
+
+      # This chunk is generalized between systems
+      ### Need to add to others
       for (i in 1:length(fec2)) {
         for (j in 1:length(fec2[[i]])) {
-        
-          if (sum(fec2[[i]]) > sum(k_pus[[i]][fec2[[i]]!=0])) {
-            
-            fec_Max[[i]][j] = fec2[[i]][j]*(sum(k_pus[[i]][fec2[[i]]!=0])/
-                                              sum(fec2[[i]]))
-            
+          if (any(fec2[[i]] != 0)) {
+            upper <- max(which(fec2[[i]] != 0))
           } else {
-            
-            fec_Max[[i]][j] = fec2[[i]][j]
-            
+            upper <- 999
+          }
+
+          if (upper < 999) {
+            sum_fec <- sum(fec2[[i]])
+            sum_kpus <- sum(k_pus[[i]][1:upper])
+          } else {
+            sum_fec <- sum(fec2[[i]])
+            sum_kpus <- k_pus[[i]][1]
+          }
+
+          if (sum_fec > sum_kpus) {
+            fec_Max[[i]][j] <- fec2[[i]][j] * (sum_kpus / sum_fec)
+          } else {
+            fec_Max[[i]][j] <- fec2[[i]][j]
           }
         }
       }
     }
-    
     return(fec_Max)
-    #toc()
-  }  
+    # toc()
+  }
 
-  if(river=='susquehanna'){
+  if (river == "susquehanna") {
     # Calculate total number of eggs in each PU
-    fec2 <- vector(mode = 'list', length = length(fec))
+    fec2 <- vector(mode = "list", length = length(fec))
     for (i in 1:length(fec)) {
       fec2[[i]] <- mapply(sum, fec[[i]])
     }
     # Now sum all eggs from each of the shared PUs for all routes.  Put all
     # of the eggs from shared PUs into fec2[[min]] that shares the PU,
     # set all others to zero
-    fec2[[1]][1] <- fec2[[1]][1]+fec2[[2]][1]+fec2[[3]][1]+fec2[[4]][1]
-    fec2[[1]][2] <- fec2[[1]][2]+fec2[[2]][2]+fec2[[3]][2]+fec2[[4]][2]
-    fec2[[1]][3] <- fec2[[1]][3]+fec2[[2]][3]+fec2[[3]][3]+fec2[[4]][3]
-    fec2[[1]][4] <- fec2[[1]][4]+fec2[[2]][4]+fec2[[3]][4]+fec2[[4]][4]
-    fec2[[1]][5] <- fec2[[1]][5]+fec2[[2]][5]+fec2[[3]][5]+fec2[[4]][5]
-    
+    fec2[[1]][1] <- fec2[[1]][1] + fec2[[2]][1] + fec2[[3]][1] + fec2[[4]][1]
+    fec2[[1]][2] <- fec2[[1]][2] + fec2[[2]][2] + fec2[[3]][2] + fec2[[4]][2]
+    fec2[[1]][3] <- fec2[[1]][3] + fec2[[2]][3] + fec2[[3]][3] + fec2[[4]][3]
+    fec2[[1]][4] <- fec2[[1]][4] + fec2[[2]][4] + fec2[[3]][4] + fec2[[4]][4]
+    fec2[[1]][5] <- fec2[[1]][5] + fec2[[2]][5] + fec2[[3]][5] + fec2[[4]][5]
+
     fec2[[2]][1:5] <- 0
-    
+
     fec2[[3]][1:5] <- 0
     fec2[[3]][6] <- fec2[[3]][6] + fec2[[4]][6]
-    
+
     fec2[[4]][1:6] <- 0
-    
+
     # Apply carrying capacity limitation to each production unit based
     # on habitat availability
-    if(k_method == 'discrete'){
-    fec_Max <- vector(mode = 'list', length = length(fec))
+    if (k_method == "discrete") {
+      fec_Max <- vector(mode = "list", length = length(fec))
       for (i in 1:length(fec2)) {
         for (j in 1:length(fec2[[i]])) {
           if (fec2[[i]][j] > k_pus[[i]][j]) {
-            fec_Max[[i]][j] = k_pus[[i]][j]
+            fec_Max[[i]][j] <- k_pus[[i]][j]
           } else {
-            fec_Max[[i]][j] = fec2[[i]][j]
+            fec_Max[[i]][j] <- fec2[[i]][j]
           }
         }
       }
     }
-    
-    if(k_method == 'cumulative'){
-      
+
+    if (k_method == "cumulative") {
       k_pus[[2]][1:5] <- 0
       k_pus[[3]][1:5] <- 0
       k_pus[[3]][6] <- k_pus[[3]][6] + k_pus[[4]][6]
       k_pus[[4]][1:6] <- 0
-  
-      fec_Max <- vector(mode = 'list', length = length(fec))
-      
+
+      fec_Max <- vector(mode = "list", length = length(fec))
+
+      # This chunk is generalized between systems
+      ### Need to add to others
       for (i in 1:length(fec2)) {
         for (j in 1:length(fec2[[i]])) {
-        
-          if (sum(fec2[[i]]) > sum(k_pus[[i]][fec2[[i]]!=0])) {
-            
-            fec_Max[[i]][j] = fec2[[i]][j]*(sum(k_pus[[i]][fec2[[i]]!=0])/
-                                              sum(fec2[[i]]))
-            
+          if (any(fec2[[i]] != 0)) {
+            upper <- max(which(fec2[[i]] != 0))
           } else {
-            
-            fec_Max[[i]][j] = fec2[[i]][j]
-            
+            upper <- 999
+          }
+
+          if (upper < 999) {
+            sum_fec <- sum(fec2[[i]])
+            sum_kpus <- sum(k_pus[[i]][1:upper])
+          } else {
+            sum_fec <- sum(fec2[[i]])
+            sum_kpus <- k_pus[[i]][1]
+          }
+
+          if (sum_fec > sum_kpus) {
+            fec_Max[[i]][j] <- fec2[[i]][j] * (sum_kpus / sum_fec)
+          } else {
+            fec_Max[[i]][j] <- fec2[[i]][j]
           }
         }
       }
     }
     return(fec_Max)
-    #toc()
-  }    
- 
-  if(river=='saco'){
+    # toc()
+  }
+
+
+  if (river == "saco") {
     # Calculate total number of eggs in each PU
-    fec2 <- vector(mode = 'list', length = length(fec))
+    fec2 <- vector(mode = "list", length = length(fec))
     for (i in 1:length(fec)) {
-      fec2[[i]] <- mapply(sum, na.rm=TRUE, fec[[i]])
+      fec2[[i]] <- mapply(sum, na.rm = TRUE, fec[[i]])
     }
 
     # Apply carrying capacity limitation to each production unit based
     # on habitat availability
-    if(k_method == 'discrete'){
-    fec_Max <- vector(mode = 'list', length = length(fec))
+    if (k_method == "discrete") {
+      fec_Max <- vector(mode = "list", length = length(fec))
       for (i in 1:length(fec2)) {
         for (j in 1:length(fec2[[i]])) {
           if (fec2[[i]][j] > k_pus[[i]][j]) {
-            fec_Max[[i]][j] = k_pus[[i]][j]
+            fec_Max[[i]][j] <- k_pus[[i]][j]
           } else {
-            fec_Max[[i]][j] = fec2[[i]][j]
+            fec_Max[[i]][j] <- fec2[[i]][j]
           }
         }
       }
     }
-    
-    if(k_method == 'cumulative'){
-      
+
+    if (k_method == "cumulative") {
+
       # k_pus[[2]][1] <- 0
-  
-      fec_Max <- vector(mode = 'list', length = length(fec))
-      
+
+      fec_Max <- vector(mode = "list", length = length(fec))
+
+      # This chunk is generalized between systems
+      ### Need to add to others
       for (i in 1:length(fec2)) {
         for (j in 1:length(fec2[[i]])) {
-        
-          if (sum(fec2[[i]]) > sum(k_pus[[i]][fec2[[i]]!=0])) {
-            
-            fec_Max[[i]][j] = fec2[[i]][j]*(sum(k_pus[[i]][fec2[[i]]!=0])/
-                                              sum(fec2[[i]]))
-            
+          if (any(fec2[[i]] != 0)) {
+            upper <- max(which(fec2[[i]] != 0))
           } else {
-            
-            fec_Max[[i]][j] = fec2[[i]][j]
-            
+            upper <- 999
+          }
+
+          if (upper < 999) {
+            sum_fec <- sum(fec2[[i]])
+            sum_kpus <- sum(k_pus[[i]][1:upper])
+          } else {
+            sum_fec <- sum(fec2[[i]])
+            sum_kpus <- k_pus[[i]][1]
+          }
+
+          if (sum_fec > sum_kpus) {
+            fec_Max[[i]][j] <- fec2[[i]][j] * (sum_kpus / sum_fec)
+          } else {
+            fec_Max[[i]][j] <- fec2[[i]][j]
           }
         }
       }
     }
     return(fec_Max)
-    #toc()
-  }    
+    # toc()
+  }
 
-  if(river=='kennebec'){
+
+  if (river == "kennebec") {
     # Calculate total number of eggs in each PU
-    fec2 <- vector(mode = 'list', length = length(fec))
+    fec2 <- vector(mode = "list", length = length(fec))
     for (i in 1:length(fec)) {
-      fec2[[i]] <- mapply(sum, na.rm=TRUE, fec[[i]])
+      fec2[[i]] <- mapply(sum, na.rm = TRUE, fec[[i]])
     }
 
     fec2[[1]][1] <- fec2[[1]][1] + fec2[[2]][1]
-    fec2[[2]][1] <- 0    
+    fec2[[2]][1] <- 0
 
     # Apply carrying capacity limitation to each production unit based
     # on habitat availability
-    if(k_method == 'discrete'){
-    fec_Max <- vector(mode = 'list', length = length(fec))
+    if (k_method == "discrete") {
+      fec_Max <- vector(mode = "list", length = length(fec))
       for (i in 1:length(fec2)) {
         for (j in 1:length(fec2[[i]])) {
           if (fec2[[i]][j] > k_pus[[i]][j]) {
-            fec_Max[[i]][j] = k_pus[[i]][j]
+            fec_Max[[i]][j] <- k_pus[[i]][j]
           } else {
-            fec_Max[[i]][j] = fec2[[i]][j]
+            fec_Max[[i]][j] <- fec2[[i]][j]
           }
         }
       }
     }
-    
-    if(k_method == 'cumulative'){
-      
+
+    if (k_method == "cumulative") {
       k_pus[[2]][1] <- 0
-  
-      fec_Max <- vector(mode = 'list', length = length(fec))
-      
+
+      fec_Max <- vector(mode = "list", length = length(fec))
+
+      # This chunk is generalized between systems
+      ### Need to add to others
       for (i in 1:length(fec2)) {
         for (j in 1:length(fec2[[i]])) {
-        
-          if (sum(fec2[[i]]) > sum(k_pus[[i]][fec2[[i]]!=0])) {
-            
-            fec_Max[[i]][j] = fec2[[i]][j]*(sum(k_pus[[i]][fec2[[i]]!=0])/
-                                              sum(fec2[[i]]))
-            
+          if (any(fec2[[i]] != 0)) {
+            upper <- max(which(fec2[[i]] != 0))
           } else {
-            
-            fec_Max[[i]][j] = fec2[[i]][j]
-            
+            upper <- 999
+          }
+
+          if (upper < 999) {
+            sum_fec <- sum(fec2[[i]])
+            sum_kpus <- sum(k_pus[[i]][1:upper])
+          } else {
+            sum_fec <- sum(fec2[[i]])
+            sum_kpus <- k_pus[[i]][1]
+          }
+
+          if (sum_fec > sum_kpus) {
+            fec_Max[[i]][j] <- fec2[[i]][j] * (sum_kpus / sum_fec)
+          } else {
+            fec_Max[[i]][j] <- fec2[[i]][j]
           }
         }
       }
     }
     return(fec_Max)
-    #toc()
-  }    
-  
-  if(river=='hudson'){
+    # toc()
+  }
+
+
+  if (river == "hudson") {
     # Calculate total number of eggs in each PU
-    fec2 <- vector(mode = 'list', length = length(fec))
+    fec2 <- vector(mode = "list", length = length(fec))
     for (i in 1:length(fec)) {
-      fec2[[i]] <- mapply(sum, na.rm=TRUE, fec[[i]])
+      fec2[[i]] <- mapply(sum, na.rm = TRUE, fec[[i]])
     }
 
     fec2[[1]][1] <- fec2[[1]][1] + fec2[[2]][1]
-    fec2[[2]][1] <- 0    
+    fec2[[2]][1] <- 0
 
     # Apply carrying capacity limitation to each production unit based
     # on habitat availability
-    if(k_method == 'discrete'){
-    fec_Max <- vector(mode = 'list', length = length(fec))
+    if (k_method == "discrete") {
+      fec_Max <- vector(mode = "list", length = length(fec))
       for (i in 1:length(fec2)) {
         for (j in 1:length(fec2[[i]])) {
           if (fec2[[i]][j] > k_pus[[i]][j]) {
-            fec_Max[[i]][j] = k_pus[[i]][j]
+            fec_Max[[i]][j] <- k_pus[[i]][j]
           } else {
-            fec_Max[[i]][j] = fec2[[i]][j]
+            fec_Max[[i]][j] <- fec2[[i]][j]
           }
         }
       }
     }
-    
-    if(k_method == 'cumulative'){
-      
+
+    if (k_method == "cumulative") {
       k_pus[[2]][1] <- 0
-  
-      fec_Max <- vector(mode = 'list', length = length(fec))
-      
+
+      fec_Max <- vector(mode = "list", length = length(fec))
+
+      # This chunk is generalized between systems
+      ### Need to add to others
       for (i in 1:length(fec2)) {
         for (j in 1:length(fec2[[i]])) {
-        
-          if (sum(fec2[[i]]) > sum(k_pus[[i]][fec2[[i]]!=0])) {
-            
-            fec_Max[[i]][j] = fec2[[i]][j]*(sum(k_pus[[i]][fec2[[i]]!=0])/
-                                              sum(fec2[[i]]))
-            
+          if (any(fec2[[i]] != 0)) {
+            upper <- max(which(fec2[[i]] != 0))
           } else {
-            
-            fec_Max[[i]][j] = fec2[[i]][j]
-            
+            upper <- 999
+          }
+
+          if (upper < 999) {
+            sum_fec <- sum(fec2[[i]])
+            sum_kpus <- sum(k_pus[[i]][1:upper])
+          } else {
+            sum_fec <- sum(fec2[[i]])
+            sum_kpus <- k_pus[[i]][1]
+          }
+
+          if (sum_fec > sum_kpus) {
+            fec_Max[[i]][j] <- fec2[[i]][j] * (sum_kpus / sum_fec)
+          } else {
+            fec_Max[[i]][j] <- fec2[[i]][j]
           }
         }
       }
     }
-    
     return(fec_Max)
-    #toc()
-  }       
+    # toc()
+  }
 }
-

@@ -4,7 +4,7 @@
 \alias{scalePop}
 \title{Scale population to speed computations}
 \usage{
-scalePop()
+scalePop(pop, spawningPool, recruitmentPool, scalar)
 }
 \value{
 A list of vectors containing the 1) population size,

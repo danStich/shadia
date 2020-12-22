@@ -7,16 +7,16 @@
 defineOutputVectors()
 }
 \value{
-A list of all stored simulation parameters (90 
+A list of all stored simulation parameters (90
 total, some unused but retained for transparency
-in previous management strategy evaluations and 
+in previous management strategy evaluations and
 hydropower licensing negotiations).
 }
 \description{
-Internal function to pre-allocate output 
+Internal function to pre-allocate output
 vectors to hold the results of simulation runs before
-they are output to the global workspace. 
+they are output to the global workspace.
 
-Not intended to be called directly, but included 
+Not intended to be called directly, but included
 for model transparency.
 }

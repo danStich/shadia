@@ -7,15 +7,15 @@
 postSpawnMortality()
 }
 \value{
-A list of lists, each holding the numbers of 
-males, females, or eggs in each age class in each 
-production unit of each of four migration routes 
+A list of lists, each holding the numbers of
+males, females, or eggs in each age class in each
+production unit of each of four migration routes
 following the application of post spawning mortality.
 }
 \description{
-Internal function used to apply 
-post-spawning mortality to male and female 
-spawners, and juvenile mortality rates for 
+Internal function used to apply
+post-spawning mortality to male and female
+spawners, and juvenile mortality rates for
 new recruits
 
 Not intended to be called directly, but visible

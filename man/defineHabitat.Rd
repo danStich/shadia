@@ -4,7 +4,7 @@
 \alias{defineHabitat}
 \title{Production potential definition}
 \usage{
-defineHabitat()
+defineHabitat(river, nRoutes, species)
 }
 \value{
 A list of habitat production potential
@@ -15,17 +15,17 @@ Internal function used to
 assign initial values of production potential
 for American shad in production units of Rivers
 
-Not intended to be called directly, but visible 
+Not intended to be called directly, but visible
 for model transparency.
 }
 \references{
-Maine Department of Marine Resources (MDMR). 2009. 
-Operational plan for the restoration of diadromous fishes 
-to the Penobscot River. Final Report, MDMR, 
-Maine Department of Inland Fish and Wildlife, 
-Augusta, ME. 
+Maine Department of Marine Resources (MDMR). 2009.
+Operational plan for the restoration of diadromous fishes
+to the Penobscot River. Final Report, MDMR,
+Maine Department of Inland Fish and Wildlife,
+Augusta, ME.
 
 Technical Committee for Anadromous Fishery Management
-of the Merrimack River Basin. 2010. A plan for the 
-restoration of American shad Merrmimack River watershed.
+of the Merrimack River Basin. 2010. A plan for the
+restoration of American shad Merrimack River watershed.
 }

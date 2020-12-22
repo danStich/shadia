@@ -9,9 +9,9 @@ Turner's Falls, MA, USA.}
 A data frame with 167,333 obs. of 3 variables
 \describe{
   \code{val }{Temperature in degrees celcius}
-  
+
   \code{year }{Year of temperature observation}
-  
+
   \code{day }{Ordinal date}
 }
 }
