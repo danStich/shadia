@@ -21,6 +21,7 @@ mohawkHudsonRiverModel(
     1, E02 = 1, E03 = 1, E04 = 1, E05 = 1, E06 = 1, E07 = 1, E08 = 1, E09 = 1, E10 = 1,
     E11 = 1, E12 = 1, E13 = 1, E14 = 1, E15 = 1, E16 = 1, E17 = 1, E18 = 1, E19 = 1, E20
     = 1),
+  lockMortality = 0,
   inRiverF = 0,
   commercialF = 0,
   bycatchF = 0,
@@ -78,6 +79,10 @@ navigational locks.}
 dam passage efficiencies at each dam in the
 Mohawk and Hudson rivers for juveniles.}
 
+\item{lockMortality}{Probability that a fish
+dies during upstream passage at each lock. A single
+value is applied to all locks.}
+
 \item{inRiverF}{Annual, recreational harvest in river.
 Parameterized as an annual rate [0, 1].}
 
@@ -132,6 +137,7 @@ The following named columns are returned in \code{res}:
     \item \code{federal_us...E20_us} User-specified upstream passage efficiencies
     \item \code{federal_ds...E20_ds}  User-specified downstream passage efficiencies
     \item \code{federal_dsj...E20_dsj}  User-specified juvenile downstream passage efficiencies
+    \item \code{lockMortality} User-specified mortality during upstream passage of locks
     \item \code{F.inRiver} User-specified recreational fishing mortality
     \item \code{F.commercial} User-specified recreational fishing mortality
     \item \code{F.bycatch} User-specified recreational fishing mortality

@@ -49,6 +49,10 @@
 #' dam passage efficiencies at each dam in the
 #' Mohawk and Hudson rivers for juveniles.
 #'
+#' @param lockMortality Probability that a fish
+#' dies during upstream passage at each lock. A single
+#' value is applied to all locks.
+#'
 #' @param inRiverF Annual, recreational harvest in river.
 #' Parameterized as an annual rate [0, 1].
 #'
@@ -102,6 +106,7 @@
 #'     \item \code{federal_us...E20_us} User-specified upstream passage efficiencies
 #'     \item \code{federal_ds...E20_ds}  User-specified downstream passage efficiencies
 #'     \item \code{federal_dsj...E20_dsj}  User-specified juvenile downstream passage efficiencies
+#'     \item \code{lockMortality} User-specified mortality during upstream passage of locks
 #'     \item \code{F.inRiver} User-specified recreational fishing mortality
 #'     \item \code{F.commercial} User-specified recreational fishing mortality
 #'     \item \code{F.bycatch} User-specified recreational fishing mortality
@@ -210,6 +215,7 @@ mohawkHudsonRiverModel <- function(
                                      E13 = 1, E14 = 1, E15 = 1, E16 = 1, E17 = 1, E18 = 1,
                                      E19 = 1, E20 = 1
                                    ),
+                                   lockMortality = 0,
                                    inRiverF = 0,
                                    commercialF = 0,
                                    bycatchF = 0,
@@ -390,7 +396,7 @@ mohawkHudsonRiverModel <- function(
   # stock assessment). This is now used only to seed the population. All
   # models now use climate-informed mortality estimates for VBGF parameters
   # derived as part of the 2020 ASMFC stock assessment.
-  .shadia$downstreamS <- 1 # Survival per km (natural)
+  .shadia$downstreamS <- 1 # Survival per km (natural). Currently unused
   .shadia$oceanSurvival <- rep(rbeta(1, 320, 400), .shadia$maxAge)
 
   # Hydro system configuration
@@ -440,10 +446,20 @@ mohawkHudsonRiverModel <- function(
       river = .shadia$river,
       nRoutes = .shadia$nRoutes
     )
+    
+    # Define upstream dam-passage mortality
+    # This is still a special case for mohawkHudsonRiverModel()
+    .shadia$upstreamMortality <- lockMortality
+    environment(upstreamMort) <- .shadia
+    .shadia$up_mort <- upstreamMort(.shadia$upstreamMortality,
+      river = .shadia$river,
+      nRoutes = .shadia$nRoutes
+    )    
+    
 
     # Starting population structure -----
     # Define starting population structure for each simulation
-    environment(startingPop) <- .shadia
+    environment(simStartingPop) <- .shadia
     .shadia$starting_pop <- simStartingPop(
       adults = n_adults,
       .shadia$maxAge,

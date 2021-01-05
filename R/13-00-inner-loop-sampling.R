@@ -370,6 +370,7 @@ innerLoopSampling <- function(habitat) {
   pre_spawn_survival_males <- rbeta(1, 1e4, 50)
   pre_spawn_survival_females <- rbeta(1, 1e4, 50)
 
+  
   # Post-spawning mortality. Right now, these are drawn independently. Conditional
   # draws may be more appropriate b/c post-spawn mortality is probably affected by
   # similar factors but may differ in magnitude between males and females.
@@ -867,7 +868,7 @@ innerLoopSampling <- function(habitat) {
       (1 - sp_3$female) * pre_spawn_survival_males
     sp_4$preSpawn <- sp_4$female * pre_spawn_survival_females +
       (1 - sp_4$female) * pre_spawn_survival_males
-
+    
     # Determine fishing mortality by PU
     sp_1$F <- inriv[[1]][as.numeric(substrRight(sp_1$pus, 1))]
     sp_2$F <- inriv[[2]][as.numeric(substrRight(sp_2$pus, 1))]
@@ -1291,7 +1292,7 @@ innerLoopSampling <- function(habitat) {
     sp_2$pus[sp_2$pus == ""] <- "PU_2_1"
 
     # Determine the probability that a fish survives to spawn
-    # Pre-spawning mortality by sex
+    # Pre-spawning mortality by sex.
     sp_1$preSpawn <- sp_1$female * pre_spawn_survival_females +
       (1 - sp_1$female) * pre_spawn_survival_males
     sp_2$preSpawn <- sp_2$female * pre_spawn_survival_females +
@@ -1301,10 +1302,15 @@ innerLoopSampling <- function(habitat) {
     sp_1$F <- inriv[[1]][as.numeric(substrRight(sp_1$pus, 1))]
     sp_2$F <- inriv[[2]][as.numeric(substr(sp_2$pus, 6, 7))]
 
+    # Fetch cumulative lock mortality by PU
+    sp_1$up_mort <- up_mort[[1]][as.numeric(substrRight(sp_1$pus, 1))]
+    sp_2$up_mort <- up_mort[[2]][as.numeric(substr(sp_2$pus, 6, 7))]
+    
     # Apply in-river fishing mortality and prespawn survival
-    sp_1$surv <- rbinom(nrow(sp_1), 1, sp_1$preSpawn * (1 - sp_1$F))
-    sp_2$surv <- rbinom(nrow(sp_2), 1, sp_2$preSpawn * (1 - sp_2$F))
-    # toc()
+    sp_1$surv <- rbinom(nrow(sp_1), 1, 
+                        sp_1$preSpawn * (1 - sp_1$F) * (1 - sp_1$up_mort))
+    sp_2$surv <- rbinom(nrow(sp_2), 1, 
+                        sp_2$preSpawn * (1 - sp_2$F) * (1 - sp_2$up_mort))
   }
 
   # Data return to calling environment
