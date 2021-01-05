@@ -20,7 +20,7 @@ fillOutputVectors <- function() {
 
   # Climate scenario
   climate_scen[(n + nYears * (k - 1))] <- climate
-
+  
   # Indirect mortality, filling pre-allocated vector
   indirectM[(n + nYears * (k - 1))] <- indirect
 
@@ -42,6 +42,13 @@ fillOutputVectors <- function() {
   # Population demographics and survival rates
   S.downstream[(n + nYears * (k - 1))] <- mean(downstreamS)
   S.marine[(n + nYears * (k - 1))] <- marineS[1]
+  # Simulate marine S for current year
+  if(exists("marine_s")){
+    if(!is.null(marine_s)){
+      S.marine[(n + nYears * (k - 1))] <- marine_s
+    }
+  }  
+  
   F.inRiver[(n + nYears * (k - 1))] <- inRiverF
   F.commercial[(n + nYears * (k - 1))] <- mean(commercialF)
   F.bycatch[(n + nYears * (k - 1))] <- mean(bycatchF)

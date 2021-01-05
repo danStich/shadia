@@ -72,6 +72,8 @@
 #' passage as a result of dam-related impacts (e.g., injury,
 #' delay, etc.).
 #'
+#' @param M Instantaneous natural mortality.
+#'
 #' @param watershed A logical indicating whether or not
 #' to use the same dam passage efficiencies at all dams
 #' for upstream and downstream. If watershed = TRUE, then
@@ -221,6 +223,7 @@ mohawkHudsonRiverModel <- function(
                                    bycatchF = 0,
                                    indirect = 1,
                                    latent = 1,
+                                   M = NULL,
                                    watershed = FALSE,
                                    k_method = "cumulative",
                                    sensitivity = FALSE) {
@@ -269,6 +272,9 @@ mohawkHudsonRiverModel <- function(
   # systems.
   .shadia$climate <- "current"
 
+  # Marine survival, whether specified or not
+  .shadia$marine_s <- M
+  
   # Assign sensitivity option
   .shadia$sensitivity <- sensitivity
 

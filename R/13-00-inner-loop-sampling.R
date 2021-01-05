@@ -385,8 +385,12 @@ innerLoopSampling <- function(habitat) {
 
   # Simulate marine S for current year
   environment(simMarineS) <- .shadia
-  marineS <- rep(simMarineS(), maxAge)
-
+  marineS <- rep(simMarineS(), maxAge)  
+  if(exists("marine_s")){
+    if(!is.null(marine_s)){
+      marineS <- rep(marine_s, maxAge)
+    }
+  }
 
   # Time-based upstream passage at dams ----
   # Convert passage performance standards into rates
