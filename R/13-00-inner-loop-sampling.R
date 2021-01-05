@@ -369,7 +369,6 @@ innerLoopSampling <- function(habitat) {
   # similar factors but may differ in magnitude between males and females.
   pre_spawn_survival_males <- rbeta(1, 1e4, 50)
   pre_spawn_survival_females <- rbeta(1, 1e4, 50)
-
   
   # Post-spawning mortality. Right now, these are drawn independently. Conditional
   # draws may be more appropriate b/c post-spawn mortality is probably affected by
@@ -381,11 +380,12 @@ innerLoopSampling <- function(habitat) {
   # This really needs some data pretty bad. Right now it is just a draw from a
   # uniform probability distribution that calls it 1 in 100000 to 1 in 1000
   juvenile_survival <- runif(1, 0.0005, 0.00083)
-  # toc()
 
   # Simulate marine S for current year
   environment(simMarineS) <- .shadia
-  marineS <- rep(simMarineS(), maxAge)  
+  marineS <- rep(simMarineS(), maxAge)
+  
+  # Or use the user-specified value if provided
   if(exists("marine_s")){
     if(!is.null(marine_s)){
       marineS <- rep(marine_s, maxAge)
