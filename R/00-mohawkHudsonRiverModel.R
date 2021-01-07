@@ -461,11 +461,10 @@ mohawkHudsonRiverModel <- function(
       river = .shadia$river,
       nRoutes = .shadia$nRoutes
     )    
-    
 
     # Starting population structure -----
     # Define starting population structure for each simulation
-    environment(simStartingPop) <- .shadia
+    # environment(simStartingPop) <- .shadia
     .shadia$starting_pop <- simStartingPop(
       adults = n_adults,
       .shadia$maxAge,
@@ -475,7 +474,6 @@ mohawkHudsonRiverModel <- function(
     .shadia$pop <- .shadia$starting_pop$pop
     .shadia$spawningPool <- .shadia$starting_pop$spawningPool
     .shadia$recruitmentPool <- .shadia$starting_pop$recruitmentPool
-
 
     ### THIS STAYS IN AS A LOOP UNLESS CHANGED INTERNALLY
     # Inner loop -----

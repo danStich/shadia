@@ -484,7 +484,7 @@ penobscotRiverModel <- function(
 
     # Starting population structure -----
     # Define starting population structure for each simulation
-    environment(startingPop) <- .shadia
+    environment(simStartingPop) <- .shadia
     .shadia$starting_pop <- simStartingPop(
       adults = n_adults,
       .shadia$maxAge,

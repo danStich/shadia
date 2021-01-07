@@ -27,6 +27,7 @@ mohawkHudsonRiverModel(
   bycatchF = 0,
   indirect = 1,
   latent = 1,
+  M = NULL,
   watershed = FALSE,
   k_method = "cumulative",
   sensitivity = FALSE
@@ -101,6 +102,8 @@ impacts (e.g., injury, predation, etc.).}
 \item{latent}{Latent mortality incurred during estuary
 passage as a result of dam-related impacts (e.g., injury,
 delay, etc.).}
+
+\item{M}{Instantaneous natural mortality.}
 
 \item{watershed}{A logical indicating whether or not
 to use the same dam passage efficiencies at all dams
