@@ -34,7 +34,7 @@ fillOutputVectors <- function() {
   spawners[[(n + nYears * (k - 1))]] <- .shadia$spawningPool
 
   # Reset the scalar based on population size
-  .shadia$scalar <- setScalar(.shadia$spawningPool)
+  # .shadia$scalar <- setScalar(.shadia$spawningPool)
 
   # Scalar variable for computational gains
   scalarVar[[(n + nYears * (k - 1))]] <- .shadia$scalar
@@ -42,7 +42,7 @@ fillOutputVectors <- function() {
   # Population demographics and survival rates
   S.downstream[(n + nYears * (k - 1))] <- mean(downstreamS)
   S.marine[(n + nYears * (k - 1))] <- marineS[1]
-  # Simulate marine S for current year
+  # Extract user-defined S.marine if provided
   if(exists("marine_s")){
     if(!is.null(marine_s)){
       S.marine[(n + nYears * (k - 1))] <- marine_s

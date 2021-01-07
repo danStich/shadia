@@ -16,16 +16,24 @@
 #' @export
 #'
 simStartingPop <- function(adults, maxAge, oceanSurvival, spawnRecruit) {
-  n_init <- MASS::rnegbin(adults * 10, 1 / oceanSurvival[1], 1)
+  
+  n_init <- MASS::rnegbin(adults, maxAge, oceanSurvival[1])#rpois(adults, maxAge/2) 
   n_init[n_init == 0] <- 1
-  n_init <- n_init[n_init < maxAge]
+  n_init <- n_init[n_init <= maxAge]
 
-  age_tab <- table(n_init)
+  age_tab <- table(n_init)*5  
 
-  pop <- data.frame(age_tab)$Freq
-  spawningPool <- pop * spawnRecruit[1:length(pop)]
+  m_age <- vector(mode = "numeric", length = floor(maxAge/2-1))
+  for(i in 1:floor(maxAge/2-1)){
+    m_age[i] <- min(cumprod(oceanSurvival[i:floor(maxAge/2-1)]))
+  }
+  age_tab[1:floor(maxAge/2 - 1)] <- age_tab[floor(maxAge/2-1)]/m_age
+
+  ages <- data.frame(age_tab)$Freq
+  spawningPool <- ages * spawnRecruit
+  pop <- ages + (spawningPool*(1-spawnRecruit))
   recruitmentPool <- pop - spawningPool
-
+  
   return(list(
     pop = pop,
     spawningPool = spawningPool,
