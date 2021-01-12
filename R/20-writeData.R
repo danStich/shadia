@@ -374,6 +374,7 @@ writeData <- function() {
   }
 
   if (river == "hudson") {
+    if(watershed == FALSE){
     # Collect inputs and outputs into a single object for file write
     res <- data.frame(
       years,
@@ -466,6 +467,104 @@ writeData <- function() {
       "N_21b",
       "populationSize"
     )
+    }
+    
+    if(watershed == TRUE){
+    # Collect inputs and outputs into a single object for file write
+    res <- data.frame(
+      years,
+      species,
+      pMohawk = pMohawk,
+      times[1],
+      pDraws[1],
+      dDraws[1],
+      djDraws[1],
+      upstreamMortality,
+      F.inRiver,
+      F.commercial,
+      F.bycatch,
+      indirectM,
+      latentM,
+      pRepeats,
+      ceiling(pop01a),
+      ceiling(pop02a),
+      ceiling(pop03a),
+      ceiling(pop04a),
+      ceiling(pop05a),
+      ceiling(pop06a),
+      ceiling(pop07a),
+      ceiling(pop08a),
+      ceiling(pop02b),
+      ceiling(pop03b),
+      ceiling(pop04b),
+      ceiling(pop05b),
+      ceiling(pop06b),
+      ceiling(pop07b),
+      ceiling(pop08b),
+      ceiling(pop09b),
+      ceiling(pop10b),
+      ceiling(pop11b),
+      ceiling(pop12b),
+      ceiling(pop13b),
+      ceiling(pop14b),
+      ceiling(pop15b),
+      ceiling(pop16b),
+      ceiling(pop17b),
+      ceiling(pop18b),
+      ceiling(pop19b),
+      ceiling(pop20b),
+      ceiling(pop21b),
+      ceiling(populationSize)
+    )
+
+    names(res) <- c(
+      "year",
+      "species",
+      "pMohawk",
+      "timing",
+      "upstream",
+      "downstream",
+      "downstream_juv",
+      "lockMortality",
+      "inriverF",
+      "commercialF",
+      "bycatchF",
+      "indirect",
+      "latent",
+      paste0("pRepeat_Age", seq(1, maxAge)),
+      "N_1a",
+      "N_2a",
+      "N_3a",
+      "N_4a",
+      "N_5a",
+      "N_6a",
+      "N_7a",
+      "N_8a",
+      "N_2b",
+      "N_3b",
+      "N_4b",
+      "N_5b",
+      "N_6b",
+      "N_7b",
+      "N_8b",
+      "N_9b",
+      "N_10b",
+      "N_11b",
+      "N_12b",
+      "N_13b",
+      "N_14b",
+      "N_15b",
+      "N_16b",
+      "N_17b",
+      "N_18b",
+      "N_19b",
+      "N_20b",
+      "N_21b",
+      "populationSize"
+    )
+    }    
+    
+    
   }
 
   # Collect variables for sensitivity analysis and save them out
