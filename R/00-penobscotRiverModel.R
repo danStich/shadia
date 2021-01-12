@@ -352,7 +352,7 @@ penobscotRiverModel <- function(
   .shadia$d <- as.vector(mapply(sample, dDraws, 1))
   # Juvenile downstream
   sampDj <- sample(djDraws[[1]], 1)
-  dDjraws <- lapply(
+  djDraws <- lapply(
     djDraws,
     function(x) {
       if (watershed) {
