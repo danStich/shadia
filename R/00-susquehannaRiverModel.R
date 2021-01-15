@@ -106,15 +106,25 @@
 #' analysis. The default is set to FALSE for faster run time and smaller
 #' memory load in parallel processing.
 #'
+#' @param spatially_explicit_output Whether to return population size in each production unit.
+#' 
+#' @param output_years Whether to return all years (default = `NULL`) or only
+#' final year of each simulation (`"last"`).
+#' 
+#' @param output_p_repeat A logical indicating whether to return pRepeat by
+#' age (in years) with the output. The default value is `FALSE` to
+#' limit output size in physical memory.
+#'
 #' @return Returns a dataframe when sensitivity = FALSE (default).
 #' Returns a list of two named dataframes when sensitivity = TRUE.
 #' The first dataframe (\code{res}) contains user-defined
-#' inputs and available model outputs. The second dataframe (\code{sens})
-#' contains input variables for sensitivity analysis if desired.
+#' inputs and available model outputs depending on optional arguments. 
+#' The second dataframe (\code{sens}) contains input variables for 
+#' sensitivity analysis if desired. If run in parallel, returns a list of
+#' lists of dataframes.
 #'
-#' If run in parallel, returns a list of lists of dataframes.
-#'
-#' The following named columns are returned in \code{res}:
+#' The following named columns may be returned in \code{res}:
+#' 
 #' \itemize{
 #'     \item \code{year} Year of simulation
 #'     \item \code{populationSize} Total number of adult spawners returning to the river
@@ -313,8 +323,12 @@ susquehannaRiverModel <- function(
                                   latent = 1,
                                   watershed = FALSE,
                                   k_method = "cumulative",
-                                  sensitivity = FALSE) {
-
+                                  sensitivity = FALSE,
+                                  spatially_explicit_output = FALSE,
+                                  output_years = NULL,
+                                  output_p_repeat = FALSE
+                                  ) {
+  
   # Error message for passage efficiencies
   if ((length(upstream) != 10) | (length(downstream) != 10)) {
     stop("`upstream` must have 10 elements and `dowsntream` must have 10.")

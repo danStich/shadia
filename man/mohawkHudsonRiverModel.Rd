@@ -30,7 +30,10 @@ mohawkHudsonRiverModel(
   M = NULL,
   watershed = FALSE,
   k_method = "cumulative",
-  sensitivity = FALSE
+  sensitivity = FALSE,
+  spatially_explicit_output = FALSE,
+  output_years = NULL,
+  output_p_repeat = FALSE
 )
 }
 \arguments{
@@ -121,17 +124,27 @@ based on the numbers, and was the method used in Stich et al. (2019).}
 \item{sensitivity}{Whether to return a dataframe for sensitivity
 analysis. The default is set to FALSE for faster run time and smaller
 memory load in parallel processing.}
+
+\item{spatially_explicit_output}{Whether to return population size in each production unit.}
+
+\item{output_years}{Whether to return all years (default = `NULL`) or only
+final year of each simulation (`"last"`).}
+
+\item{output_p_repeat}{A logical indicating whether to return pRepeat by
+age (in years) with the output. The default value is `FALSE` to
+limit output size in physical memory.}
 }
 \value{
 Returns a dataframe when sensitivity = FALSE (default).
 Returns a list of two named dataframes when sensitivity = TRUE.
 The first dataframe (\code{res}) contains user-defined
-inputs and available model outputs. The second dataframe (\code{sens})
-contains input variables for sensitivity analysis if desired.
+inputs and available model outputs depending on optional arguments. 
+The second dataframe (\code{sens}) contains input variables for 
+sensitivity analysis if desired. If run in parallel, returns a list of
+lists of dataframes.
 
-If run in parallel, returns a list of lists of dataframes.
+The following named columns may be returned in \code{res}:
 
-The following named columns are returned in \code{res}:
 \itemize{
     \item \code{year} Year of simulation
     \item \code{species} Species used for simulation
