@@ -187,7 +187,7 @@ defineHabitat <- function(river, nRoutes, species) {
   if (river == "hudson") {
     habitat <- vector(mode = "list", length = nRoutes)
 
-    # Habitat downstream of Federal Dam is discounted as follows:
+    # Considerations for habitat downstream of Federal Dam:
     # 1_Total starting size of 14436 acres downstream of
     #   Federal Dam (Zydlewski et al., In prep)
     # 2_About 60% of that river length is
@@ -195,23 +195,24 @@ defineHabitat <- function(river, nRoutes, species) {
     # 3_An additional 1420 ha of habitat (3583 acres) has been
     #   lost to dredge-and-fill operations (NYSDEC 2010)
     #   https://www.dec.ny.gov/docs/remediation_hudson_pdf/shadrecoveryplan.pdf
-    habitat[[1]] <- c(14436 * 0.40 - 3583, 650, 400, 286, 260, 1500, 275, 36) * 100
+    habitat[[1]] <- c(14436 * 0.40, 650, 400, 286, 260, 1500, 275, 36) * 100
 
     habitat[[2]] <- c(
-      14436 * 0.40 - 3583,
+      # 14436 * 0.40 - 3583, # Change here and above depending on 1,2,3
+      14436 * 0.40,
       0, 0, 0, 0, 0, 1903, 1072, 337,
       438, 378, 443, 613, 445,
       182, 388, 237, 150, 345,
       261, 268
     ) * 100
 
-    # Bluebacks moving to 500 fish per ha. Based on
-    # G. Wippelhauser pers. comm. and S. Ledwin pers. comm (MEDMR)
-    if (species == "blueback") {
-
-      # Multiply by 484 and divide out the original 100 per acre (250/ha)
-      habitat <- lapply(habitat, function(x) x * (484 / 100))
-    }
+    # # Bluebacks moving to 500 fish per ha. Based on
+    # # G. Wippelhauser pers. comm. and S. Ledwin pers. comm (MEDMR)
+    # if (species == "blueback") {
+    # 
+    #   # Multiply by 484 and divide out the original 100 per acre (250/ha)
+    #   habitat <- lapply(habitat, function(x) x * (484 / 100))
+    # }
   }
 
   return(habitat)
