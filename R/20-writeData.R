@@ -475,10 +475,10 @@ writeData <- function() {
       years,
       species,
       pMohawk = pMohawk,
-      times[1],
-      pDraws[1],
-      dDraws[1],
-      djDraws[1],
+      timely[1],
+      upstream[1],
+      downstream[1],
+      downstream_juv[1],
       upstreamMortality,
       F.inRiver,
       F.commercial,
@@ -603,6 +603,18 @@ writeData <- function() {
     habStoch
   )
 
+  # Output options for faster write
+  if(spatially_explicit_output == FALSE){
+    res <- res[, - grep("N_", names(res))]    
+  }
+  if(output_p_repeat == FALSE){
+    res <- res[, - grep("pRepeat_", names(res))]    
+  }
+  if(!is.null(output_years)){
+    res <- filter(res, year == max(year))
+    sens <- filter(sens, res$year == max(res$year))
+  }
+  
   # Output write
   if (sensitivity == TRUE) {
     return(list(
