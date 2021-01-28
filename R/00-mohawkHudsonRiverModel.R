@@ -368,18 +368,8 @@ mohawkHudsonRiverModel <- function(
     .shadia$maxAge <- getMaxAge(region = .shadia$region)
   }
   if (.shadia$species == "blueback") {
-    .shadia$maxAge <- 12
+    .shadia$maxAge <- 9
   }
-
-  # Assign the starting population based on a seed of
-  # age-1 fish and application of an ocean survival curve
-  # The population size is scaled to make the models
-  # run faster. Output is re-scaled
-  ### DSS: This will be removed with new population
-  ###      seed based on number of spawners
-  .shadia$Age1 <- rpois(1, 1e4)
-  ### COME BACK AND REMOVE THIS WHEN READY. POP IS
-  ### NOW INITIALIZED BY NUMBER OF ADULTS
 
   # Define probability of recruitment to spawn
   # using regional estimates from ASMFC (2020)
@@ -387,7 +377,7 @@ mohawkHudsonRiverModel <- function(
     .shadia$spawnRecruit <- getMaturity(region = .shadia$region)
   }
   if (.shadia$species == "blueback") {
-    .shadia$spawnRecruit <- c(0, 0.009, 0.48, 0.90, 1, 1, 1, 1, 1, 1, 1, 1)
+    .shadia$spawnRecruit <- c(0, 0.009, 0.48, 0.90, 1, 1, 1, 1, 1)
   }
 
   ### NEED TO REPLACE WITH UPDATED ESTIMATES
@@ -397,7 +387,7 @@ mohawkHudsonRiverModel <- function(
     .shadia$pRepeat <- c(0, 0, 0, 0.03, 0.11, 0.38, 0.87, 1, 1, 1, 1, 1, 1)
   }
   if (.shadia$species == "blueback") {
-    .shadia$pRepeat <- c(0, 0, 0.004, 0.21, 0.67, 1, 1, 1, 1, 1, 1, 1)
+    .shadia$pRepeat <- c(0, 0, 0.004, 0.21, 0.67, 1, 1, 1, 1)
   }
 
   # Length-weight regression parameters by region
@@ -489,7 +479,7 @@ mohawkHudsonRiverModel <- function(
     .shadia$spawningPool <- .shadia$starting_pop$spawningPool
     .shadia$recruitmentPool <- .shadia$starting_pop$recruitmentPool
 
-    ### THIS STAYS IN AS A LOOP UNLESS CHANGED INTERNALLY
+    ### THIS STAYS IN AS A LOOP UNLESS CHANGED INTERNALLY SOMEHOW
     # Inner loop -----
     # Run sim for nYears
     for (n in 1:nYears) {

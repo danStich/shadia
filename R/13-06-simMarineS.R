@@ -81,6 +81,7 @@ simMarineS <- function() {
       Linf_agg <- exp(shadia::vbgf_kennebec_bbh_agg$b0_linf)
       K_agg <- exp(shadia::vbgf_kennebec_bbh_agg$b0_k)
       t0_agg <- exp(shadia::vbgf_kennebec_bbh_agg$b0_t0) - 10
+      
     } else {
 
       # Predict VBGF parameters from model estimates

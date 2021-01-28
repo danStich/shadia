@@ -167,14 +167,20 @@ innerLoopSampling <- function(habitat) {
   c_RT <- c_end - c_initial
   c_RT[c_RT < 1] <- 1
   # Get spawning interval for each fish
+  # American shad (Hyle et al. 2014, McBride et al. 2016)
   c_SI <- rnorm(length(c_fishAges), 2.493, 0.274)
+  # Blueback herring (McBride et al. 2010) 3-4 days based on POFs and such
+  if(species == "blueback"){
+    c_SI <- runif(length(c_fishAges), 3, 4)
+  }
   # Get probability of repeat spawning
   c_repeat <- rbinom(length(c_fishAges), 1, pRepeat[c_fishAges])
   # Get random draws for fecundity based on whether or not fish are repeat
   # spawners.
   c_BF <- vector(mode = "numeric", length = length(c_repeat))
 
-  # American shad batch fecundity from Hyle et al. (2014), McBride et al. (2016)
+  # American shad batch fecundity from Hyle et al. (2014), 
+  # and McBride et al. (2016)
   if (species == "shad") {
     c_BF[c_repeat == 0] <- sample(
       MASS::rnegbin(10000, 20000, 10),
@@ -197,7 +203,16 @@ innerLoopSampling <- function(habitat) {
   }
 
   # Calculate realized annual fecundity
-  c_RAF <- c_BF * (c_RT / c_SI)
+  n_batches <- c_RT/c_SI
+  
+  # There is evidence of fish spawning multiple batches,
+  # not much in the way of "how many". For now, it is 
+  # assumed that this is just a handful based on the total
+  # annual fecundities used by various state agencies
+  if(species == "blueback"){
+    n_batches[n_batches > 2] <- 2
+  }
+  c_RAF <- c_BF * n_batches
 
   # Multiply by sex variable to set male fecundity to zero
   c_fecundity <- c_female * c_RAF

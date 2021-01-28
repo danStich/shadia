@@ -206,7 +206,7 @@ defineHabitat <- function(river, nRoutes, species) {
       261, 268
     ) * 100
 
-    # # Bluebacks moving to 500 fish per ha. Based on
+    # # Bluebacks moving to 500 fish per ha? Based on
     # # G. Wippelhauser pers. comm. and S. Ledwin pers. comm (MEDMR)
     # if (species == "blueback") {
     # 

@@ -343,7 +343,6 @@ annualUpstream <- function(river, damRkms) {
       upEffs[[2]][i + 1] <- unlist(mget(paste0(names(upstream)[i + 7], "Up"), .shadia))
     }
 
-
     # Upstream passage times
     times <- vector(mode = "list", length = nRoutes)
 
