@@ -358,6 +358,30 @@
 #' @source US Geological Survey
 "tempData_hudson"
 
+#' @title Androscoggin River Temperatures
+#'
+#' @description Temperature data from
+#' various monitoring sites in the
+#' Androscoggin and Little Androscoggin 
+#' rivers, Maine, USA.
+#'
+#' @format A data frame with 1037303 observations of 5 variables
+#' \describe{
+#'   \code{staid }{Site ID in watershed}
+#'
+#'   \code{dates }{Date of temperature observation}
+#'
+#'   \code{year }{Year of temperature observation}
+#'
+#'   \code{day }{Ordinal date}
+#'
+#'   \code{val }{Bottom temperature in degrees celcius}
+#' }
+#'
+#' @source SHEDS Stream Temperature Database
+"tempData_androscoggin"
+
+
 #' @title Projected sea surface temperatures RCP 4.5
 #'
 #' @description Projected sea surface temperatures for
@@ -659,3 +683,5 @@
 #'
 #' @source Atlantic States Marine Fisheries Commission
 "length_weight"
+
+
