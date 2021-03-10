@@ -171,9 +171,9 @@
 #' @section
 #' Warning about serial execution and memory limits:
 #'
-#' Currently, internal functions rely on \code{list2env} to return
+#' Currently, internal functions rely on \code{list2env()} to return
 #' lists to a temporary environment created in the
-#' \code{kennebecRiverModel} function. Consequently, lists
+#' \code{androscogginRiverModel()} function. Consequently, lists
 #' that are exported must be limited in size. Therefore,
 #' users currently need to limit the number of runs per
 #' call (\code{nRuns} argument) to less than 10 or R will
@@ -186,7 +186,7 @@
 #' parallel execution as demonstrated using the \code{snowfall}
 #' package in the example below.
 #'
-# #' @example /inst/examples/sf-exampleKBR.R
+#' @example /inst/examples/sf-exampleANR.R
 #'
 #' @export
 androscogginRiverModel <- function(
