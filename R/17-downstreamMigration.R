@@ -889,4 +889,120 @@ downstreamMigration <- function() {
       )
     )
   }
+  
+  if (river == "androscoggin") {
+    # Derive downstream passage efficiencies for each group of spawners in each PU.
+    # This uses the starting position of the fish, and then incorporates cumulative
+    # dam passage efficiencies from the starting PU to the ocean.
+    # Mainstem
+    sPU <- c()
+    sPU[[1]] <- downstreamS^puRkm[[1]][1]
+    sPU[[2]] <- sPU[[1]] * brunswickD * (downstreamS^puRkm[[1]][2])
+    sPU[[3]] <- sPU[[2]] * pejebscotD * (downstreamS^puRkm[[1]][3])
+    sPU[[4]] <- sPU[[3]] * worumboD * (downstreamS^puRkm[[1]][4])
+    sPU[[5]] <- sPU[[4]] * lbarkerD * (downstreamS^puRkm[[1]][5])
+    sPU[[6]] <- sPU[[5]] * ubarkerD * (downstreamS^puRkm[[1]][6])
+    sPU[[7]] <- sPU[[6]] * littlefieldD * (downstreamS^puRkm[[1]][7])    
+    sPU[[8]] <- sPU[[7]] * hackettD * (downstreamS^puRkm[[1]][8])    
+    sPU[[9]] <- sPU[[8]] * marcalD * (downstreamS^puRkm[[1]][9])    
+    sPU[[10]] <- sPU[[9]] * welchvilleD * (downstreamS^puRkm[[1]][10])
+    sPU[[11]] <- sPU[[10]] * parisD * (downstreamS^puRkm[[1]][11])
+    
+    
+    # Sabattus
+    sPU_sab <- c()
+    sPU_sab[[1]] <- downstreamS^puRkm[[2]][1]
+    sPU_sab[[2]] <- sPU_sab[[1]] * brunswickD * (downstreamS^puRkm[[2]][2])
+    sPU_sab[[3]] <- sPU_sab[[2]] * pejebscotD * (downstreamS^puRkm[[2]][3])
+    sPU_sab[[4]] <- sPU_sab[[3]] * worumboD * (downstreamS^puRkm[[2]][5])
+    sPU_sab[[5]] <- sPU_sab[[4]] * farwellD * (downstreamS^puRkm[[2]][5])
+    sPU_sab[[6]] <- sPU_sab[[5]] * fortierD * (downstreamS^puRkm[[2]][6])
+    sPU_sab[[7]] <- sPU_sab[[6]] * sabattusD * (downstreamS^puRkm[[2]][7])
+    
+    # Derive downstream passage efficiencies for each group of juveniles in each PU.
+    # This uses the starting position of the fish, and then incorporates cumulative
+    # dam passage efficiencies from the starting PU to the ocean.
+    # Mainstem
+    sPUj <- c()
+    sPUj[[1]] <- downstreamS^puRkm[[1]][1]
+    sPUj[[2]] <- sPUj[[1]] * brunswickDj * (downstreamS^puRkm[[1]][2])
+    sPUj[[3]] <- sPUj[[2]] * pejebscotDj * (downstreamS^puRkm[[1]][3])
+    sPUj[[4]] <- sPUj[[3]] * worumboDj * (downstreamS^puRkm[[1]][4])
+    sPUj[[5]] <- sPUj[[4]] * lbarkerDj * (downstreamS^puRkm[[1]][5])
+    sPUj[[6]] <- sPUj[[5]] * ubarkerDj * (downstreamS^puRkm[[1]][6])
+    sPUj[[7]] <- sPUj[[6]] * littlefieldDj * (downstreamS^puRkm[[1]][7])    
+    sPUj[[8]] <- sPUj[[7]] * hackettDj * (downstreamS^puRkm[[1]][8])    
+    sPUj[[9]] <- sPUj[[8]] * marcalDj * (downstreamS^puRkm[[1]][9])    
+    sPUj[[10]] <- sPUj[[9]] * welchvilleDj * (downstreamS^puRkm[[1]][10])
+    sPUj[[11]] <- sPUj[[10]] * parisDj * (downstreamS^puRkm[[1]][11])
+    
+    
+    # Sabattus
+    sPU_sabj <- c()
+    sPU_sabj[[1]] <- downstreamS^puRkm[[2]][1]
+    sPU_sabj[[2]] <- sPU_sabj[[1]] * brunswickDj * (downstreamS^puRkm[[2]][2])
+    sPU_sabj[[3]] <- sPU_sabj[[2]] * pejebscotDj * (downstreamS^puRkm[[2]][3])
+    sPU_sabj[[4]] <- sPU_sabj[[3]] * worumboDj * (downstreamS^puRkm[[2]][5])
+    sPU_sabj[[5]] <- sPU_sabj[[4]] * farwellDj * (downstreamS^puRkm[[2]][5])
+    sPU_sabj[[6]] <- sPU_sabj[[5]] * fortierDj * (downstreamS^puRkm[[2]][6])
+    sPU_sabj[[7]] <- sPU_sabj[[6]] * sabattusDj * (downstreamS^puRkm[[2]][7])
+    
+    # Calculate number of males reaching the mouth of the river after spawn from
+    # each PU
+    malesOut <- vector(mode = "list", length = length(males))
+    for (i in 1:length(sPU)) {
+      malesOut[[1]][[i]] <- mapply("*", males[[1]], sPU)[, i]
+    }
+    for (i in 1:length(sPU_sab)) {
+      malesOut[[2]][[i]] <- mapply("*", males[[2]], sPU_sab)[, i]
+    }
+    # Sum number of males in each age from all PUs reaching river mouth
+    malesOut <- apply(data.frame(malesOut[[1]]), 1, sum) +
+      apply(data.frame(malesOut[[2]]), 1, sum)
+
+    # Calculate number of females reaching the mouth of the river after spawn from
+    # each PU
+    femalesOut <- vector(mode = "list", length = length(females))
+    for (i in 1:length(sPU)) {
+      femalesOut[[1]][[i]] <- mapply("*", females[[1]], sPU)[, i]
+    }
+    for (i in 1:length(sPU_sab)) {
+      femalesOut[[2]][[i]] <- mapply("*", females[[2]], sPU_sab)[, i]
+    }
+    # Sum number of females in each age from all PUs reaching river mouth
+    femalesOut <- apply(data.frame(femalesOut[[1]]), 1, sum) +
+      apply(data.frame(femalesOut[[2]]), 1, sum)
+
+    # Calculate the number of recruits reaching the ocean
+    recruitsOut <- vector(mode = "list", length = length(recruits))
+    # Mainstem
+    recruitsOut <- vector(mode = "list", length = length(recruits))
+    for (i in 1:length(sPU)) {
+      recruitsOut[[1]][[i]] <- mapply("*", recruits[[1]], sPUj)
+    }
+    # Sabattus
+    for (i in 1:length(sPU_sab)) {
+      recruitsOut[[2]][[i]] <- mapply("*", recruits[[2]], sPU_sabj)
+    }
+    # Sum number of recruits in each age from all PUs reaching river mouth
+    recruitsOut <- sum(unlist(recruitsOut))
+
+    # Sum total number of out migrants
+    outMigrants <- femalesOut + malesOut
+
+    return(
+      list(
+        sPU = sPU,
+        sPj = sPUj,
+        sPU_sab = sPU_sab,
+        sPU_sabj = sPU_sabj,
+        malesOut = malesOut,
+        femalesOut = femalesOut,
+        recruitsOut = recruitsOut,
+        outMigrants = outMigrants
+      )
+    )
+  }
+  
+  
 }

@@ -1,7 +1,7 @@
-#' Kennebec River Model
+#' Androscoggin River Model
 #'
 #' Dam passage performance standard model for
-#' Kennebec River, Maine, USA
+#' Androscoggin River, Maine, USA
 #'
 #' @param nRuns The number of times that the
 #' model will be run.
@@ -17,8 +17,8 @@
 #' @param n_adults Number of starting adults in
 #' population.
 #'
-#' @param p_sebasticook Probability of using the
-#' Sebasticook River for migration. Default is
+#' @param p_sabattus Probability of using the
+#' Sabattus River for migration. Default is
 #' based on proportional distribution of habitat
 #' in each route.
 #'
@@ -30,8 +30,8 @@
 #'
 #' @param upstream A named list of upstream dam
 #' passage efficiencies at each dam in the
-#' Kennebec River and its largest tributary, the
-#' Sebasticook River.
+#' Androscoggin River and its largest tributary, the
+#' Sabattus River.
 #'
 #' Users may specify a single value of upstream
 #' passage at each dam, or a vector of upstream
@@ -47,11 +47,11 @@
 #'
 #' @param downstream A named list of downstream
 #' dam passage efficiencies at each dam in the
-#' Kennebec and Sebasticook rivers.
+#' Androscoggin river.
 #'
 #' @param downstream_juv A named list of downstream
 #' dam passage efficiencies at each dam in the
-#' Kennebec River for juveniles.
+#' Androscoggin River for juveniles.
 #'
 #' @param inRiverF Annual, recreational harvest in river.
 #' Parameterized as an annual rate [0, 1].
@@ -90,10 +90,10 @@
 #' memory load in parallel processing.
 #'
 #' @param spatially_explicit_output Whether to return population size in each production unit.
-#' 
+#'
 #' @param output_years Whether to return all years (default = `NULL`) or only
 #' final year of each simulation (`"last"`).
-#' 
+#'
 #' @param output_p_repeat A logical indicating whether to return pRepeat by
 #' age (in years) with the output. The default value is `FALSE` to
 #' limit output size in physical memory.
@@ -101,28 +101,28 @@
 #' @return Returns a dataframe when sensitivity = FALSE (default).
 #' Returns a list of two named dataframes when sensitivity = TRUE.
 #' The first dataframe (\code{res}) contains user-defined
-#' inputs and available model outputs depending on optional arguments. 
-#' The second dataframe (\code{sens}) contains input variables for 
+#' inputs and available model outputs depending on optional arguments.
+#' The second dataframe (\code{sens}) contains input variables for
 #' sensitivity analysis if desired. If run in parallel, returns a list of
 #' lists of dataframes.
 #'
 #' The following named columns may be returned in \code{res}:
-#' 
+#'
 #' \itemize{
 #'     \item \code{year} Year of simulation
 #'     \item \code{species} Species used for simulation
-#'     \item \code{pSebasticook} Probability of fish using the Sebasticook River during upstream migration and spawning
-#'     \item \code{timing_lockwood...timing_burnham} Passage timing input by user
-#'     \item \code{lockwood_us...burnham_us} User-specified upstream passage efficiencies
-#'     \item \code{lockwood_ds...burnham_ds}  User-specified downstream passage efficiencies
-#'     \item \code{lockwood_dsj...burnham_dsj}  User-specified juvenile downstream passage efficiencies
+#'     \item \code{p_sabattus} Probability of fish using the Sabattus River during upstream migration and spawning
+#'     \item \code{timing_brunswick...timing_paris} Passage timing input by user
+#'     \item \code{brunswick_us...sparis_us} User-specified upstream passage efficiencies
+#'     \item \code{brunswick_ds...sparis_ds}  User-specified downstream passage efficiencies
+#'     \item \code{brunswick_dsj...sparis_dsj}  User-specified juvenile downstream passage efficiencies
 #'     \item \code{F.inRiver} User-specified recreational fishing mortality
 #'     \item \code{F.commercial} User-specified recreational fishing mortality
 #'     \item \code{F.recreational} User-specified recreational fishing mortality
 #'     \item \code{indirectM} User-specified indirect mortality dams
 #'     \item \code{indirectM} User-specified latent mortality
 #'     \item \code{pRepeat_Age1...pRepeat_AgeN} Age-specific probability of repeat spawning
-#'     \item \code{N_IA...N_IIB} Production unit-specific population size after in-river fishery mortality
+#'     \item \code{N_IA...N_IB} Production unit-specific population size after in-river fishery mortality
 #'     \item \code{populationSize} Number of spawners returning to the river
 #' }
 #'
@@ -163,16 +163,13 @@
 #' }
 #'
 #' @section
-#' Schematic of production units:
-#' Production units delineated by dams in the watershed.
-#' Circles are log proportional to carrying capacity in
-#' each unit. Black dots indicate no suitable habitat
-#' in a unit.
+#' Schematic of production units coming soon
 #'
-#' \if{html}{\figure{kennebec.png}{Kennebec River}}
-#' \if{latex}{\figure{kennebec.png}{options: width=0.5in}}
+# #' \if{html}{\figure{kennebec.png}{Kennebec River}}
+# #' \if{latex}{\figure{kennebec.png}{options: width=0.5in}}
 #'
-#' @section Warning about serial execution and memory limits:
+#' @section
+#' Warning about serial execution and memory limits:
 #'
 #' Currently, internal functions rely on \code{list2env} to return
 #' lists to a temporary environment created in the
@@ -189,57 +186,77 @@
 #' parallel execution as demonstrated using the \code{snowfall}
 #' package in the example below.
 #'
-#' @example /inst/examples/sf-exampleKBR.R
+# #' @example /inst/examples/sf-exampleKBR.R
 #'
 #' @export
-kennebecRiverModel <- function(
-                               nRuns = 1,
-                               species = "shad",
-                               nYears = 40,
-                               n_adults = 1e4,
-                               timing = c(1, 1, 1, 1, 1, 1),
-                               p_sebasticook = rbeta(1, 25, 100),
-                               upstream = list(
-                                 lockwood = 1,
-                                 hydroken = 1,
-                                 shawmut = 1,
-                                 weston = 1,
-                                 benton = 1,
-                                 burnham = 1
-                               ),
-                               downstream = list(
-                                 lockwood = 1,
-                                 hydroken = 1,
-                                 shawmut = 1,
-                                 weston = 1,
-                                 benton = 1,
-                                 burnham = 1
-                               ),
-                               downstream_juv = list(
-                                 lockwood = 1,
-                                 hydroken = 1,
-                                 shawmut = 1,
-                                 weston = 1,
-                                 benton = 1,
-                                 burnham = 1
-                               ),
-                               inRiverF = 0,
-                               commercialF = 0,
-                               bycatchF = 0,
-                               indirect = 1,
-                               latent = 1,
-                               watershed = FALSE,
-                               k_method = "cumulative",
-                               sensitivity = FALSE,
-                               spatially_explicit_output = FALSE,
-                               output_years = NULL,
-                               output_p_repeat = FALSE
-                               ) {
+androscogginRiverModel <- function(
+                                   nRuns = 1,
+                                   species = "shad",
+                                   nYears = 40,
+                                   n_adults = 1e4,
+                                   timing = rep(1, 13),
+                                   p_sabattus = 0.05,
+                                   upstream = list(
+                                     brunswick = 1,
+                                     pejebscot = 1,
+                                     worumbo = 1,
+                                     lbarker = 1,
+                                     ubarker = 1,
+                                     littlefield = 1,
+                                     hackett = 1,
+                                     marcal = 1,
+                                     welchville = 1,
+                                     paris = 1,
+                                     farwell = 1,
+                                     fortier = 1,
+                                     sabattus = 1
+                                   ),
+                                   downstream = list(
+                                     brunswick = 1,
+                                     pejebscot = 1,
+                                     worumbo = 1,
+                                     lbarker = 1,
+                                     ubarker = 1,
+                                     littlefield = 1,
+                                     hackett = 1,
+                                     marcal = 1,
+                                     welchville = 1,
+                                     paris = 1,
+                                     farwell = 1,
+                                     fortier = 1,
+                                     sabattus = 1
+                                   ),
+                                   downstream_juv = list(
+                                     brunswick = 1,
+                                     pejebscot = 1,
+                                     worumbo = 1,
+                                     lbarker = 1,
+                                     ubarker = 1,
+                                     littlefield = 1,
+                                     hackett = 1,
+                                     marcal = 1,
+                                     welchville = 1,
+                                     paris = 1,
+                                     farwell = 1,
+                                     fortier = 1,
+                                     sabattus = 1
+                                   ),
+                                   inRiverF = 0,
+                                   commercialF = 0,
+                                   bycatchF = 0,
+                                   indirect = 1,
+                                   latent = 1,
+                                   watershed = FALSE,
+                                   k_method = "cumulative",
+                                   sensitivity = FALSE,
+                                   spatially_explicit_output = FALSE,
+                                   output_years = NULL,
+                                   output_p_repeat = FALSE) {
 
   # Error message for passage efficiencies
-  if ((length(upstream) != 6) | (length(downstream) != 6)) {
+  if ((length(upstream) != 13) | (length(downstream) != 13)) {
     stop("
-         `upstream` and `downstream must each have 6 elements.")
+         `upstream` and `downstream` must each have 13 elements.")
   }
 
   # Error message for maximum number of years
@@ -247,7 +264,7 @@ kennebecRiverModel <- function(
     stop("
           
           Error:
-          The current year plus `nYears`` must not
+          The current year plus `nYears` must not
           exceed 2099 because the models rely on
           climate predictions that are limited to
           that time period.")
@@ -257,7 +274,7 @@ kennebecRiverModel <- function(
   if (watershed) {
     cat("WARNING: when watershed is set to TRUE,
     upstream and downstream passage rate(s) for
-    Lockwood Dam will be used at all dams in the
+    Brunswick Dam will be used at all dams in the
     watershed.", "\n", "\n")
   }
 
@@ -268,7 +285,7 @@ kennebecRiverModel <- function(
   .shadia$species <- species
 
   # Assign River
-  .shadia$river <- "kennebec"
+  .shadia$river <- "androscoggin"
   .shadia$region <- "Northern Iteroparous"
 
   # Choose climate scenario
@@ -424,7 +441,6 @@ kennebecRiverModel <- function(
   environment(setUpTemperatureData) <- .shadia
   .shadia$mu <- setUpTemperatureData(river = .shadia$river)
 
-
   ### Can the outer loop be eliminated?
   # Outer loop for number of simulations (nRuns) ----
   # this is how many runs it will do for each nYears
@@ -517,6 +533,10 @@ kennebecRiverModel <- function(
       # next year (after applying ocean survival)
       environment(nextGeneration) <- .shadia
       list2env(nextGeneration(), envir = .shadia)
+
+      #################
+      ### Working here
+      #################
 
       # . Store output in pre-allocated vectors -----
       environment(fillOutputVectors) <- .shadia

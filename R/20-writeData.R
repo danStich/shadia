@@ -566,6 +566,73 @@ writeData <- function() {
     
     
   }
+  
+  
+  if (river == "androscoggin") {
+    # Collect inputs and outputs into a single object for file write
+    res <- data.frame(
+      years = years,
+      species,
+      psabattus = sabattus,
+      times,
+      pDraws,
+      dDraws,
+      djDraws,
+      F.inRiver,
+      F.commercial,
+      F.bycatch,
+      indirectM,
+      latentM,
+      pRepeats,
+      ceiling(pop01a),
+      ceiling(pop02a),
+      ceiling(pop03a),
+      ceiling(pop04a),
+      ceiling(pop05a),
+      ceiling(pop06a),
+      ceiling(pop07a),
+      ceiling(pop08a),
+      ceiling(pop09a),
+      ceiling(pop10a),      
+      ceiling(pop4b),
+      ceiling(pop5b),
+      ceiling(pop6b),
+      ceiling(populationSize)
+    )
+
+    names(res) <- c(
+      "year",
+      "species",
+      "pSabattus",
+      paste0("timing_", names(upstream)),
+      paste0(names(upstream), "_us"),
+      paste0(names(downstream), "_ds"),
+      paste0(names(downstream_juv), "_dsj"),
+      "inriverF",
+      "commercialF",
+      "bycatchF",
+      "indirect",
+      "latent",
+      colnames(pRepeats),
+      "N_IA",
+      "N_IIA",
+      "N_IIIA",
+      "N_IVA",
+      "N_VA",
+      "N_VIA",
+      "N_VIIA",
+      "N_VIIIA",
+      "N_IXA",
+      "N_XA",      
+      "N_IVB",
+      "N_VB",
+      "N_VIB",      
+      "populationSize"
+    )
+  }  
+  
+  
+  
 
   # Collect variables for sensitivity analysis and save them out
   sens <- data.frame(
@@ -626,4 +693,5 @@ writeData <- function() {
   if (sensitivity == FALSE) {
     return(res)
   }
+  
 }

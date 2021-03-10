@@ -1138,4 +1138,164 @@ fillOutputVectors <- function() {
       daily.move = daily.move
     ))
   }
+
+  if (river == "androscoggin"){
+    # Store output in pre-allocated vectors
+
+    # Probability of using sebasticook river
+    sabattus[(n + nYears * (k - 1))] <- p_sabattus
+
+    # Population summation by reach & overall
+    
+    # NOTE THIS SKIPS THE PU DOWNSTREAM OF BRUNSWICK
+    # COPY AND PASTE FROM KENNEBEC IF YOU NEED A NEW
+    # TEMPLATE!
+    
+    # Population between brunswick and pejebscot
+    pop01a[(n + nYears * (k - 1))] <- (
+      sum(males2res[[1]][[2]]) +
+        sum(females2res[[1]][[2]]) +
+        sum(males2res[[2]][[2]]) +
+        sum(females2res[[2]][[2]])) * scalar
+
+    # Population between pejebscot and worumbo
+    pop02a[(n + nYears * (k - 1))] <- (
+      sum(males2res[[1]][[3]]) +
+        sum(females2res[[1]][[3]]) +
+        sum(males2res[[2]][[3]]) +
+        sum(females2res[[2]][[3]])) * scalar
+
+    # Population between worumbo and lower barker
+    pop03a[(n + nYears * (k - 1))] <- (
+      sum(males2res[[1]][[4]]) +
+        sum(females2res[[1]][[4]])) * scalar
+
+    # Population between lower barker and upper barker
+    pop04a[(n + nYears * (k - 1))] <- (
+      sum(males2res[[1]][[5]]) +
+        sum(females2res[[1]][[5]])) * scalar
+    
+    # Population between upper barker and littlefield
+    pop05a[(n + nYears * (k - 1))] <- (
+      sum(males2res[[1]][[6]]) +
+        sum(females2res[[1]][[6]])) * scalar    
+    
+    # Population between upper littlefield and hacketts mills
+    pop06a[(n + nYears * (k - 1))] <- (
+      sum(males2res[[1]][[7]]) +
+        sum(females2res[[1]][[7]])) * scalar       
+    
+    # Population between hacketts mills and marcal (mechanic falls)
+    pop07a[(n + nYears * (k - 1))] <- (
+      sum(males2res[[1]][[8]]) +
+        sum(females2res[[1]][[8]])) * scalar         
+    
+    # Population between marcal (mechanic falls) and welchville
+    pop08a[(n + nYears * (k - 1))] <- (
+      sum(males2res[[1]][[9]]) +
+        sum(females2res[[1]][[9]])) * scalar           
+    
+    # Population between welchville and paris
+    pop09a[(n + nYears * (k - 1))] <- (
+      sum(males2res[[1]][[10]]) +
+        sum(females2res[[1]][[10]])) * scalar             
+    
+    # Population between paris and bisco
+    pop10a[(n + nYears * (k - 1))] <- (
+      sum(males2res[[1]][[11]]) +
+        sum(females2res[[1]][[11]])) * scalar             
+        
+
+    # Population between farwell and fortier
+    pop4b[(n + nYears * (k - 1))] <- (
+      sum(males2res[[2]][[5]]) +
+        sum(females2res[[2]][[5]])) * scalar
+
+    # Population between fortier and sabattus 
+    pop5b[(n + nYears * (k - 1))] <- (
+      sum(males2res[[2]][[6]]) +
+        sum(females2res[[2]][[6]])) * scalar
+    
+    # Population upstream of sabattus dam
+    pop6b[(n + nYears * (k - 1))] <- (
+      sum(males2res[[2]][[7]]) +
+        sum(females2res[[2]][[7]])) * scalar
+    
+    # Population size
+    populationSize[(n + nYears * (k - 1))] <-
+      pop01a[(n + nYears * (k - 1))] +
+      pop02a[(n + nYears * (k - 1))] +
+      pop03a[(n + nYears * (k - 1))] +
+      pop04a[(n + nYears * (k - 1))] +
+      pop05a[(n + nYears * (k - 1))] +
+      pop06a[(n + nYears * (k - 1))] +
+      pop07a[(n + nYears * (k - 1))] +
+      pop08a[(n + nYears * (k - 1))] +
+      pop09a[(n + nYears * (k - 1))] +
+      pop10a[(n + nYears * (k - 1))] +      
+      pop4b[(n + nYears * (k - 1))] +
+      pop5b[(n + nYears * (k - 1))] +
+      pop6b[(n + nYears * (k - 1))]
+    
+    return(list(
+      scalar = scalar,
+      populationSize = populationSize,
+      years = years,
+      sabattus = sabattus,
+      pop01a = pop01a,
+      pop02a = pop02a,
+      pop03a = pop03a,
+      pop04a = pop04a,
+      pop05a = pop05a,
+      pop06a = pop06a,
+      pop07a = pop07a,
+      pop08a = pop08a,
+      pop09a = pop09a,
+      pop10a = pop10a,      
+      pop4b = pop4b,
+      pop5b = pop5b,
+      pop6b = pop6b,      
+      indirectM = indirectM,
+      latentM = latentM,
+      pRepeats = pRepeats,
+      spawners = spawners,
+      scalarVar = scalarVar,
+      ptime = ptime,
+      S.downstream = S.downstream,
+      S.marine = S.marine,
+      F.inRiver = F.inRiver,
+      F.commercial = F.commercial,
+      F.bycatch = F.bycatch,
+      popStart = popStart,
+      p.female = p.female,
+      S.prespawnM = S.prespawnM,
+      S.postspawnM = S.postspawnM,
+      S.prespawnF = S.prespawnF,
+      S.postspawnF = S.postspawnF,
+      S.juvenile = S.juvenile,
+      b.Arr = b.Arr,
+      r.Arr = r.Arr,
+      ATUspawn1 = ATUspawn1,
+      ATUspawn2 = ATUspawn2,
+      Dspawn1 = Dspawn1,
+      Dspawn2 = Dspawn2,
+      linF = linF,
+      kF = kF,
+      t0F = t0F,
+      linM = linM,
+      kM = kM,
+      t0M = t0M,
+      b.length = b.length,
+      r.length = r.length,
+      spawnInt = spawnInt,
+      batchSize = batchSize,
+      RAF = RAF,
+      s.Optim = s.Optim,
+      d.Max = d.Max,
+      tortuosity = tortuosity,
+      motivation = motivation,
+      daily.move = daily.move
+    ))
+  }  
+
 }

@@ -357,6 +357,24 @@ innerLoopSampling <- function(habitat) {
     names(traits_2)[ncol(traits_2)] <- "upstream_path"
     # toc()
   }
+  
+  if (river == "androscoggin") {
+    # Re-organize the data so they match the output of the ABM below
+    traits_1 <- data.frame(
+      traits[upstream_path == 1, , drop = FALSE],
+      upstream_path[upstream_path == 1]
+    )
+    traits_2 <- data.frame(
+      traits[upstream_path == 2, , drop = FALSE],
+      upstream_path[upstream_path == 2]
+    )
+    # Change the name of the last column in each of the dfs so they match
+    names(traits_1)[ncol(traits_1)] <- "upstream_path"
+    names(traits_2)[ncol(traits_2)] <- "upstream_path"
+    # toc()
+  }  
+  
+  
 
   # Draw carrying capacity ----
   # Carrying capacity for juvs based on potential production of adult shad in each
@@ -685,6 +703,34 @@ innerLoopSampling <- function(habitat) {
     )
   }
 
+  
+  if (river == "androscoggin") {
+    # Run the ABM for mainstem
+    moves_1 <- moveC(
+      day,
+      c_entryDate[upstream_path == 1],
+      dailyMove[upstream_path == 1],
+      maxR[upstream_path == 1],
+      ppPenalty[[1]],
+      rkm1[upstream_path == 1],
+      rkm2[upstream_path == 1, , drop = FALSE],
+      c_initial[upstream_path == 1]
+    )
+    # Run the ABM for sabattus
+    moves_2 <- moveC(
+      day,
+      c_entryDate[upstream_path == 2],
+      dailyMove[upstream_path == 2],
+      maxR[upstream_path == 2],
+      ppPenalty[[2]],
+      rkm1[upstream_path == 2],
+      rkm2[upstream_path == 2, , drop = FALSE],
+      c_initial[upstream_path == 2]
+    )
+  }
+  
+  
+  
   ### DSS: WANT TO COMMENT OUT BECAUSE THIS IS
   ###      STILL UNUSED AND IT IS A BIG
   ###      LIFT IN TERMS OF MEMORY/TIME!
@@ -692,7 +738,7 @@ innerLoopSampling <- function(habitat) {
   # migration route for all rivers.
   delay_1 <- delayC(moves_1, damRkms[[1]][2:nPU[1]])
   # Remaining routes for connecticut River
-  if (river == "connecticut" | river == "merrimack" | river == "kennebec" | river == "hudson") {
+  if (river == "connecticut" | river == "merrimack" | river == "kennebec" | river == "hudson" | river == "androscoggin") {
     # Calculate delay at each dam for each main-to-Mainstem spawners
     delay_2 <- delayC(moves_2, damRkms[[2]][2:nPU[2]])
   }
@@ -798,7 +844,27 @@ innerLoopSampling <- function(habitat) {
     )
   }
 
-
+  # Names for delay matrix: andro
+  if (river == "androscoggin") {
+    colnames(delay_1) <- c("dBrunswick",
+                           "dPejebscot",
+                           "dWorumbo",
+                           "dLbarker",
+                           "dUbarker",
+                           "dLittlefield",                                 
+                           "dHackett",
+                           "dMarcal",
+                           "dWelchville",
+                           "dParis"
+                           )
+    colnames(delay_2) <- c("dBrunswick",
+                           "dPejebscot",
+                           "dWorumbo",
+                           "dFarwell",
+                           "dFortier",
+                           "dsabattus")
+  }
+  
   # Annual spawning dynamics ----
   # Combine the data for each fish stored in traits with the final rkm of that
   # fish and the delay experienced by each fish at each dam for each of the
@@ -1331,9 +1397,72 @@ innerLoopSampling <- function(habitat) {
     sp_2$surv <- rbinom(nrow(sp_2), 1, 
                         sp_2$preSpawn * (1 - sp_2$F) * (1 - sp_2$up_mort))
   }
+  
+  # Androscoggin
+  if (river == "androscoggin") {
+    # Combine all data for mainstem
+    spawnData_1 <- cbind(traits_1, moves_1[, ncol(moves_1)], delay_1)
+    # Change the name for the final rkm column
+    colnames(spawnData_1)[ncol(spawnData_1) - nDams[1]] <- "finalRkm"
+    # Make it into a dataframe for easy manipulation
+    sp_1 <- data.frame(spawnData_1)
+
+    # Combine all data for sabattus spawners
+    spawnData_2 <- cbind(traits_2, moves_2[, ncol(moves_2)], delay_2)
+    # Change the name for the final rkm column
+    colnames(spawnData_2)[ncol(spawnData_2) - nDams[2]] <- "finalRkm"
+    # Make it into a dataframe for easy manipulation
+    sp_2 <- data.frame(spawnData_2)
+
+    # Assign each fish to a production unit before they spawn. 
+    puRkm <- vector(mode = "list", length = length(nPU))
+    puRkm[[1]] <- c(0, damRkms[[1]] + 1, (maxrkm[1] + 1))
+    puRkm[[2]] <- c(0, damRkms[[2]] + 1, (maxrkm[2] + 1))
+    # Create an empty list to hold the pu names for each route
+    rm(list = ls()[grep(ls(), pat = "^mPU_")]) # Remove old counts
+    puNames <- vector(mode = "list", length = length(nPU))
+    # Dynamically assign pu names based on river kilometers that delineate them
+    for (t in 1:length(puRkm)) {
+      for (i in 1:(length(puRkm[[t]]) - 1)) {
+        assign(paste("PU_", t, "_", i, sep = ""), puRkm[i])
+      }
+      # Collect the names into a list
+      puNames[[t]] <- names(mget(ls(pat = paste(
+        "^PU_", t,
+        sep = ""
+      ))))
+    }
+    # Determine which PU each fish ends up in based on its rkm and assign it.
+    # Uses pre-compiled function 'fishPU' from source files loaded up front.
+    # Mainstem
+    sp_1$pus <- as.character(fishPU(puRkm[[1]], sp_1$finalRkm, puNames[[1]]))
+    # Sebasticook
+    sp_2$pus <- as.character(fishPU(puRkm[[2]], sp_2$finalRkm, puNames[[2]]))
+
+    # Replace the blank PUs for fish that ended head of tide
+    sp_1$pus[sp_1$pus == ""] <- "PU_1_1"
+    sp_2$pus[sp_2$pus == ""] <- "PU_2_1"
+
+    # Determine the probability that a fish survives to spawn
+    # Pre-spawning mortality by sex
+    sp_1$preSpawn <- sp_1$female * pre_spawn_survival_females +
+      (1 - sp_1$female) * pre_spawn_survival_males
+    sp_2$preSpawn <- sp_2$female * pre_spawn_survival_females +
+      (1 - sp_2$female) * pre_spawn_survival_males
+
+    # Determine fishing mortality by PU
+    sp_1$F <- inriv[[1]][as.numeric(substr(sp_1$pus, 6, 7))]
+    sp_2$F <- inriv[[2]][as.numeric(substrRight(sp_2$pus, 1))]
+
+    # Apply in-river fishing mortality and prespawn survival
+    sp_1$surv <- rbinom(nrow(sp_1), 1, sp_1$preSpawn * (1 - sp_1$F))
+    sp_2$surv <- rbinom(nrow(sp_2), 1, sp_2$preSpawn * (1 - sp_2$F))
+    # toc()
+  }  
+  
 
   # Data return to calling environment
-  # Penobscot River:
+  # Rivers that have 4 migration routes
   if (river == "penobscot" | river == "susquehanna") {
     return(list(
       b.mat = b.mat,
@@ -1377,7 +1506,7 @@ innerLoopSampling <- function(habitat) {
   }
 
   # Rivers that have 2 migration routes:
-  if (river %in% c("connecticut", "merrimack", "kennebec", "hudson")) {
+  if (river %in% c("connecticut", "merrimack", "kennebec", "hudson", "androscoggin")) {
     return(list(
       b.mat = b.mat,
       r.mat = r.mat,
@@ -1417,7 +1546,7 @@ innerLoopSampling <- function(habitat) {
     ))
   }
 
-  # Saco River:
+  # Rivers with 1 migration route
   if (river == "saco") {
     return(list(
       b.mat = b.mat,

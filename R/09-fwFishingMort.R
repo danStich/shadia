@@ -55,5 +55,11 @@ fwFishingMort <- function(inRiverF, river, nRoutes) {
     inriv[[2]] <- rep(inRiverF, 21)
   }
 
+  if (river == "androscoggin") {
+    inriv <- vector(mode = "list", length = nRoutes)
+    inriv[[1]] <- rep(inRiverF, 11)
+    inriv[[2]] <- rep(inRiverF, 7)
+  }  
+  
   return(inriv)
 }

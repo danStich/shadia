@@ -220,6 +220,7 @@ additionalEggsProcessing <- function(fec) {
     # toc()
   }
 
+  
   if (river == "susquehanna") {
     # Calculate total number of eggs in each PU
     fec2 <- vector(mode = "list", length = length(fec))
@@ -475,4 +476,81 @@ additionalEggsProcessing <- function(fec) {
     return(fec_Max)
     # toc()
   }
+
+  
+  if (river == "androscoggin") {
+    # Calculate total number of eggs in each PU
+    fec2 <- vector(mode = "list", length = length(fec))
+    for (i in 1:length(fec)) {
+      fec2[[i]] <- mapply(sum, na.rm = TRUE, fec[[i]])
+    }
+    
+    # No reproduction downstream of Brunswick
+    fec2[[1]][1] <- 0
+    
+    # Shared PUs: sum across route and store in main
+    fec2[[1]][2] <- fec2[[1]][2] + fec2[[2]][2]
+    fec2[[1]][3] <- fec2[[1]][3] + fec2[[2]][3]
+    fec2[[1]][4] <- fec2[[1]][4] + fec2[[2]][4]
+    
+    # Shared PUs for Sabattus
+    fec2[[2]][1] <- 0
+    fec2[[2]][3] <- 0
+    fec2[[2]][4] <- 0
+    fec2[[2]][1] <- 0    
+
+    # Apply carrying capacity limitation to each production unit based
+    # on habitat availability
+    if (k_method == "discrete") {
+      fec_Max <- vector(mode = "list", length = length(fec))
+      for (i in 1:length(fec2)) {
+        for (j in 1:length(fec2[[i]])) {
+          if (fec2[[i]][j] > k_pus[[i]][j]) {
+            fec_Max[[i]][j] <- k_pus[[i]][j]
+          } else {
+            fec_Max[[i]][j] <- fec2[[i]][j]
+          }
+        }
+      }
+    }
+
+    if (k_method == "cumulative") {
+      k_pus[[1]][1] <- 0      
+      k_pus[[2]][1] <- 0
+      k_pus[[2]][2] <- 0
+      k_pus[[2]][3] <- 0
+      k_pus[[2]][4] <- 0
+      
+      fec_Max <- vector(mode = "list", length = length(fec))
+
+      # This chunk is generalized between systems
+      ### Need to add to others
+      for (i in 1:length(fec2)) {
+        for (j in 1:length(fec2[[i]])) {
+          if (any(fec2[[i]] != 0)) {
+            upper <- max(which(fec2[[i]] != 0))
+          } else {
+            upper <- 999
+          }
+
+          if (upper < 999) {
+            sum_fec <- sum(fec2[[i]])
+            sum_kpus <- sum(k_pus[[i]][1:upper])
+          } else {
+            sum_fec <- sum(fec2[[i]])
+            sum_kpus <- k_pus[[i]][1]
+          }
+
+          if (sum_fec > sum_kpus) {
+            fec_Max[[i]][j] <- fec2[[i]][j] * (sum_kpus / sum_fec)
+          } else {
+            fec_Max[[i]][j] <- fec2[[i]][j]
+          }
+        }
+      }
+    }
+    return(fec_Max)
+    # toc()
+  }
+    
 }

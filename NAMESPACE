@@ -3,6 +3,7 @@
 export(CI)
 export(addStochList)
 export(additionalEggsProcessing)
+export(androscogginRiverModel)
 export(annualUpstream)
 export(assignFishToPU)
 export(assignFishToRoutes)

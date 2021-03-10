@@ -177,4 +177,27 @@ postSpawnMortality <- function() {
       recruits = recruits
     ))
   }
+  
+  if (river == "androscoggin") {
+    # Males
+    males[[1]] <- Map("*", males[[1]], post_spawn_survival_males)
+    males[[2]] <- Map("*", males[[2]], post_spawn_survival_males)
+
+    # Females
+    females[[1]] <- Map("*", females[[1]], post_spawn_survival_females)
+    females[[2]] <- Map("*", females[[2]], post_spawn_survival_females)
+
+    # Apply juvenile mortality up to outmigration. This will be a list object with
+    # Piscataquis recruits in the first element and Mainstem recruits in second.
+    recruits <- vector(mode = "list", length = length(fec_Max))
+    recruits[[1]] <- Map("*", fec_Max[[1]], juvenile_survival)
+    recruits[[2]] <- Map("*", fec_Max[[2]], juvenile_survival)
+
+    return(list(
+      males = males,
+      females = females,
+      recruits = recruits
+    ))
+  }  
+  
 }

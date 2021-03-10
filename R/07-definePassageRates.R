@@ -515,4 +515,106 @@ definePassageRates <- function(river) {
       )
     )
   }
+  
+  if (river == "androscoggin") {
+    # Upstream passage rates
+    Open <- 1.00
+    brunswick <- up[1]
+    pejebscot <- up[2]
+    worumbo <- up[3]
+    lbarker <- up[4]
+    ubarker <- up[5]
+    littlefield <- up[6]                                 
+    hackett <- up[7]
+    marcal <- up[8]
+    welchville <- up[9]
+    paris <- up[10]
+    farwell <- up[11]
+    fortier <- up[12]
+    sabattus <- up[13]    
+
+    # Downstream passage efficiencies
+    # Define downstream passage efficiencies at each of the dams
+    OpenD <- 1.00
+    brunswickD <- d[1] * indirect * latent * delay
+    pejebscotD <- d[2] * indirect * latent * delay
+    worumboD <- d[3] * indirect * latent * delay
+    lbarkerD <- d[4] * indirect * latent * delay
+    ubarkerD <- d[5] * indirect * latent * delay
+    littlefieldD <- d[6] * indirect * latent * delay                                 
+    hackettD <- d[7] * indirect * latent * delay
+    marcalD <- d[8] * indirect * latent * delay
+    welchvilleD <- d[9] * indirect * latent * delay
+    parisD <- d[10] * indirect * latent * delay
+    farwellD <- d[11] * indirect * latent * delay
+    fortierD <- d[12] * indirect * latent * delay
+    sabattusD <- d[13] * indirect * latent * delay       
+
+    # Make downstream survival probabilities for juveniles
+    # Unused. Moved to separate calculations in the
+    # Connecticut River Model. All runs in the Penobscot
+    # River to date have used equal performance standards.
+    # Will update this model to use the same approach.
+    OpenD <- 1.00
+    brunswickDj <- dj[1] * indirect * latent * delay
+    pejebscotDj <- dj[2] * indirect * latent * delay
+    worumboDj <- dj[3] * indirect * latent * delay
+    lbarkerDj <- dj[4] * indirect * latent * delay
+    ubarkerDj <- dj[5] * indirect * latent * delay
+    littlefieldDj <- dj[6] * indirect * latent * delay                                 
+    hackettDj <- dj[7] * indirect * latent * delay
+    marcalDj <- dj[8] * indirect * latent * delay
+    welchvilleDj <- dj[9] * indirect * latent * delay
+    parisDj <- dj[10] * indirect * latent * delay
+    farwellDj <- dj[11] * indirect * latent * delay
+    fortierDj <- dj[12] * indirect * latent * delay
+    sabattusDj <- dj[13] * indirect * latent * delay  
+
+    return(
+      list(
+        Open = Open,
+        brunswickUp = brunswick,
+        pejebscotUp = pejebscot,
+        worumboUp = worumbo,
+        lbarkerUp = lbarker,
+        ubarkerUp = ubarker,
+        littlefieldUp = littlefield,
+        hackettUp = hackett,
+        marcalUp = marcal,
+        welchvilleUp = welchville,
+        parisUp = paris,
+        farwellUp = farwell,
+        fortierUp = fortier,
+        sabattusUp = sabattus,
+        OpenD = OpenD,
+        brunswickD = brunswickD,
+        pejebscotD = pejebscotD,
+        worumboD = worumboD,
+        lbarkerD = lbarkerD,
+        ubarkerD = ubarkerD,
+        littlefieldD = littlefieldD,
+        hackettD = hackettD,
+        marcalD = marcalD,
+        welchvilleD = welchvilleD,
+        parisD = parisD,
+        farwellD = farwellD,
+        fortierD = fortierD,
+        sabattusD = sabattusD,        
+        brunswickDj = brunswickDj,
+        pejebscotDj = pejebscotDj,
+        worumboDj = worumboDj,
+        lbarkerDj = lbarkerDj,
+        ubarkerDj = ubarkerDj,
+        littlefieldDj = littlefieldDj,
+        hackettDj = hackettDj,
+        marcalDj = marcalDj,
+        welchvilleDj = welchvilleDj,
+        parisDj = parisDj,
+        farwellDj = farwellDj,
+        fortierDj = fortierDj,
+        sabattusDj = sabattusDj
+      )
+    )
+  }  
+  
 }

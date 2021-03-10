@@ -120,5 +120,19 @@ setUpTemperatureData <- function(river) {
     mu <- na.omit(mu)
   }
 
+  if (river == "androscoggin") {
+
+    # Load the andro temperature data 
+    # from built-in object
+    mu <- shadia::tempData_androscoggin %>%
+      # filter(day >= 50) %>%
+      group_by(day, year) %>%
+      summarize(val = mean(val, na.rm = TRUE))
+    mu <- data.frame(mu)
+    mu <- mu[, c(3, 2, 1)]
+    mu <- na.omit(mu)
+  }  
+  
+  
   return(mu)
 }

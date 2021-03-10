@@ -72,7 +72,7 @@ simGrowth <- function(region, female = TRUE) {
 
     # Sex-specific VBGF estimates ----
 
-    if (river == "kennebec") {
+    if (river %in% c("merrimack", "saco", "kennebec", "androscoggin", "penobscot")) {
       if (female) {
         pars <- vbgf_kennebec_bbh_f
       } else {

@@ -35,6 +35,9 @@ getPhotoperiod <- function(river, day) {
   if (river == "hudson") {
     photoPeriod <- daylength(42.7511, day)
   }
-
+  # Androscoggin river:
+  if (river == "androscoggin") {
+    photoPeriod <- daylength(43.9066, day)
+  }
   return(photoPeriod)
 }

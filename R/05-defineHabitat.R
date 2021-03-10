@@ -208,6 +208,7 @@ defineHabitat <- function(river, nRoutes, species) {
 
     # # Bluebacks moving to 500 fish per ha? Based on
     # # G. Wippelhauser pers. comm. and S. Ledwin pers. comm (MEDMR)
+    # ### TESTING NOW
     # if (species == "blueback") {
     # 
     #   # Multiply by 484 and divide out the original 100 per acre (250/ha)
@@ -215,5 +216,44 @@ defineHabitat <- function(river, nRoutes, species) {
     # }
   }
 
+  
+  if (river == "androscoggin") {
+    habitat <- vector(mode = "list", length = nRoutes)
+    # RKM habitat splits for now
+    # Split habitat around littlefield
+    # Split up habitat above/below dams in Sabattus
+    habitat[[1]] <- c(
+      0,   # Downstream of Brunswick
+      127, # Brunswick to Pejebscot
+      99,  # Pejebscot to Worumbo
+      462, # Worumbo to Lower Barker, incl. lwr Sabattus
+      5,   # Lower to Upper Barker
+      22,  # Upper Barker to Littlefield (breached)
+      35,  # Littlefield to Hacketts Mills Dam
+      56,  # Hacketts to Marcal Dam
+      38,  # Marcal to Welchville
+      106, # Welchville to Paris
+      43  # Paris to Bisco Falls (extent)
+    ) * 250
+    habitat[[2]] <- c(
+      0,   # Downstream of Brunswick
+      127, # Brunswick to Pejebscot
+      99,  # Pejebscot to Worumbo
+      462, # Worumbo to Lower Barker, incl. lwr Sabattus
+      34,  # Farwell Dam to Fortier Dam
+      3,   # Fortier to Sabattus Pond Outlet
+      0    # Sabattus Pond - IDK???
+    ) * 250
+
+    # Bluebacks moving to 500 fish per ha. Based on
+    # G. Wippelhauser pers. comm. and S. Ledwin pers. comm (MEDMR)
+    if (species == "blueback") {
+
+      # Multiply by 484 and divide out the original 100 per acre (250/ha)
+      habitat <- lapply(habitat, function(x) x * (484 / .4) / 250)
+    }
+  }
+
+  
   return(habitat)
 }

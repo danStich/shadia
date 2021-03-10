@@ -364,4 +364,60 @@ annualUpstream <- function(river, damRkms) {
       upEffs = upEffs
     ))
   }
+
+  if (river == "androscoggin") {
+    # Assign efficiencies to the upstream passage groups
+    # (main or sabattus)
+    upEffs <- vector(mode = "list", length = nRoutes)
+    
+    # Route 1- Mainstem
+    upEffs[[1]][1] <- brunswickUp
+    upEffs[[1]][2] <- pejebscotUp
+    upEffs[[1]][3] <- worumboUp
+    upEffs[[1]][4] <- lbarkerUp
+    upEffs[[1]][5] <- ubarkerUp
+    upEffs[[1]][6] <- littlefieldUp
+    upEffs[[1]][7] <- hackettUp   
+    upEffs[[1]][8] <- marcalUp
+    upEffs[[1]][9] <- welchvilleUp
+    upEffs[[1]][10] <- parisUp       
+    
+    # Route 2- Sabattus
+    upEffs[[2]][1] <- brunswickUp
+    upEffs[[2]][2] <- pejebscotUp
+    upEffs[[2]][3] <- worumboUp    
+    upEffs[[2]][4] <- farwellUp
+    upEffs[[2]][5] <- fortierUp
+    upEffs[[2]][6] <- sabattusUp
+    
+    # Upstream passage times
+    times <- vector(mode = "list", length = nRoutes)
+
+    # Route 1- Mainstem
+    times[[1]][1] <- timely[[1]]
+    times[[1]][2] <- timely[[2]]
+    times[[1]][3] <- timely[[3]]
+    times[[1]][4] <- timely[[4]]
+    times[[1]][5] <- timely[[5]]
+    times[[1]][6] <- timely[[6]]
+    times[[1]][7] <- timely[[7]]
+    times[[1]][8] <- timely[[8]]    
+    times[[1]][9] <- timely[[9]]
+    times[[1]][10] <- timely[[10]]
+
+    # Route 2- Sabattus
+    times[[2]][1] <- timely[[1]]
+    times[[2]][2] <- timely[[2]]
+    times[[2]][3] <- timely[[3]]
+    times[[2]][4] <- timely[[11]]
+    times[[2]][5] <- timely[[12]]
+    times[[2]][6] <- timely[[13]]
+    
+    # Output list
+    return(list(
+      times = times,
+      upEffs = upEffs
+    ))
+  }  
+  
 }

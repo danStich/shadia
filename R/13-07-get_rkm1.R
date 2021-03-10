@@ -35,6 +35,9 @@ get_rkm1 <- function(river, c_fishAges) {
   if (river == "hudson") {
     rkm1 <- rep(145, length(c_fishAges))
   }
-
+  # For androscoggin River:
+  if (river == "androscoggin") {
+    rkm1 <- rep(0, length(c_fishAges))
+  }
   return(rkm1)
 }

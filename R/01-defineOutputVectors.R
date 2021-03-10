@@ -678,4 +678,90 @@ defineOutputVectors <- function() {
       )
     )
   }
+  
+  if (river == "androscoggin") {
+    # Probability of using Sabattus River
+    sabattus <- vector(mode = "numeric", length = nYears * nRuns)
+
+    # Population abundance in each production unit
+    pop01a <- vector(mode = "numeric", length = nYears * nRuns)
+    pop02a <- vector(mode = "numeric", length = nYears * nRuns)
+    pop03a <- vector(mode = "numeric", length = nYears * nRuns)
+    pop04a <- vector(mode = "numeric", length = nYears * nRuns)
+    pop05a <- vector(mode = "numeric", length = nYears * nRuns)
+    pop06a <- vector(mode = "numeric", length = nYears * nRuns)
+    pop07a <- vector(mode = "numeric", length = nYears * nRuns)
+    pop08a <- vector(mode = "numeric", length = nYears * nRuns)
+    pop09a <- vector(mode = "numeric", length = nYears * nRuns) 
+    pop10a <- vector(mode = "numeric", length = nYears * nRuns) 
+    
+    pop4b <- vector(mode = "numeric", length = nYears * nRuns)
+    pop5b <- vector(mode = "numeric", length = nYears * nRuns)
+    pop6b <- vector(mode = "numeric", length = nYears * nRuns)
+
+    return(
+      list(
+        years = years,
+        climate_scen = climate_scen,
+        sabattus = sabattus,
+        indirectM = indirectM,
+        latentM = latentM,
+        pop01a = pop01a,
+        pop02a = pop02a,
+        pop03a = pop03a,
+        pop04a = pop04a,
+        pop05a = pop05a,
+        pop06a = pop06a,
+        pop07a = pop07a,
+        pop08a = pop08a,
+        pop09a = pop09a,
+        pop10a = pop10a,
+        pop4b = pop4b,
+        pop5b = pop5b,
+        pop6b = pop6b,
+        spawners = spawners,
+        pRepeats = pRepeats,
+        populationSize = populationSize,
+        scalarVar = scalarVar,
+        ptime = ptime,
+        S.downstream = S.downstream,
+        S.marine = S.marine,
+        F.inRiver = F.inRiver,
+        F.commercial = F.commercial,
+        F.bycatch = F.bycatch,
+        popStart = popStart,
+        p.female = p.female,
+        p.female = p.female,
+        S.prespawnM = S.prespawnM,
+        S.postspawnM = S.postspawnM,
+        S.prespawnF = S.prespawnF,
+        S.postspawnF = S.postspawnF,
+        S.juvenile = S.juvenile,
+        b.Arr = b.Arr,
+        r.Arr = r.Arr,
+        ATUspawn1 = ATUspawn1,
+        ATUspawn2 = ATUspawn2,
+        Dspawn1 = Dspawn1,
+        Dspawn2 = Dspawn2,
+        linF = linF,
+        kF = kF,
+        t0F = t0F,
+        linM = linM,
+        kM = kM,
+        t0M = t0M,
+        b.length = b.length,
+        r.length = r.length,
+        spawnInt = spawnInt,
+        batchSize = batchSize,
+        RAF = RAF,
+        s.Optim = s.Optim,
+        d.Max = d.Max,
+        tortuosity = tortuosity,
+        motivation = motivation,
+        daily.move = daily.move
+      )
+    )
+  }
+  
+  
 }

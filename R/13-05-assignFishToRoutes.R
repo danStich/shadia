@@ -87,5 +87,13 @@ assignFishToRoutes <- function(river, c_fishAges) {
     upstream_path[upstream_path == 0] <- 2
   }
 
+  # Upstream path for androscoggin river
+  if (river == "androscoggin") {
+    # Mainstem
+    upstream_path <- rbinom(length(c_fishAges), 1, (1 - p_sabattus))
+    # Sabattus
+    upstream_path[upstream_path == 0] <- 2
+  }
+  
   return(upstream_path)
 }
