@@ -861,8 +861,7 @@ innerLoopSampling <- function(habitat) {
                            "dPejebscot",
                            "dWorumbo",
                            "dFarwell",
-                           "dFortier",
-                           "dsabattus")
+                           "dFortier")
   }
   
   # Annual spawning dynamics ----
@@ -1500,7 +1499,7 @@ innerLoopSampling <- function(habitat) {
       tort = tort,
       sp_1 = sp_1,
       sp_2 = sp_2,
-      sp_3 = sp_3,
+      sp_3 = sp_3, 
       sp_4 = sp_4
     ))
   }

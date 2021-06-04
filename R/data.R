@@ -365,7 +365,7 @@
 #' Androscoggin and Little Androscoggin 
 #' rivers, Maine, USA.
 #'
-#' @format A data frame with 1037303 observations of 5 variables
+#' @format A data frame with 3,008 observations of 5 variables
 #' \describe{
 #'   \code{staid }{Site ID in watershed}
 #'
@@ -375,7 +375,7 @@
 #'
 #'   \code{day }{Ordinal date}
 #'
-#'   \code{val }{Bottom temperature in degrees celcius}
+#'   \code{val }{Mean daily bottom temperature in degrees celcius}
 #' }
 #'
 #' @source SHEDS Stream Temperature Database

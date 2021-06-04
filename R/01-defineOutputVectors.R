@@ -697,7 +697,6 @@ defineOutputVectors <- function() {
     
     pop4b <- vector(mode = "numeric", length = nYears * nRuns)
     pop5b <- vector(mode = "numeric", length = nYears * nRuns)
-    pop6b <- vector(mode = "numeric", length = nYears * nRuns)
 
     return(
       list(
@@ -718,7 +717,6 @@ defineOutputVectors <- function() {
         pop10a = pop10a,
         pop4b = pop4b,
         pop5b = pop5b,
-        pop6b = pop6b,
         spawners = spawners,
         pRepeats = pRepeats,
         populationSize = populationSize,

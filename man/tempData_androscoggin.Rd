@@ -5,7 +5,7 @@
 \alias{tempData_androscoggin}
 \title{Androscoggin River Temperatures}
 \format{
-A data frame with 1037303 observations of 5 variables
+A data frame with 3,008 observations of 5 variables
 \describe{
   \code{staid }{Site ID in watershed}
 
@@ -15,7 +15,7 @@ A data frame with 1037303 observations of 5 variables
 
   \code{day }{Ordinal date}
 
-  \code{val }{Bottom temperature in degrees celcius}
+  \code{val }{Mean daily bottom temperature in degrees celcius}
 }
 }
 \source{

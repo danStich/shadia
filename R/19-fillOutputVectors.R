@@ -1216,11 +1216,6 @@ fillOutputVectors <- function() {
       sum(males2res[[2]][[6]]) +
         sum(females2res[[2]][[6]])) * scalar
     
-    # Population upstream of sabattus dam
-    pop6b[(n + nYears * (k - 1))] <- (
-      sum(males2res[[2]][[7]]) +
-        sum(females2res[[2]][[7]])) * scalar
-    
     # Population size
     populationSize[(n + nYears * (k - 1))] <-
       pop01a[(n + nYears * (k - 1))] +
@@ -1234,8 +1229,7 @@ fillOutputVectors <- function() {
       pop09a[(n + nYears * (k - 1))] +
       pop10a[(n + nYears * (k - 1))] +      
       pop4b[(n + nYears * (k - 1))] +
-      pop5b[(n + nYears * (k - 1))] +
-      pop6b[(n + nYears * (k - 1))]
+      pop5b[(n + nYears * (k - 1))]
     
     return(list(
       scalar = scalar,
@@ -1254,7 +1248,6 @@ fillOutputVectors <- function() {
       pop10a = pop10a,      
       pop4b = pop4b,
       pop5b = pop5b,
-      pop6b = pop6b,      
       indirectM = indirectM,
       latentM = latentM,
       pRepeats = pRepeats,

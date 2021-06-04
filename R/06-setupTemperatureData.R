@@ -133,6 +133,5 @@ setUpTemperatureData <- function(river) {
     mu <- na.omit(mu)
   }  
   
-  
   return(mu)
 }

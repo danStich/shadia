@@ -917,8 +917,7 @@ downstreamMigration <- function() {
     sPU_sab[[4]] <- sPU_sab[[3]] * worumboD * (downstreamS^puRkm[[2]][5])
     sPU_sab[[5]] <- sPU_sab[[4]] * farwellD * (downstreamS^puRkm[[2]][5])
     sPU_sab[[6]] <- sPU_sab[[5]] * fortierD * (downstreamS^puRkm[[2]][6])
-    sPU_sab[[7]] <- sPU_sab[[6]] * sabattusD * (downstreamS^puRkm[[2]][7])
-    
+
     # Derive downstream passage efficiencies for each group of juveniles in each PU.
     # This uses the starting position of the fish, and then incorporates cumulative
     # dam passage efficiencies from the starting PU to the ocean.
@@ -945,8 +944,7 @@ downstreamMigration <- function() {
     sPU_sabj[[4]] <- sPU_sabj[[3]] * worumboDj * (downstreamS^puRkm[[2]][5])
     sPU_sabj[[5]] <- sPU_sabj[[4]] * farwellDj * (downstreamS^puRkm[[2]][5])
     sPU_sabj[[6]] <- sPU_sabj[[5]] * fortierDj * (downstreamS^puRkm[[2]][6])
-    sPU_sabj[[7]] <- sPU_sabj[[6]] * sabattusDj * (downstreamS^puRkm[[2]][7])
-    
+
     # Calculate number of males reaching the mouth of the river after spawn from
     # each PU
     malesOut <- vector(mode = "list", length = length(males))

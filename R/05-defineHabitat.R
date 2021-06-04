@@ -171,7 +171,7 @@ defineHabitat <- function(river, nRoutes, species) {
     habitat[[2]] <- c(
       523, # Downstream of Lockwood
       361, # Confluence to Benton Falls
-      119 # Upstream of Benton Falls
+      119  # Upstream of Benton Falls
     ) * 250
 
     # Bluebacks moving to 500 fish per ha. Based on
@@ -241,8 +241,7 @@ defineHabitat <- function(river, nRoutes, species) {
       99,       # Pejebscot to Worumbo
       462,      # Worumbo to Lower Barker, incl. lwr Sabattus
       34,       # Farwell Dam to Fortier Dam
-      3,        # Fortier to Sabattus Pond Outlet
-      0         # Sabattus Pond - No habitat here for shad right now, no effect
+      3         # Fortier to Sabattus Pond Outlet (extent)
     ) * 250
 
     # Bluebacks moving to about 500 fish per ha. Based on

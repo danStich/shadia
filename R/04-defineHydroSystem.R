@@ -158,7 +158,7 @@ defineHydroSystem <- function(river) {
     nPU <- nDams + 1
 
     # Define maximum rkm for the system.
-    maxrkm <- 55
+    maxrkm <- 250
 
     # Define rkms for each of the dams for each migration group
     damRkms <- vector(mode = "list", length = nRoutes)
@@ -240,21 +240,21 @@ defineHydroSystem <- function(river) {
       # Route 1 is andro/little andro
       # Route 2 is sabattus
       nRoutes <- 2
-      nDams <- c(10, 6)
+      nDams <- c(10, 5)
   
       # Define number of production units- dams plus one in this system
       nPU <- nDams + 1
   
       # Define maximum rkm for the system.
       # Each of these has +1 RKM bc Brunswick is at rkm 0
-      maxrkm <- c(99, 36)
+      maxrkm <- c(200, 200)
   
       # Define rkms for each of the dams for each migration route
       # Each of these has +1 RKM bc Brunswick is at rkm 0
       # Each of the RKMs are adjusted for dist to Sabattus River
       damRkms <- vector(mode = "list", length = nRoutes)
       damRkms[[1]] <- c(1, 9, 14, 38, 39, 44, 53, 61, 71, 89) # L. Andro
-      damRkms[[2]] <- c(1, 9, 14, 20, 33, 35) # Sabattus
+      damRkms[[2]] <- c(1, 9, 14, 20, 33) # Sabattus
   
       return(list(
         nRoutes = nRoutes,

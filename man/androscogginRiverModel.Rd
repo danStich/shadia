@@ -9,17 +9,17 @@ androscogginRiverModel(
   species = "shad",
   nYears = 40,
   n_adults = 10000,
-  timing = rep(1, 13),
+  timing = rep(1, 12),
   p_sabattus = 0.05,
   upstream = list(brunswick = 1, pejebscot = 1, worumbo = 1, lbarker = 1, ubarker = 1,
     littlefield = 1, hackett = 1, marcal = 1, welchville = 1, paris = 1, farwell = 1,
-    fortier = 1, sabattus = 1),
+    fortier = 1),
   downstream = list(brunswick = 1, pejebscot = 1, worumbo = 1, lbarker = 1, ubarker =
     1, littlefield = 1, hackett = 1, marcal = 1, welchville = 1, paris = 1, farwell = 1,
-    fortier = 1, sabattus = 1),
+    fortier = 1),
   downstream_juv = list(brunswick = 1, pejebscot = 1, worumbo = 1, lbarker = 1, ubarker
     = 1, littlefield = 1, hackett = 1, marcal = 1, welchville = 1, paris = 1, farwell =
-    1, fortier = 1, sabattus = 1),
+    1, fortier = 1),
   inRiverF = 0,
   commercialF = 0,
   bycatchF = 0,
@@ -145,9 +145,9 @@ The following named columns may be returned in \code{res}:
     \item \code{species} Species used for simulation
     \item \code{p_sabattus} Probability of fish using the Sabattus River during upstream migration and spawning
     \item \code{timing_brunswick...timing_paris} Passage timing input by user
-    \item \code{brunswick_us...sparis_us} User-specified upstream passage efficiencies
-    \item \code{brunswick_ds...sparis_ds}  User-specified downstream passage efficiencies
-    \item \code{brunswick_dsj...sparis_dsj}  User-specified juvenile downstream passage efficiencies
+    \item \code{brunswick_us...fortier_us} User-specified upstream passage efficiencies
+    \item \code{brunswick_ds...fortier_ds}  User-specified downstream passage efficiencies
+    \item \code{brunswick_dsj...fortier_dsj}  User-specified juvenile downstream passage efficiencies
     \item \code{F.inRiver} User-specified recreational fishing mortality
     \item \code{F.commercial} User-specified recreational fishing mortality
     \item \code{F.recreational} User-specified recreational fishing mortality
@@ -205,9 +205,9 @@ NA
 \section{Warning about serial execution and memory limits}{
 
 
-Currently, internal functions rely on \code{list2env} to return
+Currently, internal functions rely on \code{list2env()} to return
 lists to a temporary environment created in the
-\code{kennebecRiverModel} function. Consequently, lists
+\code{androscogginRiverModel()} function. Consequently, lists
 that are exported must be limited in size. Therefore,
 users currently need to limit the number of runs per
 call (\code{nRuns} argument) to less than 10 or R will

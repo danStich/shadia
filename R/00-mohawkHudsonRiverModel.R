@@ -355,7 +355,6 @@ mohawkHudsonRiverModel <- function(
   # Survival reduction due to delay in project head ponds
   delay <- 1
 
-
   # Data load and memory pre-allocation -----
   environment(defineOutputVectors) <- .shadia
   list2env(defineOutputVectors(), envir = .shadia)

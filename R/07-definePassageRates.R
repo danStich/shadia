@@ -531,8 +531,7 @@ definePassageRates <- function(river) {
     paris <- up[10]
     farwell <- up[11]
     fortier <- up[12]
-    sabattus <- up[13]    
-
+    
     # Downstream passage efficiencies
     # Define downstream passage efficiencies at each of the dams
     OpenD <- 1.00
@@ -548,7 +547,6 @@ definePassageRates <- function(river) {
     parisD <- d[10] * indirect * latent * delay
     farwellD <- d[11] * indirect * latent * delay
     fortierD <- d[12] * indirect * latent * delay
-    sabattusD <- d[13] * indirect * latent * delay       
 
     # Make downstream survival probabilities for juveniles
     # Unused. Moved to separate calculations in the
@@ -568,7 +566,6 @@ definePassageRates <- function(river) {
     parisDj <- dj[10] * indirect * latent * delay
     farwellDj <- dj[11] * indirect * latent * delay
     fortierDj <- dj[12] * indirect * latent * delay
-    sabattusDj <- dj[13] * indirect * latent * delay  
 
     return(
       list(
@@ -585,7 +582,6 @@ definePassageRates <- function(river) {
         parisUp = paris,
         farwellUp = farwell,
         fortierUp = fortier,
-        sabattusUp = sabattus,
         OpenD = OpenD,
         brunswickD = brunswickD,
         pejebscotD = pejebscotD,
@@ -599,7 +595,6 @@ definePassageRates <- function(river) {
         parisD = parisD,
         farwellD = farwellD,
         fortierD = fortierD,
-        sabattusD = sabattusD,        
         brunswickDj = brunswickDj,
         pejebscotDj = pejebscotDj,
         worumboDj = worumboDj,
@@ -611,8 +606,7 @@ definePassageRates <- function(river) {
         welchvilleDj = welchvilleDj,
         parisDj = parisDj,
         farwellDj = farwellDj,
-        fortierDj = fortierDj,
-        sabattusDj = sabattusDj
+        fortierDj = fortierDj
       )
     )
   }  

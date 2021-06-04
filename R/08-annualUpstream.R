@@ -388,8 +388,7 @@ annualUpstream <- function(river, damRkms) {
     upEffs[[2]][3] <- worumboUp    
     upEffs[[2]][4] <- farwellUp
     upEffs[[2]][5] <- fortierUp
-    upEffs[[2]][6] <- sabattusUp
-    
+
     # Upstream passage times
     times <- vector(mode = "list", length = nRoutes)
 
@@ -411,8 +410,7 @@ annualUpstream <- function(river, damRkms) {
     times[[2]][3] <- timely[[3]]
     times[[2]][4] <- timely[[11]]
     times[[2]][5] <- timely[[12]]
-    times[[2]][6] <- timely[[13]]
-    
+
     # Output list
     return(list(
       times = times,

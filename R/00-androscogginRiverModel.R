@@ -113,9 +113,9 @@
 #'     \item \code{species} Species used for simulation
 #'     \item \code{p_sabattus} Probability of fish using the Sabattus River during upstream migration and spawning
 #'     \item \code{timing_brunswick...timing_paris} Passage timing input by user
-#'     \item \code{brunswick_us...sparis_us} User-specified upstream passage efficiencies
-#'     \item \code{brunswick_ds...sparis_ds}  User-specified downstream passage efficiencies
-#'     \item \code{brunswick_dsj...sparis_dsj}  User-specified juvenile downstream passage efficiencies
+#'     \item \code{brunswick_us...fortier_us} User-specified upstream passage efficiencies
+#'     \item \code{brunswick_ds...fortier_ds}  User-specified downstream passage efficiencies
+#'     \item \code{brunswick_dsj...fortier_dsj}  User-specified juvenile downstream passage efficiencies
 #'     \item \code{F.inRiver} User-specified recreational fishing mortality
 #'     \item \code{F.commercial} User-specified recreational fishing mortality
 #'     \item \code{F.recreational} User-specified recreational fishing mortality
@@ -194,7 +194,7 @@ androscogginRiverModel <- function(
                                    species = "shad",
                                    nYears = 40,
                                    n_adults = 1e4,
-                                   timing = rep(1, 13),
+                                   timing = rep(1, 12),
                                    p_sabattus = 0.05,
                                    upstream = list(
                                      brunswick = 1,
@@ -208,8 +208,7 @@ androscogginRiverModel <- function(
                                      welchville = 1,
                                      paris = 1,
                                      farwell = 1,
-                                     fortier = 1,
-                                     sabattus = 1
+                                     fortier = 1
                                    ),
                                    downstream = list(
                                      brunswick = 1,
@@ -223,8 +222,7 @@ androscogginRiverModel <- function(
                                      welchville = 1,
                                      paris = 1,
                                      farwell = 1,
-                                     fortier = 1,
-                                     sabattus = 1
+                                     fortier = 1
                                    ),
                                    downstream_juv = list(
                                      brunswick = 1,
@@ -238,8 +236,7 @@ androscogginRiverModel <- function(
                                      welchville = 1,
                                      paris = 1,
                                      farwell = 1,
-                                     fortier = 1,
-                                     sabattus = 1
+                                     fortier = 1
                                    ),
                                    inRiverF = 0,
                                    commercialF = 0,
@@ -254,9 +251,9 @@ androscogginRiverModel <- function(
                                    output_p_repeat = FALSE) {
 
   # Error message for passage efficiencies
-  if ((length(upstream) != 13) | (length(downstream) != 13)) {
+  if ((length(upstream) != 12) | (length(downstream) != 12)) {
     stop("
-         `upstream` and `downstream` must each have 13 elements.")
+         `upstream` and `downstream` must each have 12 elements.")
   }
 
   # Error message for maximum number of years
@@ -351,6 +348,7 @@ androscogginRiverModel <- function(
     }
   )
   .shadia$dj <- as.vector(mapply(sample, djDraws, 1))
+  
   # Upstream timing
   timely <- timing
 
@@ -373,16 +371,6 @@ androscogginRiverModel <- function(
   if (.shadia$species == "blueback") {
     .shadia$maxAge <- 7
   }
-
-  # Assign the starting population based on a seed of
-  # age-1 fish and application of an ocean survival curve
-  # The population size is scaled to make the models
-  # run faster. Output is re-scaled
-  ### DSS: This will be removed with new population
-  ###      seed based on number of spawners
-  .shadia$Age1 <- rpois(1, 1e4)
-  ### COME BACK AND REMOVE THIS WHEN READY. POP IS
-  ### NOW INITIALIZED BY NUMBER OF ADULTS
 
   # Define probability of recruitment to spawn
   # using regional estimates from ASMFC (2020)
@@ -537,13 +525,15 @@ androscogginRiverModel <- function(
       #################
       ### Working here
       #################
-
+      
       # . Store output in pre-allocated vectors -----
       environment(fillOutputVectors) <- .shadia
       list2env(fillOutputVectors(), envir = .shadia)
+      gc()
     } # Year loop
+    gc()
   } # Simulation loop
-
+  gc()
   # Write the simulation results to an object
   # that can be returned to workspace
   environment(writeData) <- .shadia
