@@ -250,8 +250,8 @@ defineHabitat <- function(river, nRoutes, species, k_method, p_up = 1) {
     # Used CTR Trib value for Little Andro below (G. Wippelhauser, pers comm)
     habitat[[1]] <- c(
       0,        # Downstream of Brunswick
-      25738 * (1 - p_up),    # Brunswick to Pejebscot
-      17491 * (1 - p_up),    # Pejebscot to Worumbo
+      25738 * (1 - p_up),    # Brunswick to Pejepscot
+      17491 * (1 - p_up),    # Pejepscot to Worumbo
       92362 * (1 - p_up),    # Worumbo to Lower Barker, incl. lwr Sabattus
       388,         # Lower to Upper Barker                  
       2509*0.5,    # Upper Barker to Littlefield (breached)
@@ -263,8 +263,8 @@ defineHabitat <- function(river, nRoutes, species, k_method, p_up = 1) {
     )/10
     habitat[[2]] <- c(
       0,        # Downstream of Brunswick
-      25738 * p_up,    # Brunswick to Pejebscot
-      17491 * p_up,    # Pejebscot to Worumbo
+      25738 * p_up,    # Brunswick to Pejepscot
+      17491 * p_up,    # Pejepscot to Worumbo
       92362 * p_up,    # Worumbo to Lower Barker, incl. lwr Sabattus
       4603*0.5, # Farwell Dam to Fortier Dam
       406*0.5   # Fortier to Sabattus Pond Outlet (extent)

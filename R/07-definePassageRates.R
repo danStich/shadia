@@ -520,7 +520,7 @@ definePassageRates <- function(river) {
     # Upstream passage rates
     Open <- 1.00
     brunswick <- up[1]
-    pejebscot <- up[2]
+    pejepscot <- up[2]
     worumbo <- up[3]
     lbarker <- up[4]
     ubarker <- up[5]
@@ -536,7 +536,7 @@ definePassageRates <- function(river) {
     # Define downstream passage efficiencies at each of the dams
     OpenD <- 1.00
     brunswickD <- d[1] * indirect * latent * delay
-    pejebscotD <- d[2] * indirect * latent * delay
+    pejepscotD <- d[2] * indirect * latent * delay
     worumboD <- d[3] * indirect * latent * delay
     lbarkerD <- d[4] * indirect * latent * delay
     ubarkerD <- d[5] * indirect * latent * delay
@@ -555,7 +555,7 @@ definePassageRates <- function(river) {
     # Will update this model to use the same approach.
     OpenD <- 1.00
     brunswickDj <- dj[1] * indirect * latent * delay
-    pejebscotDj <- dj[2] * indirect * latent * delay
+    pejepscotDj <- dj[2] * indirect * latent * delay
     worumboDj <- dj[3] * indirect * latent * delay
     lbarkerDj <- dj[4] * indirect * latent * delay
     ubarkerDj <- dj[5] * indirect * latent * delay
@@ -571,7 +571,7 @@ definePassageRates <- function(river) {
       list(
         Open = Open,
         brunswickUp = brunswick,
-        pejebscotUp = pejebscot,
+        pejepscotUp = pejepscot,
         worumboUp = worumbo,
         lbarkerUp = lbarker,
         ubarkerUp = ubarker,
@@ -584,7 +584,7 @@ definePassageRates <- function(river) {
         fortierUp = fortier,
         OpenD = OpenD,
         brunswickD = brunswickD,
-        pejebscotD = pejebscotD,
+        pejepscotD = pejepscotD,
         worumboD = worumboD,
         lbarkerD = lbarkerD,
         ubarkerD = ubarkerD,
@@ -596,7 +596,7 @@ definePassageRates <- function(river) {
         farwellD = farwellD,
         fortierD = fortierD,
         brunswickDj = brunswickDj,
-        pejebscotDj = pejebscotDj,
+        pejepscotDj = pejepscotDj,
         worumboDj = worumboDj,
         lbarkerDj = lbarkerDj,
         ubarkerDj = ubarkerDj,

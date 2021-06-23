@@ -1151,14 +1151,14 @@ fillOutputVectors <- function() {
     # COPY AND PASTE FROM KENNEBEC IF YOU NEED A NEW
     # TEMPLATE!
     
-    # Population between brunswick and pejebscot
+    # Population between brunswick and pejepscot
     pop01a[(n + nYears * (k - 1))] <- (
       sum(males2res[[1]][[2]]) +
         sum(females2res[[1]][[2]]) +
         sum(males2res[[2]][[2]]) +
         sum(females2res[[2]][[2]])) * scalarVar[[(n + nYears * (k - 1))]]
 
-    # Population between pejebscot and worumbo
+    # Population between pejepscot and worumbo
     pop02a[(n + nYears * (k - 1))] <- (
       sum(males2res[[1]][[3]]) +
         sum(females2res[[1]][[3]]) +

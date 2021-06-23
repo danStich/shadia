@@ -198,7 +198,7 @@ androscogginRiverModel <- function(
                                    p_sabattus = 0.05,
                                    upstream = list(
                                      brunswick = 1,
-                                     pejebscot = 1,
+                                     pejepscot = 1,
                                      worumbo = 1,
                                      lbarker = 1,
                                      ubarker = 1,
@@ -212,7 +212,7 @@ androscogginRiverModel <- function(
                                    ),
                                    downstream = list(
                                      brunswick = 1,
-                                     pejebscot = 1,
+                                     pejepscot = 1,
                                      worumbo = 1,
                                      lbarker = 1,
                                      ubarker = 1,
@@ -226,7 +226,7 @@ androscogginRiverModel <- function(
                                    ),
                                    downstream_juv = list(
                                      brunswick = 1,
-                                     pejebscot = 1,
+                                     pejepscot = 1,
                                      worumbo = 1,
                                      lbarker = 1,
                                      ubarker = 1,

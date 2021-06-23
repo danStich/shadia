@@ -372,7 +372,7 @@ annualUpstream <- function(river, damRkms) {
     
     # Route 1- Mainstem
     upEffs[[1]][1] <- brunswickUp
-    upEffs[[1]][2] <- pejebscotUp
+    upEffs[[1]][2] <- pejepscotUp
     upEffs[[1]][3] <- worumboUp
     upEffs[[1]][4] <- lbarkerUp
     upEffs[[1]][5] <- ubarkerUp
@@ -384,7 +384,7 @@ annualUpstream <- function(river, damRkms) {
     
     # Route 2- Sabattus
     upEffs[[2]][1] <- brunswickUp
-    upEffs[[2]][2] <- pejebscotUp
+    upEffs[[2]][2] <- pejepscotUp
     upEffs[[2]][3] <- worumboUp    
     upEffs[[2]][4] <- farwellUp
     upEffs[[2]][5] <- fortierUp
