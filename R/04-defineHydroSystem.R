@@ -158,7 +158,7 @@ defineHydroSystem <- function(river) {
     nPU <- nDams + 1
 
     # Define maximum rkm for the system.
-    maxrkm <- 250
+    maxrkm <- 54
 
     # Define rkms for each of the dams for each migration group
     damRkms <- vector(mode = "list", length = nRoutes)
@@ -247,7 +247,8 @@ defineHydroSystem <- function(river) {
   
       # Define maximum rkm for the system.
       # Each of these has +1 RKM bc Brunswick is at rkm 0
-      maxrkm <- c(200, 200)
+      # Arbitrarily extended max RKM to prevent deserialize
+      maxrkm <- c(300, 200)
   
       # Define rkms for each of the dams for each migration route
       # Each of these has +1 RKM bc Brunswick is at rkm 0

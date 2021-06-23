@@ -937,19 +937,19 @@ writeData <- function() {
       indirectM,
       latentM,
       pRepeats,
-      ceiling(pop01a),
-      ceiling(pop02a),
-      ceiling(pop03a),
-      ceiling(pop04a),
-      ceiling(pop05a),
-      ceiling(pop06a),
-      ceiling(pop07a),
-      ceiling(pop08a),
-      ceiling(pop09a),
-      ceiling(pop10a),      
-      ceiling(pop4b),
-      ceiling(pop5b),
-      ceiling(populationSize)
+      round(pop01a),
+      round(pop02a),
+      round(pop03a),
+      round(pop04a),
+      round(pop05a),
+      round(pop06a),
+      round(pop07a),
+      round(pop08a),
+      round(pop09a),
+      round(pop10a),      
+      round(pop4b),
+      round(pop5b),
+      round(populationSize)
     )
 
     names(res) <- c(
@@ -1077,7 +1077,8 @@ writeData <- function() {
     tortuosity,
     motivation,
     daily.move,
-    habStoch
+    habStoch,
+    scalarVar
   )
   }
 

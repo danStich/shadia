@@ -29,7 +29,7 @@ nextGeneration <- function() {
   }
 
   # Now graduate each cohort to the next age
-  repeats <- append(0, unlist(mget(ls(pat = "^repeatSpawners_")))[2:(maxAge)])
+  repeats <- append(c(0, 0), unlist(mget(ls(pat = "^repeatSpawners_")))[3:(maxAge)])
   # Assign names for each age class
   names(repeats) <- names(femalesOut)
 

@@ -294,6 +294,9 @@ androscogginRiverModel <- function(
 
   # Assign sensitivity option
   .shadia$sensitivity <- sensitivity
+  
+  # Assign k_method option
+  .shadia$k_method <- k_method
 
   # Passage variable assignment -----
 
@@ -348,6 +351,9 @@ androscogginRiverModel <- function(
     }
   )
   .shadia$dj <- as.vector(mapply(sample, djDraws, 1))
+  
+  # Probability of using sabattaus
+  .shadia$p_sabattus <- p_sabattus
   
   # Upstream timing
   timely <- timing
@@ -422,7 +428,9 @@ androscogginRiverModel <- function(
   .shadia$habitat <- defineHabitat(
     river = .shadia$river,
     nRoutes = .shadia$nRoutes,
-    species = .shadia$species
+    species = .shadia$species,
+    k_method = .shadia$k_method,
+    p_up = .shadia$p_sabattus
   )
 
   # Temperature data (daily averages by year)
@@ -469,6 +477,7 @@ androscogginRiverModel <- function(
     .shadia$spawningPool <- .shadia$starting_pop$spawningPool
     .shadia$recruitmentPool <- .shadia$starting_pop$recruitmentPool
 
+
     ### THIS STAYS IN AS A LOOP UNLESS CHANGED INTERNALLY
     # Inner loop -----
     # Run sim for nYears
@@ -477,10 +486,10 @@ androscogginRiverModel <- function(
       # Assign iterator to a var so it
       # can be accessed in functions called
       .shadia$n <- n
-
+      
       # Reset the scalar based on population size
       .shadia$scalar <- setScalar(.shadia$spawningPool)
-
+        
       # Scale the population
       scaled_pop <- scalePop(
         .shadia$pop,
@@ -521,19 +530,12 @@ androscogginRiverModel <- function(
       # next year (after applying ocean survival)
       environment(nextGeneration) <- .shadia
       list2env(nextGeneration(), envir = .shadia)
-
-      #################
-      ### Working here
-      #################
       
       # . Store output in pre-allocated vectors -----
       environment(fillOutputVectors) <- .shadia
       list2env(fillOutputVectors(), envir = .shadia)
-      gc()
     } # Year loop
-    gc()
   } # Simulation loop
-  gc()
   # Write the simulation results to an object
   # that can be returned to workspace
   environment(writeData) <- .shadia

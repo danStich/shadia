@@ -320,7 +320,7 @@ penobscotRiverModel <- function(
   # Probability of mainstem passage from
   # Stillwater Branch
   .shadia$pStillwaterUp <- pStillwaterUp
-  .shadia$pStillwaterUp <- pStillwaterUp
+  .shadia$pStillwaterD <- pStillwaterD
   .shadia$pMainUp <- 1 - pStillwaterUp
   .shadia$pMainD <- 1 - pStillwaterD
 
@@ -461,7 +461,9 @@ penobscotRiverModel <- function(
   .shadia$habitat <- defineHabitat(
     river = .shadia$river,
     nRoutes = .shadia$nRoutes,
-    species = .shadia$species
+    species = .shadia$species,
+    k_method = k_method,
+    p_up = c(pStillwaterUp, pPiscUp)
   )
 
   # Temperature data (daily averages by year)

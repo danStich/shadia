@@ -33,7 +33,7 @@ fillOutputVectors <- function() {
   # Age-structured repeat spawners, filling pre-allocated vector
   spawners[[(n + nYears * (k - 1))]] <- .shadia$spawningPool
 
-  # Reset the scalar based on population size
+  # # Reset the scalar based on population size
   # .shadia$scalar <- setScalar(.shadia$spawningPool)
 
   # Scalar variable for computational gains
@@ -1156,65 +1156,64 @@ fillOutputVectors <- function() {
       sum(males2res[[1]][[2]]) +
         sum(females2res[[1]][[2]]) +
         sum(males2res[[2]][[2]]) +
-        sum(females2res[[2]][[2]])) * scalar
+        sum(females2res[[2]][[2]])) * scalarVar[[(n + nYears * (k - 1))]]
 
     # Population between pejebscot and worumbo
     pop02a[(n + nYears * (k - 1))] <- (
       sum(males2res[[1]][[3]]) +
         sum(females2res[[1]][[3]]) +
         sum(males2res[[2]][[3]]) +
-        sum(females2res[[2]][[3]])) * scalar
+        sum(females2res[[2]][[3]])) * scalarVar[[(n + nYears * (k - 1))]]
 
     # Population between worumbo and lower barker
     pop03a[(n + nYears * (k - 1))] <- (
       sum(males2res[[1]][[4]]) +
-        sum(females2res[[1]][[4]])) * scalar
+        sum(females2res[[1]][[4]])) * scalarVar[[(n + nYears * (k - 1))]]
 
     # Population between lower barker and upper barker
     pop04a[(n + nYears * (k - 1))] <- (
       sum(males2res[[1]][[5]]) +
-        sum(females2res[[1]][[5]])) * scalar
+        sum(females2res[[1]][[5]])) * scalarVar[[(n + nYears * (k - 1))]]
     
     # Population between upper barker and littlefield
     pop05a[(n + nYears * (k - 1))] <- (
       sum(males2res[[1]][[6]]) +
-        sum(females2res[[1]][[6]])) * scalar    
+        sum(females2res[[1]][[6]])) * scalarVar[[(n + nYears * (k - 1))]]
     
     # Population between upper littlefield and hacketts mills
     pop06a[(n + nYears * (k - 1))] <- (
       sum(males2res[[1]][[7]]) +
-        sum(females2res[[1]][[7]])) * scalar       
+        sum(females2res[[1]][[7]])) * scalarVar[[(n + nYears * (k - 1))]]   
     
     # Population between hacketts mills and marcal (mechanic falls)
     pop07a[(n + nYears * (k - 1))] <- (
       sum(males2res[[1]][[8]]) +
-        sum(females2res[[1]][[8]])) * scalar         
+        sum(females2res[[1]][[8]])) * scalarVar[[(n + nYears * (k - 1))]]      
     
     # Population between marcal (mechanic falls) and welchville
     pop08a[(n + nYears * (k - 1))] <- (
       sum(males2res[[1]][[9]]) +
-        sum(females2res[[1]][[9]])) * scalar           
+        sum(females2res[[1]][[9]])) * scalarVar[[(n + nYears * (k - 1))]]          
     
     # Population between welchville and paris
     pop09a[(n + nYears * (k - 1))] <- (
       sum(males2res[[1]][[10]]) +
-        sum(females2res[[1]][[10]])) * scalar             
+        sum(females2res[[1]][[10]])) * scalarVar[[(n + nYears * (k - 1))]]            
     
     # Population between paris and bisco
     pop10a[(n + nYears * (k - 1))] <- (
       sum(males2res[[1]][[11]]) +
-        sum(females2res[[1]][[11]])) * scalar             
+        sum(females2res[[1]][[11]])) * scalarVar[[(n + nYears * (k - 1))]]       
         
-
     # Population between farwell and fortier
     pop4b[(n + nYears * (k - 1))] <- (
       sum(males2res[[2]][[5]]) +
-        sum(females2res[[2]][[5]])) * scalar
+        sum(females2res[[2]][[5]])) * scalarVar[[(n + nYears * (k - 1))]]
 
     # Population between fortier and sabattus 
     pop5b[(n + nYears * (k - 1))] <- (
       sum(males2res[[2]][[6]]) +
-        sum(females2res[[2]][[6]])) * scalar
+        sum(females2res[[2]][[6]])) * scalarVar[[(n + nYears * (k - 1))]]
     
     # Population size
     populationSize[(n + nYears * (k - 1))] <-

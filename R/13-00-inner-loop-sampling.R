@@ -57,8 +57,7 @@ innerLoopSampling <- function(habitat) {
   # (src/entryC.Cpp) to speed this up.  Once we have
   # probability of being in the river on a given day, we will use the first date
   # that maximizes probability of success in a random binomial draw for each
-  # individual to assign their entry date. We use a size of 15 for this
-  # draw to avoid spurious arrivals in January in northeast rivers.
+  # individual to assign their entry date.
 
   # Predict arrival probability on a given date using
   # stored regression coefficients sampled randomly from
@@ -229,11 +228,9 @@ innerLoopSampling <- function(habitat) {
   # Now scale by tortuosity and divide by two to restrict movement to day time
   dailyMove <- dMax * tort * mean(photo / 24)
 
-
   # UPSTREAM MIGRATION ROUTES ----
   environment(assignFishToRoutes) <- .shadia
   upstream_path <- assignFishToRoutes(river = .shadia$river, c_fishAges = c_fishAges)
-
 
   # COLLECT L-H PARAMETERS ----
   # Collect life-history parameters into a single matrix for c++ loop
@@ -373,8 +370,6 @@ innerLoopSampling <- function(habitat) {
     names(traits_2)[ncol(traits_2)] <- "upstream_path"
     # toc()
   }  
-  
-  
 
   # Draw carrying capacity ----
   # Carrying capacity for juvs based on potential production of adult shad in each
@@ -382,18 +377,18 @@ innerLoopSampling <- function(habitat) {
   # NOTE: These are divided by 1000 to make the simulations run faster!
   # Everything is scaled up on output
   # if (useTictoc) tic("spawn dynamics variables")
-  k_pus <- vector(mode = "list", length = length(habitat))
+  k_pus <- habitat
   batch <- quantile(MASS::rnegbin(1e2, 2.5e4, 10), 0.5)[1]
 
   # Carrying capacity for each migration route
   for (i in 1:length(k_pus)) {
-    k_pus[[i]] <- ((habitat[[i]] / scalar) * sexRatio * batch)
+    k_pus[[i]] <- (habitat[[i]]/scalar) * sexRatio * batch
   }
 
-  k_pus <- lapply(k_pus, function(x) {
-    x[is.na(x)] <- 1
-    x
-  })
+  # k_pus <- lapply(k_pus, function(x) {
+  #   x[is.na(x)] <- 1/scalar
+  #   x[is.nan(x)] <- 1/scalar
+  # })
 
 
   # Mortality rates ----
@@ -411,7 +406,6 @@ innerLoopSampling <- function(habitat) {
 
   # Juvenile mortality rate
   # This really needs some data pretty bad. Right now it is just a draw from a
-  # uniform probability distribution that calls it 1 in 100000 to 1 in 1000
   juvenile_survival <- runif(1, 0.0005, 0.00083)
 
   # Simulate marine S for current year
@@ -1008,6 +1002,7 @@ innerLoopSampling <- function(habitat) {
     # Uses pre-compiled function 'fishPU' from source files loaded up front.
     # Main-to-piscataquis spawners
     sp_1$pus <- as.character(fishPU(puRkm[[1]], sp_1$finalRkm, puNames[[1]]))
+    sp_2$pus <- as.character(fishPU(puRkm[[2]], sp_2$finalRkm, puNames[[2]]))
 
     # Replace the blank PUs for fish that ended
     # at head of tide
@@ -1402,14 +1397,14 @@ innerLoopSampling <- function(habitat) {
     # Combine all data for mainstem
     spawnData_1 <- cbind(traits_1, moves_1[, ncol(moves_1)], delay_1)
     # Change the name for the final rkm column
-    colnames(spawnData_1)[ncol(spawnData_1) - nDams[1]] <- "finalRkm"
+    colnames(spawnData_1)[ncol(spawnData_1) - 10] <- "finalRkm"
     # Make it into a dataframe for easy manipulation
     sp_1 <- data.frame(spawnData_1)
 
     # Combine all data for sabattus spawners
     spawnData_2 <- cbind(traits_2, moves_2[, ncol(moves_2)], delay_2)
     # Change the name for the final rkm column
-    colnames(spawnData_2)[ncol(spawnData_2) - nDams[2]] <- "finalRkm"
+    colnames(spawnData_2)[ncol(spawnData_2) - 5] <- "finalRkm"
     # Make it into a dataframe for easy manipulation
     sp_2 <- data.frame(spawnData_2)
 

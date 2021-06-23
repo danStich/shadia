@@ -417,7 +417,9 @@ kennebecRiverModel <- function(
   .shadia$habitat <- defineHabitat(
     river = .shadia$river,
     nRoutes = .shadia$nRoutes,
-    species = .shadia$species
+    species = .shadia$species,
+    k_method = k_method,
+    p_up = p_sebasticook
   )
 
   # Temperature data (daily averages by year)

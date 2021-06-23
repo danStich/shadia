@@ -125,7 +125,7 @@ setUpTemperatureData <- function(river) {
     # Load the andro temperature data 
     # from built-in object
     mu <- shadia::tempData_androscoggin %>%
-      # filter(day >= 50) %>%
+      filter(staid > 2000 & staid !=2064) %>%
       group_by(day, year) %>%
       summarize(val = mean(val, na.rm = TRUE))
     mu <- data.frame(mu)

@@ -268,24 +268,22 @@
 #' @source T. Castro-Santos, U.S. Geological Survey
 "tempData_connecticut"
 
-#' @title Saco River at River Street in Bartlett, NH
+#' @title Susquehanna River at Danville, PA
 #'
 #' @description Temperature data for
-#' the Susquehanna River at Harrisburg, PA.
+#' the Susquehanna River at Danville, PA.
 #'
 #' @format A data frame with 1816 observations of 6 variables
 #' \describe{
 #'   \code{staid }{USGS Station ID}
 #'
-#'   \code{val }{Temperature in degrees celcius}
-#'
 #'   \code{dates }{Date of temperature observation}
 #'
-#'   \code{qualcode }{Qualification code}
-#'
-#'   \code{year }{Year of temperature observation}
+#'   \code{val }{Temperature in degrees celcius}
 #'
 #'   \code{day }{Ordinal date}
+#'   
+#'   \code{year }{Year of temperature observation}
 #' }
 #'
 #' @source U.S. Geological Survey
