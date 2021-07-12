@@ -2,7 +2,7 @@
 % Please edit documentation in R/11-setScalar.R
 \name{setScalar}
 \alias{setScalar}
-\title{Set population scalar}
+\title{Set population scalar for small rivers}
 \usage{
 setScalar(spawningPool)
 }

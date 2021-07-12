@@ -174,9 +174,9 @@ The following named columns are returned in \code{res}:
 \itemize{
     \item \code{year} Year of simulation
     \item \code{species} Species used for simulation
-    \item \code{pJuniataUp} Probability of using Juniata River
-    \item \code{pWestBranchUp} Probability of using West Branch
-    \item \code{pChemungUp} Probability of using Chemung River
+    \item \code{p_JuniataUp} Probability of using Juniata River
+    \item \code{p_WestBranchUp} Probability of using West Branch
+    \item \code{p_ChemungUp} Probability of using Chemung River
     \item \code{timing_conowingo...timing_colliersville} Passage timing input by user
     \item \code{conowingo_us...colliersville_us} User-specified upstream passage efficiencies
     \item \code{conowingo_ds...colliersville_ds}  User-specified downstream passage efficiencies

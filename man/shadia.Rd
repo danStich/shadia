@@ -47,17 +47,12 @@ transparency in the model.
    \code{\link{fwFishingMort}} \cr
    \code{\link{innerLoopSampling}} \cr
    \code{\link{nextGeneration}} \cr
-   \code{\link{outerLoopSampling}} \cr
    \code{\link{populationMatrices}} \cr
    \code{\link{postSpawnMortality}} \cr
    \code{\link{processCohorts}} \cr
    \code{\link{processPopulation}} \cr
    \code{\link{scalePop}} \cr
-   \code{\link{setParameters}} \cr
    \code{\link{setScalar}} \cr
-   \code{\link{setUpData}} \cr
-   \code{\link{startingPop}} \cr
-   \code{\link{weldonScenarios}} \cr
    \code{\link{writeData}} \cr
  }
 }
