@@ -898,7 +898,7 @@ downstreamMigration <- function() {
     sPU <- c()
     sPU[[1]] <- downstreamS^puRkm[[1]][1]
     sPU[[2]] <- sPU[[1]] * brunswickD * (downstreamS^puRkm[[1]][2])
-    sPU[[3]] <- sPU[[2]] * pejebscotD * (downstreamS^puRkm[[1]][3])
+    sPU[[3]] <- sPU[[2]] * pejepscotD * (downstreamS^puRkm[[1]][3])
     sPU[[4]] <- sPU[[3]] * worumboD * (downstreamS^puRkm[[1]][4])
     sPU[[5]] <- sPU[[4]] * lbarkerD * (downstreamS^puRkm[[1]][5])
     sPU[[6]] <- sPU[[5]] * ubarkerD * (downstreamS^puRkm[[1]][6])
@@ -913,7 +913,7 @@ downstreamMigration <- function() {
     sPU_sab <- c()
     sPU_sab[[1]] <- downstreamS^puRkm[[2]][1]
     sPU_sab[[2]] <- sPU_sab[[1]] * brunswickD * (downstreamS^puRkm[[2]][2])
-    sPU_sab[[3]] <- sPU_sab[[2]] * pejebscotD * (downstreamS^puRkm[[2]][3])
+    sPU_sab[[3]] <- sPU_sab[[2]] * pejepscotD * (downstreamS^puRkm[[2]][3])
     sPU_sab[[4]] <- sPU_sab[[3]] * worumboD * (downstreamS^puRkm[[2]][5])
     sPU_sab[[5]] <- sPU_sab[[4]] * farwellD * (downstreamS^puRkm[[2]][5])
     sPU_sab[[6]] <- sPU_sab[[5]] * fortierD * (downstreamS^puRkm[[2]][6])
@@ -925,7 +925,7 @@ downstreamMigration <- function() {
     sPUj <- c()
     sPUj[[1]] <- downstreamS^puRkm[[1]][1]
     sPUj[[2]] <- sPUj[[1]] * brunswickDj * (downstreamS^puRkm[[1]][2])
-    sPUj[[3]] <- sPUj[[2]] * pejebscotDj * (downstreamS^puRkm[[1]][3])
+    sPUj[[3]] <- sPUj[[2]] * pejepscotDj * (downstreamS^puRkm[[1]][3])
     sPUj[[4]] <- sPUj[[3]] * worumboDj * (downstreamS^puRkm[[1]][4])
     sPUj[[5]] <- sPUj[[4]] * lbarkerDj * (downstreamS^puRkm[[1]][5])
     sPUj[[6]] <- sPUj[[5]] * ubarkerDj * (downstreamS^puRkm[[1]][6])
@@ -940,7 +940,7 @@ downstreamMigration <- function() {
     sPU_sabj <- c()
     sPU_sabj[[1]] <- downstreamS^puRkm[[2]][1]
     sPU_sabj[[2]] <- sPU_sabj[[1]] * brunswickDj * (downstreamS^puRkm[[2]][2])
-    sPU_sabj[[3]] <- sPU_sabj[[2]] * pejebscotDj * (downstreamS^puRkm[[2]][3])
+    sPU_sabj[[3]] <- sPU_sabj[[2]] * pejepscotDj * (downstreamS^puRkm[[2]][3])
     sPU_sabj[[4]] <- sPU_sabj[[3]] * worumboDj * (downstreamS^puRkm[[2]][5])
     sPU_sabj[[5]] <- sPU_sabj[[4]] * farwellDj * (downstreamS^puRkm[[2]][5])
     sPU_sabj[[6]] <- sPU_sabj[[5]] * fortierDj * (downstreamS^puRkm[[2]][6])
