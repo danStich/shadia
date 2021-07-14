@@ -1,7 +1,7 @@
 Package: shadia
 Title: American shad dam passage performance standard model for R
 Version: 2.0.0
-Date: 2020-07-01
+Date: 2021-07-01
 Author: Dan Stich, Erin Gilligan, Jeanette Sperhac
 Maintainer: Dan Stich <daniel.stich@oneonta.edu>
 Description: This package includes source code and data files for parallel execution of the American shad dam passage performance standards model. 
