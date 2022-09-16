@@ -18,7 +18,7 @@
 writeData <- function() {
 
   # DATA WRITE ----
-
+ 
   # Unlist and stack proportion of repeat spawners in each age for writing
   pRepeats <- do.call("rbind", lapply(pRepeats, unlist))
   colnames(pRepeats) <- paste("pRepeat_", seq(1, maxAge, 1), sep = "")

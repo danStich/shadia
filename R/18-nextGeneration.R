@@ -18,7 +18,7 @@ nextGeneration <- function() {
   # apply the marine survival rate and tally the total number of repeat
   # spawners in the population during the next time-step
   # Sum male and female out migrants
-  for (i in 1:length(outMigrants)) {
+  for (i in 1:maxAge) {
     assign(
       paste("repeatSpawners_", i, sep = ""),
       outMigrants[i] *

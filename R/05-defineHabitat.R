@@ -36,65 +36,65 @@ defineHabitat <- function(river, nRoutes, species, k_method, p_up = 1) {
     StillwaterHabitat <- 10000
     
     habitat[[1]] <- c(
-      (22344 + 34868)*(1 - p_up[1])*(p_up[2]),           # Shared with 2, 3, 4
-      (14339 + 34868)*(1 - p_up[1])*(p_up[2]),           # Shared with 2, 3, 4
-      (400560 + 26285 + 12746)*(1 - p_up[1])*(p_up[2]),  # Shared with 2, 3, 4
-      (153461 + 37769 + 15257)*(1 - p_up[1]),  # Shared with 3
-      1053*(1 - p_up[1]),                      # Shared with 3
-      22591*(1 - p_up[1]),                     # Shared with 3
-      14922*(1 - p_up[1])                      # Shared with 3
+      (22344 + 34868),           # Shared with 2, 3, 4
+      (14339 + 34868),           # Shared with 2, 3, 4
+      (400560 + 26285 + 12746),  # Shared with 2, 3, 4
+      (153461 + 37769 + 15257),  # Shared with 3
+      1053,                      # Shared with 3
+      22591,                     # Shared with 3
+      14922                      # Shared with 3
     )
     habitat[[2]] <- c(
-      (22344 + 34868) * (1 - p_up[1]) * (1 - p_up[2]),
-      (14339 + 34868) * (1 - p_up[1]) * (1 - p_up[2]),
-      (400560 + 26285 + 12746) * (1 - p_up[1]) * (1 - p_up[2]),
-      (333196 + 205744) * (1 - p_up[1]),        # Shared with 4
-      (204336 + 25773) * (1 - p_up[1])          # Shared with 4
+      (22344 + 34868),
+      (14339 + 34868),
+      (400560 + 26285 + 12746),
+      (333196 + 205744),        # Shared with 4
+      (204336 + 25773)          # Shared with 4
     )
     habitat[[3]] <- c(
-      (22344 + 34868) * p_up[1] * p_up[2],          # Shared with 1, 3, 4
-      (OronoHabitat) * p_up[1] * p_up[2],           # Shared with 1, 3, 4
-      (StillwaterHabitat) * p_up[1] * p_up[2],      # Shared with 1, 3, 4
-      (400560 + 26285 + 12746) * p_up[1] * p_up[2], # Shared with 1, 3, 4
-      (153461 + 37769 + 15257) * p_up[1] * p_up[2], # Shared with 1
-      1053*p_up[1],                      # Shared with 1
-      22591*p_up[1],                     # Shared with 1
-      14922*p_up[1]                      # Shared with 1
+      (22344 + 34868),          # Shared with 1, 3, 4
+      (OronoHabitat),           # Shared with 1, 3, 4
+      (StillwaterHabitat),      # Shared with 1, 3, 4
+      (400560 + 26285 + 12746), # Shared with 1, 3, 4
+      (153461 + 37769 + 15257), # Shared with 1
+      1053,                      # Shared with 1
+      22591,                     # Shared with 1
+      14922                      # Shared with 1
     )
     habitat[[4]] <- c(
-      (22344 + 34868) * (p_up[1] * ( 1- p_up[2])),
-      (OronoHabitat) * (p_up[1] * ( 1- p_up[2])),
-      (StillwaterHabitat) * (p_up[1] * ( 1- p_up[2])),
-      (400560 + 26285 + 12746) * (p_up[1] * ( 1- p_up[2])),
-      (333196 + 205744) * p_up[1],
-      (204336 + 25773) * p_up[1]
+      (22344 + 34868),
+      (OronoHabitat),
+      (StillwaterHabitat),
+      (400560 + 26285 + 12746),
+      (333196 + 205744),
+      (204336 + 25773)
     )
 
-    # Bluebacks moving to 500 fish per ha. Based on
-    # G. Wippelhauser pers. comm. and S. Ledwin pers. comm (MEDMR)
-    if (species == "blueback") {
-
-      # Multiply by 484 and divide out the original 100 per acre (250/ha)
-      habitat <- lapply(habitat, function(x) x * (484 / 100))
-    }
+    # # Bluebacks moving to 500 fish per ha. Based on
+    # # G. Wippelhauser pers. comm. and S. Ledwin pers. comm (MEDMR)
+    # if (species == "blueback") {
+    # 
+    #   # Multiply by 484 and divide out the original 100 per acre (250/ha)
+    #   habitat <- lapply(habitat, function(x) x * (484 / 100))
+    # }
   }
 
   if (river == "merrimack") {
     habitat <- vector(mode = "list", length = nRoutes)
 
     habitat[[1]] <- c(
-      202782 * (p_up),
-      92910 * (p_up),
-      220532 * (p_up),
-      48000 * (p_up),
-      182598 * (p_up)
+      202782,
+      92910,
+      220532,
+      48000,
+      182598
     )
     habitat[[2]] <- c(
-      202782 * (1 - p_up),
-      92910 * (1 - p_up),
-      220532 * (1 - p_up),
-      48000 * (1 - p_up),
-      182598 * (1 - p_up)
+      202782,
+      92910,
+      220532,
+      48000,
+      182598
     )
 
     # Bluebacks moving to 500 fish per ha. Based on
@@ -219,19 +219,19 @@ defineHabitat <- function(river, nRoutes, species, k_method, p_up = 1) {
     # 3_An additional 1420 ha of habitat (3583 acres) has been
     #   lost to dredge-and-fill operations (NYSDEC 2010)
     #   https://www.dec.ny.gov/docs/remediation_hudson_pdf/shadrecoveryplan.pdf
-    habitat[[1]] <- c((14436 * 0.40 - 3583) * (1 - p_up),
+    habitat[[1]] <- c((14436 * 0.40 - 3583),
                       650, 400, 286, 260, 1500, 275, 36) * 100
 
     habitat[[2]] <- c(
       # 14436 * 0.40 - 3583, # Change here and above depending on 1,2,3
-      (14436 * 0.40 - 3583) * p_up,
+      (14436 * 0.40 - 3583),
       0, 0, 0, 0, 0, 1903, 1072, 337,
       438, 378, 443, 613, 445,
       182, 388, 237, 150, 345,
       261, 268
     ) * 100
 
-    # Bluebacks moving to 500 fish per ha? Based on
+    # Bluebacks moving to 500 fish per ha. Based on
     # G. Wippelhauser pers. comm. and S. Ledwin pers. comm (MEDMR)
     ### TESTING NOW
     # if (species == "blueback") {

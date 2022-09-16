@@ -38,6 +38,7 @@ innerLoopSampling <- function(habitat) {
   # Create an object containing the age of individual fish
   # based on the number of fish in each age class and build
   age_df <- cbind(spawningPool, seq(1, length(spawningPool), 1))
+  
   c_fishAges <- do.call("c", (mapply(rep, c(age_df[, 2]), age_df[, 1])))
 
   # Assign fish gender using sex ratio drawn above, females are 1
@@ -374,12 +375,17 @@ innerLoopSampling <- function(habitat) {
   # Draw carrying capacity ----
   # Carrying capacity for juvs based on potential production of adult shad in each
   # production unit based on values from the 2009 multi-species management plan
-  # NOTE: These are divided by 1000 to make the simulations run faster!
+  # NOTE: These are divided by scalar to make the simulations run faster!
   # Everything is scaled up on output
   # if (useTictoc) tic("spawn dynamics variables")
   k_pus <- habitat
   batch <- quantile(MASS::rnegbin(1e2, 2.5e4, 10), 0.5)[1]
 
+  # For bluebacks
+  if(species == "blueback"){
+    batch <- quantile(MASS::rnegbin(1e2, 7.5e4, 8), 0.5)[1]    
+  }
+  
   # Carrying capacity for each migration route
   for (i in 1:length(k_pus)) {
     k_pus[[i]] <- (habitat[[i]]/scalar) * sexRatio * batch
@@ -389,7 +395,6 @@ innerLoopSampling <- function(habitat) {
   #   x[is.na(x)] <- 1/scalar
   #   x[is.nan(x)] <- 1/scalar
   # })
-
 
   # Mortality rates ----
   # Pre-spawning mortality. Right now, these are drawn independently. Conditional
@@ -407,6 +412,11 @@ innerLoopSampling <- function(habitat) {
   # Juvenile mortality rate
   # This really needs some data pretty bad. Right now it is just a draw from a
   juvenile_survival <- runif(1, 0.0005, 0.00083)
+  
+  if(species == "blueback"){
+      juvenile_survival <- rnorm(1, 0.000332, 0.0000332)#runif(1, 0.00045, 0.00060)
+  }
+  
 
   # Simulate marine S for current year
   environment(simMarineS) <- .shadia
@@ -485,8 +495,6 @@ innerLoopSampling <- function(habitat) {
   # Create a vector of potential routes
   routes <- seq(1, nRoutes, 1)
   maxR <- maxrkmC(c_fishAges, maxrkm, upstream_path, routes)
-
-
 
   # Individual-based migration model ----
   if (river == "penobscot") {

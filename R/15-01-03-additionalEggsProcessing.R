@@ -23,47 +23,47 @@ additionalEggsProcessing <- function(fec) {
     # Calculate total number of eggs in each PU
     fecp <- vector(mode = "list", length = length(fec))
     for (i in 1:length(fec)) {
-      fecp[[i]] <- mapply(sum, fec[[i]])
+      fecp[[i]] <- mapply(sum, na.rm = TRUE, fec[[i]])
     }
     
     fec2 <- fecp
     
     # Now sum all eggs from each of the shared PUs for all routes.
     # Fish using Stillwater Branch automatically passed to Milford Headpond
-    fec2[[1]][1] <- (fecp[[1]][1] + fecp[[2]][1] + fecp[[3]][1] +fecp[[4]][1]) * (1 - pStillwaterUp) * pPiscUp
-    fec2[[1]][2] <- (fecp[[1]][2] + fecp[[2]][2]) * (1 - pStillwaterUp) * pPiscUp
-    fec2[[1]][3] <- (fecp[[1]][3] + fecp[[2]][3] + fecp[[3]][3] + fecp[[4]][3] + fecp[[3]][4] + fecp[[4]][4]) * (1 - pStillwaterUp) * pPiscUp
-    fec2[[1]][4] <- (fecp[[1]][4] + fecp[[3]][5]) * pPiscUp
-    fec2[[1]][5] <- (fecp[[1]][5] + fecp[[3]][6]) * pPiscUp
-    fec2[[1]][6] <- (fecp[[1]][6] + fecp[[3]][7]) * pPiscUp
-    fec2[[1]][7] <- (fecp[[1]][7] + fecp[[3]][8]) * pPiscUp
+    fec2[[1]][1] <- (fecp[[1]][1] + fecp[[2]][1] + fecp[[3]][1] +fecp[[4]][1])
+    fec2[[1]][2] <- (fecp[[1]][2] + fecp[[2]][2])
+    fec2[[1]][3] <- (fecp[[1]][3] + fecp[[2]][3] + fecp[[3]][2] + fecp[[3]][3] + fecp[[4]][2] + fecp[[4]][3] + fecp[[3]][4] + fecp[[4]][4])
+    fec2[[1]][4] <- (fecp[[1]][4] + fecp[[3]][5])
+    fec2[[1]][5] <- (fecp[[1]][5] + fecp[[3]][6])
+    fec2[[1]][6] <- (fecp[[1]][6] + fecp[[3]][7])
+    fec2[[1]][7] <- (fecp[[1]][7] + fecp[[3]][8])
 
-    fec2[[2]][1] <- (fecp[[2]][1] + fecp[[2]][1] + fecp[[3]][1] +fecp[[4]][1]) * (1 - pStillwaterUp) * (1 - pPiscUp)
-    fec2[[2]][2] <- (fecp[[1]][2] + fecp[[2]][2]) * (1 - pStillwaterUp) * (1 - pPiscUp)
-    fec2[[2]][3] <- (fecp[[1]][3] + fecp[[2]][3] + fecp[[3]][3] + fecp[[4]][3] + fecp[[3]][4] + fecp[[4]][4]) * (1 - pStillwaterUp) * (1 - pPiscUp)
-    fec2[[2]][4] <- fecp[[2]][4] + fecp[[4]][5] * (1 - pPiscUp)
-    fec2[[2]][5] <- fecp[[2]][5] * (1 - pPiscUp)
+    fec2[[2]][1] <- 0
+    fec2[[2]][2] <- 0
+    fec2[[2]][3] <- 0
+    fec2[[2]][4] <- fecp[[2]][4] + fecp[[4]][5]
+    fec2[[2]][5] <- fecp[[2]][5] + fecp[[4]][6]
     
-    fec2[[3]][1] <- (fecp[[1]][1] + fecp[[2]][1] + fecp[[3]][1] +fecp[[4]][1]) * (pStillwaterUp) * pPiscUp
-    fec2[[3]][2] <- (fecp[[1]][2] + fecp[[2]][2]) * (pStillwaterUp) * pPiscUp
+    fec2[[3]][1] <- 0
     fec2[[3]][2] <- 0
-    fec2[[3]][4] <- (fecp[[1]][3] + fecp[[2]][3] + fecp[[3]][3] + fecp[[4]][3] + fecp[[3]][4] + fecp[[4]][4]) * (pStillwaterUp) * pPiscUp
-    fec2[[3]][5] <- (fecp[[1]][4] + fecp[[3]][5]) * pPiscUp
-    fec2[[3]][6] <- (fecp[[1]][5] + fecp[[3]][6]) * pPiscUp
-    fec2[[3]][7] <- (fecp[[1]][6] + fecp[[3]][7]) * pPiscUp
-    fec2[[3]][8] <- (fecp[[1]][7] + fecp[[3]][8]) * pPiscUp
+    fec2[[3]][3] <- 0
+    fec2[[3]][4] <- 0
+    fec2[[3]][5] <- 0
+    fec2[[3]][6] <- 0
+    fec2[[3]][7] <- 0
+    fec2[[3]][8] <- 0
     
-    fec2[[4]][1] <- (fecp[[2]][1] + fecp[[2]][1] + fecp[[3]][1] +fecp[[4]][1]) * (pStillwaterUp) * (1 - pPiscUp)
-    fec2[[4]][2] <- (fecp[[1]][2] + fecp[[2]][2]) * (pStillwaterUp) * (1 - pPiscUp)
+    fec2[[4]][1] <- 0
+    fec2[[4]][2] <- 0
     fec2[[4]][3] <- 0
-    fec2[[4]][3] <- (fecp[[1]][3] + fecp[[2]][3] + fecp[[3]][3] + fecp[[4]][3] + fecp[[3]][4] + fecp[[4]][4]) * (pStillwaterUp) * (1 - pPiscUp)
-    fec2[[4]][5] <- fecp[[2]][4] + fecp[[4]][5] * (1 - pPiscUp)
-    fec2[[4]][6] <- fecp[[2]][5] * (1 - pPiscUp)
+    fec2[[4]][4] <- 0
+    fec2[[4]][5] <- 0
+    fec2[[4]][6] <- 0
 
     # Apply carrying capacity limitation to each production unit based
     # on habitat availability
     if (k_method == "discrete") {
-      fec_Max <- vector(mode = "list", length = length(fec))
+      fec_Max <- vector(mode = "list", length = length(fec2))
       for (i in 1:length(fec2)) {
         for (j in 1:length(fec2[[i]])) {
           if (fec2[[i]][j] > k_pus[[i]][j]) {
@@ -77,7 +77,7 @@ additionalEggsProcessing <- function(fec) {
 
     if (k_method == "cumulative") {
 
-      fec_Max <- fec
+      fec_Max <- fec2
 
       sum_fec <- lapply(fec2, cumsum)
 
@@ -96,8 +96,9 @@ additionalEggsProcessing <- function(fec) {
         
       }
       
-    }
+    } 
     return(fec_Max)
+    # toc()
   }
 
 
@@ -110,22 +111,24 @@ additionalEggsProcessing <- function(fec) {
     
     fec2 <- fecp
     
-    fec2[[1]][1] <- (fecp[[1]][1] + fec2[[2]][1]) * pBypassUp
-    fec2[[1]][2] <- (fecp[[1]][2] + fec2[[2]][2]) * pBypassUp
-    fec2[[1]][3] <- (fecp[[1]][3] + fec2[[2]][3]) * pBypassUp
-    fec2[[1]][4] <- (fecp[[1]][4] + fec2[[2]][4]) * pBypassUp
+    fec2[[1]][1] <- (fecp[[1]][1] + fec2[[2]][1])
+    fec2[[1]][2] <- (fecp[[1]][2] + fec2[[2]][2])
+    fec2[[1]][3] <- (fecp[[1]][3] + fec2[[2]][3])
+    fec2[[1]][4] <- (fecp[[1]][4] + fec2[[2]][4])
+    fec2[[1]][5] <- (fecp[[1]][5] + fec2[[2]][5])
 
-    fec2[[2]][1] <- (fecp[[1]][1] + fecp[[2]][1]) * (1 - pBypassUp)
-    fec2[[2]][2] <- (fecp[[1]][2] + fecp[[2]][2]) * (1 - pBypassUp)
-    fec2[[2]][3] <- (fecp[[1]][3] + fecp[[2]][3]) * (1 - pBypassUp)
-    fec2[[2]][4] <- (fecp[[1]][4] + fecp[[2]][4]) * (1 - pBypassUp)
+    fec2[[2]][1] <- 0
+    fec2[[2]][2] <- 0
+    fec2[[2]][3] <- 0
+    fec2[[2]][4] <- 0
+    fec2[[2]][5] <- 0
     
     # Apply carrying capacity limitation to each production unit based
     # on habitat availability
     # Apply carrying capacity limitation to each production unit based
     # on habitat availability
     if (k_method == "discrete") {
-      fec_Max <- vector(mode = "list", length = length(fec))
+      fec_Max <- vector(mode = "list", length = length(fec2))
       for (i in 1:length(fec2)) {
         for (j in 1:length(fec2[[i]])) {
           if (fec2[[i]][j] > k_pus[[i]][j]) {
@@ -139,7 +142,7 @@ additionalEggsProcessing <- function(fec) {
 
     if (k_method == "cumulative") {
 
-      fec_Max <- fec
+      fec_Max <- fec2
 
       sum_fec <- lapply(fec2, cumsum)
 
@@ -420,18 +423,17 @@ additionalEggsProcessing <- function(fec) {
     # Calculate total number of eggs in each PU
     fecp <- vector(mode = "list", length = length(fec))
     for (i in 1:length(fec)) {
-      fecp[[i]] <- mapply(sum, fec[[i]])
+      fecp[[i]] <- mapply(sum, na.rm = TRUE, fec[[i]])
     }
     
     fec2 <- fecp
-
-    fec2[[1]][1] <- (fecp[[1]][1] + fecp[[2]][1]) * (1 - pMohawk)
-    fec2[[2]][1] <- (fecp[[1]][1] + fecp[[2]][1]) * pMohawk
+    fec2[[1]][1] <- fec2[[1]][1] + fec2[[2]][1]
+    fec2[[2]][1] <- 0
 
     # Apply carrying capacity limitation to each production unit based
     # on habitat availability
     if (k_method == "discrete") {
-      fec_Max <- vector(mode = "list", length = length(fec))
+      fec_Max <- vector(mode = "list", length = length(fec2))
       for (i in 1:length(fec2)) {
         for (j in 1:length(fec2[[i]])) {
           if (fec2[[i]][j] > k_pus[[i]][j]) {
@@ -445,7 +447,7 @@ additionalEggsProcessing <- function(fec) {
 
     if (k_method == "cumulative") {
 
-      fec_Max <- fec
+      fec_Max <- fec2
 
       sum_fec <- lapply(fec2, cumsum)
 

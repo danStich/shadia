@@ -21,7 +21,10 @@
 #' upstream passage by individual fish (in days),
 #' where the default (1) indicates a 24-h dam
 #' passage performance standard and the value is
-#' specified as a proportion of 1 day.
+#' specified as a proportion of 1 day. Values greater
+#' than 1 correspond to times greater than 24 h and 
+#' values less than 1 correspond to times less than
+#' 24-h.
 #'
 #' @param upstream A named list of upstream dam
 #' passage efficiencies at each dam in the
@@ -62,7 +65,10 @@
 #'
 #' @param bycatchF Marine bycatch mortality of
 #' species in non-target fisheries.
-#' Parameterized as an annual rate [0, 1].
+#' Parameterized as an annual rate [0, 1]. Takes a single
+#' value and applies to all fully recruited age 
+#' classes depending on species (blueback ages 3 through maxAge
+#' and shad ages 2 through max age) assuming knife-edge recruitment.
 #'
 #' @param indirect Indirect mortality incurred during
 #' freshwater migration as a result of dam-related
@@ -197,50 +203,50 @@
 #' @export
 #'
 mohawkHudsonRiverModel <- function(
-                                   species = "shad",
-                                   pMohawk = 0,
-                                   nRuns = 1,
-                                   nYears = 40,
-                                   n_adults = 1e4,
-                                   timing = rep(1, 26),
-                                   upstream = list(
-                                     federal = 1,
-                                     C01 = 1, C02 = 1, C03 = 1, C04 = 1, C05 = 1, C06 = 1,
-                                     E02 = 1, E03 = 1, E04 = 1, E05 = 1, E06 = 1,
-                                     E07 = 1, E08 = 1, E09 = 1, E10 = 1, E11 = 1, E12 = 1,
-                                     E13 = 1, E14 = 1, E15 = 1, E16 = 1, E17 = 1, E18 = 1,
-                                     E19 = 1, E20 = 1
-                                   ),
-                                   downstream = list(
-                                     federal = 1,
-                                     C01 = 1, C02 = 1, C03 = 1, C04 = 1, C05 = 1, C06 = 1,
-                                     E02 = 1, E03 = 1, E04 = 1, E05 = 1, E06 = 1,
-                                     E07 = 1, E08 = 1, E09 = 1, E10 = 1, E11 = 1, E12 = 1,
-                                     E13 = 1, E14 = 1, E15 = 1, E16 = 1, E17 = 1, E18 = 1,
-                                     E19 = 1, E20 = 1
-                                   ),
-                                   downstream_juv = list(
-                                     federal = 1,
-                                     C01 = 1, C02 = 1, C03 = 1, C04 = 1, C05 = 1, C06 = 1,
-                                     E02 = 1, E03 = 1, E04 = 1, E05 = 1, E06 = 1,
-                                     E07 = 1, E08 = 1, E09 = 1, E10 = 1, E11 = 1, E12 = 1,
-                                     E13 = 1, E14 = 1, E15 = 1, E16 = 1, E17 = 1, E18 = 1,
-                                     E19 = 1, E20 = 1
-                                   ),
-                                   lockMortality = 0,
-                                   inRiverF = 0,
-                                   commercialF = 0,
-                                   bycatchF = 0,
-                                   indirect = 1,
-                                   latent = 1,
-                                   M = NULL,
-                                   watershed = FALSE,
-                                   k_method = "cumulative",
-                                   sensitivity = FALSE,
-                                   spatially_explicit_output = FALSE,
-                                   output_years = NULL,
-                                   output_p_repeat = FALSE
-                                   ) {
+  species = "shad",
+  pMohawk = 0,
+  nRuns = 1,
+  nYears = 40,
+  n_adults = 1e4,
+  timing = rep(1, 26),
+  upstream = list(
+   federal = 1,
+   C01 = 1, C02 = 1, C03 = 1, C04 = 1, C05 = 1, C06 = 1,
+   E02 = 1, E03 = 1, E04 = 1, E05 = 1, E06 = 1,
+   E07 = 1, E08 = 1, E09 = 1, E10 = 1, E11 = 1, E12 = 1,
+   E13 = 1, E14 = 1, E15 = 1, E16 = 1, E17 = 1, E18 = 1,
+   E19 = 1, E20 = 1
+  ),
+  downstream = list(
+   federal = 1,
+   C01 = 1, C02 = 1, C03 = 1, C04 = 1, C05 = 1, C06 = 1,
+   E02 = 1, E03 = 1, E04 = 1, E05 = 1, E06 = 1,
+   E07 = 1, E08 = 1, E09 = 1, E10 = 1, E11 = 1, E12 = 1,
+   E13 = 1, E14 = 1, E15 = 1, E16 = 1, E17 = 1, E18 = 1,
+   E19 = 1, E20 = 1
+  ),
+  downstream_juv = list(
+   federal = 1,
+   C01 = 1, C02 = 1, C03 = 1, C04 = 1, C05 = 1, C06 = 1,
+   E02 = 1, E03 = 1, E04 = 1, E05 = 1, E06 = 1,
+   E07 = 1, E08 = 1, E09 = 1, E10 = 1, E11 = 1, E12 = 1,
+   E13 = 1, E14 = 1, E15 = 1, E16 = 1, E17 = 1, E18 = 1,
+   E19 = 1, E20 = 1
+  ),
+  lockMortality = 0,
+  inRiverF = 0,
+  commercialF = 0,
+  bycatchF = 0,
+  indirect = 1,
+  latent = 1,
+  M = NULL,
+  watershed = FALSE,
+  k_method = "cumulative",
+  sensitivity = FALSE,
+  spatially_explicit_output = FALSE,
+  output_years = NULL,
+  output_p_repeat = FALSE
+  ) {
 
   # Error message for passage efficiencies
   if ((length(upstream) != 26) | (length(downstream) != 26)) {
@@ -293,8 +299,7 @@ mohawkHudsonRiverModel <- function(
 
   # Passage variable assignment -----
 
-  # Draw probability of using each passage route,
-  # conditional on amount of habitat in each route
+  # Draw probability of using each passage route
   .shadia$pMohawk <- pMohawk
 
   # Upstream and downstream passage
@@ -395,9 +400,20 @@ mohawkHudsonRiverModel <- function(
   .shadia$m_lw_params <- length_weight %>% subset(region == "SI" & sex == "M")
   .shadia$f_lw_params <- length_weight %>% subset(region == "SI" & sex == "F")
 
-  # Fishing mortality
+  # Fishing mortality ----
+  # Directed marine
   .shadia$commercialF <- rep(commercialF, .shadia$maxAge)
-  .shadia$bycatchF <- rep(bycatchF, .shadia$maxAge)
+  
+  # Marine bycatch
+  if(.shadia$species == "shad"){
+    .shadia$bycatchF <- c(0, rep(bycatchF, (.shadia$maxAge - 1)))
+  }
+  if(.shadia$species == "blueback"){
+    .shadia$bycatchF <- c(0, rep(bycatchF, (.shadia$maxAge - 1)))
+  }
+  # .shadia$bycatchF <- rep(bycatchF, .shadia$maxAge)   
+  
+  # In-river fishery harvest
   .shadia$inRiverF <- inRiverF
 
   # Survival rates for various life-history stages
@@ -504,6 +520,10 @@ mohawkHudsonRiverModel <- function(
       .shadia$spawningPool <- scaled_pop[[2]]
       .shadia$recruitmentPool <- scaled_pop[[3]]
 
+      # .shadia$pop[is.na(.shadia$pop)] <- 0
+      # .shadia$spawningPool[is.na(.shadia$spawningPool)] <- 0
+      # .shadia$recruitmentPool[is.na(.shadia$recruitmentPool)] <- 0  
+      
       # Perform innerLoopSampling
       environment(innerLoopSampling) <- .shadia
       list2env(innerLoopSampling(.shadia$habitat), envir = .shadia)

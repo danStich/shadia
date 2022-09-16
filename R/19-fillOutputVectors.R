@@ -50,8 +50,8 @@ fillOutputVectors <- function() {
   }  
   
   F.inRiver[(n + nYears * (k - 1))] <- inRiverF
-  F.commercial[(n + nYears * (k - 1))] <- mean(commercialF)
-  F.bycatch[(n + nYears * (k - 1))] <- mean(bycatchF)
+  F.commercial[(n + nYears * (k - 1))] <- max(commercialF)
+  F.bycatch[(n + nYears * (k - 1))] <- max(bycatchF)
   popStart[(n + nYears * (k - 1))] <- n_adults
   p.female[(n + nYears * (k - 1))] <- sexRatio
   S.prespawnM[(n + nYears * (k - 1))] <- pre_spawn_survival_males

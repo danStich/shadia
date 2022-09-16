@@ -249,7 +249,7 @@ merrimackRiverModel <- function(
     stop("
           
           Error:
-          The current year plus `nYears`` must not
+          The current year plus `nYears` must not
           exceed 2099 because the models rely on
           climate predictions that are limited to
           that time period.")
@@ -266,9 +266,7 @@ merrimackRiverModel <- function(
   }
 
   # Create package workspace if it does not yet exist
-  if (!exists(".shadia", mode = "environment")) {
-    .shadia <- new.env()
-  }
+  .shadia <- new.env()
 
   # Assign species
   .shadia$species <- species

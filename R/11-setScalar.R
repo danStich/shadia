@@ -12,8 +12,10 @@
 #'
 # Function to set population scalar
 setScalar <- function(spawningPool) {
+  scalar <- 1
+  if(!is.na(sum(spawningPool))){
   if (sum(spawningPool) < 1e3) {
-    scalar = 1
+    scalar <- 1
   }
   if (sum(spawningPool) >= 1e3) {
     scalar <- 10
@@ -57,6 +59,6 @@ setScalar <- function(spawningPool) {
   if (sum(spawningPool) >= 2e7) {
     scalar <- 200000
   }
-
+  }
   return(scalar)
 }

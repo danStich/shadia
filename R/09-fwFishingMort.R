@@ -12,10 +12,10 @@
 fwFishingMort <- function(inRiverF, river, nRoutes) {
   if (river == "penobscot") {
     inriv <- vector(mode = "list", length = nRoutes)
-    inriv[[1]] <- c(rep(inRiverF, 3), rep(0, 4))
-    inriv[[2]] <- c(rep(inRiverF, 4), 0)
-    inriv[[3]] <- c(rep(inRiverF, 4), rep(0, 4))
-    inriv[[4]] <- c(rep(inRiverF, 5), 0)
+    inriv[[1]] <- rep(inRiverF, 7)
+    inriv[[2]] <- rep(inRiverF, 5)
+    inriv[[3]] <- rep(inRiverF, 8)
+    inriv[[4]] <- rep(inRiverF, 6)
   }
 
   if (river == "merrimack") {
