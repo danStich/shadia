@@ -22,7 +22,8 @@
 #'
 #' @export
 #'
-defineHabitat <- function(river, nRoutes, species, k_method, p_up = 1) {
+defineHabitat <- function(river, nRoutes, species, k_method, 
+                          k_acre = 100, p_up = 1) {
   if (river == "penobscot") {
     # Group 1: Mainstem to Piscataquis
     # Group 2: Mainstem to mainstem
@@ -220,7 +221,7 @@ defineHabitat <- function(river, nRoutes, species, k_method, p_up = 1) {
     #   lost to dredge-and-fill operations (NYSDEC 2010)
     #   https://www.dec.ny.gov/docs/remediation_hudson_pdf/shadrecoveryplan.pdf
     habitat[[1]] <- c((14436 * 0.40 - 3583),
-                      650, 400, 286, 260, 1500, 275, 36) * 100
+                      650, 400, 286, 260, 1500, 275, 36) * k_acre
 
     habitat[[2]] <- c(
       # 14436 * 0.40 - 3583, # Change here and above depending on 1,2,3
@@ -229,7 +230,7 @@ defineHabitat <- function(river, nRoutes, species, k_method, p_up = 1) {
       438, 378, 443, 613, 445,
       182, 388, 237, 150, 345,
       261, 268
-    ) * 100
+    ) * k_acre
 
     # Bluebacks moving to 500 fish per ha. Based on
     # G. Wippelhauser pers. comm. and S. Ledwin pers. comm (MEDMR)

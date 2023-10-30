@@ -11,4 +11,4 @@ LazyData: true
 Imports: plyr, zoo, MASS, methods, geosphere, lubridate, tidyverse
 LinkingTo: Rcpp
 Suggests: rlecuyer, snowfall
-RoxygenNote: 7.1.1.9000
+RoxygenNote: 7.2.1

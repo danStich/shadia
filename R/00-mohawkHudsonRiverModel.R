@@ -92,6 +92,8 @@
 #' units in a given migration route. The alternative, 'discrete' assumes
 #' that carrying capacity is applied within discrete production units
 #' based on the numbers, and was the method used in Stich et al. (2019).
+#' 
+#' @param k_acre Carrying capacity as number of adult fish per acre.
 #'
 #' @param sensitivity Whether to return a dataframe for sensitivity
 #' analysis. The default is set to FALSE for faster run time and smaller
@@ -242,6 +244,7 @@ mohawkHudsonRiverModel <- function(
   M = NULL,
   watershed = FALSE,
   k_method = "cumulative",
+  k_acre = 100,
   sensitivity = FALSE,
   spatially_explicit_output = FALSE,
   output_years = NULL,
@@ -297,6 +300,9 @@ mohawkHudsonRiverModel <- function(
   # Assign sensitivity option
   .shadia$sensitivity <- sensitivity
 
+  # Assign carrying capacity
+  .shadia$k_acre <- k_acre
+  
   # Passage variable assignment -----
 
   # Draw probability of using each passage route
@@ -439,7 +445,8 @@ mohawkHudsonRiverModel <- function(
     nRoutes = .shadia$nRoutes,
     species = .shadia$species,
     k_method = k_method,
-    p_up = pMohawk
+    p_up = pMohawk,
+    k_acre = .shadia$k_acre
   )
 
   # Temperature data (daily averages by year)
