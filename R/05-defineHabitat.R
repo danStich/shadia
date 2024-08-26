@@ -214,7 +214,7 @@ defineHabitat <- function(river, nRoutes, species, k_method,
 
     # Considerations for habitat downstream of Federal Dam:
     # 1_Total starting size of 14436 acres downstream of
-    #   Federal Dam (Zydlewski et al., In prep)
+    #   Federal Dam for shad (Zydlewski et al. 2020)
     # 2_About 60% of that river length is
     #   brackish or salt water(Kingston, roughly - about 145/246 rkm)
     # 3_An additional 1420 ha of habitat (3583 acres) has been

@@ -14,12 +14,12 @@ androscogginRiverModel(
   upstream = list(brunswick = 1, pejepscot = 1, worumbo = 1, lbarker = 1, ubarker = 1,
     littlefield = 1, hackett = 1, marcal = 1, welchville = 1, paris = 1, farwell = 1,
     fortier = 1),
-  downstream = list(brunswick = 1, pejepscot = 1, worumbo = 1, lbarker = 1, ubarker =
+  downstream = list(brunswick = 1, pejepscot = 1, worumbo = 1, lbarker = 1, ubarker = 1,
+    littlefield = 1, hackett = 1, marcal = 1, welchville = 1, paris = 1, farwell = 1,
+    fortier = 1),
+  downstream_juv = list(brunswick = 1, pejepscot = 1, worumbo = 1, lbarker = 1, ubarker =
     1, littlefield = 1, hackett = 1, marcal = 1, welchville = 1, paris = 1, farwell = 1,
     fortier = 1),
-  downstream_juv = list(brunswick = 1, pejepscot = 1, worumbo = 1, lbarker = 1, ubarker
-    = 1, littlefield = 1, hackett = 1, marcal = 1, welchville = 1, paris = 1, farwell =
-    1, fortier = 1),
   inRiverF = 0,
   commercialF = 0,
   bycatchF = 0,

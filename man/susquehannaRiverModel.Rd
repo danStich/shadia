@@ -17,9 +17,9 @@ susquehannaRiverModel(
   upstream = list(conowingo = 1, holtwood = 1, safeHarbor = 1, yorkHaven = 1, sunbury =
     1, williamsport = 1, lockhaven = 1, rockbottom = 1, chasehibbard = 1, colliersville =
     1),
-  downstream = list(conowingo = 1, holtwood = 1, safeHarbor = 1, yorkHaven = 1, sunbury
-    = 1, williamsport = 1, lockhaven = 1, rockbottom = 1, chasehibbard = 1, colliersville
-    = 1),
+  downstream = list(conowingo = 1, holtwood = 1, safeHarbor = 1, yorkHaven = 1, sunbury =
+    1, williamsport = 1, lockhaven = 1, rockbottom = 1, chasehibbard = 1, colliersville =
+    1),
   downstream_juv = list(conowingo = 1, holtwood = 1, safeHarbor = 1, yorkHaven = 1,
     sunbury = 1, williamsport = 1, lockhaven = 1, rockbottom = 1, chasehibbard = 1,
     colliersville = 1),

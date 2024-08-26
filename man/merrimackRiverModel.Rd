@@ -10,10 +10,10 @@ merrimackRiverModel(
   nYears = 50,
   n_adults = 10000,
   timing = c(1, 1, 1, 1, 1),
-  upstream = list(essex = 1, pawtucketBypass = 1, pawtucket = 1, amoskeag = 1, hookset
+  upstream = list(essex = 1, pawtucketBypass = 1, pawtucket = 1, amoskeag = 1, hookset =
+    1),
+  downstream = list(essex = 1, pawtucketBypass = 1, pawtucket = 1, amoskeag = 1, hookset
     = 1),
-  downstream = list(essex = 1, pawtucketBypass = 1, pawtucket = 1, amoskeag = 1,
-    hookset = 1),
   downstream_juv = list(essex = 1, pawtucketBypass = 1, pawtucket = 1, amoskeag = 1,
     hookset = 1),
   pBypassUp = 1,

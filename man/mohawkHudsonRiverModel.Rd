@@ -11,9 +11,9 @@ mohawkHudsonRiverModel(
   nYears = 40,
   n_adults = 10000,
   timing = rep(1, 26),
-  upstream = list(federal = 1, C01 = 1, C02 = 1, C03 = 1, C04 = 1, C05 = 1, C06 = 1,
-    E02 = 1, E03 = 1, E04 = 1, E05 = 1, E06 = 1, E07 = 1, E08 = 1, E09 = 1, E10 = 1, E11
-    = 1, E12 = 1, E13 = 1, E14 = 1, E15 = 1, E16 = 1, E17 = 1, E18 = 1, E19 = 1, E20 = 1),
+  upstream = list(federal = 1, C01 = 1, C02 = 1, C03 = 1, C04 = 1, C05 = 1, C06 = 1, E02
+    = 1, E03 = 1, E04 = 1, E05 = 1, E06 = 1, E07 = 1, E08 = 1, E09 = 1, E10 = 1, E11 = 1,
+    E12 = 1, E13 = 1, E14 = 1, E15 = 1, E16 = 1, E17 = 1, E18 = 1, E19 = 1, E20 = 1),
   downstream = list(federal = 1, C01 = 1, C02 = 1, C03 = 1, C04 = 1, C05 = 1, C06 = 1,
     E02 = 1, E03 = 1, E04 = 1, E05 = 1, E06 = 1, E07 = 1, E08 = 1, E09 = 1, E10 = 1, E11
     = 1, E12 = 1, E13 = 1, E14 = 1, E15 = 1, E16 = 1, E17 = 1, E18 = 1, E19 = 1, E20 = 1),
@@ -30,6 +30,7 @@ mohawkHudsonRiverModel(
   M = NULL,
   watershed = FALSE,
   k_method = "cumulative",
+  k_acre = 100,
   sensitivity = FALSE,
   spatially_explicit_output = FALSE,
   output_years = NULL,
@@ -55,7 +56,10 @@ population.}
 upstream passage by individual fish (in days),
 where the default (1) indicates a 24-h dam
 passage performance standard and the value is
-specified as a proportion of 1 day.}
+specified as a proportion of 1 day. Values greater
+than 1 correspond to times greater than 24 h and 
+values less than 1 correspond to times less than
+24-h.}
 
 \item{upstream}{A named list of upstream dam
 passage efficiencies at each dam in the
@@ -96,7 +100,10 @@ fisheries. Parameterized as an annual rate [0, 1].}
 
 \item{bycatchF}{Marine bycatch mortality of
 species in non-target fisheries.
-Parameterized as an annual rate [0, 1].}
+Parameterized as an annual rate [0, 1]. Takes a single
+value and applies to all fully recruited age 
+classes depending on species (blueback ages 3 through maxAge
+and shad ages 2 through max age) assuming knife-edge recruitment.}
 
 \item{indirect}{Indirect mortality incurred during
 freshwater migration as a result of dam-related
@@ -120,6 +127,8 @@ all available habitat through the most upstream occupied production
 units in a given migration route. The alternative, 'discrete' assumes
 that carrying capacity is applied within discrete production units
 based on the numbers, and was the method used in Stich et al. (2019).}
+
+\item{k_acre}{Carrying capacity as number of adult fish per acre.}
 
 \item{sensitivity}{Whether to return a dataframe for sensitivity
 analysis. The default is set to FALSE for faster run time and smaller

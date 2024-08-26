@@ -13,12 +13,12 @@ penobscotRiverModel(
   pStillwaterD = rbeta(1, 15, 120),
   pPiscUp = rbeta(1, 25, 75),
   timing = c(1, 1, 1, 1, 1, 1, 1),
-  upstream = list(milford = 1, howland = 1, westEnfield = 1, brownsMill = 1, moosehead
-    = 1, guilford = 1, weldon = 1),
-  downstream = list(stillwater = 1, orono = 1, milford = 1, howland = 1, westEnfield =
-    1, brownsMill = 1, moosehead = 1, guilford = 1, weldon = 1),
-  downstream_juv = list(stillwater = 1, orono = 1, milford = 1, howland = 1,
-    westEnfield = 1, brownsMill = 1, moosehead = 1, guilford = 1, weldon = 1),
+  upstream = list(milford = 1, howland = 1, westEnfield = 1, brownsMill = 1, moosehead =
+    1, guilford = 1, weldon = 1),
+  downstream = list(stillwater = 1, orono = 1, milford = 1, howland = 1, westEnfield = 1,
+    brownsMill = 1, moosehead = 1, guilford = 1, weldon = 1),
+  downstream_juv = list(stillwater = 1, orono = 1, milford = 1, howland = 1, westEnfield
+    = 1, brownsMill = 1, moosehead = 1, guilford = 1, weldon = 1),
   pinHarvest = 0,
   inRiverF = 0,
   commercialF = 0,

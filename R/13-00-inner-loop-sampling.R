@@ -197,7 +197,7 @@ innerLoopSampling <- function(habitat) {
 
   # Blueback herring batch fecundity
   # Limburg and Blackburn (2003) report to NYSDEC
-  # See also Jessop (1990)
+  # See also Jessop (1993)
   if (species == "blueback") {
     c_BF <- MASS::rnegbin(length(c_fishAges), 75500, 8)
   }

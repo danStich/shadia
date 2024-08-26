@@ -15,8 +15,8 @@ kennebecRiverModel(
     burnham = 1),
   downstream = list(lockwood = 1, hydroken = 1, shawmut = 1, weston = 1, benton = 1,
     burnham = 1),
-  downstream_juv = list(lockwood = 1, hydroken = 1, shawmut = 1, weston = 1, benton =
-    1, burnham = 1),
+  downstream_juv = list(lockwood = 1, hydroken = 1, shawmut = 1, weston = 1, benton = 1,
+    burnham = 1),
   inRiverF = 0,
   commercialF = 0,
   bycatchF = 0,
