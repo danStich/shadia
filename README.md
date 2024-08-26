@@ -1,4 +1,5 @@
-# shadia
+# shadia 
+[![DOI](https://zenodo.org/badge/124828586.svg)](https://zenodo.org/doi/10.5281/zenodo.13375033)
 Package containing functions and data for American shad population modeling (click [here](https://shadia-ui.github.io/index.html) for project website).
 
 ## Note
