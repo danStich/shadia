@@ -54,9 +54,9 @@
 #'   }
 #'
 #'
-#' @docType package
+"_PACKAGE"#'
 #'
-#' @name shadia
+#' @aliases shadia-package
 #'
 #' @importFrom graphics abline lines par plot
 #' @importFrom stats aggregate nls quantile runif var
