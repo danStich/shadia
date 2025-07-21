@@ -1,5 +1,7 @@
-# shadia
+# shadia 
 Package containing functions and data for American shad population modeling (click [here](https://shadia-ui.github.io/index.html) for project website).
+
+[![DOI](https://zenodo.org/badge/124828586.svg)](https://zenodo.org/doi/10.5281/zenodo.13375033)
 
 ## Note
 This is the development version of the `shadia` package for R (shadia v2.0). This package is under continual development at this time, as it is part of ongoing research and management. For that reason, it is important to correspond with package developers before using the dam passage performance standard models in decision making or research. 
